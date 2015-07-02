@@ -1,0 +1,30 @@
+usuarioprestador:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:UsuarioPrestador:index" }
+
+usuarioprestador_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:UsuarioPrestador:show" }
+
+usuarioprestador_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:UsuarioPrestador:new" }
+
+usuarioprestador_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:UsuarioPrestador:create" }
+    requirements: { _method: post }
+
+usuarioprestador_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ChoferesBundle:UsuarioPrestador:edit" }
+
+usuarioprestador_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ChoferesBundle:UsuarioPrestador:update" }
+    requirements: { _method: post|put }
+
+usuarioprestador_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ChoferesBundle:UsuarioPrestador:delete" }
+    requirements: { _method: post|delete }

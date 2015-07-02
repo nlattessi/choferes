@@ -1,0 +1,30 @@
+chofercurso:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:ChoferCurso:index" }
+
+chofercurso_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:ChoferCurso:show" }
+
+chofercurso_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:ChoferCurso:new" }
+
+chofercurso_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:ChoferCurso:create" }
+    requirements: { _method: post }
+
+chofercurso_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ChoferesBundle:ChoferCurso:edit" }
+
+chofercurso_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ChoferesBundle:ChoferCurso:update" }
+    requirements: { _method: post|put }
+
+chofercurso_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ChoferesBundle:ChoferCurso:delete" }
+    requirements: { _method: post|delete }

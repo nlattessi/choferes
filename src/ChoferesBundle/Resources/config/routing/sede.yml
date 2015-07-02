@@ -1,0 +1,30 @@
+sede:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:Sede:index" }
+
+sede_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:Sede:show" }
+
+sede_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:Sede:new" }
+
+sede_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:Sede:create" }
+    requirements: { _method: post }
+
+sede_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ChoferesBundle:Sede:edit" }
+
+sede_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ChoferesBundle:Sede:update" }
+    requirements: { _method: post|put }
+
+sede_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ChoferesBundle:Sede:delete" }
+    requirements: { _method: post|delete }

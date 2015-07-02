@@ -1,0 +1,30 @@
+usuario:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:Usuario:index" }
+
+usuario_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:Usuario:show" }
+
+usuario_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:Usuario:new" }
+
+usuario_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:Usuario:create" }
+    requirements: { _method: post }
+
+usuario_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ChoferesBundle:Usuario:edit" }
+
+usuario_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ChoferesBundle:Usuario:update" }
+    requirements: { _method: post|put }
+
+usuario_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ChoferesBundle:Usuario:delete" }
+    requirements: { _method: post|delete }

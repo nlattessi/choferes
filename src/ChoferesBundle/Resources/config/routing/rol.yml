@@ -1,0 +1,30 @@
+rol:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:Rol:index" }
+
+rol_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:Rol:show" }
+
+rol_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:Rol:new" }
+
+rol_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:Rol:create" }
+    requirements: { _method: post }
+
+rol_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ChoferesBundle:Rol:edit" }
+
+rol_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ChoferesBundle:Rol:update" }
+    requirements: { _method: post|put }
+
+rol_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ChoferesBundle:Rol:delete" }
+    requirements: { _method: post|delete }

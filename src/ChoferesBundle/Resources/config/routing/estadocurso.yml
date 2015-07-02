@@ -1,0 +1,30 @@
+estadocurso:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:EstadoCurso:index" }
+
+estadocurso_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:EstadoCurso:show" }
+
+estadocurso_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:EstadoCurso:new" }
+
+estadocurso_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:EstadoCurso:create" }
+    requirements: { _method: post }
+
+estadocurso_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ChoferesBundle:EstadoCurso:edit" }
+
+estadocurso_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ChoferesBundle:EstadoCurso:update" }
+    requirements: { _method: post|put }
+
+estadocurso_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ChoferesBundle:EstadoCurso:delete" }
+    requirements: { _method: post|delete }

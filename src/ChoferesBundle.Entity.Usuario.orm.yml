@@ -1,0 +1,51 @@
+ChoferesBundle\Entity\Usuario:
+    type: entity
+    table: usuario
+    indexes:
+        rol_usuario_idx:
+            columns:
+                - rol_id
+    id:
+        id:
+            id: true
+            type: integer
+            options:
+                unsigned: false
+            generator:
+                strategy: IDENTITY
+    fields:
+        nombre:
+            type: string
+            length: 45
+            options:
+                fixed: false
+            nullable: false
+        mail:
+            type: string
+            length: 45
+            options:
+                fixed: false
+            nullable: false
+        password:
+            type: string
+            length: 45
+            options:
+                fixed: false
+            nullable: false
+        activo:
+            type: integer
+            options:
+                default: '1'
+            nullable: true
+    manyToOne:
+        rol:
+            targetEntity: ChoferesBundle\Entity\Rol
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                rol_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

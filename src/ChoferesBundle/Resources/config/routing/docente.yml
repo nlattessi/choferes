@@ -1,0 +1,30 @@
+docente:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:Docente:index" }
+
+docente_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:Docente:show" }
+
+docente_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:Docente:new" }
+
+docente_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:Docente:create" }
+    requirements: { _method: post }
+
+docente_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ChoferesBundle:Docente:edit" }
+
+docente_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ChoferesBundle:Docente:update" }
+    requirements: { _method: post|put }
+
+docente_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ChoferesBundle:Docente:delete" }
+    requirements: { _method: post|delete }

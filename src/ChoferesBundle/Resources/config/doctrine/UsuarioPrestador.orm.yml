@@ -1,0 +1,41 @@
+ChoferesBundle\Entity\UsuarioPrestador:
+    type: entity
+    table: usuario_prestador
+    indexes:
+        usuario_prestador_idx:
+            columns:
+                - usuario_id
+        prestador_usuario_idx:
+            columns:
+                - prestador_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        prestador:
+            targetEntity: Prestador
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prestador_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        usuario:
+            targetEntity: Usuario
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                usuario_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

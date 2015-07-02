@@ -1,0 +1,30 @@
+tipocurso:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:TipoCurso:index" }
+
+tipocurso_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:TipoCurso:show" }
+
+tipocurso_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:TipoCurso:new" }
+
+tipocurso_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:TipoCurso:create" }
+    requirements: { _method: post }
+
+tipocurso_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ChoferesBundle:TipoCurso:edit" }
+
+tipocurso_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ChoferesBundle:TipoCurso:update" }
+    requirements: { _method: post|put }
+
+tipocurso_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ChoferesBundle:TipoCurso:delete" }
+    requirements: { _method: post|delete }

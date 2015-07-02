@@ -1,0 +1,20 @@
+ChoferesBundle\Entity\TipoCurso:
+    type: entity
+    table: tipo_curso
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        nombre:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+    lifecycleCallbacks: {  }

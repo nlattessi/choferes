@@ -1,0 +1,19 @@
+ChoferesBundle\Entity\EstadoCurso:
+    type: entity
+    table: estado_curso
+    id:
+        id:
+            id: true
+            type: integer
+            options:
+                unsigned: false
+            generator:
+                strategy: IDENTITY
+    fields:
+        nombre:
+            type: string
+            length: 45
+            options:
+                fixed: false
+            nullable: false
+    lifecycleCallbacks: {  }

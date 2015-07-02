@@ -1,0 +1,52 @@
+ChoferesBundle\Entity\ChoferCurso:
+    type: entity
+    table: chofer_curso
+    indexes:
+        chofer_curso_idx:
+            columns:
+                - chofer_id
+        curso_chofer_idx:
+            columns:
+                - curso_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        estado:
+            type: integer
+            nullable: false
+            options:
+                default: '0'
+        apagado:
+            type: integer
+            nullable: false
+            options:
+                default: '0'
+    manyToOne:
+        chofer:
+            targetEntity: Chofer
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                chofer_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        curso:
+            targetEntity: Curso
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                curso_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

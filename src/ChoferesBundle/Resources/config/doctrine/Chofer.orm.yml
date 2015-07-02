@@ -1,0 +1,57 @@
+ChoferesBundle\Entity\Chofer:
+    type: entity
+    table: chofer
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    fields:
+        nombre:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        apellido:
+            type: string
+            nullable: false
+            length: 45
+            options:
+                fixed: false
+        dni:
+            type: string
+            nullable: false
+            length: 8
+            options:
+                fixed: false
+        precuil:
+            type: string
+            nullable: true
+            length: 2
+            options:
+                fixed: false
+        colacuil:
+            type: string
+            nullable: true
+            length: 1
+            options:
+                fixed: false
+        cuilEmpresa:
+            type: string
+            nullable: true
+            length: 11
+            options:
+                fixed: false
+            column: cuil_empresa
+        tieneCursoBasico:
+            type: integer
+            nullable: false
+            options:
+                default: '0'
+            column: tiene_curso_basico
+    lifecycleCallbacks: {  }

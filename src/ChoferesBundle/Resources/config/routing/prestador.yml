@@ -1,0 +1,30 @@
+prestador:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:Prestador:index" }
+
+prestador_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:Prestador:show" }
+
+prestador_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:Prestador:new" }
+
+prestador_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:Prestador:create" }
+    requirements: { _method: post }
+
+prestador_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ChoferesBundle:Prestador:edit" }
+
+prestador_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ChoferesBundle:Prestador:update" }
+    requirements: { _method: post|put }
+
+prestador_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ChoferesBundle:Prestador:delete" }
+    requirements: { _method: post|delete }

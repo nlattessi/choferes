@@ -1,0 +1,58 @@
+ChoferesBundle\Entity\Sede:
+    type: entity
+    table: sede
+    indexes:
+        prestador_sede_idx:
+            columns:
+                - prestador_id
+    id:
+        id:
+            id: true
+            type: integer
+            options:
+                unsigned: false
+            generator:
+                strategy: IDENTITY
+    fields:
+        nombre:
+            type: string
+            length: 45
+            options:
+                fixed: false
+            nullable: false
+        direccion:
+            type: string
+            length: 45
+            options:
+                fixed: false
+            nullable: true
+        provincia:
+            type: string
+            length: 45
+            options:
+                fixed: false
+            nullable: true
+        ciudad:
+            type: string
+            length: 45
+            options:
+                fixed: false
+            nullable: true
+        telefono:
+            type: string
+            length: 45
+            options:
+                fixed: false
+            nullable: true
+    manyToOne:
+        prestador:
+            targetEntity: ChoferesBundle\Entity\Prestador
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                prestador_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

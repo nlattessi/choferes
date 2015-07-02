@@ -1,0 +1,47 @@
+choferes_usuarioprestador:
+    resource: "@ChoferesBundle/Resources/config/routing/usuarioprestador.yml"
+    prefix:   /usuarioprestador
+
+choferes_usuario:
+    resource: "@ChoferesBundle/Resources/config/routing/usuario.yml"
+    prefix:   /usuario
+
+choferes_tipocurso:
+    resource: "@ChoferesBundle/Resources/config/routing/tipocurso.yml"
+    prefix:   /tipocurso
+
+choferes_sede:
+    resource: "@ChoferesBundle/Resources/config/routing/sede.yml"
+    prefix:   /sede
+
+choferes_rol:
+    resource: "@ChoferesBundle/Resources/config/routing/rol.yml"
+    prefix:   /rol
+
+choferes_prestador:
+    resource: "@ChoferesBundle/Resources/config/routing/prestador.yml"
+    prefix:   /prestador
+
+choferes_estadocurso:
+    resource: "@ChoferesBundle/Resources/config/routing/estadocurso.yml"
+    prefix:   /estadocurso
+
+choferes_docente:
+    resource: "@ChoferesBundle/Resources/config/routing/docente.yml"
+    prefix:   /docente
+
+choferes_curso:
+    resource: "@ChoferesBundle/Resources/config/routing/curso.yml"
+    prefix:   /curso
+
+choferes_chofercurso:
+    resource: "@ChoferesBundle/Resources/config/routing/chofercurso.yml"
+    prefix:   /chofercurso
+
+choferes_chofer:
+    resource: "@ChoferesBundle/Resources/config/routing/chofer.yml"
+    prefix:   /chofer
+
+choferes_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: ChoferesBundle:Default:index }

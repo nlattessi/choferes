@@ -1,0 +1,30 @@
+chofer:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:Chofer:index" }
+
+chofer_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:Chofer:show" }
+
+chofer_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:Chofer:new" }
+
+chofer_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:Chofer:create" }
+    requirements: { _method: post }
+
+chofer_edit:
+    pattern:  /{id}/edit
+    defaults: { _controller: "ChoferesBundle:Chofer:edit" }
+
+chofer_update:
+    pattern:  /{id}/update
+    defaults: { _controller: "ChoferesBundle:Chofer:update" }
+    requirements: { _method: post|put }
+
+chofer_delete:
+    pattern:  /{id}/delete
+    defaults: { _controller: "ChoferesBundle:Chofer:delete" }
+    requirements: { _method: post|delete }

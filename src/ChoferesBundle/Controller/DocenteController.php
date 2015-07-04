@@ -4,6 +4,7 @@ namespace ChoferesBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\SecurityContext;
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -44,9 +45,23 @@ class DocenteController extends Controller
     {
         $request = $this->getRequest();
         $session = $request->getSession();
+
         $filterForm = $this->createForm(new DocenteFilterType());
         $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('e');
+        /*Inicio filtro por prestador*/
+        $usuario = $this->getUser();
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+
+        if($usuario->getRol() == 'ROLE_PRESTADOR') {
+            //filtro solo lo que es de este usuario
+            $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
+            $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d')
+                ->where('d.prestador = ?1')
+                ->setParameter(1, $prestador->getId());
+        }else{
+            $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d');
+        }
+        /*Fin filtro por prestador*/
 
         // Reset filter
         if ($request->get('filter_action') == 'reset') {

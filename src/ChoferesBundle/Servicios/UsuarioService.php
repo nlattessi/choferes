@@ -5,7 +5,8 @@
  * Date: 04-Jul-15
  * Time: 01:28 PM
  */
-
+namespace ChoferesBundle\Servicios;
+use Doctrine\ORM\EntityManager;
 class UsuarioService {
 
     protected $em;

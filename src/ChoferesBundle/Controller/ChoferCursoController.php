@@ -12,6 +12,7 @@ use Pagerfanta\View\TwitterBootstrapView;
 use ChoferesBundle\Entity\ChoferCurso;
 use ChoferesBundle\Form\ChoferCursoType;
 use ChoferesBundle\Form\ChoferCursoFilterType;
+use Symfony\Component\Validator\Constraints\Null;
 
 /**
  * ChoferCurso controller.
@@ -116,7 +117,23 @@ class ChoferCursoController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new ChoferCurso();
-        $form = $this->createForm(new ChoferCursoType(), $entity);
+
+        /*Inicio filtro por prestador*/
+        $usuario = $this->getUser();
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+
+        if($usuario->getRol() == 'ROLE_PRESTADOR') {
+            //filtro solo lo que es de este usuario
+            $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
+            $form = $this->createForm(new ChoferCursoType(), $entity, array(
+                'attr' => array('prestadorId' => $prestador->getId())));
+        }else{
+            $form = $this->createForm(new ChoferCursoType(), $entity, array(
+                'attr' => array('prestadorId' => null)));
+        }
+        /*Fin filtro por prestador*/
+
+
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -141,7 +158,21 @@ class ChoferCursoController extends Controller
     public function newAction()
     {
         $entity = new ChoferCurso();
-        $form   = $this->createForm(new ChoferCursoType(), $entity);
+
+        /*Inicio filtro por prestador*/
+        $usuario = $this->getUser();
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+
+        if($usuario->getRol() == 'ROLE_PRESTADOR') {
+            //filtro solo lo que es de este usuario
+            $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
+            $form = $this->createForm(new ChoferCursoType(), $entity, array(
+                'attr' => array('prestadorId' => $prestador->getId())));
+        }else{
+            $form = $this->createForm(new ChoferCursoType(), $entity, array(
+                'attr' => array('prestadorId' => null)));
+        }
+        /*Fin filtro por prestador*/
 
         return $this->render('ChoferesBundle:ChoferCurso:new.html.twig', array(
             'entity' => $entity,

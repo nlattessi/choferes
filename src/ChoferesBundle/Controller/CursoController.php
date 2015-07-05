@@ -46,7 +46,6 @@ class CursoController extends Controller
         $session = $request->getSession();
         $filterForm = $this->createForm(new CursoFilterType());
         $em = $this->getDoctrine()->getManager();
-
         /*Inicio filtro por prestador*/
         $usuario = $this->getUser();
         $usuarioService =  $this->get('choferes.servicios.usuario');
@@ -54,11 +53,11 @@ class CursoController extends Controller
         if($usuario->getRol() == 'ROLE_PRESTADOR') {
             //filtro solo lo que es de este usuario
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
-            $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d')
+            $queryBuilder = $em->getRepository('ChoferesBundle:Curso')->createQueryBuilder('d')
                 ->where('d.prestador = ?1')
                 ->setParameter(1, $prestador->getId());
         }else{
-            $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d');
+            $queryBuilder = $em->getRepository('ChoferesBundle:Curso')->createQueryBuilder('d');
         }
         /*Fin filtro por prestador*/
 

@@ -10,3 +10,7 @@
 /vendor/
 /bin/
 /composer.phar
+
+.idea/misc.xml
+.idea/workspace.xml
+.idea/workspace.xml

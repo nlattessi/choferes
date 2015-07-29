@@ -1,0 +1,14 @@
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
+
+{% block title %}
+{{ parent() }} -  anauthorized
+{% endblock %}
+
+{% block page %}
+
+<h1>Sin accesso.</h1>
+
+<h2>No estas autorizado para acceder</h2>
+<h2><a href="/login">Volver al login</a></h2>
+
+{% endblock %}

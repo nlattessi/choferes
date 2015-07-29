@@ -30,7 +30,7 @@ ChoferesBundle\Entity\Usuario:
         password:
             type: string
             nullable: false
-            length: 45
+            length: 60
             options:
                 fixed: false
         activo:

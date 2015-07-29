@@ -45,7 +45,7 @@ class Chofer
     /**
      * @var integer
      */
-    private $tieneCursoBasico = '0';
+    private $tieneCursoBasico = false;
 
 
     /**
@@ -231,4 +231,3 @@ class Chofer
     }
 
 }
-

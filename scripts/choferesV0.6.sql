@@ -253,6 +253,19 @@ ALTER TABLE chofer_curso CHANGE chofer_id chofer_id INT DEFAULT NULL, CHANGE cur
 ALTER TABLE usuario CHANGE rol_id rol_id INT DEFAULT NULL, CHANGE activo activo TINYINT(1) DEFAULT '1';
 ALTER TABLE curso CHANGE prestador_id prestador_id INT DEFAULT NULL, CHANGE tipoCurso_id tipoCurso_id INT DEFAULT NULL;
 
+LOCK TABLES `choferes`.`rol` WRITE;
+/*!40000 ALTER TABLE `choferes`.`rol` DISABLE KEYS */;
+INSERT INTO `choferes`.`rol` VALUES (1,'ROLE_ADMIN');
+/*!40000 ALTER TABLE `choferes`.`rol` ENABLE KEYS */;
+UNLOCK TABLES;
+
+LOCK TABLES `choferes`.`usuario` WRITE;
+/*!40000 ALTER TABLE `choferes`.`usuario` DISABLE KEYS */;
+INSERT INTO `choferes`.`usuario` VALUES (1,'admin','admin@admin.com','$2a$12$7hFGMobKDxo5tthJcgxjDei1dxBdR5nJJ7HwghnTSn3p7yXE9sUxq',1,TRUE);
+/*!40000 ALTER TABLE `choferes`.`usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

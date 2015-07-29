@@ -49,9 +49,9 @@ ChoferesBundle\Entity\Chofer:
                 fixed: false
             column: cuil_empresa
         tieneCursoBasico:
-            type: integer
+            type: boolean
             nullable: false
             options:
-                default: '0'
+                default: false
             column: tiene_curso_basico
     lifecycleCallbacks: {  }

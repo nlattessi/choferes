@@ -34,10 +34,10 @@ ChoferesBundle\Entity\Usuario:
             options:
                 fixed: false
         activo:
-            type: integer
+            type: boolean
             nullable: true
             options:
-                default: '1'
+                default: true
     manyToOne:
         rol:
             targetEntity: Rol

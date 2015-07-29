@@ -30,7 +30,7 @@ class Usuario
     /**
      * @var boolean
      */
-    private $activo = '1';
+    private $activo = true;
 
     /**
      * @var \ChoferesBundle\Entity\Rol
@@ -172,4 +172,3 @@ class Usuario
         return $this->nombre;
     }
 }
-

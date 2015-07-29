@@ -32,7 +32,7 @@
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.cuilEmpresa }}</span>            </div>
         </div>        <div class="control-group">
             <label class="control-label">Tienecursobasico</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.tieneCursoBasico }}</span>            </div>
+            <div class="controls">                <span class="input-xlarge uneditable-input"><td>{% if entity.tieneCursoBasico %}true{% else %}false{% endif %}</td></span>            </div>
         </div>    </fieldset>
 </form>
 

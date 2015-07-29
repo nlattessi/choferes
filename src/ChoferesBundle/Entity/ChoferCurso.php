@@ -15,12 +15,12 @@ class ChoferCurso
     /**
      * @var boolean
      */
-    private $estado = '0';
+    private $estado = false;
 
     /**
      * @var boolean
      */
-    private $apagado = '0';
+    private $apagado = false;
 
     /**
      * @var \ChoferesBundle\Entity\Chofer
@@ -144,4 +144,3 @@ class ChoferCurso
     }
 
 }
-

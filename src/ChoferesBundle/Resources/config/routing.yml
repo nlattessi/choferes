@@ -45,3 +45,20 @@ choferes_chofer:
 choferes_homepage:
     path:     /hello/{name}
     defaults: { _controller: ChoferesBundle:Default:index }
+
+login:
+    path:     /login
+    defaults: { _controller: ChoferesBundle:Security:login }
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+
+default_security_target:
+    path:     /usuario
+
+unauthorized:
+    path:     /unauthorized
+    defaults: { _controller: ChoferesBundle:Default:unauthorized }

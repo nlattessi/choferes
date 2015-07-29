@@ -1,0 +1,29 @@
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
+
+{% block title %}
+{{ parent() }} - Login
+{% endblock %}
+
+{% block page %}
+
+<div class="container">
+  <div class="row">
+  <div class="span4 offset4 well">
+  	<legend>Login</legend>
+      {% if error %}
+        <div class="alert alert-error">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Error!</strong> {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+      {% endif %}
+  	<form action="{{ path('login_check') }}" method="post">
+    	<input type="text" class="span4" placeholder="Email" id="username" name="_username" value="{{ last_username }}">
+    	<input type="password" class="span4" placeholder="Password" id="password" name="_password">
+      <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+    	<button type="submit" name="submit" class="btn btn-info btn-block">Entrar</button>
+  	</form>
+  </div>
+  </div>
+</div>
+
+{% endblock %}

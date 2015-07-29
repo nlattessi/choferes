@@ -1,13 +1,37 @@
 security:
-
     providers:
         in_memory:
             memory: ~
+
+        db_provider:
+            entity:
+                class: ChoferesBundle:Usuario
+                property: mail
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt|error)|css|images|js)/
             security: false
 
-        main:
+        default:
             anonymous: ~
+            provider: db_provider
+            form_login:
+                login_path:           /login
+                check_path:           /login_check
+                csrf_provider:        security.csrf.token_manager
+                default_target_path:  default_security_target
+            logout:
+                path:   /logout
+                target: /login
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_ADMIN }
+
+    encoders:
+        ChoferesBundle\Entity\Usuario:
+            algorithm: bcrypt
+            cost: 12
+
+    access_denied_url: /unauthorized

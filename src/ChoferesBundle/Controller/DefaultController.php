@@ -10,4 +10,9 @@ class DefaultController extends Controller
     {
         return $this->render('ChoferesBundle:Default:index.html.twig', array('name' => $name));
     }
+
+    public function unauthorizedAction()
+    {
+        return $this->render('ChoferesBundle:Default:unauthorized.html.twig');
+    }
 }

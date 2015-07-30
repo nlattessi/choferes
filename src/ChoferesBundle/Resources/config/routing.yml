@@ -66,3 +66,7 @@ unauthorized:
 index:
     path:     /
     defaults: { _controller: ChoferesBundle:Default:index }
+
+home:
+    path:     /home
+    defaults: { _controller: ChoferesBundle:Default:home }

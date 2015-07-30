@@ -15,4 +15,9 @@ class DefaultController extends Controller
     {
         return $this->render('ChoferesBundle:Default:unauthorized.html.twig');
     }
+
+    public function homeAction()
+    {
+        return $this->render('ChoferesBundle:Default:home.html.twig');
+    }
 }

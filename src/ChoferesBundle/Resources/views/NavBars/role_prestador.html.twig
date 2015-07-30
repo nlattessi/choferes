@@ -6,13 +6,18 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="#">Choferes</a>
+            <a class="brand" href="{{ path('home') }}">Choferes</a>
 
           	<div class="nav-collapse collapse">
               <ul class="nav">
                   <li class="divider-vertical"></li>
                   <!-- <li><a href="#"><i class="icon-home icon-white"></i> Home</a></li> -->
-                  <li{% if active == 'usuario' %} class="active"{% endif %}><a href="{{ path('usuario') }}">Usuarios</a></li>
+                  <li{% if active == 'curso' %} class="active"{% endif %}><a href="{{ path('curso') }}">Cursos</a></li>
+                  <li><a href="#">Cargar Participantes</a></li>
+                  <li{% if active == 'sede' %} class="active"{% endif %}><a href="{{ path('sede') }}">Sedes</a></li>
+                  <li{% if active == 'docente' %} class="active"{% endif %}><a href="{{ path('docente') }}">Docentes</a></li>
+                  <li><a href="#">Consulta Chofer</a></li>
+
               </ul>
               <div class="pull-right">
                 <ul class="nav pull-right">

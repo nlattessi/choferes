@@ -44,5 +44,8 @@ class SecurityController extends Controller
         if ($this->getUser()->getRol()->getNombre() == 'ROLE_ADMIN') {
             return $this->redirect($this->generateUrl('usuario'));
         }
+        if ($this->getUser()->getRol()->getNombre() == 'ROLE_PRESTADOR') {
+            return $this->redirect($this->generateUrl('home'));
+        }
     }
 }

@@ -4,6 +4,14 @@
 {{ parent() }} -  {{ 'views.edit.edit'|trans({'%entity%': 'Docente'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
 
+{% block menu %}
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% if app.user.rol == 'ROLE_PRESTADOR' %}
+        {{ include('ChoferesBundle:NavBars:role_prestador.html.twig', {active: 'docente'}) }}
+    {% endif %}
+{% endif %}
+{% endblock %}
+
 {% block page %}
 
 <h1>{{ 'views.edit.edit'|trans({'%entity%': 'Docente'}, 'JordiLlonchCrudGeneratorBundle') }}</h1>

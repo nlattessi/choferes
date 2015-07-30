@@ -4,6 +4,14 @@
 {{ parent() }} - {{ 'views.show.show'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
 
+{% block menu %}
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% if app.user.rol == 'ROLE_PRESTADOR' %}
+        {{ include('ChoferesBundle:NavBars:role_prestador.html.twig', {active: 'curso'}) }}
+    {% endif %}
+{% endif %}
+{% endblock %}
+
 {% block page %}
 
 <h1>Curso</h1>

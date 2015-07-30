@@ -19,7 +19,27 @@ class LoadRolData extends AbstractFixture implements OrderedFixtureInterface
         $rolAdmin->setNombre('ROLE_ADMIN');
         $this->addReference('rolAdmin', $rolAdmin);
 
+        $rolCNTSV = new Rol();
+        $rolCNTSV->setNombre('ROLE_CNTSV');
+        $this->addReference('rolCNTSV', $rolCNTSV);
+
+        $rolPrestador = new Rol();
+        $rolPrestador->setNombre('ROLE_PRESTADOR');
+        $this->addReference('rolPrestador', $rolPrestador);
+
+        $rolCNRT = new Rol();
+        $rolCNRT->setNombre('ROLE_CNRT');
+        $this->addReference('rolCNRT', $rolCNRT);
+
+        $rolCENT = new Rol();
+        $rolCENT->setNombre('ROLE_CENT');
+        $this->addReference('rolCENT', $rolCENT);
+
         $manager->persist($rolAdmin);
+        $manager->persist($rolCNTSV);
+        $manager->persist($rolPrestador);
+        $manager->persist($rolCNRT);
+        $manager->persist($rolCENT);
 
         $manager->flush();
     }

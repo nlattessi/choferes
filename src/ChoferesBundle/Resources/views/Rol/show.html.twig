@@ -4,6 +4,14 @@
 {{ parent() }} - {{ 'views.show.show'|trans({'%entity%': 'Rol'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
 
+{% block menu %}
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% if app.user.rol == 'ROLE_ADMIN' %}
+        {{ include('ChoferesBundle:NavBars:role_admin.html.twig', {active: 'rol'}) }}
+    {% endif %}
+{% endif %}
+{% endblock %}
+
 {% block page %}
 
 <h1>Rol</h1>

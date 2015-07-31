@@ -27,7 +27,7 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: [ROLE_ADMIN, ROLE_PRESTADOR] }
+        - { path: ^/, roles: [ROLE_ADMIN, ROLE_CNTSV, ROLE_PRESTADOR, ROLE_CNRT, ROLE_CENT] }
 
     encoders:
         ChoferesBundle\Entity\Usuario:

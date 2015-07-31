@@ -9,28 +9,24 @@
             <a class="brand" href="{{ path('home') }}">Choferes</a>
 
           	<div class="nav-collapse collapse">
-              <ul class="nav">
-                  <li class="divider-vertical"></li>
-                  <!-- <li><a href="#"><i class="icon-home icon-white"></i> Home</a></li> -->
-                  <li{% if active == 'curso' %} class="active"{% endif %}><a href="{{ path('curso') }}">Cursos</a></li>
-                  <li><a href="#">Cargar Participantes</a></li>
-                  <li{% if active == 'sede' %} class="active"{% endif %}><a href="{{ path('sede') }}">Sedes</a></li>
-                  <li{% if active == 'docente' %} class="active"{% endif %}><a href="{{ path('docente') }}">Docentes</a></li>
-                  <li><a href="#">Consulta Chofer</a></li>
+                <ul class="nav">
+                    <li class="divider-vertical"></li>
+                    <li{% if active == 'curso' %} class="active"{% endif %}><a href="{{ path('curso') }}">Cursos</a></li>
+                    <li><a href="#">Cargar Participantes</a></li>
+                    <li{% if active == 'sede' %} class="active"{% endif %}><a href="{{ path('sede') }}">Sedes</a></li>
+                    <li{% if active == 'docente' %} class="active"{% endif %}><a href="{{ path('docente') }}">Docentes</a></li>
+                    <li><a href="#">Consulta Chofer</a></li>
 
-              </ul>
-              <div class="pull-right">
-                <ul class="nav pull-right">
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ app.user.nombre }} <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <!-- <li><a href="#"><i class="icon-cog"></i> Preferences</a></li>
-                            <li><a href="#"><i class="icon-envelope"></i> Contact Support</a></li>
-                            <li class="divider"></li> -->
-                            <li><a href="{{ path('logout') }}"><i class="icon-off"></i> Logout</a></li>
-                        </ul>
-                    </li>
                 </ul>
-              </div>
+                <div class="pull-right">
+                    <ul class="nav pull-right">
+                        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ app.user.nombre }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ path('logout') }}"><i class="icon-off"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

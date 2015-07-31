@@ -1,0 +1,17 @@
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% if app.user.rol == 'ROLE_ADMIN' %}
+        {{ include('ChoferesBundle:NavBars:role_admin.html.twig') }}
+    {% endif %}
+    {% if app.user.rol == 'ROLE_CNTSV' %}
+        {{ include('ChoferesBundle:NavBars:role_cntsv.html.twig') }}
+    {% endif %}
+    {% if app.user.rol == 'ROLE_PRESTADOR' %}
+        {{ include('ChoferesBundle:NavBars:role_prestador.html.twig') }}
+    {% endif %}
+    {% if app.user.rol == 'ROLE_CNRT' %}
+        {{ include('ChoferesBundle:NavBars:role_cnrt.html.twig') }}
+    {% endif %}
+    {% if app.user.rol == 'ROLE_CENT' %}
+        {{ include('ChoferesBundle:NavBars:role_cent.html.twig') }}
+    {% endif %}
+{% endif %}

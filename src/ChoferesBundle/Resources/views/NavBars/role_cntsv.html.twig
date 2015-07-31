@@ -11,7 +11,18 @@
           	<div class="nav-collapse collapse">
                 <ul class="nav">
                     <li class="divider-vertical"></li>
-                    <li{% if active == 'usuario' %} class="active"{% endif %}><a href="{{ path('usuario') }}">Usuarios</a></li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Cursos <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Validados</a></li>
+                            <li><a href="#">Por validar</a></li>
+                            <li><a href="#">Futuros</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Sedes</a></li>
+                    <li><a href="#">Docentes</a></li>
+                    <li><a href="#">Agregar curso por chofer</a></li>
+                    <li><a href="#">Prestadores</a></li>
+                    <li><a href="#">Consulta Chofer</a></li>
                 </ul>
                 <div class="pull-right">
                     <ul class="nav pull-right">

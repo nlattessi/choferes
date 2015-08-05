@@ -116,6 +116,9 @@ class UsuarioController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Usuario();
+
+        $entity->setPassword("password");
+
         $form = $this->createForm(new UsuarioType(), $entity);
         $form->bind($request);
 
@@ -218,7 +221,7 @@ class UsuarioController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-          $encoder = $this->container
+            $encoder = $this->container
                ->get('security.encoder_factory')
                ->getEncoder($entity)
             ;

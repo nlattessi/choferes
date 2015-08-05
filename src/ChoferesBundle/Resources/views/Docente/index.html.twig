@@ -5,11 +5,7 @@
 {% endblock %}
 
 {% block menu %}
-{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-    {% if app.user.rol == 'ROLE_PRESTADOR' %}
-        {{ include('ChoferesBundle:NavBars:role_prestador.html.twig', {active: 'docente'}) }}
-    {% endif %}
-{% endif %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
 {% block page %}

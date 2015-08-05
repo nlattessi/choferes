@@ -70,3 +70,11 @@ index:
 home:
     path:     /home
     defaults: { _controller: ChoferesBundle:Default:home }
+
+en_construccion:
+    path:     /en_construccion
+    defaults: { _controller: ChoferesBundle:Default:enConstruccion }
+
+cambiar_password:
+    path:     /cambiar_password
+    defaults: { _controller: ChoferesBundle:Security:cambiarPassword }

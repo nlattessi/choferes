@@ -5,33 +5,10 @@
 {% endblock %}
 
 {% block menu %}
-{{ include('ChoferesBundle:NavBars:navbar.html.twig', {active: ''}) }}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
 {% block page %}
-
-<style>
-    body {
-      padding-top: 20px;
-      padding-bottom: 40px;
-    }
-    /* Custom container */
-    .container-narrow {
-      margin: 0 auto;
-      max-width: 700px;
-    }
-    .container-narrow > hr {
-      margin: 30px 0;
-    }
-    .jumbotron {
-      margin: 60px 0;
-      text-align: center;
-    }
-    .jumbotron h1 {
-      font-size: 72px;
-      line-height: 1;
-    }
-</style>
 
 <div class="jumbotron">
     <h1>Home</h1>

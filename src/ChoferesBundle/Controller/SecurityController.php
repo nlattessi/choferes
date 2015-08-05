@@ -41,8 +41,37 @@ class SecurityController extends Controller
 
     public function redirectAction()
     {
-        if ($this->getUser()->getRol()->getNombre() == 'ROLE_ADMIN') {
-            return $this->redirect($this->generateUrl('usuario'));
+        return $this->redirect($this->generateUrl('home'));
+    }
+
+    public function cambiarPasswordAction(Request $request)
+    {
+        if ($request->getMethod() == 'POST') {
+            $password = $request->request->get('_password');
+            $password2 = $request->request->get('_password2');
+
+            if (empty($password) || empty($password2)) {
+                $error = "Passwords no pueden ser vacias";
+            } else if ($password === $password2) {
+                $em = $this->getDoctrine()->getManager();
+                $entity = $this->getUser();
+                $encoder = $this->container
+                   ->get('security.encoder_factory')
+                   ->getEncoder($entity)
+                ;
+                $entity->setPassword($encoder->encodePassword($password, $entity->getSalt()));
+                $em->persist($entity);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
+
+                return $this->redirect($this->generateUrl('home'));
+            } else {
+                $error = "Passwords no coinciden";
+            }
+        } else {
+            $error = null;
         }
+
+        return $this->render('ChoferesBundle:Security:cambiar_password.html.twig', array('error' => $error));
     }
 }

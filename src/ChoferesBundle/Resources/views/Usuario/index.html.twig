@@ -5,11 +5,7 @@
 {% endblock %}
 
 {% block menu %}
-{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-    {% if app.user.rol == 'ROLE_ADMIN' %}
-        {{ include('ChoferesBundle:NavBars:role_admin.html.twig', {active: 'usuario'}) }}
-    {% endif %}
-{% endif %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
 {% block page %}
@@ -63,7 +59,6 @@
             <th>Id</th>
             <th>Nombre</th>
             <th>Mail</th>
-            <th>Password</th>
             <th>Activo</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
@@ -74,7 +69,6 @@
             <td><a href="{{ path('usuario_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nombre }}</td>
             <td>{{ entity.mail }}</td>
-            <td>{{ entity.password }}</td>
             <td>{% if entity.activo %}true{% else %}false{% endif %}</td>
             <td>
         <a class="btn btn-mini" href="{{ path('usuario_show', { 'id': entity.id }) }}">

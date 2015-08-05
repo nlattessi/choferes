@@ -1,0 +1,32 @@
+<div class="navbar nav">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="{{ path('home') }}">Choferes</a>
+
+          	<div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="divider-vertical"></li>
+                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Cursos <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('en_construccion') }}">Crear Curso</a></li>
+                            <li><a href="{{ path('en_construccion') }}">Cursos Anteriores</a></li>
+                            <li><a href="{{ path('en_construccion') }}">Cursos Precargados</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{{ path('en_construccion') }}">Cargar Participantes</a></li>
+                    <li><a href="{{ path('sede') }}">Sedes</a></li>
+                    <li><a href="{{ path('docente') }}">Docentes</a></li>
+                    <li><a href="{{ path('en_construccion') }}">Consulta Chofer</a></li>
+                </ul>
+                <div class="pull-right">
+                    {{ include('ChoferesBundle:NavBars:menu_usuario.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

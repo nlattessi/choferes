@@ -1,0 +1,18 @@
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
+
+{% block title %}
+{{ parent() }} -  Home
+{% endblock %}
+
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block page %}
+
+<div class="jumbotron">
+    <h1>Home</h1>
+    <p class="lead">Bienvenido, {{ app.user.nombre }}</p>
+</div>
+
+{% endblock %}

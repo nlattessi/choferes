@@ -42,10 +42,6 @@ choferes_chofer:
     resource: "@ChoferesBundle/Resources/config/routing/chofer.yml"
     prefix:   /chofer
 
-choferes_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: ChoferesBundle:Default:index }
-
 login:
     path:     /login
     defaults: { _controller: ChoferesBundle:Security:login }
@@ -66,3 +62,19 @@ default_security_target:
 unauthorized:
     path:     /unauthorized
     defaults: { _controller: ChoferesBundle:Default:unauthorized }
+
+index:
+    path:     /
+    defaults: { _controller: ChoferesBundle:Default:index }
+
+home:
+    path:     /home
+    defaults: { _controller: ChoferesBundle:Default:home }
+
+en_construccion:
+    path:     /en_construccion
+    defaults: { _controller: ChoferesBundle:Default:enConstruccion }
+
+cambiar_password:
+    path:     /cambiar_password
+    defaults: { _controller: ChoferesBundle:Security:cambiarPassword }

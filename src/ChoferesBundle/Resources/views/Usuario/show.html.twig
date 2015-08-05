@@ -5,11 +5,7 @@
 {% endblock %}
 
 {% block menu %}
-{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-    {% if app.user.rol == 'ROLE_ADMIN' %}
-        {{ include('ChoferesBundle:NavBars:role_admin.html.twig', {active: 'usuario'}) }}
-    {% endif %}
-{% endif %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
 {% block page %}
@@ -26,9 +22,6 @@
         </div>        <div class="control-group">
             <label class="control-label">Mail</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.mail }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Password</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.password }}</span>            </div>
         </div>        <div class="control-group">
             <label class="control-label">Activo</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{% if entity.activo %}true{% else %}false{% endif %}</span>            </div>

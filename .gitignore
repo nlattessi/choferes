@@ -14,3 +14,10 @@
 .idea/misc.xml
 .idea/workspace.xml
 .idea/workspace.xml
+*.iml
+.idea/encodings.xml
+.idea/modules.xml
+.idea/scopes/scope_settings.xml
+.idea/vcs.xml
+composer.lock
+*.lock

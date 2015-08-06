@@ -14,7 +14,20 @@ class ChoferCursoType extends AbstractType
             ->add('estado', 'checkbox', array('required' => false))
             ->add('apagado', 'checkbox', array('required' => false))
             ->add('chofer')
-            ->add('curso')
+            ->add('curso', 'entity', array(
+                'class' => 'ChoferesBundle\Entity\Curso',
+                'query_builder' => function (\Doctrine\ORM\EntityRepository $er) use ($options)
+                {
+                    if (isset($options['attr']['prestadorId']) && ($options['attr']['prestadorId'] != NULL))
+                    {
+                        return $er->createQueryBuilder('Curso')
+                            ->where('Curso.prestador = :param')
+                            ->setParameter('param', $options['attr']['prestadorId']);
+                    }
+
+                    return $er->createQueryBuilder('Curso');
+                },
+            ))
         ;
     }
 

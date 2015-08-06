@@ -4,6 +4,10 @@
 {{ parent() }} - {{ 'views.index.list'|trans({'%entity%': 'Usuario'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
 
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
 {% block page %}
 
 <div class="row">
@@ -55,7 +59,6 @@
             <th>Id</th>
             <th>Nombre</th>
             <th>Mail</th>
-            <th>Password</th>
             <th>Activo</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
@@ -66,8 +69,7 @@
             <td><a href="{{ path('usuario_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nombre }}</td>
             <td>{{ entity.mail }}</td>
-            <td>{{ entity.password }}</td>
-            <td>{{ entity.activo }}</td>
+            <td>{% if entity.activo %}true{% else %}false{% endif %}</td>
             <td>
         <a class="btn btn-mini" href="{{ path('usuario_show', { 'id': entity.id }) }}">
             {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}

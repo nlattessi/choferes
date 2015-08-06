@@ -11,8 +11,8 @@ class ChoferCursoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('estado')
-            ->add('apagado')
+            ->add('estado', 'checkbox', array('required' => false))
+            ->add('apagado', 'checkbox', array('required' => false))
             ->add('chofer')
             ->add('curso', 'entity', array(
                 'class' => 'ChoferesBundle\Entity\Curso',

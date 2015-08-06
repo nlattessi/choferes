@@ -4,6 +4,10 @@
 {{ parent() }} - {{ 'views.new.creation'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
 
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
 {% block page %}
 
 <h1>{{ 'views.new.creation'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}</h1>

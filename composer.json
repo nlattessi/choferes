@@ -17,9 +17,10 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
-        "incenteev/composer-parameter-handler": "~2.0",		
-		"jordillonch/crud-generator": "dev-master",
-		"xsolve-pl/xsolve-bootstrap-crud-bundle": "dev-master"
+        "incenteev/composer-parameter-handler": "~2.0",
+		    "jordillonch/crud-generator": "dev-master",
+		    "xsolve-pl/xsolve-bootstrap-crud-bundle": "dev-master",
+        "doctrine/doctrine-fixtures-bundle": "2.2.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

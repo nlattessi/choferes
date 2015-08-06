@@ -4,6 +4,10 @@
 {{ parent() }} - {{ 'views.index.list'|trans({'%entity%': 'Chofer'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
 
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
 {% block page %}
 
 <div class="row">
@@ -77,6 +81,7 @@
             <td>{{ entity.colacuil }}</td>
             <td>{{ entity.cuilEmpresa }}</td>
             <td>{{ entity.tieneCursoBasico }}</td>
+            <td>{% if entity.tieneCursoBasico %}true{% else %}false{% endif %}</td>
             <td>
         <a class="btn btn-mini" href="{{ path('chofer_show', { 'id': entity.id }) }}">
             {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}

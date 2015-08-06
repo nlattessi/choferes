@@ -17,7 +17,7 @@ class CursoType extends AbstractType
             ->add('codigo')
             ->add('docente')
             ->add('estado')
-            ->add('prestador')
+            // ->add('prestador')
             ->add('sede')
             ->add('tipocurso')
         ;

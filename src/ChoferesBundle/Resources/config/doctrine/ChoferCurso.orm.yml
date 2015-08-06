@@ -19,15 +19,15 @@ ChoferesBundle\Entity\ChoferCurso:
                 strategy: IDENTITY
     fields:
         estado:
-            type: integer
+            type: boolean
             nullable: false
             options:
-                default: '0'
+                default: false
         apagado:
-            type: integer
+            type: boolean
             nullable: false
             options:
-                default: '0'
+                default: false
     manyToOne:
         chofer:
             targetEntity: Chofer

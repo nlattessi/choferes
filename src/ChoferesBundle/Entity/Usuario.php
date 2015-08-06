@@ -2,10 +2,13 @@
 
 namespace ChoferesBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+
 /**
  * Usuario
  */
-class Usuario
+class Usuario implements UserInterface, \Serializable, AdvancedUserInterface
 {
     /**
      * @var integer
@@ -30,7 +33,7 @@ class Usuario
     /**
      * @var boolean
      */
-    private $activo = '1';
+    private $activo = true;
 
     /**
      * @var \ChoferesBundle\Entity\Rol
@@ -171,5 +174,61 @@ class Usuario
     public function __toString(){
         return $this->nombre;
     }
-}
 
+    public function getUsername()
+    {
+        return $this->getMail();
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getRoles()
+    {
+        return array($this->getRol()->getNombre());
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->mail,
+            $this->password,
+        ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->mail,
+            $this->password,
+        ) = unserialize($serialized);
+    }
+
+    public function isAccountNonExpired()
+    {
+        return true;
+    }
+
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    public function isEnabled()
+    {
+        return $this->activo;
+    }
+}

@@ -30,14 +30,14 @@ ChoferesBundle\Entity\Usuario:
         password:
             type: string
             nullable: false
-            length: 45
+            length: 60
             options:
                 fixed: false
         activo:
-            type: integer
+            type: boolean
             nullable: true
             options:
-                default: '1'
+                default: true
     manyToOne:
         rol:
             targetEntity: Rol

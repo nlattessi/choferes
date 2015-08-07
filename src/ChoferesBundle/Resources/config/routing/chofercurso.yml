@@ -1,3 +1,7 @@
+chofercurso_autocompletar:
+    pattern:  /autocompletar
+    defaults: { _controller: "ChoferesBundle:ChoferCurso:autocompletar" }
+
 chofercurso:
     pattern:  /
     defaults: { _controller: "ChoferesBundle:ChoferCurso:index" }

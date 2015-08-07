@@ -1,5 +1,9 @@
 {% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
 
+{% block javascript %}
+    <script src="{{ asset('bundles/choferes/js/autocompletar.js') }}"></script>
+{% endblock %}
+
 {% block title %}
 {{ parent() }} - {{ 'views.new.creation'|trans({'%entity%': 'ChoferCurso'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
@@ -11,7 +15,8 @@
 {% block page %}
 
 <h1>{{ 'views.new.creation'|trans({'%entity%': 'ChoferCurso'}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
-
+<input value="" id="autocompletarInput">
+<div id="autocompletarDiv"></div>
 <form class="well" action="{{ path('chofercurso_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>

@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\View\TwitterBootstrapView;
+use Symfony\Component\HttpFoundation\Response;
+
 
 use ChoferesBundle\Entity\ChoferCurso;
 use ChoferesBundle\Form\ChoferCursoType;
@@ -35,6 +37,25 @@ class ChoferCursoController extends Controller
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
         ));
+    }
+
+    public function autocompletarAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+//        if (!($request->getMethod() == 'GET' && $request->request->get('search'))) {
+//            exit('sin nada');
+//        }
+
+
+        $repo = $em->getRepository('ChoferesBundle:Chofer');
+        $query = $repo->createQueryBuilder('chof')
+            ->select('chof.nombre','chof.id')
+            ->where('chof.nombre LIKE :search')
+            ->setParameter('search', '%'.$request->query->get('search').'%')
+            ->getQuery();
+        $entities = $query->getResult();
+
+        return new Response(json_encode($entities));
     }
 
     /**

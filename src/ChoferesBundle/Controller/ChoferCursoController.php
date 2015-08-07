@@ -42,10 +42,6 @@ class ChoferCursoController extends Controller
     public function autocompletarAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-//        if (!($request->getMethod() == 'GET' && $request->request->get('search'))) {
-//            exit('sin nada');
-//        }
-
 
         $repo = $em->getRepository('ChoferesBundle:Chofer');
         $query = $repo->createQueryBuilder('chof')

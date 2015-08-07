@@ -13,7 +13,8 @@
 
                       $.each(obj, function(i, item) {
                           $("#autocompletarDiv").html(
-                              '<a class="addAuto" idChofer=' + item.id +' >' + item.nombre + '</a><br/>' + $("#autocompletarDiv").html() );
+                              '<a class="addAuto" idChofer=' + item.id +' >'
+                              + item.nombre + '</a><br/>' + $("#autocompletarDiv").html() );
                           console.log(item.nombre);
                           console.log(item.id);
                           $(".addAuto").click(function(){
@@ -21,8 +22,6 @@
                           });
                       });
 
-                      //var obj = jQuery.parseJSON( msg );
-                      //$("#autocompletarDiv").text(obj);
                   });
           }
       });

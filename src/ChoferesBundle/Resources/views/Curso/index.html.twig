@@ -73,12 +73,16 @@
             <td>{% if entity.fechaCreacion %}{{ entity.fechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{{ entity.codigo }}</td>
             <td>
-        <a class="btn btn-mini" href="{{ path('curso_show', { 'id': entity.id }) }}">
-            {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
-        <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
-            {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>            </td>
+                <a class="btn btn-mini" href="{{ path('curso_show', { 'id': entity.id }) }}">
+                    {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                </a>
+                <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
+                    {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                </a>
+                <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'id': entity.id }) }}">
+                    Agregar choferes
+                </a>
+            </td>
         </tr>
     {% endfor %}
     </tbody>

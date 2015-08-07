@@ -1,0 +1,22 @@
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
+{% block javascript %}
+    <script src="{{ asset('bundles/choferes/js/autocompletar.js') }}"></script>
+{% endblock %}
+{% block title %}
+{{ parent() }} - {{ 'views.new.creation'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
+{% endblock %}
+
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block page %}
+    <input value="" id="autocompletarInput">
+    <div id="autocompletarDiv"></div>
+
+
+    <form class="well" action="{{ path('curso_create') }}" method="post" >
+
+        <button type="submit" class="btn btn-success"> agregar los siguientes choferes</button>
+    </form>
+{% endblock %}

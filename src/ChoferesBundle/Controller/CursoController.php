@@ -36,6 +36,13 @@ class CursoController extends Controller
         ));
     }
 
+    public function addchoferAction()
+    {
+
+        return $this->render('ChoferesBundle:Curso:addchofer.html.twig', array(
+        ));
+    }
+
     /**
     * Create filter form and process filter request.
     *

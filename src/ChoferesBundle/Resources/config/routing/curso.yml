@@ -10,6 +10,14 @@ curso_new:
     pattern:  /new
     defaults: { _controller: "ChoferesBundle:Curso:new" }
 
+curso_addchofer:
+    pattern:  /addchofer
+    defaults: { _controller: "ChoferesBundle:Curso:addchofer" }
+
+curso_autocompletar:
+    pattern:  /autocompletar
+    defaults: { _controller: "ChoferesBundle:ChoferCurso:autocompletar" }
+
 curso_create:
     pattern:  /create
     defaults: { _controller: "ChoferesBundle:Curso:create" }

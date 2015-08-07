@@ -13,12 +13,24 @@
 
                       $.each(obj, function(i, item) {
                           $("#autocompletarDiv").html(
-                              '<a class="addAuto" idChofer=' + item.id +' >'
+                              '<a class="addAuto" nameChofer= '+ item.nombre +' idChofer=' + item.id +' > agregar a: '
                               + item.nombre + '</a><br/>' + $("#autocompletarDiv").html() );
                           console.log(item.nombre);
                           console.log(item.id);
                           $(".addAuto").click(function(){
-                              console.log($(this).attr('idChofer'));
+                              $('form').append(
+                                  '<span class="spanChofer">' +
+                                  '<span>'+$(this).attr('nameChofer')+'</span> ' +
+                                  '<span>eliminar</span>' +
+                                  ' <input type="hidden" class: "chofer" name="chofer[]" value="'+$(this).attr('idChofer')+'" />' +
+                                  '<br/>' +
+                                  '</span>'
+
+                              );
+                              $(".spanChofer").click(function(){
+                                  $(this).remove();
+                              });
+
                           });
                       });
 

@@ -69,6 +69,20 @@ class Curso
     }
 
     /**
+     * Set id
+     *
+     * @param integer $id
+     *
+     * @return Curso
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Set fechaInicio
      *
      * @param \DateTime $fechaInicio

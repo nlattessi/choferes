@@ -79,7 +79,7 @@
                 <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
                     {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
                 </a>
-                <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'id': entity.id }) }}">
+                <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                     Agregar choferes
                 </a>
             </td>

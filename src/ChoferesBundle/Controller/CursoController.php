@@ -2,8 +2,11 @@
 
 namespace ChoferesBundle\Controller;
 
+use ChoferesBundle\Entity\Chofer;
+use ChoferesBundle\Entity\ChoferCurso;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -36,12 +39,38 @@ class CursoController extends Controller
         ));
     }
 
-    public function addchoferAction()
+    public function addchoferAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->getMethod() == 'POST') {
+            $id =  $request->get('idCurso');
+            $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(array('id' => $id));
+            $choferesIds = $request->get('chofer');
+            foreach ($choferesIds as $idChofer) {
+                $choferCurso = new ChoferCurso();
+                $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($idChofer);
+                $choferCurso->setChofer($chofer);
+                $choferCurso->setCurso($curso);
+                $em->persist($choferCurso);
+            }
+            $em->flush();
+            $choferes = $this->obtenerChoferesPorCurso($curso);
+        }else{
+            $id =  $request->query->get('idCurso');
+
+            $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(array('id' => $id));
+            $choferes = $this->obtenerChoferesPorCurso($curso);
+        }
+
+        //print_r($choferes[0]);exit;
 
         return $this->render('ChoferesBundle:Curso:addchofer.html.twig', array(
+            'idCurso'=> $id,
+            'entities' => $choferes
         ));
     }
+
 
     /**
     * Create filter form and process filter request.
@@ -289,5 +318,19 @@ class CursoController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    private function obtenerChoferesPorCurso($curso)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $choferes = array();
+        //
+        $choferesCursos =$em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array('curso' => $curso));
+      //  print_r($choferesCursos->getId());exit;
+        foreach($choferesCursos as $choferCurso){
+            $choferes[]= $choferCurso->getChofer();
+        }
+        return $choferes;
+
     }
 }

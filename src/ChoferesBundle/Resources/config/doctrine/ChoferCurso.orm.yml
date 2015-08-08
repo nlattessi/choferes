@@ -32,7 +32,7 @@ ChoferesBundle\Entity\ChoferCurso:
         chofer:
             targetEntity: Chofer
             cascade: {  }
-            fetch: LAZY
+            fetch: EAGER
             mappedBy: null
             inversedBy: null
             joinColumns:

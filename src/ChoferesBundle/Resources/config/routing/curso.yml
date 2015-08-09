@@ -14,6 +14,10 @@ curso_addchofer:
     pattern:  /addchofer
     defaults: { _controller: "ChoferesBundle:Curso:addchofer" }
 
+curso_borrarchofer:
+    pattern:  /borrarchofer
+    defaults: { _controller: "ChoferesBundle:Curso:borrarChofer" }
+
 curso_autocompletar:
     pattern:  /autocompletar
     defaults: { _controller: "ChoferesBundle:ChoferCurso:autocompletar" }

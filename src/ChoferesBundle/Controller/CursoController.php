@@ -39,6 +39,23 @@ class CursoController extends Controller
         ));
     }
 
+    public function indexCursosAnterioresAction()
+    {
+        list($filterForm, $queryBuilder) = $this->filter();
+
+        $queryBuilder
+          ->andWhere('d.fechaInicio < :fechaHoy')
+          ->setParameter('fechaHoy', new \DateTime('-1 day'), \Doctrine\DBAL\Types\Type::DATETIME);
+
+        list($entities, $pagerHtml) = $this->paginator($queryBuilder);
+
+        return $this->render('ChoferesBundle:Curso:index.html.twig', array(
+            'entities' => $entities,
+            'pagerHtml' => $pagerHtml,
+            'filterForm' => $filterForm->createView(),
+        ));
+    }
+
     public function addchoferAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();

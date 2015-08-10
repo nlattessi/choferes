@@ -39,7 +39,6 @@
                 {{ form_row(filterForm.id) }}
                 {{ form_row(filterForm.fechaInicio) }}
                 {{ form_row(filterForm.fechaFin) }}
-                {{ form_row(filterForm.fechaCreacion) }}
                 {{ form_row(filterForm.codigo) }}
                 {{ form_rest(filterForm) }}
 
@@ -59,8 +58,8 @@
             <th>Id</th>
             <th>Fechainicio</th>
             <th>Fechafin</th>
-            <th>Fechacreacion</th>
             <th>Codigo</th>
+            <th>TipoCurso</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
     </thead>
@@ -70,18 +69,22 @@
             <td><a href="{{ path('curso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('Y-m-d H:i:s') }}{% endif %}</td>
-            <td>{% if entity.fechaCreacion %}{{ entity.fechaCreacion|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{{ entity.codigo }}</td>
+            <td>{{ entity.tipocurso }}</td>
             <td>
                 <a class="btn btn-mini" href="{{ path('curso_show', { 'id': entity.id }) }}">
                     {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
                 </a>
-                <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
-                    {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-                </a>
-                <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
-                    Agregar choferes
-                </a>
+                {% if entity.fechaInicio|date('U') > "+4 days"|date('U') %}
+                    <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
+                        {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                    </a>
+                {% endif %}
+                {% if entity.fechaInicio|date('U') > "+0 days"|date('U') %}
+                    <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
+                        Agregar choferes
+                    </a>
+                {% endif %}
             </td>
         </tr>
     {% endfor %}

@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `choferes`.`chofer_curso` (
   `chofer_id` INT(11) NOT NULL,
   `curso_id` INT(11) NOT NULL,
   `estado` BOOLEAN NOT NULL DEFAULT FALSE,
-  `apagado` BOOLEAN NOT NULL DEFAULT FALSE,
+  `pagado` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`id`),
   INDEX `chofer_curso_idx` (`chofer_id` ASC),
   INDEX `curso_chofer_idx` (`curso_id` ASC),

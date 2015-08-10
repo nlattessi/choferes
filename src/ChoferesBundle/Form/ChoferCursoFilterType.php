@@ -16,7 +16,7 @@ class ChoferCursoFilterType extends AbstractType
         $builder
             ->add('id', 'filter_number_range')
             ->add('estado', 'filter_choice')
-            ->add('apagado', 'filter_choice')
+            ->add('pagado', 'filter_choice')
         ;
 
         $listener = function(FormEvent $event)

@@ -20,7 +20,7 @@ class ChoferCurso
     /**
      * @var boolean
      */
-    private $apagado = false;
+    private $pagado = false;
 
     /**
      * @var \ChoferesBundle\Entity\Chofer
@@ -68,27 +68,27 @@ class ChoferCurso
     }
 
     /**
-     * Set apagado
+     * Set pagado
      *
-     * @param boolean $apagado
+     * @param boolean $pagado
      *
      * @return ChoferCurso
      */
-    public function setApagado($apagado)
+    public function setPagado($pagado)
     {
-        $this->apagado = $apagado;
+        $this->pagado = $pagado;
 
         return $this;
     }
 
     /**
-     * Get apagado
+     * Get pagado
      *
      * @return boolean
      */
-    public function getApagado()
+    public function getPagado()
     {
-        return $this->apagado;
+        return $this->pagado;
     }
 
     /**

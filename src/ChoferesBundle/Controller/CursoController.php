@@ -98,16 +98,9 @@ class CursoController extends Controller
         $q = $em->createQuery('delete from ChoferesBundle:ChoferCurso c where c.chofer = '.$id);
         $qb->andWhere($qb->expr()->eq('c.id', ':id'));
         $qb->setParameter(':project', $id);
-       // $qb->getQuery()->execute();
         $q->execute();
 
         $idCurso =  $request->query->get('idCurso');
-        // $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(array('id' => $idCurso));
-        // $choferes = $this->obtenerChoferesPorCurso($curso);
-        // return $this->render('ChoferesBundle:Curso:addchofer.html.twig', array(
-        //     'idCurso'=> $idCurso,
-        //     'entities' => $choferes
-        // ));
         return $this->redirect($this->generateUrl('curso_addchofer', array('idCurso' => $idCurso)));
     }
 

@@ -1,45 +1,52 @@
 (function($){
   $(function(){
-      $("#autocompletarInput").keyup(function(){
-          if($("#autocompletarInput").val().length > 2){
-              $.ajax({
-                  method: "POST",
-                  url: "autocompletar",
-                  data: { search: $("#autocompletarInput").val()}
-              })
-                  .done(function( msg ) {
-                      $("#autocompletarDiv").text('');
-                      var obj = jQuery.parseJSON( msg );
+    $('#typeahead').typeahead({
+      minLength: 3,
+      source: function (query, process) {
+        return $.ajax({
+          url: '/chofercurso/autocompletar',
+          type: 'GET',
+          data: { query: query },
+          dataType: 'json',
+          success: function(result) {
+            var data = [];
+            $.each(result, function(i, obj) {
+              var item = { id: obj.id, nombre: obj.nombre };
+              data.push(JSON.stringify(item));
+            });
 
-                      $.each(obj, function(i, item) {
-                          $("#autocompletarDiv").html(
-                              '<a class="addAuto" nameChofer= '+ item.nombre +' idChofer=' + item.id +' > agregar a: '
-                              + item.nombre + '</a><br/>' + $("#autocompletarDiv").html() );
-                          console.log(item.nombre);
-                          console.log(item.id);
-                          $(".addAuto").click(function(){
-                              $('form').append(
-                                  '<span class="spanChofer">' +
-                                  '<span>'+$(this).attr('nameChofer')+'</span> ' +
-                                  '<span>eliminar</span>' +
-                                  ' <input type="hidden" class: "chofer" name="chofer[]" value="'+$(this).attr('idChofer')+'" />' +
-                                  '<br/>' +
-                                  '</span>'
-
-                              );
-                              $(".spanChofer").click(function(){
-                                  $(this).remove();
-                              });
-
-                          });
-                      });
-
-                  });
+            return process(data);
           }
-      });
-      $(".addAuto").click(function(){
-          alert($this)
-      });
+        });
+      },
+      matcher: function(obj) {
+        var item = JSON.parse(obj);
+        if (item.nombre.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
+            return true;
+        }
+      },
+      sorter: function (items) {
+        return items.sort();
+      },
+      highlighter: function (obj) {
+        var item = JSON.parse(obj);
+        var regex = new RegExp( '(' + this.query + ')', 'gi' );
+        return item.nombre.replace( regex, "<strong>$1</strong>" );
+      },
+      updater: function (obj) {
+        var item = JSON.parse(obj);
+        $('#choferesCandidatos').append(
+          '<li><input type="hidden" class="chofer" name="chofer[]" value="' + item.id + '"/>'
+          + item.nombre
+          + ' <button class="btn btn-mini noAgregar">No agregar</button>'
+          + '</li>'
+        );
+        $(".noAgregar").click(function(){
+            $(this).parent().remove();
+        });
 
+        return;
+      }
+    });
   }); // end of document ready
 })(jQuery); // end of jQuery name space

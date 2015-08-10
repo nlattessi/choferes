@@ -19,14 +19,14 @@
           <input id="typeahead" type="text" class="span4" data-provide="typeahead" autocomplete="off" placeholder="Buscar chofer">
           <input type="hidden" name="idCurso" value="{{idCurso}}">
           <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-          <button type="submit" name="submit" class="btn btn-success btn-block">Agregar los siguientes choferes</button>
+          <button type="submit" name="submit" class="btn btn-success btn-block disabled" id="addChoferSubmit" disabled>Agregar los siguientes choferes</button>
           <hr>
           <ul id="choferesCandidatos" class="unstyled"></ul>
         </form>
       </div>
       </div>
     </div>
-    
+
     <div id="listaChoferes">
         <table class="table table-striped table-bordered table-condensed">
             <thead>

@@ -4,12 +4,11 @@
       minLength: 3,
       source: function (query, process) {
         return $.ajax({
-          url: '/chofercurso/autocompletar',
+          url: 'autocompletar',
           type: 'GET',
           data: { query: query },
           dataType: 'json',
           success: function(result) {
-            console.log(result);
             var data = [];
             $.each(result, function(i, obj) {
               var item = { id: obj.id, nombre: obj.nombre + ' ' + obj.apellido };
@@ -44,7 +43,13 @@
         );
         $(".noAgregar").click(function(){
             $(this).parent().remove();
+            if ($('#choferesCandidatos li').length < 1) {
+                $('#addChoferSubmit').addClass("disabled");
+                $('#addChoferSubmit').prop("disabled", true);
+            }
         });
+        $('#addChoferSubmit').removeClass("disabled");
+        $('#addChoferSubmit').prop("disabled", false);
 
         return;
       }

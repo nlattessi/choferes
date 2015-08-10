@@ -45,8 +45,9 @@ class ChoferCursoController extends Controller
 
         $repo = $em->getRepository('ChoferesBundle:Chofer');
         $query = $repo->createQueryBuilder('chof')
-            ->select('chof.nombre','chof.id')
+            ->select('chof.nombre', 'chof.apellido', 'chof.id')
             ->where('chof.nombre LIKE :query')
+            ->orWhere('chof.apellido LIKE :query')
             ->setParameter('query', '%'.$request->query->get('query').'%')
             ->getQuery();
         $entities = $query->getResult();

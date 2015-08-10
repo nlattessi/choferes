@@ -9,9 +9,10 @@
           data: { query: query },
           dataType: 'json',
           success: function(result) {
+            console.log(result);
             var data = [];
             $.each(result, function(i, obj) {
-              var item = { id: obj.id, nombre: obj.nombre };
+              var item = { id: obj.id, nombre: obj.nombre + ' ' + obj.apellido };
               data.push(JSON.stringify(item));
             });
 

@@ -4,7 +4,7 @@
       minLength: 3,
       source: function (query, process) {
         return $.ajax({
-          url: '/chofercurso/autocompletar',
+          url: 'autocompletar',
           type: 'GET',
           data: { query: query },
           dataType: 'json',

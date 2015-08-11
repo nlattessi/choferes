@@ -38,21 +38,31 @@
       },
       updater: function (obj) {
         var item = JSON.parse(obj);
-        $('#choferesCandidatos').append(
-          '<li><input type="hidden" class="chofer" name="chofer[]" value="' + item.id + '"/>'
-          + item.nombre
-          + ' <button class="btn btn-mini noAgregar">No agregar</button>'
-          + '</li>'
-        );
-        $(".noAgregar").click(function(){
+        var exists = false;
+        $(".chofer").each(function() {
+          if($(this).val() == item.id){
+            exists = true;
+            return false;
+          }
+        });
+        if(!exists) {
+          $('#choferesCandidatos').append(
+              '<li><input type="hidden" class="chofer" name="chofer[]" value="' + item.id + '"/>'
+              + item.nombre
+              + ' <button class="btn btn-mini noAgregar">No agregar</button>'
+              + '</li>'
+          );
+          $(".noAgregar").click(function(){
             $(this).parent().remove();
             if ($('#choferesCandidatos li').length < 1) {
-                $('#addChoferSubmit').addClass("disabled");
-                $('#addChoferSubmit').prop("disabled", true);
+              $('#addChoferSubmit').addClass("disabled");
+              $('#addChoferSubmit').prop("disabled", true);
             }
-        });
-        $('#addChoferSubmit').removeClass("disabled");
-        $('#addChoferSubmit').prop("disabled", false);
+          });
+          $('#addChoferSubmit').removeClass("disabled");
+          $('#addChoferSubmit').prop("disabled", false);
+
+        }
 
         return;
       }

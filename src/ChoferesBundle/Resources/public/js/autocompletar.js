@@ -14,7 +14,7 @@
           success: function(result) {
             var data = [];
             $.each(result, function(i, obj) {
-              var item = { id: obj.id, nombre: obj.nombre + ' ' + obj.apellido + ' -  Dni:' + obj.dni };
+              var item = { id: obj.id, nombre: obj.nombre + ' ' + obj.apellido + ' -  Dni: ' + obj.dni };
               data.push(JSON.stringify(item));
             });
 

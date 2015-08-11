@@ -44,3 +44,7 @@ curso_delete:
 curso_anteriores:
     pattern: /anteriores
     defaults: { _controller: "ChoferesBundle:Curso:indexCursosAnteriores" }
+
+curso_precargados:
+    pattern: /precargados
+    defaults: { _controller: "ChoferesBundle:Curso:indexCursosPrecargados" }

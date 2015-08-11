@@ -28,6 +28,9 @@
         </div>        <div class="control-group">
             <label class="control-label">TipoCurso</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.tipocurso }}</span>            </div>
+        </div>        <div class="control-group">
+            <label class="control-label">Estado</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.estado }}</span>            </div>
         </div>        </fieldset>
 </form>
 
@@ -38,16 +41,24 @@
         </a>
     </div>
     <div class="float-left">
-        <a class="btn btn-primary" href="{{ path('curso_edit', { 'id': entity.id }) }}">
-            {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if (app.user.rol != 'ROLE_PRESTADOR') or (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+4 days"|date('U')) %}
+                <a class="btn btn-primary" href="{{ path('curso_edit', { 'id': entity.id }) }}">
+                    {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                </a>
+            {% endif %}
+        {% endif %}
     </div>
     <div class="float-left">
-        <form action="{{ path('curso_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-        </form>
+      {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+          {% if (app.user.rol != 'ROLE_PRESTADOR') or (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+4 days"|date('U')) %}
+              <form action="{{ path('curso_delete', { 'id': entity.id }) }}" method="post">
+                  <input type="hidden" name="_method" value="DELETE" />
+                  {{ form_widget(delete_form) }}
+                  <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+              </form>
+          {% endif %}
+      {% endif %}
     </div>
 </div>
 {% endblock %}

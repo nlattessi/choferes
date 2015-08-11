@@ -14,6 +14,14 @@ INSERT INTO `choferes`.`tipo_curso` VALUES (2,'anual');
 /*!40000 ALTER TABLE `choferes`.`tipo_curso` ENABLE KEYS */;
 UNLOCK TABLES;
 
+LOCK TABLES `choferes`.`estado_curso` WRITE;
+/*!40000 ALTER TABLE `choferes`.`estado_curso` DISABLE KEYS */;
+INSERT INTO `choferes`.`estado_curso` VALUES (1,'cargado');
+INSERT INTO `choferes`.`estado_curso` VALUES (2,'verificado');
+INSERT INTO `choferes`.`estado_curso` VALUES (3,'pagado');
+/*!40000 ALTER TABLE `choferes`.`estado_curso` ENABLE KEYS */;
+UNLOCK TABLES;
+
 LOCK TABLES `choferes`.`chofer` WRITE;
 /*!40000 ALTER TABLE `choferes`.`chofer` DISABLE KEYS */;
 INSERT INTO `choferes`.`chofer` (nombre, apellido, dni, precuil, colacuil, cuil_empresa, tiene_curso_basico) VALUES

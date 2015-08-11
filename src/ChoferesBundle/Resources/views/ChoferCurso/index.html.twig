@@ -37,7 +37,7 @@
 
             <form class="well" action="{{ path('chofercurso') }}" method="get" {{ form_enctype(filterForm) }}>
                 {{ form_row(filterForm.id) }}
-                {{ form_row(filterForm.estado) }}
+                {{ form_row(filterForm.aprobado) }}
                 {{ form_row(filterForm.pagado) }}
                 {{ form_rest(filterForm) }}
 
@@ -55,7 +55,7 @@
     <thead>
         <tr>
             <th>Id</th>
-            <th>Estado</th>
+            <th>Aprobado</th>
             <th>Pagado</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
@@ -64,7 +64,7 @@
     {% for entity in entities %}
         <tr>
             <td><a href="{{ path('chofercurso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{% if entity.estado %}true{% else %}false{% endif %}</td>
+            <td>{% if entity.aprobado %}true{% else %}false{% endif %}</td>
             <td>{% if entity.pagado %}true{% else %}false{% endif %}</td>
             <td>
         <a class="btn btn-mini" href="{{ path('chofercurso_show', { 'id': entity.id }) }}">

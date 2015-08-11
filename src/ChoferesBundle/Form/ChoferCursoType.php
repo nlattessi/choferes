@@ -11,7 +11,7 @@ class ChoferCursoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('estado', 'checkbox', array('required' => false))
+            ->add('aprobado', 'checkbox', array('required' => false))
             ->add('pagado', 'checkbox', array('required' => false))
             ->add('chofer')
             ->add('curso', 'entity', array(

@@ -17,7 +17,7 @@
         <legend>Agregar chofer</legend>
         <form action="{{ path('curso_addchofer') }}" method="post">
           <input id="typeahead" type="text" class="span4" data-provide="typeahead" autocomplete="off" placeholder="Buscar chofer">
-          <input type="hidden" name="idCurso" value="{{idCurso}}">
+          <input id="idcurso" type="hidden" name="idCurso" value="{{idCurso}}">
           <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
           <button type="submit" name="submit" class="btn btn-success btn-block disabled" id="addChoferSubmit" disabled>Agregar los siguientes choferes</button>
           <hr>

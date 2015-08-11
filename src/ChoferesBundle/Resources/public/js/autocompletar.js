@@ -6,12 +6,15 @@
         return $.ajax({
           url: 'autocompletar',
           type: 'GET',
-          data: { query: query },
+          data: {
+            query: query,
+            idcurso: $('#idcurso').val()
+          },
           dataType: 'json',
           success: function(result) {
             var data = [];
             $.each(result, function(i, obj) {
-              var item = { id: obj.id, nombre: obj.nombre + ' ' + obj.apellido };
+              var item = { id: obj.id, nombre: obj.nombre + ' ' + obj.apellido + ' -  Dni:' + obj.dni };
               data.push(JSON.stringify(item));
             });
 

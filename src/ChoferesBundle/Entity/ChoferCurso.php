@@ -15,7 +15,7 @@ class ChoferCurso
     /**
      * @var boolean
      */
-    private $estado = false;
+    private $aprobado = false;
 
     /**
      * @var boolean
@@ -44,27 +44,27 @@ class ChoferCurso
     }
 
     /**
-     * Set estado
+     * Set aprobado
      *
-     * @param boolean $estado
+     * @param boolean $aprobado
      *
      * @return ChoferCurso
      */
-    public function setEstado($estado)
+    public function setAprobado($aprobado)
     {
-        $this->estado = $estado;
+        $this->aprobado = $aprobado;
 
         return $this;
     }
 
     /**
-     * Get estado
+     * Get aprobado
      *
      * @return boolean
      */
-    public function getEstado()
+    public function getAprobado()
     {
-        return $this->estado;
+        return $this->aprobado;
     }
 
     /**

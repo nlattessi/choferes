@@ -6,7 +6,7 @@ Links importantes:
 - [Documentacion Symfony](http://symfony.com/doc/current/index.html)
 
 Links Wiki:
-- [Recursos Boostrap]https://github.com/nlattessi/choferes/wiki/Recursos-Bootstrap)
+- [Recursos Boostrap] (https://github.com/nlattessi/choferes/wiki/Recursos-Bootstrap)
 - [Recursos extra](https://github.com/nlattessi/contadores/wiki/Recursos-extra)
 - [Fixtures](https://github.com/nlattessi/contadores/wiki/Fixtures)
 - [Flujo Heroku](https://github.com/nlattessi/contadores/wiki/Heroku)

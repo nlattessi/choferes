@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS `choferes`.`chofer_curso` (
   `chofer_id` INT(11) NOT NULL,
   `curso_id` INT(11) NOT NULL,
   `estado` TINYINT(1) NOT NULL DEFAULT 0,
-  `apagado` TINYINT(1) NOT NULL DEFAULT 0,
+  `pagado` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `chofer_curso_idx` (`chofer_id` ASC),
   INDEX `curso_chofer_idx` (`curso_id` ASC),

@@ -12,7 +12,8 @@ class CursoType extends AbstractType
     {
         $builder
             ->add('fechaInicio', 'datetime', array(
-                'widget' => 'choice',
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
                 'format' => 'dd-MM-yyyy HH:mm:ss',
                 'days' => range(date('d') + 5, 31),
                 'months' => range(date('m'), 12),
@@ -25,7 +26,8 @@ class CursoType extends AbstractType
                     'minute' => 'Minutos')
             ))
             ->add('fechaFin', 'datetime', array(
-                'widget' => 'choice',
+                'date_widget' => 'single_text',
+                'time_widget' => 'single_text',
                 'format' => 'dd-MM-yyyy HH:mm:ss',
                 'days' => range(date('d') + 5, 31),
                 'months' => range(date('m'), 12),

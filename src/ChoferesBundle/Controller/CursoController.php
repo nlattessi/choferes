@@ -28,6 +28,10 @@ class CursoController extends Controller
      */
     public function indexAction()
     {
+        if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
+            return $this->redirect($this->generateUrl('curso_precargados', array()));
+        }
+
         list($filterForm, $queryBuilder) = $this->filter();
 
         list($entities, $pagerHtml) = $this->paginator($queryBuilder);
@@ -45,7 +49,7 @@ class CursoController extends Controller
 
         $queryBuilder
           ->andWhere('d.fechaInicio < :fechaHoy')
-          ->setParameter('fechaHoy', new \DateTime('-1 day'), \Doctrine\DBAL\Types\Type::DATETIME);
+          ->setParameter('fechaHoy', new \DateTime(''), \Doctrine\DBAL\Types\Type::DATETIME);
 
         list($entities, $pagerHtml) = $this->paginator($queryBuilder);
 
@@ -96,8 +100,6 @@ class CursoController extends Controller
             $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(array('id' => $id));
             $choferes = $this->obtenerChoferesPorCurso($curso);
         }
-
-        //print_r($choferes[0]);exit;
 
         return $this->render('ChoferesBundle:Curso:addchofer.html.twig', array(
             'idCurso'=> $id,

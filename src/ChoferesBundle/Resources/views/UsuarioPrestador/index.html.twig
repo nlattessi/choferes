@@ -53,6 +53,8 @@
     <thead>
         <tr>
             <th>Id</th>
+            <th>Usuario</th>
+            <th>Prestador</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
     </thead>
@@ -60,6 +62,8 @@
     {% for entity in entities %}
         <tr>
             <td><a href="{{ path('usuarioprestador_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td>{{ entity.usuario }}</td>
+            <td>{{ entity.prestador }}</td>
             <td>
         <a class="btn btn-mini" href="{{ path('usuarioprestador_show', { 'id': entity.id }) }}">
             {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}

@@ -60,6 +60,7 @@
             <th>Fechafin</th>
             <th>Codigo</th>
             <th>TipoCurso</th>
+            <th>Estado</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
     </thead>
@@ -71,19 +72,24 @@
             <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{{ entity.codigo }}</td>
             <td>{{ entity.tipocurso }}</td>
+            <td>{{ entity.estado }}</td>
             <td>
                 <a class="btn btn-mini" href="{{ path('curso_show', { 'id': entity.id }) }}">
                     {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
                 </a>
-                {% if entity.fechaInicio|date('U') > "+4 days"|date('U') %}
-                    <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
-                        {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-                    </a>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if (app.user.rol != 'ROLE_PRESTADOR') or (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+4 days"|date('U')) %}
+                        <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
+                            {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                        </a>
+                    {% endif %}
                 {% endif %}
-                {% if entity.fechaInicio|date('U') > "+0 days"|date('U') %}
-                    <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
-                        Agregar choferes
-                    </a>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+0 days"|date('U') %}
+                        <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
+                            Agregar choferes
+                        </a>
+                    {% endif %}
                 {% endif %}
             </td>
         </tr>

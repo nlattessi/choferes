@@ -43,13 +43,27 @@ class ChoferCursoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $repo = $em->getRepository('ChoferesBundle:Chofer');
-        $query = $repo->createQueryBuilder('chof')
-            ->select('chof.nombre', 'chof.apellido', 'chof.id')
-            ->where('chof.nombre LIKE :query')
-            ->orWhere('chof.apellido LIKE :query')
+        $query = $em->createQueryBuilder()
+            ->select('c.nombre', 'c.apellido', 'c.id', 'c.dni')
+            ->from('ChoferesBundle:Chofer', 'c')
+            ->leftJoin(
+                'ChoferesBundle:ChoferCurso',
+                'cc',
+                \Doctrine\ORM\Query\Expr\Join::WITH,
+                'cc.chofer = c.id'
+            )
+            ->leftJoin(
+                'ChoferesBundle:Curso',
+                'cu',
+                \Doctrine\ORM\Query\Expr\Join::WITH,
+                'cc.curso = cu.id'
+            )
+            ->where('c.nombre LIKE :query OR c.apellido LIKE :query OR c.dni LIKE :query')
+            ->andWhere('cu.id <> :idcurso OR cu.id IS NULL')
             ->setParameter('query', '%'.$request->query->get('query').'%')
+            ->setParameter('idcurso', $request->query->get('idcurso'))
             ->getQuery();
+
         $entities = $query->getResult();
 
         return new Response(json_encode($entities));

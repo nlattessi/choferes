@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\View\TwitterBootstrapView;
+use Symfony\Component\HttpFoundation\Response;
+
 
 use ChoferesBundle\Entity\ChoferCurso;
 use ChoferesBundle\Form\ChoferCursoType;
@@ -35,6 +37,36 @@ class ChoferCursoController extends Controller
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
         ));
+    }
+
+    public function autocompletarAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $query = $em->createQueryBuilder()
+            ->select('c.nombre', 'c.apellido', 'c.id', 'c.dni')
+            ->from('ChoferesBundle:Chofer', 'c')
+            ->leftJoin(
+                'ChoferesBundle:ChoferCurso',
+                'cc',
+                \Doctrine\ORM\Query\Expr\Join::WITH,
+                'cc.chofer = c.id'
+            )
+            ->leftJoin(
+                'ChoferesBundle:Curso',
+                'cu',
+                \Doctrine\ORM\Query\Expr\Join::WITH,
+                'cc.curso = cu.id'
+            )
+            ->where('c.nombre LIKE :query OR c.apellido LIKE :query OR c.dni LIKE :query')
+            ->andWhere('cu.id <> :idcurso OR cu.id IS NULL')
+            ->setParameter('query', '%'.$request->query->get('query').'%')
+            ->setParameter('idcurso', $request->query->get('idcurso'))
+            ->getQuery();
+
+        $entities = $query->getResult();
+
+        return new Response(json_encode($entities));
     }
 
     /**

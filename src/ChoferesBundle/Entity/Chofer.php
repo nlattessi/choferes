@@ -59,6 +59,20 @@ class Chofer
     }
 
     /**
+     * Set id
+     *
+     * @param integer $id
+     *
+     * @return Curso
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
      * Set nombre
      *
      * @param string $nombre

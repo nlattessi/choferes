@@ -42,7 +42,6 @@
                 {{ form_row(filterForm.direccion) }}
                 {{ form_row(filterForm.telefono) }}
                 {{ form_row(filterForm.mail) }}
-                {{ form_row(filterForm.logo) }}
                 {{ form_rest(filterForm) }}
 
                 <p>
@@ -64,7 +63,6 @@
             <th>Direccion</th>
             <th>Telefono</th>
             <th>Mail</th>
-            <th>Logo</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
     </thead>
@@ -77,7 +75,6 @@
             <td>{{ entity.direccion }}</td>
             <td>{{ entity.telefono }}</td>
             <td>{{ entity.mail }}</td>
-            <td>{{ entity.logo }}</td>
             <td>
         <a class="btn btn-mini" href="{{ path('prestador_show', { 'id': entity.id }) }}">
             {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}

@@ -39,6 +39,23 @@ class CursoController extends Controller
         ));
     }
 
+    public function indexCursosAnterioresAction()
+    {
+        list($filterForm, $queryBuilder) = $this->filter();
+
+        $queryBuilder
+          ->andWhere('d.fechaInicio < :fechaHoy')
+          ->setParameter('fechaHoy', new \DateTime('-1 day'), \Doctrine\DBAL\Types\Type::DATETIME);
+
+        list($entities, $pagerHtml) = $this->paginator($queryBuilder);
+
+        return $this->render('ChoferesBundle:Curso:index.html.twig', array(
+            'entities' => $entities,
+            'pagerHtml' => $pagerHtml,
+            'filterForm' => $filterForm->createView(),
+        ));
+    }
+
     public function addchoferAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -76,23 +93,15 @@ class CursoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $id =  $request->query->get('idBorrar');
 
-
-
         $qb = $em->createQueryBuilder();
         $qb->delete('ChoferesBundle:ChoferCurso', 'c');
         $q = $em->createQuery('delete from ChoferesBundle:ChoferCurso c where c.chofer = '.$id);
         $qb->andWhere($qb->expr()->eq('c.id', ':id'));
         $qb->setParameter(':project', $id);
-       // $qb->getQuery()->execute();
         $q->execute();
 
         $idCurso =  $request->query->get('idCurso');
-        $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(array('id' => $idCurso));
-        $choferes = $this->obtenerChoferesPorCurso($curso);
-        return $this->render('ChoferesBundle:Curso:addchofer.html.twig', array(
-            'idCurso'=> $idCurso,
-            'entities' => $choferes
-        ));
+        return $this->redirect($this->generateUrl('curso_addchofer', array('idCurso' => $idCurso)));
     }
 
         /**
@@ -193,6 +202,14 @@ class CursoController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $usuario = $this->getUser();
+            $usuarioService =  $this->get('choferes.servicios.usuario');
+            if ($usuario->getRol() == 'ROLE_PRESTADOR') {
+                $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
+                $entity->setPrestador($prestador);
+            }
+
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.create.success');

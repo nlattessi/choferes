@@ -23,7 +23,7 @@ ChoferesBundle\Entity\ChoferCurso:
             nullable: false
             options:
                 default: false
-        apagado:
+        pagado:
             type: boolean
             nullable: false
             options:

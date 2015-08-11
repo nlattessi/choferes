@@ -51,13 +51,13 @@ class SedeController extends Controller
         $usuario = $this->getUser();
         $usuarioService =  $this->get('choferes.servicios.usuario');
 
-        if($usuario->getRol() == 'ROLE_PRESTADOR') {
+        if ($usuario->getRol() == 'ROLE_PRESTADOR') {
             //filtro solo lo que es de este usuario
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
-            $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d')
+            $queryBuilder = $em->getRepository('ChoferesBundle:Sede')->createQueryBuilder('d')
                 ->where('d.prestador = ?1')
                 ->setParameter(1, $prestador->getId());
-        }else{
+        } else {
             $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d');
         }
         /*Fin filtro por prestador*/
@@ -135,6 +135,14 @@ class SedeController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+
+            $usuario = $this->getUser();
+            $usuarioService =  $this->get('choferes.servicios.usuario');
+            if ($usuario->getRol() == 'ROLE_PRESTADOR') {
+                $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
+                $entity->setPrestador($prestador);
+            }
+
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.create.success');

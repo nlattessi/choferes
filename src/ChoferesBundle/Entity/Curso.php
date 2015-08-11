@@ -58,6 +58,12 @@ class Curso
     private $tipocurso;
 
 
+    public function __construct()
+    {
+        $this->setFechaCreacion(new \DateTime());
+    }
+
+
     /**
      * Get id
      *
@@ -302,4 +308,3 @@ class Curso
         return $this->prestador->getNombre() . ": " . $this->codigo;
     }
 }
-

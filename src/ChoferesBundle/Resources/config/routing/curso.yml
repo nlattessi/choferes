@@ -40,3 +40,7 @@ curso_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ChoferesBundle:Curso:delete" }
     requirements: { _method: post|delete }
+
+curso_anteriores:
+    pattern: /anteriores
+    defaults: { _controller: "ChoferesBundle:Curso:indexCursosAnteriores" }

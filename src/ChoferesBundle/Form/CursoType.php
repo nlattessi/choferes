@@ -11,13 +11,35 @@ class CursoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fechaInicio')
-            ->add('fechaFin')
-            ->add('fechaCreacion')
+            ->add('fechaInicio', 'datetime', array(
+                'widget' => 'choice',
+                'format' => 'dd-MM-yyyy HH:mm:ss',
+                'days' => range(date('d') + 5, 31),
+                'months' => range(date('m'), 12),
+                'years' => range(date('Y'), date('Y') + 5),
+                'empty_value' => array(
+                    'year'  => 'Año',
+                    'month' => 'Mes',
+                    'day'   => 'Dia',
+                    'hour' => 'Hora',
+                    'minute' => 'Minutos')
+            ))
+            ->add('fechaFin', 'datetime', array(
+                'widget' => 'choice',
+                'format' => 'dd-MM-yyyy HH:mm:ss',
+                'days' => range(date('d') + 5, 31),
+                'months' => range(date('m'), 12),
+                'years' => range(date('Y'), date('Y') + 5),
+                'empty_value' => array(
+                    'year'  => 'Año',
+                    'month' => 'Mes',
+                    'day'   => 'Dia',
+                    'hour' => 'Hora',
+                    'minute' => 'Minutos')
+            ))
             ->add('codigo')
             ->add('docente')
             ->add('estado')
-            // ->add('prestador')
             ->add('sede')
             ->add('tipocurso')
         ;

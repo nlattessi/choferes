@@ -112,16 +112,23 @@ class CursoController extends Controller
     public function borrarChoferAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $id =  $request->query->get('idBorrar');
-
-        $qb = $em->createQueryBuilder();
-        $qb->delete('ChoferesBundle:ChoferCurso', 'c');
-        $q = $em->createQuery('delete from ChoferesBundle:ChoferCurso c where c.chofer = '.$id);
-        $qb->andWhere($qb->expr()->eq('c.id', ':id'));
-        $qb->setParameter(':project', $id);
-        $q->execute();
-
         $idCurso =  $request->query->get('idCurso');
+        $idChofer =  $request->query->get('idBorrar');
+
+        $curso = $em->getRepository('ChoferesBundle:Curso')->findOneById($idCurso);
+        $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneById($idChofer);
+        $entity = $em->getRepository('ChoferesBundle:ChoferCurso')->findOneBy(array(
+            'chofer' => $chofer,
+            'curso' => $curso
+        ));
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find ChoferCurso entity.');
+        }
+
+        $em->remove($entity);
+        $em->flush();
+
         return $this->redirect($this->generateUrl('curso_addchofer', array('idCurso' => $idCurso)));
     }
 

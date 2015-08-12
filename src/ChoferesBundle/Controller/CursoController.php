@@ -22,6 +22,8 @@ use ChoferesBundle\Form\CursoFilterType;
  */
 class CursoController extends Controller
 {
+    const ESTADO_CURSO_DEFAULT = 'cargado';
+
     /**
      * Lists all Curso entities.
      *
@@ -228,6 +230,10 @@ class CursoController extends Controller
                 $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
                 $entity->setPrestador($prestador);
             }
+
+            $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->findOneBy(array(
+              'nombre' => self::ESTADO_CURSO_DEFAULT)
+            ));
 
             $em->persist($entity);
             $em->flush();

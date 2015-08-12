@@ -14,36 +14,18 @@ class CursoType extends AbstractType
             ->add('fechaInicio', 'datetime', array(
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
-                'format' => 'dd-MM-yyyy HH:mm:ss',
-                'days' => range(date('d') + 5, 31),
-                'months' => range(date('m'), 12),
-                'years' => range(date('Y'), date('Y') + 5),
-                'empty_value' => array(
-                    'year'  => 'Año',
-                    'month' => 'Mes',
-                    'day'   => 'Dia',
-                    'hour' => 'Hora',
-                    'minute' => 'Minutos')
             ))
             ->add('fechaFin', 'datetime', array(
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
-                'format' => 'dd-MM-yyyy HH:mm:ss',
-                'days' => range(date('d') + 5, 31),
-                'months' => range(date('m'), 12),
-                'years' => range(date('Y'), date('Y') + 5),
-                'empty_value' => array(
-                    'year'  => 'Año',
-                    'month' => 'Mes',
-                    'day'   => 'Dia',
-                    'hour' => 'Hora',
-                    'minute' => 'Minutos')
             ))
             ->add('codigo')
             ->add('docente')
-            ->add('estado')
             ->add('sede')
-            ->add('tipocurso')
+            ->add('tipocurso', 'entity', array(
+                'class' => 'ChoferesBundle:TipoCurso',
+                'required' => true
+            ))
         ;
     }
 

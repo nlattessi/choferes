@@ -218,7 +218,7 @@ class CursoController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Curso();
-        $form = $this->createForm(new CursoType(), $entity);
+        $form = $this->createForm(new CursoType(), $entity, array('user' => $this->getUser()));
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -255,7 +255,7 @@ class CursoController extends Controller
     public function newAction()
     {
         $entity = new Curso();
-        $form   = $this->createForm(new CursoType(), $entity);
+        $form = $this->createForm(new CursoType(), $entity, array('user' => $this->getUser()));
 
         return $this->render('ChoferesBundle:Curso:new.html.twig', array(
             'entity' => $entity,
@@ -298,7 +298,7 @@ class CursoController extends Controller
             throw $this->createNotFoundException('Unable to find Curso entity.');
         }
 
-        $editForm = $this->createForm(new CursoType(), $entity);
+        $editForm = $this->createForm(new CursoType(), $entity, array('user' => $this->getUser()));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ChoferesBundle:Curso:edit.html.twig', array(
@@ -323,7 +323,7 @@ class CursoController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new CursoType(), $entity);
+        $editForm = $this->createForm(new CursoType(), $entity, array('user' => $this->getUser()));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -389,9 +389,7 @@ class CursoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $choferes = array();
-        //
         $choferesCursos =$em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array('curso' => $curso));
-      //  print_r($choferesCursos->getId());exit;
         foreach($choferesCursos as $choferCurso){
             $choferes[]= $choferCurso->getChofer();
         }

@@ -10,6 +10,8 @@ class CursoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $usuario = $options['user'];
+
         $builder
             ->add('fechaInicio', 'datetime', array(
                 'date_widget' => 'single_text',
@@ -27,12 +29,17 @@ class CursoType extends AbstractType
                 'required' => true
             ))
         ;
+
+        if ($usuario->getRol() == 'ROLE_ADMIN' || $usuario->getRol() == 'ROLE_CNTSV') {
+            $builder->add('estado');
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ChoferesBundle\Entity\Curso'
+            'data_class' => 'ChoferesBundle\Entity\Curso',
+            'user' => null
         ));
     }
 

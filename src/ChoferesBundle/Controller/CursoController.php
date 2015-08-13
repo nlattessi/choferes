@@ -225,7 +225,7 @@ class CursoController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Curso();
-        $form = $this->createForm(new CursoType(), $entity, array('user' => $this->getUser()));
+        $form = $this->createForm(new CursoType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -262,7 +262,29 @@ class CursoController extends Controller
     public function newAction()
     {
         $entity = new Curso();
-        $form = $this->createForm(new CursoType(), $entity, array('user' => $this->getUser()));
+
+        $em = $this->getDoctrine()->getManager();
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+        if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
+            $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
+
+            $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
+                'prestador' => $prestador
+            ));
+
+            $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
+                'prestador' => $prestador
+            ));
+        } else {
+            $docentes = NULL;
+            $sedes = NULL;
+        }
+
+        $form = $this->createForm(new CursoType(), $entity, array(
+            'user' => $this->getUser(),
+            'docentes' => $docentes,
+            'sedes' => $sedes
+        ));
 
         return $this->render('ChoferesBundle:Curso:new.html.twig', array(
             'entity' => $entity,

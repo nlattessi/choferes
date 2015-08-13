@@ -16,7 +16,7 @@ class SedeType extends AbstractType
             ->add('provincia')
             ->add('ciudad')
             ->add('telefono')
-            // ->add('prestador')
+            ->add('prestador')
         ;
     }
 

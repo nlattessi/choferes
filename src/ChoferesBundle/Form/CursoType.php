@@ -22,24 +22,38 @@ class CursoType extends AbstractType
                 'time_widget' => 'single_text',
             ))
             ->add('codigo')
-            ->add('docente')
-            ->add('sede')
-            ->add('tipocurso', 'entity', array(
-                'class' => 'ChoferesBundle:TipoCurso',
-                'required' => true
-            ))
         ;
 
-        if ($usuario->getRol() == 'ROLE_ADMIN' || $usuario->getRol() == 'ROLE_CNTSV') {
-            $builder->add('estado');
+        if (isset($options['docentes'])) {
+              $builder->add('docente', 'entity', array(
+                  'class' => 'ChoferesBundle:Docente',
+                  'choices' => $options['docentes'],
+                  'required' => false
+              ));
+        } else {
+              $builder->add('docente');
         }
+
+        if (isset($options['sedes'])) {
+              $builder->add('sede', 'entity', array(
+                  'class' => 'ChoferesBundle:Sede',
+                  'choices' => $options['sedes'],
+                  'required' => false
+              ));
+        } else {
+              $builder->add('sede');
+        }
+
+        $builder->add('tipocurso');
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'ChoferesBundle\Entity\Curso',
-            'user' => null
+            'user' => null,
+            'docentes' => null,
+            'sedes' => null
         ));
     }
 

@@ -58,7 +58,7 @@ class SedeController extends Controller
                 ->where('d.prestador = ?1')
                 ->setParameter(1, $prestador->getId());
         } else {
-            $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d');
+            $queryBuilder = $em->getRepository('ChoferesBundle:Sede')->createQueryBuilder('d');
         }
         /*Fin filtro por prestador*/
 

@@ -56,10 +56,17 @@
     <thead>
         <tr>
             <th>Id</th>
-            <th>Fechainicio</th>
-            <th>Fechafin</th>
+            <th>Fecha de inicio</th>
+            <th>Fecha de fin</th>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                    <th>Prestador</th>
+                {% endif %}
+            {% endif %}
             <th>Codigo</th>
-            <th>TipoCurso</th>
+            <th>Docente</th>
+            <th>Sede</th>
+            <th>Tipo</th>
             <th>Estado</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
@@ -70,7 +77,14 @@
             <td><a href="{{ path('curso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('Y-m-d H:i:s') }}{% endif %}</td>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                    <td>{{ entity.prestador }}</td>
+                {% endif %}
+            {% endif %}
             <td>{{ entity.codigo }}</td>
+            <td>{{ entity.docente }}</td>
+            <td>{{ entity.sede }}</td>
             <td>{{ entity.tipocurso }}</td>
             <td>{{ entity.estado }}</td>
             <td>

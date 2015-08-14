@@ -48,5 +48,6 @@ ChoferesBundle\Entity\ChoferCurso:
             joinColumns:
                 curso_id:
                     referencedColumnName: id
+                    onDelete: CASCADE
             orphanRemoval: false
     lifecycleCallbacks: {  }

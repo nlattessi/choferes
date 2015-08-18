@@ -25,7 +25,16 @@
         </div>        <div class="control-group">
             <label class="control-label">Dni</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.dni }}</span>            </div>
-        </div>    </fieldset>
+        </div>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                <div class="control-group">
+                    <label class="control-label">Prestador</label>
+                    <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.prestador }}</span></div>
+                </div>
+            {% endif %}
+        {% endif %}
+      </fieldset>
 </form>
 
 <div>
@@ -34,17 +43,26 @@
             {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
         </a>
     </div>
-    <div class="float-left">
-        <a class="btn btn-primary" href="{{ path('docente_edit', { 'id': entity.id }) }}">
-            {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
-    </div>
-    <div class="float-left">
-        <form action="{{ path('docente_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-        </form>
-    </div>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+            <div class="float-left">
+                <a class="btn btn-primary" href="{{ path('docente_edit', { 'id': entity.id }) }}">
+                    {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                </a>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+            <div class="float-left">
+                <form action="{{ path('docente_delete', { 'id': entity.id }) }}" method="post">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    {{ form_widget(delete_form) }}
+                    <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                </form>
+            </div>
+        {% endif %}
+    {% endif %}
 </div>
 {% endblock %}

@@ -14,7 +14,7 @@ class DocenteType extends AbstractType
             ->add('nombre')
             ->add('apellido')
             ->add('dni')
-            // ->add('prestador')
+            ->add('prestador')
         ;
     }
 

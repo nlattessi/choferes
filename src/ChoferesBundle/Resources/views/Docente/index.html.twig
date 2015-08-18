@@ -59,6 +59,11 @@
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Dni</th>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                    <th>Prestador</th>
+                {% endif %}
+            {% endif %}
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
     </thead>
@@ -69,13 +74,23 @@
             <td>{{ entity.nombre }}</td>
             <td>{{ entity.apellido }}</td>
             <td>{{ entity.dni }}</td>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                    <td>{{ entity.prestador }}</td>
+                {% endif %}
+            {% endif %}
             <td>
-        <a class="btn btn-mini" href="{{ path('docente_show', { 'id': entity.id }) }}">
-            {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
-        <a class="btn btn-mini" href="{{ path('docente_edit', { 'id': entity.id }) }}">
-            {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>            </td>
+                <a class="btn btn-mini" href="{{ path('docente_show', { 'id': entity.id }) }}">
+                    {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                </a>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                        <a class="btn btn-mini" href="{{ path('docente_edit', { 'id': entity.id }) }}">
+                            {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                        </a>
+                    {% endif %}
+                {% endif %}
+            </td>
         </tr>
     {% endfor %}
     </tbody>
@@ -87,9 +102,13 @@
     </div>
 
         <div class="span8">
-    <a class="btn btn-primary likepaginator" href="{{ path('docente_new') }}">
-            {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Docente
-        </a>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                <a class="btn btn-primary likepaginator" href="{{ path('docente_new') }}">
+                    {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Docente
+                </a>
+            {% endif %}
+        {% endif %}
     </div>
     </div>
 

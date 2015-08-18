@@ -27,7 +27,26 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: [ROLE_ADMIN, ROLE_CNTSV, ROLE_PRESTADOR, ROLE_CNRT, ROLE_CENT] }
+
+        - { path: ^/chofer, roles: [ROLE_ADMIN, ROLE_CNTSV] }
+        - { path: ^/chofercurso, roles: [ROLE_ADMIN] }
+        - { path: ^/curso, roles: [ROLE_ADMIN, ROLE_PRESTADOR, ROLE_CNTSV] }
+        - { path: ^/docente, roles: [ROLE_ADMIN, ROLE_PRESTADOR, ROLE_CNTSV] }
+        - { path: ^/estadocurso, roles: [ROLE_ADMIN] }
+        - { path: ^/prestador, roles: [ROLE_ADMIN, ROLE_CNTSV] }
+        - { path: ^/rol, roles: [ROLE_ADMIN] }
+        - { path: ^/sede, roles: [ROLE_ADMIN, ROLE_PRESTADOR, ROLE_CNTSV] }
+        - { path: ^/tipocurso, roles: [ROLE_ADMIN] }
+        - { path: ^/usuario, roles: [ROLE_ADMIN] }
+        - { path: ^/usuarioprestador, roles: [ROLE_ADMIN] }
+
+        - { path: ^/redirect, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/home, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/en_construccion, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/cambiar_password, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/logout, roles: IS_AUTHENTICATED_FULLY }
+
+        - { path: ^/(.+), roles: ROLE_ADMIN }
 
     encoders:
         ChoferesBundle\Entity\Usuario:

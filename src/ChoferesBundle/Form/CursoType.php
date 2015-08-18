@@ -6,8 +6,23 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+
+use ChoferesBundle\Servicios\UsuarioService;
+use ChoferesBundle\Entity\Prestador;
+
+
 class CursoType extends AbstractType
 {
+    private $usuarioService;
+
+    public function __construct(UsuarioService $usuarioService)
+    {
+        $this->usuarioService = $usuarioService;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $usuario = $options['user'];
@@ -21,17 +36,71 @@ class CursoType extends AbstractType
                 'date_widget' => 'single_text',
                 'time_widget' => 'single_text',
             ))
+            ->add('tipocurso')
             ->add('codigo')
-            ->add('docente')
-            ->add('sede')
-            ->add('tipocurso', 'entity', array(
-                'class' => 'ChoferesBundle:TipoCurso',
-                'required' => true
-            ))
         ;
 
-        if ($usuario->getRol() == 'ROLE_ADMIN' || $usuario->getRol() == 'ROLE_CNTSV') {
-            $builder->add('estado');
+        if ($usuario->getRol() == 'ROLE_CNTSV')
+        {
+            $builder
+                ->add('prestador');
+
+            $formModifier = function(FormInterface $form, Prestador $prestador = null) {
+                $docentes = null === $prestador ? array() : $this->usuarioService->obtenerDocentesPorPrestador($prestador);
+                $sedes = null === $prestador ? array() : $this->usuarioService->obtenerSedesPorPrestador($prestador);
+
+                $form->add('docente', 'entity', array(
+                    'class' => 'ChoferesBundle:Docente',
+                    'empty_value' => '',
+                    'required' => false,
+                    'choices' => $docentes
+                ));
+
+                $form->add('sede', 'entity', array(
+                    'class' => 'ChoferesBundle:Sede',
+                    'empty_value' => '',
+                    'required' => false,
+                    'choices' => $sedes
+                ));
+            };
+
+            $builder->addEventListener(
+                FormEvents::PRE_SET_DATA,
+                function (FormEvent $event) use ($formModifier) {
+                    $data = $event->getData();
+
+                    $formModifier($event->getForm(), $data->getPrestador());
+                }
+            );
+
+            $builder->get('prestador')->addEventListener(
+                FormEvents::POST_SUBMIT,
+                function (FormEvent $event) use ($formModifier) {
+                  $prestador = $event->getForm()->getData();
+
+                  $formModifier($event->getForm()->getParent(), $prestador);
+                }
+            );
+        } else {
+            if (isset($options['docentes'])) {
+                  $builder->add('docente', 'entity', array(
+                      'class' => 'ChoferesBundle:Docente',
+                      'choices' => $options['docentes'],
+                      'required' => false
+                  ));
+            } else {
+                  $builder->add('docente');
+            }
+
+            if (isset($options['sedes'])) {
+                  $builder->add('sede', 'entity', array(
+                      'class' => 'ChoferesBundle:Sede',
+                      'choices' => $options['sedes'],
+                      'required' => false
+                  ));
+            } else {
+                  $builder->add('sede');
+            }
         }
     }
 
@@ -39,7 +108,9 @@ class CursoType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'ChoferesBundle\Entity\Curso',
-            'user' => null
+            'user' => null,
+            'docentes' => null,
+            'sedes' => null
         ));
     }
 

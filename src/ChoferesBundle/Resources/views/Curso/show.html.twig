@@ -22,10 +22,22 @@
         </div>        <div class="control-group">
             <label class="control-label">Fecha de fin</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaFin|date('Y-m-d H:i:s') }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Codigo</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.codigo }}</span>            </div>
         </div>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                <div class="control-group">
+                    <label class="control-label">Prestador</label>
+                    <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.prestador }}</span></div>
+                </div>
+            {% endif %}
+        {% endif %}
+
+        <div class="control-group">
+            <label class="control-label">Codigo</label>
+            <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.codigo }}</span></div>
+        </div>
+
         <div class="control-group">
             <label class="control-label">Docente</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.docente }}</span>            </div>

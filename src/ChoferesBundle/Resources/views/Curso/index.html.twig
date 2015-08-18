@@ -99,7 +99,8 @@
                     {% endif %}
                 {% endif %}
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {% if app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+0 days"|date('U') %}
+                    {% if (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+0 days"|date('U'))
+                        or (app.user.rol == 'ROLE_CNTSV')%}
                         <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                             Agregar choferes
                         </a>

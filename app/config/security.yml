@@ -28,9 +28,9 @@ security:
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
-        - { path: ^/chofer, roles: [ROLE_ADMIN] }
+        - { path: ^/chofer, roles: [ROLE_ADMIN, ROLE_CNTSV] }
         - { path: ^/chofercurso, roles: [ROLE_ADMIN] }
-        - { path: ^/curso, roles: [ROLE_ADMIN, ROLE_PRESTADOR] }
+        - { path: ^/curso, roles: [ROLE_ADMIN, ROLE_PRESTADOR, ROLE_CNTSV] }
         - { path: ^/docente, roles: [ROLE_ADMIN, ROLE_PRESTADOR, ROLE_CNTSV] }
         - { path: ^/estadocurso, roles: [ROLE_ADMIN] }
         - { path: ^/prestador, roles: [ROLE_ADMIN, ROLE_CNTSV] }

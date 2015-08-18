@@ -142,6 +142,7 @@ class CursoController extends Controller
         $session = $request->getSession();
         $filterForm = $this->createForm(new CursoFilterType());
         $em = $this->getDoctrine()->getManager();
+
         /*Inicio filtro por prestador*/
         $usuario = $this->getUser();
         $usuarioService =  $this->get('choferes.servicios.usuario');
@@ -224,17 +225,38 @@ class CursoController extends Controller
      */
     public function createAction(Request $request)
     {
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+
+        $em = $this->getDoctrine()->getManager();
+
         $entity  = new Curso();
-        $form = $this->createForm(new CursoType(), $entity);
+
+        if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
+            $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
+
+            $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
+                'prestador' => $prestador
+            ));
+
+            $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
+                'prestador' => $prestador
+            ));
+        } else {
+            $docentes = null;
+            $sedes = null;
+        }
+
+        $form = $this->createForm(new CursoType($usuarioService), $entity, array(
+            'user' => $this->getUser(),
+            'docentes' => $docentes,
+            'sedes' => $sedes
+        ));
+
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            $usuario = $this->getUser();
-            $usuarioService =  $this->get('choferes.servicios.usuario');
-            if ($usuario->getRol() == 'ROLE_PRESTADOR') {
-                $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
+            if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
+                $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
                 $entity->setPrestador($prestador);
             }
 
@@ -261,10 +283,12 @@ class CursoController extends Controller
      */
     public function newAction()
     {
-        $entity = new Curso();
+        $usuarioService =  $this->get('choferes.servicios.usuario');
 
         $em = $this->getDoctrine()->getManager();
-        $usuarioService =  $this->get('choferes.servicios.usuario');
+
+        $entity = new Curso();
+
         if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
 
@@ -276,11 +300,11 @@ class CursoController extends Controller
                 'prestador' => $prestador
             ));
         } else {
-            $docentes = NULL;
-            $sedes = NULL;
+            $docentes = null;
+            $sedes = null;
         }
 
-        $form = $this->createForm(new CursoType(), $entity, array(
+        $form = $this->createForm(new CursoType($usuarioService), $entity, array(
             'user' => $this->getUser(),
             'docentes' => $docentes,
             'sedes' => $sedes
@@ -319,6 +343,8 @@ class CursoController extends Controller
      */
     public function editAction($id)
     {
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
@@ -327,7 +353,27 @@ class CursoController extends Controller
             throw $this->createNotFoundException('Unable to find Curso entity.');
         }
 
-        $editForm = $this->createForm(new CursoType(), $entity, array('user' => $this->getUser()));
+        if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
+            $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
+
+            $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
+                'prestador' => $prestador
+            ));
+
+            $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
+                'prestador' => $prestador
+            ));
+        } else {
+            $docentes = null;
+            $sedes = null;
+        }
+
+        $editForm = $this->createForm(new CursoType($usuarioService), $entity, array(
+            'user' => $this->getUser(),
+            'docentes' => $docentes,
+            'sedes' => $sedes
+        ));
+
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ChoferesBundle:Curso:edit.html.twig', array(
@@ -343,6 +389,8 @@ class CursoController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
@@ -352,7 +400,28 @@ class CursoController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new CursoType(), $entity, array('user' => $this->getUser()));
+
+        if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
+            $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
+
+            $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
+                'prestador' => $prestador
+            ));
+
+            $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
+                'prestador' => $prestador
+            ));
+        } else {
+            $docentes = null;
+            $sedes = null;
+        }
+
+        $editForm = $this->createForm(new CursoType($usuarioService), $entity, array(
+            'user' => $this->getUser(),
+            'docentes' => $docentes,
+            'sedes' => $sedes
+        ));
+
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -422,7 +491,7 @@ class CursoController extends Controller
         foreach($choferesCursos as $choferCurso){
             $choferes[]= $choferCurso->getChofer();
         }
-        return $choferes;
 
+        return $choferes;
     }
 }

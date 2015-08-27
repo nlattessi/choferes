@@ -20,7 +20,7 @@ class LoadTipoCursoData extends AbstractFixture implements OrderedFixtureInterfa
         $this->addReference('tipoCursoBasico', $tipoCursoBasico);
 
         $tipoCursoAnual = new TipoCurso();
-        $tipoCursoAnual->setNombre('anual');
+        $tipoCursoAnual->setNombre('complementario');
         $this->addReference('tipoCursoAnual', $tipoCursoAnual);
 
         $manager->persist($tipoCursoBasico);

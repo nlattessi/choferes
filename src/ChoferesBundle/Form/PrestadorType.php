@@ -11,7 +11,7 @@ class PrestadorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre')
+            ->add('nombre', 'text', array('label' => 'Nombre/Razon Social'))
             ->add('cuit')
             ->add('direccion')
             ->add('telefono')

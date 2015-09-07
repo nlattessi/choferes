@@ -1,0 +1,42 @@
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
+
+{% form_theme form _self %}
+
+{% block form_errors %}
+    {% if errors|length > 0 %}
+      {% for error in errors %}
+        <div class="alert alert-error">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Error!</strong> {{ error.message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+{% endblock form_errors %}
+
+{% block title %}
+{{ parent() }} - Consulta Chofer
+{% endblock %}
+
+{% block page %}
+
+<div class="container">
+  <div class="row">
+    <div class="span4 offset4 well">
+      <legend>Consulta de status de un Chofer</legend>
+
+      {{ form_start(form) }}
+
+        {{ form_errors(form) }}
+
+        {{ form_label(form.dni) }}
+        {{ form_widget(form.dni) }}
+        {{ form_widget(form.captcha) }}
+        {{ form_widget(form.submit) }}
+
+      {{ form_end(form) }}
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

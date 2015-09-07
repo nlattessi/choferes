@@ -13,6 +13,8 @@ use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Form\ChoferType;
 use ChoferesBundle\Form\ChoferFilterType;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Chofer controller.
  *
@@ -269,5 +271,88 @@ class ChoferController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    public function consultaAction(Request $request)
+    {
+        $form = $this->createFormBuilder()
+            ->add('dni', 'number', [
+              'attr' => ['placeholder' => 'Ingrese el DNI', 'class' => 'span4'],
+              'constraints' => new Assert\Length(['min' => 7, 'minMessage' => 'DNI Debe tener un minimo de 7 digitos']),
+              'error_bubbling' => true,
+              'invalid_message' => 'En DNI solo debe ingresar numeros',
+              'label' => 'DNI'
+            ])
+            ->add(
+               'captcha', 'captcha', [
+                   'length' => 5,
+                   'attr' => ['maxlength' => 10, 'placeholder' => 'Ingrese el codigo de seguridad'],
+                   'invalid_message' => 'Codigo de seguridad invalido',
+                   'background_color' => [255, 255, 255],
+                   'error_bubbling' => true,
+                   'ignore_all_effects' => true,
+                   'height' => 40,
+                   'disabled' => true
+               ]
+            )
+            ->add('submit', 'submit', [
+              'label' => 'Consultar',
+              'attr' => ['type' => 'submit', 'class' => 'btn btn-info btn-block']
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $dni = $form->get('dni')->getData();
+
+            $query = $em->createQueryBuilder()
+                ->select('c.nombre', 'c.apellido', 'c.id', 'c.dni', 'c.tieneCursoBasico', 'cc.id as ccid', 'cc.aprobado', 'cu.id as cuid', 'cu.fechaInicio', 'cc.pagado as pago')
+                ->from('ChoferesBundle:Chofer', 'c')
+                ->leftJoin(
+                    'ChoferesBundle:ChoferCurso', 'cc',
+                    \Doctrine\ORM\Query\Expr\Join::WITH, 'cc.chofer = c.id'
+                )
+                ->leftJoin(
+                    'ChoferesBundle:Curso', 'cu',
+                    \Doctrine\ORM\Query\Expr\Join::WITH, 'cc.curso = cu.id'
+                )
+                ->where('c.dni LIKE :dni')
+                ->orderBy('cu.fechaInicio', 'DESC')
+                ->setParameter('dni', '%' . $dni . '%')
+                ->setMaxResults(1)
+                ->getQuery();
+
+            $chofer = $query->getOneOrNullResult();
+
+            if ($chofer) {
+                if ($chofer['tieneCursoBasico']) {
+                    if ($chofer['ccid'] && $chofer['fechaInicio'] > new \DateTime('-1 year')) {
+                        if ($chofer['aprobado']) {
+                            if ($chofer['pago']) {
+                                echo "HABILITADO\n\n";
+                                var_dump($chofer);die();
+                            } else {
+                                echo "NO HABILITADO: No figura pago el ultimo curso complementario.";die();
+                            }
+                        } else {
+                            echo "NO HABILITADO: No tiene aprobado el ultimo curso complementario.";die();
+                        }
+                    } else {
+                        echo "NO HABILITADO: No tiene el curso complementario o la vigencia del mismo ya expiro."; die();
+                    }
+                } else {
+                    echo "NO HABILITADO: No tiene el curso basico.";die();
+                }
+            } else {
+                echo "ERROR: Chofer no encontrado en el sistema";die();
+            }
+        }
+
+        return $this->render('ChoferesBundle:Chofer:consulta.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 }

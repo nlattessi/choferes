@@ -13,7 +13,7 @@ use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Form\ChoferType;
 use ChoferesBundle\Form\ChoferFilterType;
 
-use Symfony\Component\Validator\Constraints as Assert;
+use ChoferesBundle\Form\ChoferStatusType;
 
 /**
  * Chofer controller.
@@ -275,32 +275,11 @@ class ChoferController extends Controller
 
     public function consultaAction(Request $request)
     {
-        $form = $this->createFormBuilder()
-            ->add('dni', 'number', [
-              'attr' => ['placeholder' => 'Ingrese el DNI', 'class' => 'span4'],
-              'constraints' => new Assert\Length(['min' => 7, 'minMessage' => 'DNI Debe tener un minimo de 7 digitos']),
-              'error_bubbling' => true,
-              'invalid_message' => 'En DNI solo debe ingresar numeros',
-              'label' => 'DNI'
-            ])
-            ->add(
-               'captcha', 'captcha', [
-                   'length' => 5,
-                   'attr' => ['maxlength' => 10, 'placeholder' => 'Ingrese el codigo de seguridad'],
-                   'invalid_message' => 'Codigo de seguridad invalido',
-                   'background_color' => [255, 255, 255],
-                   'error_bubbling' => true,
-                   'ignore_all_effects' => true,
-                   'height' => 40,
-                   'disabled' => true
-               ]
-            )
-            ->add('submit', 'submit', [
-              'label' => 'Consultar',
-              'attr' => ['type' => 'submit', 'class' => 'btn btn-info btn-block']
-            ])
-            ->getForm();
+        $message = '';
+        $chofer = null;
+        $certificado = false;
 
+        $form = $this->createForm(new ChoferStatusType());
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -332,27 +311,30 @@ class ChoferController extends Controller
                     if ($chofer['ccid'] && $chofer['fechaInicio'] > new \DateTime('-1 year')) {
                         if ($chofer['aprobado']) {
                             if ($chofer['pago']) {
-                                echo "HABILITADO\n\n";
-                                var_dump($chofer);die();
+                                $message = 'HABILITADO';
+                                $certificado = true;
                             } else {
-                                echo "NO HABILITADO: No figura pago el ultimo curso complementario.";die();
+                                $message = 'NO HABILITADO: No figura pago el ultimo curso complementario.';
                             }
                         } else {
-                            echo "NO HABILITADO: No tiene aprobado el ultimo curso complementario.";die();
+                            $message = 'NO HABILITADO: No tiene aprobado el ultimo curso complementario.';
                         }
                     } else {
-                        echo "NO HABILITADO: No tiene el curso complementario o la vigencia del mismo ya expiro."; die();
+                        $message = 'NO HABILITADO: No tiene el curso complementario o la vigencia del mismo ya expiro.';
                     }
                 } else {
-                    echo "NO HABILITADO: No tiene el curso basico.";die();
+                    $message = 'NO HABILITADO: No tiene el curso basico.';
                 }
             } else {
-                echo "ERROR: Chofer no encontrado en el sistema";die();
+                $message = 'NO HABILITADO: No tiene el curso basico.';
             }
         }
 
         return $this->render('ChoferesBundle:Chofer:consulta.html.twig', array(
             'form' => $form->createView(),
+            'message' => $message,
+            'chofer' => $chofer,
+            'certificado' => $certificado,
         ));
     }
 }

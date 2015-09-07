@@ -79,9 +79,9 @@ cambiar_password:
     path:     /cambiar_password
     defaults: { _controller: ChoferesBundle:Security:cambiarPassword }
 
-consulta_chofer:
-    path: /consulta
-    defaults: { _controller: ChoferesBundle:Chofer:consulta }
-
 gregwar_captcha_routing:
     resource: "@GregwarCaptchaBundle/Resources/config/routing/routing.yml"
+
+chofer_consulta:
+    path: /consulta
+    defaults: { _controller: ChoferesBundle:Chofer:consulta }

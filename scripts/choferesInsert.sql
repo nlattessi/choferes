@@ -1,4 +1,4 @@
-INSERT INTO chofer (nombre, apellido, dni, precuil, colacuil, cuil_empresa, tiene_curso_basico)
+INSERT INTO chofer (apellido, nombre, dni, precuil, colacuil, cuil_empresa, tiene_curso_basico)
 VALUES ('MICHELONI','HUGO','04333812','23','9','0',true),
 ('CABALLERO','RAMALLO LUCIA D','03682689','23','4','0',true),
 ('OLIVERA','MARCELO FABIAN','21555434','20','2','0',true),

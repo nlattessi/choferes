@@ -14,15 +14,79 @@
 {% endblock form_errors %}
 
 {% block title %}
-{{ parent() }} - Consulta Chofer
+{{ parent() }} - Consulta Estatus
 {% endblock %}
 
 {% block page %}
 
+<style>
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+</style>
+
 <div class="container">
   <div class="row">
+
+    {% if chofer is not empty %}
+    <div class="span5 offset-3 ">
+      <p class=" text-info">Fecha: {{ "now"|date("d/m/Y H:i", "America/Argentina/Buenos_Aires") }}</p>
+    </div>
+    <div class="span12" >
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Estatus Chofer</h3>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="span3" align="center">
+              <img alt="chofer pic" src="{{ asset('bundles/choferes/img/chofer.jpg') }}" class="img-rounded img-responsive">
+            </div>
+            <div class="span9">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td><span class="label label-inverse">Nombre</span></td>
+                    <td>{{ chofer.nombre }} {{ chofer.apellido }}</td>
+                  </tr>
+                  <tr>
+                    <td><span class="label label-inverse">DNI</span></td>
+                    <td>{{ chofer.dni }}</td>
+                  </tr>
+                  <tr>
+                    <td><span class="label label-inverse">Matricula</span></td>
+                    <td>#matricula#</td>
+                  </tr>
+                  <tr>
+                    <td><span class="label label-inverse">Estado</span></td>
+                    {% if certificado == true %}
+                      <td><b>Certificado</b></td>
+                    {% else %}
+                      <td><b>{{ message }}</b></td>
+                    {% endif %}
+                  </tr>
+                  {% if certificado == true %}
+                    <tr>
+                      <td><span class="label label-inverse">Fecha curso complementario</span></td>
+                      <td>{{ chofer.fechaInicio|date('d/m/Y') }}</td>
+                    </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+              {% if certificado == true %}
+                <a href="#" class="btn btn-primary">Imprimir certificado</a>
+              {% endif %}
+              <a href="{{ path('chofer_consulta') }}" class="btn btn-inverse">Volver</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
     <div class="span4 offset4 well">
-      <legend>Consulta de status de un Chofer</legend>
+      <legend>Consulta Estatus</legend>
 
       {{ form_start(form) }}
 
@@ -36,6 +100,7 @@
       {{ form_end(form) }}
 
     </div>
+    {% endif %}
   </div>
 </div>
 

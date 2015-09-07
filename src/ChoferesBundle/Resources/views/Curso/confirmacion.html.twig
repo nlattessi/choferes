@@ -1,0 +1,28 @@
+{% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
+
+{% block title %}
+{{ parent() }} - {{ 'views.show.show'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
+{% endblock %}
+
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block page %}
+
+<h1>{{ titulo }}</h1>
+
+    <h3>{{ mensaje }}</h3>
+
+
+
+<div>
+    <div class="float-left">
+        <a class="btn" href="{{ path('curso_anteriores') }}">
+            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+        </a>
+    </div>
+
+
+</div>
+{% endblock %}

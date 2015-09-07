@@ -33,6 +33,11 @@ class Curso
     private $codigo;
 
     /**
+     * @var string
+     */
+    private $comprobante;
+
+    /**
      * @var \ChoferesBundle\Entity\Docente
      */
     private $docente;
@@ -183,6 +188,24 @@ class Curso
     {
         return $this->codigo;
     }
+
+    /**
+     * @return string
+     */
+    public function getComprobante()
+    {
+        return $this->comprobante;
+    }
+
+    /**
+     * @param string $comprobante
+     */
+    public function setComprobante($comprobante)
+    {
+        $this->comprobante = $comprobante;
+    }
+
+
 
     /**
      * Set docente

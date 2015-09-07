@@ -27,6 +27,7 @@ class CursoType extends AbstractType
     {
         $usuario = $options['user'];
 
+
         $builder
             ->add('fechaInicio', 'datetime', array(
                 'date_widget' => 'single_text',
@@ -37,13 +38,14 @@ class CursoType extends AbstractType
                 'time_widget' => 'single_text',
             ))
             ->add('tipocurso')
-            ->add('codigo')
         ;
 
         if ($usuario->getRol() == 'ROLE_CNTSV')
         {
             $builder
-                ->add('prestador');
+                ->add('prestador')
+                ->add('codigo')
+                ->add('comprobante');
 
             $formModifier = function(FormInterface $form, Prestador $prestador = null) {
                 $docentes = null === $prestador ? array() : $this->usuarioService->obtenerDocentesPorPrestador($prestador);
@@ -53,7 +55,7 @@ class CursoType extends AbstractType
                     'class' => 'ChoferesBundle:Docente',
                     'empty_value' => '',
                     'required' => false,
-                    'choices' => $docentes
+                    'choices' =>$docentes
                 ));
 
                 $form->add('sede', 'entity', array(
@@ -62,6 +64,7 @@ class CursoType extends AbstractType
                     'required' => false,
                     'choices' => $sedes
                 ));
+
             };
 
             $builder->addEventListener(
@@ -77,7 +80,6 @@ class CursoType extends AbstractType
                 FormEvents::POST_SUBMIT,
                 function (FormEvent $event) use ($formModifier) {
                   $prestador = $event->getForm()->getData();
-
                   $formModifier($event->getForm()->getParent(), $prestador);
                 }
             );

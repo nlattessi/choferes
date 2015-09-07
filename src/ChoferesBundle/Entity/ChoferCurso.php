@@ -13,14 +13,19 @@ class ChoferCurso
     private $id;
 
     /**
-     * @var boolean
+     * @var integer
      */
-    private $aprobado = false;
+    private $aprobado = 0;
 
     /**
      * @var boolean
      */
     private $pagado = false;
+
+    /**
+     * @var boolean
+     */
+    private $documentacion = false;
 
     /**
      * @var \ChoferesBundle\Entity\Chofer
@@ -46,7 +51,7 @@ class ChoferCurso
     /**
      * Set aprobado
      *
-     * @param boolean $aprobado
+     * @param integer $aprobado
      *
      * @return ChoferCurso
      */
@@ -60,7 +65,7 @@ class ChoferCurso
     /**
      * Get aprobado
      *
-     * @return boolean
+     * @return integerº
      */
     public function getAprobado()
     {
@@ -90,6 +95,24 @@ class ChoferCurso
     {
         return $this->pagado;
     }
+
+    /**
+     * @return boolean
+     */
+    public function isDocumentacion()
+    {
+        return $this->documentacion;
+    }
+
+    /**
+     * @param boolean $documentacion
+     */
+    public function setDocumentacion($documentacion)
+    {
+        $this->documentacion = $documentacion;
+    }
+
+
 
     /**
      * Set chofer

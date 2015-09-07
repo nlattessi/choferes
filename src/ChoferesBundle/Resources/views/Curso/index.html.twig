@@ -64,6 +64,7 @@
                 {% endif %}
             {% endif %}
             <th>Codigo</th>
+            <th>Comprobante</th>
             <th>Docente</th>
             <th>Sede</th>
             <th>Tipo</th>
@@ -83,6 +84,7 @@
                 {% endif %}
             {% endif %}
             <td>{{ entity.codigo }}</td>
+            <td>{{ entity.comprobante }}</td>
             <td>{{ entity.docente }}</td>
             <td>{{ entity.sede }}</td>
             <td>{{ entity.tipocurso }}</td>
@@ -92,17 +94,38 @@
                     {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
                 </a>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {% if (app.user.rol != 'ROLE_PRESTADOR') or (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+4 days"|date('U')) %}
+                    {% if ( validar  and  app.user.rol == 'ROLE_CNTSV') or (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+4 days"|date('U')) %}
                         <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
                             {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                        </a>
+                        <a class="btn btn-mini" href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
+                            Cancelar Curso
                         </a>
                     {% endif %}
                 {% endif %}
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {% if (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+0 days"|date('U'))
-                        or (app.user.rol == 'ROLE_CNTSV')%}
+                        or ( validar  and app.user.rol == 'ROLE_CNTSV')%}
                         <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                             Agregar choferes
+                        </a>
+
+                    {% endif %}
+                    {% if (entity.fechaInicio|date('U') < "+0 days"|date('U'))%}
+                        {% if (app.user.rol == 'ROLE_PRESTADOR')%}
+                            <a class="btn btn-mini" href="{{ path('curso_realizar', { 'id': entity.id }) }}">
+                            Cargar Notas
+                            </a>
+                        {% endif %}
+                        {% if (app.user.rol == 'ROLE_CNTSV' )%}
+                            <a class="btn btn-mini" href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
+                                Aprobar Documentación
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                    {% if( not validar) %}
+                        <a class="btn btn-mini" href="{{ path('curso_confirmar', { 'id': entity.id }) }}">
+                            Confirmar Curso
                         </a>
                     {% endif %}
                 {% endif %}

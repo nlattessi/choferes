@@ -15,6 +15,8 @@ use ChoferesBundle\Form\ChoferFilterType;
 
 use ChoferesBundle\Form\ChoferStatusType;
 
+use Symfony\Component\Form\FormError;
+
 /**
  * Chofer controller.
  *
@@ -275,8 +277,8 @@ class ChoferController extends Controller
 
     public function consultaAction(Request $request)
     {
-        $message = '';
-        $chofer = null;
+        $message = null;
+        $status = null;
         $certificado = false;
 
         $form = $this->createForm(new ChoferStatusType());
@@ -286,33 +288,19 @@ class ChoferController extends Controller
             $em = $this->getDoctrine()->getManager();
 
             $dni = $form->get('dni')->getData();
+            $choferService = $this->get('choferes.servicios.chofer');
+            $status = $choferService->getStatusPorDniChofer($dni);
 
-            $query = $em->createQueryBuilder()
-                ->select('c.nombre', 'c.apellido', 'c.id', 'c.dni', 'c.tieneCursoBasico', 'cc.id as ccid', 'cc.aprobado', 'cu.id as cuid', 'cu.fechaInicio', 'cc.pagado as pago')
-                ->from('ChoferesBundle:Chofer', 'c')
-                ->leftJoin(
-                    'ChoferesBundle:ChoferCurso', 'cc',
-                    \Doctrine\ORM\Query\Expr\Join::WITH, 'cc.chofer = c.id'
-                )
-                ->leftJoin(
-                    'ChoferesBundle:Curso', 'cu',
-                    \Doctrine\ORM\Query\Expr\Join::WITH, 'cc.curso = cu.id'
-                )
-                ->where('c.dni LIKE :dni')
-                ->orderBy('cu.fechaInicio', 'DESC')
-                ->setParameter('dni', '%' . $dni . '%')
-                ->setMaxResults(1)
-                ->getQuery();
-
-            $chofer = $query->getOneOrNullResult();
-
-            if ($chofer) {
-                if ($chofer['tieneCursoBasico']) {
-                    if ($chofer['ccid'] && $chofer['fechaInicio'] > new \DateTime('-1 year')) {
-                        if ($chofer['aprobado']) {
-                            if ($chofer['pago']) {
-                                $message = 'HABILITADO';
-                                $certificado = true;
+            if ($status) {
+                if ($status['tieneCursoBasico']) {
+                    if ($status['choferCursoId'] && $status['fechaFin'] > new \DateTime('-1 year')) {
+                        if ($status['aprobado']) {
+                            if ($status['pagado']) {
+                                if ($status['documentacion']) {
+                                    $certificado = true;
+                                } else {
+                                    $message = "NO HABILITADO: No se cargo en sistema la documentacion correspondiente.";
+                                }
                             } else {
                                 $message = 'NO HABILITADO: No figura pago el ultimo curso complementario.';
                             }
@@ -326,14 +314,14 @@ class ChoferController extends Controller
                     $message = 'NO HABILITADO: No tiene el curso basico.';
                 }
             } else {
-                $message = 'NO HABILITADO: No tiene el curso basico.';
+                $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
             }
         }
 
         return $this->render('ChoferesBundle:Chofer:consulta.html.twig', array(
             'form' => $form->createView(),
             'message' => $message,
-            'chofer' => $chofer,
+            'status' => $status,
             'certificado' => $certificado,
         ));
     }

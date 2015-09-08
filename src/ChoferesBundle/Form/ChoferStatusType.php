@@ -29,7 +29,7 @@ class ChoferStatusType extends AbstractType
                    'error_bubbling' => true,
                    'ignore_all_effects' => true,
                    'height' => 40,
-                   'disabled' => true
+                   'disabled' => false
                ]
             )
             ->add('submit', 'submit', [

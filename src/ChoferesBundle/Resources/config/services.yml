@@ -6,3 +6,7 @@ services:
           class: ChoferesBundle\Servicios\UsuarioService
           arguments:
               entityManager: @doctrine.orm.entity_manager
+      choferes.servicios.chofer:
+          class: ChoferesBundle\Servicios\ChoferService
+          arguments:
+              entityManager: @doctrine.orm.entity_manager

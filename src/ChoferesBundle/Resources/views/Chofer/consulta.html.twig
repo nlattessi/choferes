@@ -30,7 +30,27 @@
 <div class="container">
   <div class="row">
 
-    {% if chofer is not empty %}
+    {% if status is empty %}
+
+      {% if message is empty %}
+        <div class="span4 offset4 well">
+          <legend>Consulta Estatus</legend>
+          {{ form_start(form) }}
+            {{ form_errors(form) }}
+            {{ form_label(form.dni) }}
+            {{ form_widget(form.dni) }}
+            {{ form_widget(form.captcha) }}
+            {{ form_widget(form.submit) }}
+          {{ form_end(form) }}
+        </div>
+      {% else %}
+      <div class="span5">
+        <p class="text-info">{{ message }}</p>
+        <a href="{{ path('chofer_consulta') }}" class="btn btn-inverse">Volver</a>
+      </div>
+      {% endif %}
+
+    {% else %}
     <div class="span5 offset-3 ">
       <p class=" text-info">Fecha: {{ "now"|date("d/m/Y H:i", "America/Argentina/Buenos_Aires") }}</p>
     </div>
@@ -49,11 +69,11 @@
                 <tbody>
                   <tr>
                     <td><span class="label label-inverse">Nombre</span></td>
-                    <td>{{ chofer.nombre }} {{ chofer.apellido }}</td>
+                    <td>{{ status.nombre }} {{ status.apellido }}</td>
                   </tr>
                   <tr>
                     <td><span class="label label-inverse">DNI</span></td>
-                    <td>{{ chofer.dni }}</td>
+                    <td>{{ status.dni }}</td>
                   </tr>
                   <tr>
                     <td><span class="label label-inverse">Matricula</span></td>
@@ -63,14 +83,14 @@
                     <td><span class="label label-inverse">Estado</span></td>
                     {% if certificado == true %}
                       <td><b>Certificado</b></td>
-                    {% else %}
+                    {% elseif message is not empty %}
                       <td><b>{{ message }}</b></td>
                     {% endif %}
                   </tr>
                   {% if certificado == true %}
                     <tr>
                       <td><span class="label label-inverse">Fecha curso complementario</span></td>
-                      <td>{{ chofer.fechaInicio|date('d/m/Y') }}</td>
+                      <td>{{ status.fechaFin|date('d/m/Y') }}</td>
                     </tr>
                   {% endif %}
                 </tbody>
@@ -83,22 +103,6 @@
           </div>
         </div>
       </div>
-    </div>
-    {% else %}
-    <div class="span4 offset4 well">
-      <legend>Consulta Estatus</legend>
-
-      {{ form_start(form) }}
-
-        {{ form_errors(form) }}
-
-        {{ form_label(form.dni) }}
-        {{ form_widget(form.dni) }}
-        {{ form_widget(form.captcha) }}
-        {{ form_widget(form.submit) }}
-
-      {{ form_end(form) }}
-
     </div>
     {% endif %}
   </div>

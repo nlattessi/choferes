@@ -19,11 +19,16 @@ ChoferesBundle\Entity\ChoferCurso:
                 strategy: IDENTITY
     fields:
         aprobado:
+            type: integer
+            nullable: false
+            options:
+                default: 0
+        pagado:
             type: boolean
             nullable: false
             options:
                 default: false
-        pagado:
+        documentacion:
             type: boolean
             nullable: false
             options:

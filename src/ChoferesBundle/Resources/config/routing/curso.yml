@@ -48,3 +48,23 @@ curso_anteriores:
 curso_precargados:
     pattern: /precargados
     defaults: { _controller: "ChoferesBundle:Curso:indexCursosPrecargados" }
+
+curso_paraconfirmar:
+    pattern: /paraconfirmar
+    defaults: { _controller: "ChoferesBundle:Curso:indexCursosConfirmar" }
+
+curso_confirmar:
+    pattern: /{id}/confirmar
+    defaults: { _controller: "ChoferesBundle:Curso:confirmarCurso" }
+
+curso_cancelar:
+    pattern: /{id}/cancelar
+    defaults: { _controller: "ChoferesBundle:Curso:cancelarCurso" }
+
+curso_realizar:
+    pattern: /{id}/realizar
+    defaults: { _controller: "ChoferesBundle:Curso:realizarCurso" }
+
+curso_documentacion:
+    pattern: /{id}/revisar
+    defaults: { _controller: "ChoferesBundle:Curso:revisarDocumentacion" }

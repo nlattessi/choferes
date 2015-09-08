@@ -22,7 +22,12 @@ use ChoferesBundle\Form\CursoFilterType;
  */
 class CursoController extends Controller
 {
-    const ESTADO_CURSO_DEFAULT = 'cargado';
+    const ESTADO_CURSO_DEFAULT = 1;
+    const ESTADO_CURSO_CONFIRMADO = 2;
+    const ESTADO_CURSO_PORVALIDAR = 3;
+    const ESTADO_CURSO_CANCELADO = 4;
+    const ESTADO_CURSO_VALIDADO = 5;
+    const ESTADO_CURSO_FALLAVALIDACION = 6;
 
     /**
      * Lists all Curso entities.
@@ -40,6 +45,7 @@ class CursoController extends Controller
 
         return $this->render('ChoferesBundle:Curso:index.html.twig', array(
             'entities' => $entities,
+            'validar' => true,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
         ));
@@ -59,16 +65,20 @@ class CursoController extends Controller
             'entities' => $entities,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
+            'validar' => true,
         ));
     }
 
     public function indexCursosPrecargadosAction()
     {
         list($filterForm, $queryBuilder) = $this->filter();
+        $em = $this->getDoctrine()->getManager();
 
         $queryBuilder
           ->andWhere('d.fechaInicio > :fechaHoy')
-          ->setParameter('fechaHoy', new \DateTime(''), \Doctrine\DBAL\Types\Type::DATETIME);
+            ->andWhere('d.estado != :estado')
+          ->setParameter('fechaHoy', new \DateTime(''), \Doctrine\DBAL\Types\Type::DATETIME)
+        ->setParameter('estado', $em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT));
 
         list($entities, $pagerHtml) = $this->paginator($queryBuilder);
 
@@ -76,7 +86,140 @@ class CursoController extends Controller
             'entities' => $entities,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
+            'validar' => true,
         ));
+    }
+
+    public function indexCursosConfirmarAction()
+    {
+        list($filterForm, $queryBuilder) = $this->filter();
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder
+            ->andWhere('d.fechaInicio > :fechaHoy')
+            ->andWhere('d.estado = :estado')
+            ->setParameter('fechaHoy', new \DateTime(''), \Doctrine\DBAL\Types\Type::DATETIME)
+            ->setParameter('estado', $em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT));
+
+        list($entities, $pagerHtml) = $this->paginator($queryBuilder);
+
+        return $this->render('ChoferesBundle:Curso:index.html.twig', array(
+            'entities' => $entities,
+            'pagerHtml' => $pagerHtml,
+            'filterForm' => $filterForm->createView(),
+            'validar' => false,
+        ));
+    }
+
+    public function confirmarCursoAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
+        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_CONFIRMADO) );
+
+        $em->persist($entity);
+        $em->flush();
+        return $this->indexCursosPrecargadosAction();
+    }
+
+    public function realizarCursoAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
+        $choferesCurso= $em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array(
+            'curso' => $entity
+        ));
+
+        if ($request->getMethod() == 'POST') {
+            $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_PORVALIDAR));
+            $em->persist($entity);
+
+            foreach($choferesCurso as $choferCurso){
+
+                $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
+                $choferCurso->setAprobado($request->get("" . $choferCurso->getId()));
+                $em->persist($choferCurso);
+            }
+
+            $em->flush();
+
+            return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', array(
+                'titulo' => "Las notas fueron cargadas con éxito",
+                'mensaje' => "El curso está ahora pendiente de validación por la CNSVT"));
+        }
+
+
+        return $this->render('ChoferesBundle:Curso:cargarnotas.html.twig', array(
+            'curso'=> $entity,
+            'entities' => $choferesCurso
+        ));
+    }
+
+    public function revisarDocumentacionAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
+        $choferesCurso= $em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array(
+            'curso' => $entity
+        ));
+
+
+        if ($request->getMethod() == 'POST') {
+
+            $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_VALIDADO));
+            $em->persist($entity);
+
+            foreach($choferesCurso as $choferCurso){
+
+                $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
+                $choferCurso->setDocumentacion("SI" == $request->get($choferCurso->getId()));
+                $em->persist($choferCurso);
+            }
+
+            $em->flush();
+
+            return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', array(
+                'titulo' => "Se registró el estado de la documentación",
+                'mensaje' => "El curso está ahora en estado VALIDADO"));
+        }
+
+
+        return $this->render('ChoferesBundle:Curso:validardocumentacion.html.twig', array(
+            'curso'=> $entity,
+            'entities' => $choferesCurso
+        ));
+    }
+
+    public function cancelarCursoAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
+        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_CANCELADO) );
+
+        $em->persist($entity);
+        $em->flush();
+        return $this->indexCursosPrecargadosAction();
+    }
+
+    public function validarCursoChoferAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
+        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_VALIDADO) );
+
+        $em->persist($entity);
+        $em->flush();
+        return $this->indexCursosConfirmarAction();
+    }
+
+    public function invalidarCursoChoferAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
+        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_FALLAVALIDACION) );
+
+        $em->persist($entity);
+        $em->flush();
+        return $this->indexCursosConfirmarAction();
     }
 
     public function addchoferAction(Request $request)
@@ -92,6 +235,9 @@ class CursoController extends Controller
                 $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($idChofer);
                 $choferCurso->setChofer($chofer);
                 $choferCurso->setCurso($curso);
+                //Si el curso tiene comprobante de pago marco el choferCurso como pagado
+                $choferCurso->setPagado(strlen($curso->getCombrobante()) > 0);
+
                 $em->persist($choferCurso);
             }
             $em->flush();
@@ -260,9 +406,7 @@ class CursoController extends Controller
                 $entity->setPrestador($prestador);
             }
 
-            $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->findOneBy(array(
-              'nombre' => self::ESTADO_CURSO_DEFAULT)
-            ));
+            $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT) );
 
             $em->persist($entity);
             $em->flush();
@@ -300,6 +444,7 @@ class CursoController extends Controller
                 'prestador' => $prestador
             ));
         } else {
+
             $docentes = null;
             $sedes = null;
         }
@@ -427,6 +572,11 @@ class CursoController extends Controller
         if ($editForm->isValid()) {
             $em->persist($entity);
             $em->flush();
+            if(strlen($entity->getComprobante()) > 0){
+                //comprobante seteado, hay que marcar como pagado todos los ChoferCurso
+                $this->actualizarCursoChofer($entity);
+            }
+
             $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
 
             return $this->redirect($this->generateUrl('curso_edit', array('id' => $id)));
@@ -439,6 +589,18 @@ class CursoController extends Controller
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         ));
+    }
+
+    private function actualizarCursoChofer($curso)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $choferesCurso = $em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array('curso' => $curso));
+
+        foreach($choferesCurso as $choferCurso){
+            $choferCurso->setPagado(true);
+            $em->persist($choferCurso);
+        }
+        $em->flush();
     }
 
     /**

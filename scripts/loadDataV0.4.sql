@@ -1,14 +1,3 @@
-LOCK TABLES `choferes`.`rol` WRITE;
-/*!40000 ALTER TABLE `choferes`.`rol` DISABLE KEYS */;
-INSERT INTO `choferes`.`rol` VALUES (1,'ROLE_ADMIN');
-INSERT INTO `choferes`.`rol` VALUES (2,'ROLE_CNTSV');
-INSERT INTO `choferes`.`rol` VALUES (3,'ROLE_PRESTADOR');
-INSERT INTO `choferes`.`rol` VALUES (4,'ROLE_CNRT');
-INSERT INTO `choferes`.`rol` VALUES (5,'ROLE_CENT');
-/*!40000 ALTER TABLE `choferes`.`rol` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 LOCK TABLES `choferes`.`usuario` WRITE;
 /*!40000 ALTER TABLE `choferes`.`usuario` DISABLE KEYS */;
 INSERT INTO `choferes`.`usuario` VALUES (2,'cntsv','cntsv@cntsv.com','$2a$12$T62s8mN630dp7vo1z9Q7x.Yhp1oKRYGGpyqQcrLae0S3UP4uO0./C',2,TRUE);
@@ -51,7 +40,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `choferes`.`chofer` WRITE;
 /*!40000 ALTER TABLE `choferes`.`chofer` DISABLE KEYS */;
-INSERT INTO `choferes`.`chofer` (nombre, apellido, dni, precuil, colacuil, cuil_empresa, tiene_curso_basico) VALUES
+INSERT INTO `choferes`.`chofer` (apellido, nombre, dni, precuil, colacuil, cuil_empresa, tiene_curso_basico) VALUES
 ('MICHELONI','HUGO','04333812','23','9','0',true),
 ('CABALLERO','RAMALLO LUCIA D','03682689','23','4','0',true),
 ('OLIVERA','MARCELO FABIAN','21555434','20','2','0',true),

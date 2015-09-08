@@ -82,12 +82,14 @@
             <td>{{ entity.cuilEmpresa }}</td>
             <td>{% if entity.tieneCursoBasico %}true{% else %}false{% endif %}</td>
             <td>
-        <a class="btn btn-mini" href="{{ path('chofer_show', { 'id': entity.id }) }}">
-            {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
-        <a class="btn btn-mini" href="{{ path('chofer_edit', { 'id': entity.id }) }}">
-            {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>            </td>
+              <a class="btn btn-mini" href="{{ path('chofer_show', { 'id': entity.id }) }}">
+                  {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+              </a>
+              <a class="btn btn-mini" href="{{ path('chofer_edit', { 'id': entity.id }) }}">
+                  {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+              </a>
+              <a class="btn btn-mini" href="{{ path('chofer_consulta_id', { 'id': entity.id }) }}">estatus</a>
+            </td>
         </tr>
     {% endfor %}
     </tbody>

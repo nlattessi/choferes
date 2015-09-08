@@ -275,54 +275,50 @@ class ChoferController extends Controller
         ;
     }
 
-    public function consultaAction(Request $request)
+    public function consultaAction(Request $request, $id = null)
     {
-        $message = null;
         $status = null;
-        $certificado = false;
+        $chofer = null;
 
-        $form = $this->createForm(new ChoferStatusType());
-        $form->handleRequest($request);
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->getRol() == 'ROLE_CNTSV') {
+            if (! $id) {
+                return $this->redirect($this->generateUrl('home'));
+            }
 
-        if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $dni = $form->get('dni')->getData();
+            $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($id);
             $choferService = $this->get('choferes.servicios.chofer');
-            $status = $choferService->getStatusPorDniChofer($dni);
+            $status = $choferService->getStatusPorDniChofer($chofer->getDni());
 
-            if ($status) {
-                if ($status['tieneCursoBasico']) {
-                    if ($status['choferCursoId'] && $status['fechaFin'] > new \DateTime('-1 year')) {
-                        if ($status['aprobado']) {
-                            if ($status['pagado']) {
-                                if ($status['documentacion']) {
-                                    $certificado = true;
-                                } else {
-                                    $message = "NO HABILITADO: No se cargo en sistema la documentacion correspondiente.";
-                                }
-                            } else {
-                                $message = 'NO HABILITADO: No figura pago el ultimo curso complementario.';
-                            }
-                        } else {
-                            $message = 'NO HABILITADO: No tiene aprobado el ultimo curso complementario.';
-                        }
-                    } else {
-                        $message = 'NO HABILITADO: No tiene el curso complementario o la vigencia del mismo ya expiro.';
-                    }
+            return $this->render('ChoferesBundle:Chofer:consulta.html.twig', array(
+                'status' => $status,
+                'chofer' => $chofer,
+            ));
+        } else {
+            $form = $this->createForm(new ChoferStatusType());
+
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+
+                $dni = $form->get('dni')->getData();
+                $choferService = $this->get('choferes.servicios.chofer');
+                $status = $choferService->getStatusPorDniChofer($dni);
+
+                if ($status) {
+                    $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
                 } else {
-                    $message = 'NO HABILITADO: No tiene el curso basico.';
+                    $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
                 }
-            } else {
-                $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
             }
         }
 
         return $this->render('ChoferesBundle:Chofer:consulta.html.twig', array(
             'form' => $form->createView(),
-            'message' => $message,
             'status' => $status,
-            'certificado' => $certificado,
+            'chofer' => $chofer,
         ));
     }
 }

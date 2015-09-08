@@ -85,3 +85,7 @@ gregwar_captcha_routing:
 chofer_consulta:
     path: /consulta
     defaults: { _controller: ChoferesBundle:Chofer:consulta }
+
+chofer_consulta_id:
+    path: /consulta/{id}
+    defaults: { _controller: ChoferesBundle:Chofer:consulta }

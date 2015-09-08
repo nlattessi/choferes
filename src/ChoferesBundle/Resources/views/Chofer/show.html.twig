@@ -47,6 +47,9 @@
         </a>
     </div>
     <div class="float-left">
+        <a class="btn btn-info" href="{{ path('chofer_consulta_id', { 'id': entity.id }) }}">Estatus</a>
+    </div>
+    <div class="float-left">
         <a class="btn btn-primary" href="{{ path('chofer_edit', { 'id': entity.id }) }}">
             {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
         </a>

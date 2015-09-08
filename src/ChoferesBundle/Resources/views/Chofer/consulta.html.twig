@@ -1,17 +1,22 @@
 {% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
 
-{% form_theme form _self %}
+{% if form is defined %}
+  {% form_theme form _self %}
+  {% block form_errors %}
+      {% if errors|length > 0 %}
+        {% for error in errors %}
+          <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error!</strong> {{ error.message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+  {% endblock form_errors %}
+{% endif %}
 
-{% block form_errors %}
-    {% if errors|length > 0 %}
-      {% for error in errors %}
-        <div class="alert alert-error">
-          <button type="button" class="close" data-dismiss="alert">&times;</button>
-          <strong>Error!</strong> {{ error.message }}
-        </div>
-      {% endfor %}
-    {% endif %}
-{% endblock form_errors %}
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
 
 {% block title %}
 {{ parent() }} - Consulta Estatus
@@ -29,27 +34,20 @@
 
 <div class="container">
   <div class="row">
-
     {% if status is empty %}
-
-      {% if message is empty %}
+      {% if status.message is not defined %}
         <div class="span4 offset4 well">
           <legend>Consulta Estatus</legend>
           {{ form_start(form) }}
-            {{ form_errors(form) }}
-            {{ form_label(form.dni) }}
-            {{ form_widget(form.dni) }}
-            {{ form_widget(form.captcha) }}
-            {{ form_widget(form.submit) }}
+          {{ form_widget(form) }}
           {{ form_end(form) }}
         </div>
       {% else %}
       <div class="span5">
-        <p class="text-info">{{ message }}</p>
+        <p class="text-info">{{ status.message }}</p>
         <a href="{{ path('chofer_consulta') }}" class="btn btn-inverse">Volver</a>
       </div>
       {% endif %}
-
     {% else %}
     <div class="span5 offset-3 ">
       <p class=" text-info">Fecha: {{ "now"|date("d/m/Y H:i", "America/Argentina/Buenos_Aires") }}</p>
@@ -69,11 +67,11 @@
                 <tbody>
                   <tr>
                     <td><span class="label label-inverse">Nombre</span></td>
-                    <td>{{ status.nombre }} {{ status.apellido }}</td>
+                    <td>{{ chofer.nombre }} {{ chofer.apellido }}</td>
                   </tr>
                   <tr>
                     <td><span class="label label-inverse">DNI</span></td>
-                    <td>{{ status.dni }}</td>
+                    <td>{{ chofer.dni }}</td>
                   </tr>
                   <tr>
                     <td><span class="label label-inverse">Matricula</span></td>
@@ -81,13 +79,13 @@
                   </tr>
                   <tr>
                     <td><span class="label label-inverse">Estado</span></td>
-                    {% if certificado == true %}
+                    {% if status.certificado %}
                       <td><b>Certificado</b></td>
-                    {% elseif message is not empty %}
-                      <td><b>{{ message }}</b></td>
+                    {% elseif status.message is defined %}
+                      <td><b>{{ status.message }}</b></td>
                     {% endif %}
                   </tr>
-                  {% if certificado == true %}
+                  {% if status.certificado %}
                     <tr>
                       <td><span class="label label-inverse">Fecha curso complementario</span></td>
                       <td>{{ status.fechaFin|date('d/m/Y') }}</td>
@@ -95,10 +93,14 @@
                   {% endif %}
                 </tbody>
               </table>
-              {% if certificado == true %}
+              {% if status.certificado %}
                 <a href="#" class="btn btn-primary">Imprimir certificado</a>
               {% endif %}
-              <a href="{{ path('chofer_consulta') }}" class="btn btn-inverse">Volver</a>
+              {% if form is defined %}
+                <a href="{{ path('chofer_consulta') }}" class="btn btn-inverse">Volver</a>
+              {% else %}
+                <a href="javascript:history.go(-1)" class="btn btn-inverse">Volver</a>
+              {% endif %}
             </div>
           </div>
         </div>

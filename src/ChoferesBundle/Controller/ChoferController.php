@@ -13,6 +13,10 @@ use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Form\ChoferType;
 use ChoferesBundle\Form\ChoferFilterType;
 
+use ChoferesBundle\Form\ChoferStatusType;
+
+use Symfony\Component\Form\FormError;
+
 /**
  * Chofer controller.
  *
@@ -269,5 +273,56 @@ class ChoferController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    public function consultaAction(Request $request)
+    {
+        $message = null;
+        $status = null;
+        $certificado = false;
+
+        $form = $this->createForm(new ChoferStatusType());
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $dni = $form->get('dni')->getData();
+            $choferService = $this->get('choferes.servicios.chofer');
+            $status = $choferService->getStatusPorDniChofer($dni);
+
+            if ($status) {
+                if ($status['tieneCursoBasico']) {
+                    if ($status['choferCursoId'] && $status['fechaFin'] > new \DateTime('-1 year')) {
+                        if ($status['aprobado']) {
+                            if ($status['pagado']) {
+                                if ($status['documentacion']) {
+                                    $certificado = true;
+                                } else {
+                                    $message = "NO HABILITADO: No se cargo en sistema la documentacion correspondiente.";
+                                }
+                            } else {
+                                $message = 'NO HABILITADO: No figura pago el ultimo curso complementario.';
+                            }
+                        } else {
+                            $message = 'NO HABILITADO: No tiene aprobado el ultimo curso complementario.';
+                        }
+                    } else {
+                        $message = 'NO HABILITADO: No tiene el curso complementario o la vigencia del mismo ya expiro.';
+                    }
+                } else {
+                    $message = 'NO HABILITADO: No tiene el curso basico.';
+                }
+            } else {
+                $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
+            }
+        }
+
+        return $this->render('ChoferesBundle:Chofer:consulta.html.twig', array(
+            'form' => $form->createView(),
+            'message' => $message,
+            'status' => $status,
+            'certificado' => $certificado,
+        ));
     }
 }

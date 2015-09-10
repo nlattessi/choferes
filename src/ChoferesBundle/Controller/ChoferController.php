@@ -4,6 +4,8 @@ namespace ChoferesBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Form\FormError;
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -12,10 +14,7 @@ use Pagerfanta\View\TwitterBootstrapView;
 use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Form\ChoferType;
 use ChoferesBundle\Form\ChoferFilterType;
-
 use ChoferesBundle\Form\ChoferStatusType;
-
-use Symfony\Component\Form\FormError;
 
 /**
  * Chofer controller.
@@ -320,5 +319,27 @@ class ChoferController extends Controller
             'status' => $status,
             'chofer' => $chofer,
         ));
+    }
+
+    public function imprimirCertificadoAction($id = null)
+    {
+        $data = [
+          'prestador' => 'Cursos S.A.',
+          'chofer' => 'Martin Gimenez',
+          'matricula' => 'ABC123',
+          'dni' => '11222333',
+          'curso' => 'Complementario',
+          'sede' => 'San Martin 555',
+          'fecha_curso' => '20/08/2015',
+          'transaccion' => 'ABC123-ZXC',
+          'fecha_transaccion' => '30/08/2015',
+        ];
+
+        $pdfHtml  = new \PdfHtml();
+        $pdf = $pdfHtml->crear_certificado($data);
+
+        return new StreamedResponse(function () use ($pdf) {
+            $pdf->output();
+        });
     }
 }

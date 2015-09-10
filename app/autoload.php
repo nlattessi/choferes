@@ -10,4 +10,10 @@ $loader = require __DIR__.'/../vendor/autoload.php';
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
+$classMap = array(
+    'FPDF' => __DIR__.'/../utils/fpdf/fpdf.php',
+    'PdfHtml' => __DIR__.'/../utils/PdfHtml.php',
+);
+$loader->addClassMap($classMap);
+
 return $loader;

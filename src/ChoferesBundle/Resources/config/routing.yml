@@ -89,3 +89,7 @@ chofer_consulta:
 chofer_consulta_id:
     path: /consulta/{id}
     defaults: { _controller: ChoferesBundle:Chofer:consulta }
+
+chofer_imprimir_certificado_id:
+    path: /imprimir_certificado/{id}
+    defaults: { _controller: ChoferesBundle:Chofer:imprimirCertificado }

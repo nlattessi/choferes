@@ -2,14 +2,19 @@
 
 require_once __DIR__ . '/phpqrcode/qrlib.php';
 
-function generarQR($url) {
-    $tempDir = __DIR__ . '/';
+class QR
+{
+    public function __construct()
+    {
 
-    $fileName = "qrcode.png";
+    }
 
-    $pngAbsoluteFilePath = $tempDir . $fileName;
+    public static function generar($url)
+    {
+        $qrFile =  __DIR__ . '/' . "qrcode.png";
 
-    QRCode::png($url, $pngAbsoluteFilePath, 'L', '4', '4');
+        QRCode::png($url, $qrFile, 'L', '4', '4');
 
-    return $pngAbsoluteFilePath;
+        return $qrFile;
+    }
 }

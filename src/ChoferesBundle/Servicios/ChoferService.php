@@ -4,13 +4,19 @@ namespace ChoferesBundle\Servicios;
 
 use Doctrine\ORM\EntityManager;
 
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+
 class ChoferService
 {
     protected $em;
+    protected $kernelCacheDir;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, $kernelCacheDir)
     {
         $this->em = $entityManager;
+        $this->kernelCacheDir = $kernelCacheDir;
     }
 
     public function getStatusPorDniChofer($dni)
@@ -47,6 +53,7 @@ class ChoferService
                         if ($status['pagado']) {
                             if ($status['documentacion']) {
                                 $result['fechaFin'] = $status['fechaFin'];
+                                $result['cursoId'] = $status['cursoId'];
                                 $result['certificado'] = true;
                             } else {
                                 $result['message'] = "No se cargo en sistema la documentacion correspondiente.";
@@ -66,5 +73,48 @@ class ChoferService
         }
 
         return $result;
+    }
+
+    public function descargarCertificado($dni)
+    {
+        $chofer = $this->em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
+        $status = $this->getStatusPorDniChofer($chofer->getDni());
+
+        $curso = $this->em->getRepository('ChoferesBundle:Curso')->find($status['cursoId']);
+
+        $data = [
+            'prestador' => $curso->getPrestador()->getNombre(),
+            'chofer' => $chofer->getNombre() . ' ' . $chofer->getApellido(),
+            'matricula' => '', //$chofer->getMatricula()
+            'dni' => $chofer->getDni(),
+            'curso' => $curso->getTipocurso(),
+            'sede' => $curso->getSede(),
+            'fecha_curso' => $status['fechaFin']->format('d/m/Y'),
+            'transaccion' => $curso->getComprobante(),
+            'fecha_transaccion' => '', //$curso->getFechaComprobante()
+        ];
+
+        $pdfHtml  = new \PdfHtml();
+        $pdf = $pdfHtml->crear_certificado($data);
+
+        $filename = 'certificado' . $dni . '.pdf';
+        $filepath =  $this->kernelCacheDir . '/' . $filename;
+
+        $pdfFile = $pdf->Output($filepath, 'F');
+
+        $fs = new FileSystem();
+        if (!$fs->exists($filepath)) {
+            throw $this->createNotFoundException();
+        }
+
+        $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($filepath);
+        $response->headers->set('Content-Type', 'application/pdf');
+        $d = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $filename
+        );
+        $response->headers->set('Content-Disposition', $d);
+
+        return $response;
     }
 }

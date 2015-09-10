@@ -1,9 +1,5 @@
 <?php
 
-//namespace Utils;
-
-//require_once __DIR__ . '/fpdf/fpdf.php';
-
 class PdfHtml extends FPDF
 {
     var $B=0;
@@ -13,11 +9,6 @@ class PdfHtml extends FPDF
     var $ALIGN='';
 
     var $lineHeight = 0;
-
-    public function init()
-    {
-        die("initpdf");
-    }
 
     function footer()
     {
@@ -162,10 +153,11 @@ class PdfHtml extends FPDF
         // IMAGENES
 
         // QR
-        // $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" . "status_chofer.php";
+        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" . "status_chofer.php";
+        $qrFile = QR::generar($url);
         // $qrFile = generarQR($url);
-        // $pdf->Image($qrFile, 18, 8, 0, 30, 'PNG');
-        // unlink($qrFile);
+        $pdf->Image($qrFile, 18, 8, 0, 30, 'PNG');
+        unlink($qrFile);
 
         $pdf->Image(__DIR__ . '/escudo_nacion.png', 235, 8, 0, 30);
         $pdf->Image(__DIR__ . '/logo_cntsv.png', 105, 8, 0, 30);

@@ -9,4 +9,6 @@ services:
     choferes.servicios.chofer:
         class: ChoferesBundle\Servicios\ChoferService
         arguments:
+            # entityManager: [@doctrine.orm.entity_manager, "%kernel.cache_dir%"]
             entityManager: @doctrine.orm.entity_manager
+            kernelCacheDir: "%kernel.cache_dir%"

@@ -76,9 +76,8 @@ class CursoController extends Controller
 
         $queryBuilder
           ->andWhere('d.fechaInicio > :fechaHoy')
-            ->andWhere('d.estado != :estado')
-          ->setParameter('fechaHoy', new \DateTime(''), \Doctrine\DBAL\Types\Type::DATETIME)
-        ->setParameter('estado', $em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT));
+
+          ->setParameter('fechaHoy', new \DateTime(''), \Doctrine\DBAL\Types\Type::DATETIME);
 
         list($entities, $pagerHtml) = $this->paginator($queryBuilder);
 

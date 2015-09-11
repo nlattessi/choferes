@@ -124,11 +124,9 @@
                         {% endif %}
                     {% endif %}
                     {% if( not validar) %}
-                      {% if not entity.estado == '2' %}
                         <a class="btn btn-mini" href="{{ path('curso_confirmar', { 'id': entity.id }) }}">
                             Confirmar Curso
                         </a>
-                      {% endif %}
                     {% endif %}
                 {% endif %}
             </td>

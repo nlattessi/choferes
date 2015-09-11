@@ -58,7 +58,7 @@ class ChoferCursoController extends Controller
                 \Doctrine\ORM\Query\Expr\Join::WITH,
                 'cc.curso = cu.id'
             )
-            ->where('c.nombre LIKE :query OR c.apellido LIKE :query OR c.dni LIKE :query')
+            ->where('LOWER(c.nombre) LIKE LOWER(:query) OR LOWER(c.apellido) LIKE LOWER(:query) OR c.dni LIKE :query')
             ->andWhere('cu.id <> :idcurso OR cu.id IS NULL')
             ->setParameter('query', '%'.$request->query->get('query').'%')
             ->setParameter('idcurso', $request->query->get('idcurso'))

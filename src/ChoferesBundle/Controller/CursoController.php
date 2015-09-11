@@ -109,6 +109,79 @@ class CursoController extends Controller
         ));
     }
 
+    private function getCursosPorEstado($estado)
+    {
+        list($filterForm, $queryBuilder) = $this->filter();
+        $em = $this->getDoctrine()->getManager();
+        $queryBuilder
+            ->andWhere('d.estado = :estado')
+            ->setParameter('estado', $em->getRepository('ChoferesBundle:EstadoCurso')->find($estado));
+
+        list($entities, $pagerHtml) = $this->paginator($queryBuilder);
+
+        return [$entities, $pagerHtml, $filterForm];
+    }
+
+    public function indexCursosConfirmadosAction()
+    {
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_CONFIRMADO);
+
+        return $this->render('ChoferesBundle:Curso:index.html.twig', array(
+            'entities' => $entities,
+            'pagerHtml' => $pagerHtml,
+            'filterForm' => $filterForm->createView(),
+            'validar' => false,
+        ));
+    }
+
+    public function indexCursosPorValidarAction()
+    {
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_PORVALIDAR);
+
+        return $this->render('ChoferesBundle:Curso:index.html.twig', array(
+            'entities' => $entities,
+            'pagerHtml' => $pagerHtml,
+            'filterForm' => $filterForm->createView(),
+            'validar' => true,
+        ));
+    }
+
+    public function indexCursosValidadosAction()
+    {
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_VALIDADO);
+
+        return $this->render('ChoferesBundle:Curso:index.html.twig', array(
+            'entities' => $entities,
+            'pagerHtml' => $pagerHtml,
+            'filterForm' => $filterForm->createView(),
+            'validar' => true,
+        ));
+    }
+
+    public function indexCursosCanceladosAction()
+    {
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_CANCELADO);
+
+        return $this->render('ChoferesBundle:Curso:index.html.twig', array(
+            'entities' => $entities,
+            'pagerHtml' => $pagerHtml,
+            'filterForm' => $filterForm->createView(),
+            'validar' => false,
+        ));
+    }
+
+    public function indexCursosFallaValidacionAction()
+    {
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_FALLAVALIDACION);
+
+        return $this->render('ChoferesBundle:Curso:index.html.twig', array(
+            'entities' => $entities,
+            'pagerHtml' => $pagerHtml,
+            'filterForm' => $filterForm->createView(),
+            'validar' => false,
+        ));
+    }
+
     public function confirmarCursoAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -235,7 +308,7 @@ class CursoController extends Controller
                 $choferCurso->setChofer($chofer);
                 $choferCurso->setCurso($curso);
                 //Si el curso tiene comprobante de pago marco el choferCurso como pagado
-                $choferCurso->setPagado(strlen($curso->getCombrobante()) > 0);
+                $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
 
                 $em->persist($choferCurso);
             }

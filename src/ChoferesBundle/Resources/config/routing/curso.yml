@@ -53,6 +53,26 @@ curso_paraconfirmar:
     pattern: /paraconfirmar
     defaults: { _controller: "ChoferesBundle:Curso:indexCursosConfirmar" }
 
+curso_confirmados:
+    pattern: /confirmados
+    defaults: { _controller: "ChoferesBundle:Curso:indexCursosConfirmados" }
+
+curso_porvalidar:
+    pattern: /porvalidar
+    defaults: { _controller: "ChoferesBundle:Curso:indexCursosPorValidar" }
+
+curso_validados:
+    pattern: /validados
+    defaults: { _controller: "ChoferesBundle:Curso:indexCursosValidados" }
+
+curso_cancelados:
+    pattern: /cancelados
+    defaults: { _controller: "ChoferesBundle:Curso:indexCursosCancelados" }
+
+curso_fallavalidacion:
+    pattern: /fallavalidacion
+    defaults: { _controller: "ChoferesBundle:Curso:indexCursosFallaValidacion" }
+
 curso_confirmar:
     pattern: /{id}/confirmar
     defaults: { _controller: "ChoferesBundle:Curso:confirmarCurso" }

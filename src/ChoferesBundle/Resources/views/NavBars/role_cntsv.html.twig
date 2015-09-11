@@ -13,9 +13,13 @@
                     <li class="divider-vertical"></li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Cursos <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="{{ path('curso_anteriores') }}">Validados</a></li>
-                            <li><a href="{{ path('curso_precargados') }}">Por aprobar</a></li>
+                            <li><a href="{{ path('curso') }}">Todos</a></li>
+                            <li><a href="{{ path('curso_confirmados') }}">Confirmados</a></li>
+                            <li><a href="{{ path('curso_validados') }}">Validados</a></li>
+                            <li><a href="{{ path('curso_cancelados') }}">Cancelados</a></li>
+                            <li><a href="{{ path('curso_fallavalidacion') }}">Con fallas de validacion</a></li>
                             <li><a href="{{ path('curso_paraconfirmar') }}">Por confirmar</a></li>
+                            <li><a href="{{ path('curso_porvalidar') }}">Por validar</a></li>
                         </ul>
                     </li>
                     <li><a href="{{ path('prestador') }}">Prestadores</a></li>

@@ -61,25 +61,20 @@
             {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
         </a>
     </div>
-    <div class="float-left">
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {% if (app.user.rol != 'ROLE_PRESTADOR') or (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+4 days"|date('U')) %}
-                <a class="btn btn-primary" href="{{ path('curso_edit', { 'id': entity.id }) }}">
-                    {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-                </a>
-            {% endif %}
-        {% endif %}
-    </div>
-    <div class="float-left">
-      {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-          {% if (app.user.rol != 'ROLE_PRESTADOR') or (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+4 days"|date('U')) %}
-              <form action="{{ path('curso_delete', { 'id': entity.id }) }}" method="post">
-                  <input type="hidden" name="_method" value="DELETE" />
-                  {{ form_widget(delete_form) }}
-                  <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-              </form>
-          {% endif %}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      {% if app.user.rol == 'ROLE_CNTSV' %}
+        <div class="float-left">
+          <a class="btn btn-primary" href="{{ path('curso_edit', { 'id': entity.id }) }}">
+              {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+          </a>
+        </div>
+      {% elseif app.user.rol == 'ROLE_PRESTADOR' and entity.estado.id == 1 and entity.fechaInicio|date('U') > "+4 days"|date('U') %} <!--Estado: Cargado-->
+        <div class="float-left">
+          <a class="btn btn-primary" href="{{ path('curso_edit', { 'id': entity.id }) }}">
+              {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+          </a>
+        </div>
       {% endif %}
-    </div>
+    {% endif %}
 </div>
 {% endblock %}

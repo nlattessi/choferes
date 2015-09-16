@@ -1,7 +1,5 @@
 {% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
-{% block javascript %}
-    <script src="{{ asset('bundles/choferes/js/autocompletar.js') }}"></script>
-{% endblock %}
+
 {% block title %}
 {{ parent() }} - {{ 'views.new.creation'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
@@ -20,7 +18,7 @@
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>Dni</th>
-                <th>Documentación completa</th>
+                <th>Nota</th>
             </tr>
             </thead>
             <tbody>

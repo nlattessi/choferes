@@ -71,7 +71,7 @@
         <tr>
             <td><a href="{{ path('prestador_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nombre }}</td>
-            <td>{{ entity.cuit }}</td>
+            <td>{{ entity.cuit[0:2] }}-{{ entity.cuit[2:8] }}-{{ entity.cuit[10:] }}</td>
             <td>{{ entity.direccion }}</td>
             <td>{{ entity.telefono }}</td>
             <td>{{ entity.mail }}</td>

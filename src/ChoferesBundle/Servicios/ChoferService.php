@@ -33,9 +33,10 @@ class ChoferService
             ->where('chofer.dni = :dni')
             ->orderBy('curso.fechaFin', 'DESC')
             ->setParameter('dni', $dni)
+            ->setMaxResults(1)
             ->getQuery();
 
-        $status = $query->getOneOrNullResult();
+        $status = $query->getResult();
 
         $result = array();
 

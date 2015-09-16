@@ -13,9 +13,12 @@ class ChoferStatusType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('dni', 'number', [
+            ->add('dni', 'text', [
               'attr' => ['placeholder' => 'Ingrese el DNI', 'class' => 'span4'],
-              'constraints' => new Assert\Length(['min' => 7, 'minMessage' => 'DNI Debe tener un minimo de 7 digitos']),
+              'constraints' => [
+                new Assert\Length(['min' => 7, 'minMessage' => 'DNI Debe tener un minimo de 7 digitos']),
+                new Assert\Regex(['pattern' => '/^[0-9]*$/', 'message' => 'Ingresar solo caracteres numericos'])
+              ],
               'error_bubbling' => true,
               'invalid_message' => 'En DNI solo debe ingresar numeros',
               'label' => 'DNI'

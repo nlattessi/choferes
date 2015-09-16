@@ -7,7 +7,7 @@ Links importantes:
 
 Links Wiki:
 - [Recursos Boostrap] (https://github.com/nlattessi/choferes/wiki/Recursos-Bootstrap)
-- [Recursos extra](https://github.com/nlattessi/choferes/wiki/Recursos-extra)
-- [Fixtures](https://github.com/nlattessi/choferes/wiki/Fixtures)
-- [Flujo Heroku](https://github.com/nlattessi/choferes/wiki/Heroku)
-- [Internacionalizacion](https://github.com/nlattessi/choferes/wiki/Internacionalizaci%C3%B3n)
+- [Recursos extra](https://github.com/nlattessi/contadores/wiki/Recursos-extra)
+- [Fixtures](https://github.com/nlattessi/contadores/wiki/Fixtures)
+- [Flujo Heroku](https://github.com/nlattessi/contadores/wiki/Heroku)
+- [Internacionalizacion](https://github.com/nlattessi/contadores/wiki/Internacionalizaci%C3%B3n)

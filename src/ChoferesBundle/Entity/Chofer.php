@@ -47,6 +47,11 @@ class Chofer
      */
     private $tieneCursoBasico = false;
 
+    /**
+     * @var string
+     */
+    private $matricula;
+
 
     /**
      * Get id
@@ -243,5 +248,22 @@ class Chofer
     public function __toString(){
         return $this->nombre;
     }
+
+    /**
+     * @return string
+     */
+    public function getMatricula()
+    {
+        return $this->matricula;
+    }
+
+    /**
+     * @param string $matricula
+     */
+    public function setMatricula($matricula)
+    {
+        $this->matricula = $matricula;
+    }
+
 
 }

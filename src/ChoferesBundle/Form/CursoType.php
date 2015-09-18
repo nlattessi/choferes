@@ -45,7 +45,12 @@ class CursoType extends AbstractType
             $builder
                 ->add('prestador')
                 ->add('codigo')
-                ->add('comprobante');
+                ->add('anio', 'text',array('label' => 'Año'))
+                ->add('comprobante')
+                ->add('observaciones')
+                ->add('fechaPago', 'date', array(
+                    'widget' => 'single_text',
+                ));
 
             $formModifier = function(FormInterface $form, Prestador $prestador = null) {
                 $docentes = null === $prestador ? array() : $this->usuarioService->obtenerDocentesPorPrestador($prestador);

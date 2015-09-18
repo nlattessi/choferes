@@ -35,6 +35,11 @@ class Curso
     /**
      * @var string
      */
+    private $anio;
+
+    /**
+     * @var string
+     */
     private $comprobante;
 
     /**
@@ -62,6 +67,16 @@ class Curso
      */
     private $tipocurso;
 
+    /**
+     * @var \Date
+     */
+    private $fechaPago;
+
+
+    /**
+     * @var string
+     */
+    private $observaciones;
 
     public function __construct()
     {
@@ -330,4 +345,54 @@ class Curso
     public function __toString(){
         return $this->prestador->getNombre() . ": " . $this->codigo;
     }
+
+    /**
+     * @return \Date
+     */
+    public function getFechaPago()
+    {
+        return $this->fechaPago;
+    }
+
+    /**
+     * @param \Date $fechaPago
+     */
+    public function setFechaPago($fechaPago)
+    {
+        $this->fechaPago = $fechaPago;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAnio()
+    {
+        return $this->anio;
+    }
+
+    /**
+     * @param string $anio
+     */
+    public function setAnio($anio)
+    {
+        $this->anio = $anio;
+    }
+
+    /**
+     * @return string
+     */
+    public function getObservaciones()
+    {
+        return $this->observaciones;
+    }
+
+    /**
+     * @param string $observaciones
+     */
+    public function setObservaciones($observaciones)
+    {
+        $this->observaciones = $observaciones;
+    }
+
+
 }

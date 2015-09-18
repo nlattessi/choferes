@@ -480,6 +480,14 @@ class CursoController extends Controller
 
             $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT) );
 
+            $dtInicio = $form->get('fechaInicio')->getData() . ' ' . $form->get('horaInicio')->getData();
+            $fechaInicio = \DateTime::createFromFormat('d/m/Y H:i', $dtInicio);
+            $entity->setFechaInicio($fechaInicio);
+
+            $dtFin = $form->get('fechaFin')->getData() . ' ' . $form->get('horaFin')->getData();
+            $fechaFin = \DateTime::createFromFormat('d/m/Y H:i', $dtFin);
+            $entity->setFechaFin($fechaFin);
+
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
@@ -642,6 +650,14 @@ class CursoController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            $dtInicio = $editForm->get('fechaInicio')->getData() . ' ' . $editForm->get('horaInicio')->getData();
+            $fechaInicio = \DateTime::createFromFormat('d/m/Y H:i', $dtInicio);
+            $entity->setFechaInicio($fechaInicio);
+
+            $dtFin = $editForm->get('fechaFin')->getData() . ' ' . $editForm->get('horaFin')->getData();
+            $fechaFin = \DateTime::createFromFormat('d/m/Y H:i', $dtFin);
+            $entity->setFechaFin($fechaFin);
+
             $em->persist($entity);
             $em->flush();
             if(strlen($entity->getComprobante()) > 0){

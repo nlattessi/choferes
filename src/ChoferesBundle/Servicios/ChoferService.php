@@ -36,11 +36,14 @@ class ChoferService
             ->setMaxResults(1)
             ->getQuery();
 
-        $status = $query->getResult();
+        $result = $query->getResult();
+        if ($result) {
+            $status = $result[0];
+        }
 
         $result = array();
 
-        if ($status) {
+        if (isset($status)) {
             $result['certificado'] = false;
             if ($status['tieneCursoBasico']) {
                 if ($status['choferCursoId'] && $status['fechaFin'] > new \DateTime('-1 year')) {

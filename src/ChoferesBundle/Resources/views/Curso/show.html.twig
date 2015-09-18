@@ -18,10 +18,10 @@
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.id }}</span>            </div>
         </div>        <div class="control-group">
             <label class="control-label">Fecha de inicio</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaInicio|date('Y-m-d H:i:s') }}</span>            </div>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaInicio|date('Y-m-d H:i') }}</span>            </div>
         </div>        <div class="control-group">
             <label class="control-label">Fecha de fin</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaFin|date('Y-m-d H:i:s') }}</span>            </div>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaFin|date('Y-m-d H:i') }}</span>            </div>
         </div>
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -36,6 +36,11 @@
         <div class="control-group">
             <label class="control-label">Codigo</label>
             <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.codigo }}</span></div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">Comprobante</label>
+            <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.comprobante }}</span></div>
         </div>
 
         <div class="control-group">

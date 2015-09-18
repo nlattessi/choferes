@@ -76,8 +76,8 @@
     {% for entity in entities %}
         <tr>
             <td><a href="{{ path('curso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('U') }} -- {{ "now"|date('U') }}{% endif %}</td>
-            <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('Y-m-d H:i') }}{% endif %}</td>
+            <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('Y-m-d H:i') }}{% endif %}</td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                     <td>{{ entity.prestador }}</td>
@@ -147,7 +147,6 @@
     </tbody>
 </table>
 
-{{ dump(entities) }}
     </div>
 
     <div class="span4">

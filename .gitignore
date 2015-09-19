@@ -21,3 +21,5 @@
 .idea/vcs.xml
 composer.lock
 *.lock
+app/check.php
+app/SymfonyRequirements.php

@@ -52,8 +52,12 @@ class CursoType extends AbstractType
                 ->add('anio', 'text',array('label' => 'Año', 'required' => false,))
                 ->add('comprobante')
                 ->add('observaciones')
-                ->add('fechaPago', 'date', array(
-                    'widget' => 'single_text', 'required' => false,
+                // ->add('fechaPago', 'date', array(
+                //     'widget' => 'choice', 'required' => false,
+                // ));
+                ->add('fechaPago', 'text', array(
+                    'required' => false,
+                    'mapped' => false
                 ));
 
             $formModifier = function(FormInterface $form, Prestador $prestador = null) {

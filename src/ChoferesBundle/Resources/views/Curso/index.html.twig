@@ -64,7 +64,9 @@
                 {% endif %}
             {% endif %}
             <th>Codigo</th>
+            <th>Año</th>
             <th>Comprobante</th>
+            <th>Fecha de pago</th>
             <th>Docente</th>
             <th>Sede</th>
             <th>Tipo</th>
@@ -84,7 +86,9 @@
                 {% endif %}
             {% endif %}
             <td>{{ entity.codigo }}</td>
+            <td>{{ entity.anio }}</td>
             <td>{{ entity.comprobante }}</td>
+            <td>{{ entity.fechaPago|date('d/m/Y') }}</td>
             <td>{{ entity.docente }}</td>
             <td>{{ entity.sede }}</td>
             <td>{{ entity.tipocurso }}</td>
@@ -98,6 +102,11 @@
                   <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
                       {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
                   </a>
+                  {% if entity.estado.id != 4 %} <!--Estado: Cancelado -->
+                  <a class="btn btn-mini btn-danger" href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
+                      Cancelar Curso
+                  </a>
+                  {% endif %}
                   {% if entity.estado.id == 1 %} <!--Estado: Cargado-->
                     <a class="btn btn-mini" href="{{ path('curso_confirmar', { 'id': entity.id }) }}">
                         Confirmar Curso
@@ -121,7 +130,7 @@
                   <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
                       {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
                   </a>
-                  <a class="btn btn-mini" href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
+                  <a class="btn btn-mini btn-danger" href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
                       Cancelar Curso
                   </a>
                 {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
@@ -135,7 +144,7 @@
                         Cargar Notas
                     </a>
                   {% endif %}
-                  <a class="btn btn-mini" href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
+                  <a class="btn btn-mini btn-danger" href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
                       Cancelar Curso
                   </a>
                 {% endif %}

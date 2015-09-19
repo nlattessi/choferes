@@ -66,6 +66,7 @@
             <th>Precuil</th>
             <th>Colacuil</th>
             <th>Cuilempresa</th>
+            <th>Matricula</th>
             <th>Tienecursobasico</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
@@ -80,6 +81,7 @@
             <td>{{ entity.precuil }}</td>
             <td>{{ entity.colacuil }}</td>
             <td>{{ entity.cuilEmpresa }}</td>
+            <td>{{ entity.matricula }}</td>
             <td>{% if entity.tieneCursoBasico %}true{% else %}false{% endif %}</td>
             <td>
               <a class="btn btn-mini" href="{{ path('chofer_show', { 'id': entity.id }) }}">

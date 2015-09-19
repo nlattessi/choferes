@@ -480,13 +480,19 @@ class CursoController extends Controller
 
             $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT) );
 
-            $dtInicio = $form->get('fechaInicio')->getData() . ' ' . $form->get('horaInicio')->getData();
-            $fechaInicio = \DateTime::createFromFormat('d/m/Y H:i', $dtInicio);
-            $entity->setFechaInicio($fechaInicio);
+            $fechaInicio = $form->get('fechaInicio')->getData() . ' ' . $form->get('horaInicio')->getData();
+            $dtFechaInicio = \DateTime::createFromFormat('d/m/Y H:i', $fechaInicio);
+            $entity->setFechaInicio($dtFechaInicio);
 
-            $dtFin = $form->get('fechaFin')->getData() . ' ' . $form->get('horaFin')->getData();
-            $fechaFin = \DateTime::createFromFormat('d/m/Y H:i', $dtFin);
-            $entity->setFechaFin($fechaFin);
+            $fechaFin = $form->get('fechaFin')->getData() . ' ' . $form->get('horaFin')->getData();
+            $dtFechaFin = \DateTime::createFromFormat('d/m/Y H:i', $fechaFin);
+            $entity->setFechaFin($dtFechaFin);
+
+            if ($form->get('fechaPago')) {
+                $fechaPago = $form->get('fechaPago')->getData();
+                $dtFechaPago = \DateTime::createFromFormat('d/m/Y', $fechaPago);
+                $entity->setFechaPago($dtFechaPago);
+            }
 
             $em->persist($entity);
             $em->flush();

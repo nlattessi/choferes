@@ -7,10 +7,12 @@ use Doctrine\ORM\EntityManager;
 class UsuarioService
 {
     protected $em;
+    private $idRolPrestador;
 
     public function __construct(EntityManager $entityManager)
     {
         $this->em = $entityManager;
+        $this->idRolPrestador = 3;
     }
 
     public function obtenerPrestadorPorUsuario($usuario)
@@ -38,5 +40,13 @@ class UsuarioService
           $sedes = null;
         }
         return $sedes;
+    }
+
+    public function obtenerUsuariosRolPrestador()
+    {
+        $queryBuilder = $this->em->getRepository('ChoferesBundle:Usuario')->createQueryBuilder('u')
+            ->where('u.rol = ?1')
+            ->setParameter(1, $this->idRolPrestador );
+       return $queryBuilder->getQuery()->getResult();
     }
 }

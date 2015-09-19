@@ -116,7 +116,8 @@ class UsuarioPrestadorController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new UsuarioPrestador();
-        $form = $this->createForm(new UsuarioPrestadorType(), $entity);
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+        $form = $this->createForm(new UsuarioPrestadorType($usuarioService), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -140,8 +141,9 @@ class UsuarioPrestadorController extends Controller
      */
     public function newAction()
     {
+        $usuarioService =  $this->get('choferes.servicios.usuario');
         $entity = new UsuarioPrestador();
-        $form   = $this->createForm(new UsuarioPrestadorType(), $entity);
+        $form   = $this->createForm(new UsuarioPrestadorType($usuarioService), $entity);
 
         return $this->render('ChoferesBundle:UsuarioPrestador:new.html.twig', array(
             'entity' => $entity,
@@ -177,6 +179,7 @@ class UsuarioPrestadorController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
+        $usuarioService =  $this->get('choferes.servicios.usuario');
 
         $entity = $em->getRepository('ChoferesBundle:UsuarioPrestador')->find($id);
 
@@ -184,7 +187,7 @@ class UsuarioPrestadorController extends Controller
             throw $this->createNotFoundException('Unable to find UsuarioPrestador entity.');
         }
 
-        $editForm = $this->createForm(new UsuarioPrestadorType(), $entity);
+        $editForm = $this->createForm(new UsuarioPrestadorType($usuarioService), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ChoferesBundle:UsuarioPrestador:edit.html.twig', array(
@@ -201,7 +204,7 @@ class UsuarioPrestadorController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
+        $usuarioService =  $this->get('choferes.servicios.usuario');
         $entity = $em->getRepository('ChoferesBundle:UsuarioPrestador')->find($id);
 
         if (!$entity) {
@@ -209,7 +212,7 @@ class UsuarioPrestadorController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new UsuarioPrestadorType(), $entity);
+        $editForm = $this->createForm(new UsuarioPrestadorType($usuarioService), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {

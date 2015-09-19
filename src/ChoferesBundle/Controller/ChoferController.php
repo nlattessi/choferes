@@ -4,6 +4,8 @@ namespace ChoferesBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Form\FormError;
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -12,10 +14,7 @@ use Pagerfanta\View\TwitterBootstrapView;
 use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Form\ChoferType;
 use ChoferesBundle\Form\ChoferFilterType;
-
 use ChoferesBundle\Form\ChoferStatusType;
-
-use Symfony\Component\Form\FormError;
 
 /**
  * Chofer controller.
@@ -279,39 +278,44 @@ class ChoferController extends Controller
     {
         $status = null;
         $chofer = null;
+        $goBack = false;
 
-        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') && $this->getUser()->getRol() == 'ROLE_CNTSV') {
-            if (! $id) {
-                return $this->redirect($this->generateUrl('home'));
+        // Descargo certificado si el usuario pidio hacerlo.
+        if ($request->isMethod('POST')) {
+            if ($request->request->has('descargar')) {
+                $choferService = $this->get('choferes.servicios.chofer');
+                return $choferService->descargarCertificado($request->request->get('choferDni'));
             }
+        }
 
-            $em = $this->getDoctrine()->getManager();
-
-            $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($id);
-            $choferService = $this->get('choferes.servicios.chofer');
-            $status = $choferService->getStatusPorDniChofer($chofer->getDni());
-
-            return $this->render('ChoferesBundle:Chofer:consulta.html.twig', array(
-                'status' => $status,
-                'chofer' => $chofer,
-            ));
+        // Saco captcha si el usuario esta logueado al sistema.
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
         } else {
             $form = $this->createForm(new ChoferStatusType());
+        }
 
-            $form->handleRequest($request);
+        if ($id) {
+            $em = $this->getDoctrine()->getManager();
+            $choferService = $this->get('choferes.servicios.chofer');
+            $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($id);
+            $status = $choferService->getStatusPorDniChofer($chofer->getDni());
+            $goBack = true;
+        }
 
-            if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
+        $form->handleRequest($request);
 
-                $dni = $form->get('dni')->getData();
-                $choferService = $this->get('choferes.servicios.chofer');
-                $status = $choferService->getStatusPorDniChofer($dni);
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
 
-                if ($status) {
-                    $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
-                } else {
-                    $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
-                }
+            $dni = $form->get('dni')->getData();
+            $choferService = $this->get('choferes.servicios.chofer');
+            $status = $choferService->getStatusPorDniChofer($dni);
+
+            if ($status) {
+                $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
+            } else {
+                $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
             }
         }
 
@@ -319,6 +323,7 @@ class ChoferController extends Controller
             'form' => $form->createView(),
             'status' => $status,
             'chofer' => $chofer,
+            'goBack' => $goBack
         ));
     }
 }

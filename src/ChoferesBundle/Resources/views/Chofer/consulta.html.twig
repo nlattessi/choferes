@@ -75,7 +75,13 @@
                   </tr>
                   <tr>
                     <td><span class="label label-inverse">Matricula</span></td>
-                    <td>#matricula#</td>
+                      <td>
+                          {% if( chofer.matricula ) %}
+                              {{ chofer.matricula }}
+                          {% else %}
+                              <i>(no informada)</i>
+                          {% endif %}
+                      </td>
                   </tr>
                   <tr>
                     <td><span class="label label-inverse">Estado</span></td>
@@ -98,16 +104,16 @@
                     <input type="hidden" name="choferDni" value="{{ chofer.dni }}">
                     <button type="submit" name="descargar" class="btn btn-primary">Descargar certificado</button>
                     {% if goBack %}
-                      <a href="javascript:history.go(-1)" class="btn btn-inverse">Volver</a>
+                      <a href="javascript:history.go(-1)" class="btn">Volver</a>
                     {% else %}
-                      <a href="{{ path('chofer_consulta') }}" class="btn btn-inverse">Volver</a>
+                      <a href="{{ path('chofer_consulta') }}" class="btn">Volver</a>
                     {% endif %}
                 </form>
               {% else %}
                 {% if goBack %}
-                  <a href="javascript:history.go(-1)" class="btn btn-inverse">Volver</a>
+                  <a href="javascript:history.go(-1)" class="btn">Volver</a>
                 {% else %}
-                  <a href="{{ path('chofer_consulta') }}" class="btn btn-inverse">Volver</a>
+                  <a href="{{ path('chofer_consulta') }}" class="btn">Volver</a>
                 {% endif %}
               {% endif %}
             </div>

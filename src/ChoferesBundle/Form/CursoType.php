@@ -49,11 +49,11 @@ class CursoType extends AbstractType
             $builder
                 ->add('prestador')
                 ->add('codigo')
-                ->add('anio', 'text',array('label' => 'Año'))
+                ->add('anio', 'text',array('label' => 'Año', 'required' => false,))
                 ->add('comprobante')
                 ->add('observaciones')
                 ->add('fechaPago', 'date', array(
-                    'widget' => 'single_text',
+                    'widget' => 'single_text', 'required' => false,
                 ));
 
             $formModifier = function(FormInterface $form, Prestador $prestador = null) {

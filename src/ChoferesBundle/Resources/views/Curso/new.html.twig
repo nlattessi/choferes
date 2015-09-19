@@ -61,4 +61,16 @@
       $('#choferesbundle_curso_horaFin').timepicker({ useSelect: true, 'step': 15 });
       $('#choferesbundle_curso_horaFin').timepicker('setTime', new Date());
     </script>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      {% if app.user.rol == 'ROLE_PRESTADOR' %}
+        <script>
+          var dt = new Date();
+          dt.setDate(dt.getDate() + 5);
+          $('#choferesbundle_curso_fechaInicio').datepicker({startDate: dt });
+          $('#choferesbundle_curso_fechaFin').datepicker({startDate: dt });
+        </script>
+      {% endif %}
+    {% endif %}
+
 {% endblock %}

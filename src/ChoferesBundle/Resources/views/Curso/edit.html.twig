@@ -22,12 +22,7 @@
 
     <div>
       <label for="choferesbundle_curso_fechaInicio">Fecha y Hora inicio</label>
-      {{ form_widget(edit_form.fechaInicio, {'type': 'text', 'attr':{
-        'class': 'form-control',
-        'data-provide': 'datepicker',
-        'data-date-format': 'dd/mm/yyyy',
-        'data-date-autoclose': 'true'
-      }}) }}
+      {{ form_widget(edit_form.fechaInicio, {'type': 'text', 'attr':{'class': 'form-control','data-provide': 'datepicker','data-date-format': 'dd/mm/yyyy','data-date-autoclose': 'true'}}) }}
       {{ form_widget(edit_form.horaInicio, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
     </div>
 
@@ -79,6 +74,12 @@
       var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
       $('#choferesbundle_curso_horaFin').timepicker({ useSelect: true, 'step': 15 });
       $('#choferesbundle_curso_horaFin').timepicker('setTime', new Date(d));
+
+      $('#choferesbundle_curso_anio').datepicker({format: "yyyy", autoclose: true, minViewMode: "years" });
+
+      {% set var = entity.fechaFin|date('d/m/Y') %}
+      $('#choferesbundle_curso_fechaPago').val('{{ var }}');
+      $('#choferesbundle_curso_fechaPago').datepicker({format: "dd/mm/yy", autoclose: true});
     </script>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}

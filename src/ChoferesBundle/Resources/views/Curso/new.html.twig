@@ -60,6 +60,8 @@
       $('#choferesbundle_curso_horaInicio').timepicker('setTime', new Date());
       $('#choferesbundle_curso_horaFin').timepicker({ useSelect: true, 'step': 15 });
       $('#choferesbundle_curso_horaFin').timepicker('setTime', new Date());
+      $('#choferesbundle_curso_anio').datepicker({format: "yyyy", autoclose: true, minViewMode: "years" });
+      $('#choferesbundle_curso_fechaPago').datepicker({format: "dd/mm/yyyy", autoclose: true });
     </script>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}

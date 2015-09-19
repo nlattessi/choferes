@@ -94,12 +94,21 @@
                 </tbody>
               </table>
               {% if status.certificado %}
-                <a href="#" class="btn btn-primary">Descargar certificado</a>
-              {% endif %}
-              {% if form is defined %}
-                <a href="{{ path('chofer_consulta') }}" class="btn btn-inverse">Volver</a>
+                <form class="" action="" method="post">
+                    <input type="hidden" name="choferDni" value="{{ chofer.dni }}">
+                    <button type="submit" name="descargar" class="btn btn-primary">Descargar certificado</button>
+                    {% if goBack %}
+                      <a href="javascript:history.go(-1)" class="btn btn-inverse">Volver</a>
+                    {% else %}
+                      <a href="{{ path('chofer_consulta') }}" class="btn btn-inverse">Volver</a>
+                    {% endif %}
+                </form>
               {% else %}
-                <a href="javascript:history.go(-1)" class="btn btn-inverse">Volver</a>
+                {% if goBack %}
+                  <a href="javascript:history.go(-1)" class="btn btn-inverse">Volver</a>
+                {% else %}
+                  <a href="{{ path('chofer_consulta') }}" class="btn btn-inverse">Volver</a>
+                {% endif %}
               {% endif %}
             </div>
           </div>

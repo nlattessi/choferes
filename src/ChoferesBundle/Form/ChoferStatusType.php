@@ -22,29 +22,31 @@ class ChoferStatusType extends AbstractType
               'error_bubbling' => true,
               'invalid_message' => 'En DNI solo debe ingresar numeros',
               'label' => 'DNI'
-            ])
-            ->add(
-               'captcha', 'captcha', [
-                   'length' => 5,
-                   'attr' => ['maxlength' => 10, 'placeholder' => 'Ingrese el codigo de seguridad'],
-                   'invalid_message' => 'Codigo de seguridad invalido',
-                   'background_color' => [255, 255, 255],
-                   'error_bubbling' => true,
-                   'ignore_all_effects' => true,
-                   'height' => 40,
-                   'disabled' => false
-               ]
-            )
-            ->add('submit', 'submit', [
-              'label' => 'Consultar',
-              'attr' => ['type' => 'submit', 'class' => 'btn btn-info btn-block']
-            ])
-        ;
+            ]);
+
+        if ($options['use_captcha']) {
+            $builder->add(
+                'captcha', 'captcha', [
+                'length' => 5,
+                'attr' => ['maxlength' => 10, 'placeholder' => 'Ingrese el codigo de seguridad'],
+                'invalid_message' => 'Codigo de seguridad invalido',
+                'background_color' => [255, 255, 255],
+                'error_bubbling' => true,
+                'ignore_all_effects' => true,
+                'height' => 40
+           ]);
+        }
+
+        $builder->add('submit', 'submit', [
+          'label' => 'Consultar',
+          'attr' => ['type' => 'submit', 'class' => 'btn btn-info btn-block']
+        ]);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
+            'use_captcha' => true,
         ));
     }
 

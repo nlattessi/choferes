@@ -76,8 +76,8 @@
     {% for entity in entities %}
         <tr>
             <td><a href="{{ path('curso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('Y-m-d H:i:s') }}{% endif %}</td>
-            <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('Y-m-d H:i:s') }}{% endif %}</td>
+            <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('Y-m-d H:i') }}{% endif %}</td>
+            <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('Y-m-d H:i') }}{% endif %}</td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                     <td>{{ entity.prestador }}</td>
@@ -90,50 +90,63 @@
             <td>{{ entity.tipocurso }}</td>
             <td>{{ entity.estado }}</td>
             <td>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+              {% if app.user.rol == 'ROLE_CNTSV' %}
+                  <a class="btn btn-mini" href="{{ path('curso_show', { 'id': entity.id }) }}">
+                      {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                  </a>
+                  <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
+                      {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                  </a>
+                  {% if entity.estado.id == 1 %} <!--Estado: Cargado-->
+                    <a class="btn btn-mini" href="{{ path('curso_confirmar', { 'id': entity.id }) }}">
+                        Confirmar Curso
+                    </a>
+                  {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
+                    {% if entity.fechaInicio|date('U') >= "now"|date('U') %}
+                      <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
+                          Agregar choferes
+                      </a>
+                    {% endif %}
+                  {% elseif entity.estado.id == 3 %} <!--Estado: Por Validar-->
+                    <a class="btn btn-mini" href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
+                        Aprobar Documentación
+                    </a>
+                  {% endif %}
+              {% elseif app.user.rol == 'ROLE_PRESTADOR' %}
                 <a class="btn btn-mini" href="{{ path('curso_show', { 'id': entity.id }) }}">
                     {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
                 </a>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {% if ( validar  and  app.user.rol == 'ROLE_CNTSV') or (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+4 days"|date('U')) %}
-                        <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
-                            {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-                        </a>
-                        <a class="btn btn-mini" href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
-                            Cancelar Curso
-                        </a>
-                    {% endif %}
+                {% if entity.estado.id == 1 and entity.fechaInicio|date('U') > "+4 days"|date('U') %} <!--Estado: Cargado-->
+                  <a class="btn btn-mini" href="{{ path('curso_edit', { 'id': entity.id }) }}">
+                      {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+                  </a>
+                  <a class="btn btn-mini" href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
+                      Cancelar Curso
+                  </a>
+                {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
+                  {% if entity.fechaInicio|date('U') > "+4 days"|date('U') %}
+                    <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
+                        Agregar choferes
+                    </a>
+                  {% endif %}
+                  {% if entity.fechaInicio|date('U') < "now"|date('U') %}
+                    <a class="btn btn-mini" href="{{ path('curso_realizar', { 'id': entity.id }) }}">
+                        Cargar Notas
+                    </a>
+                  {% endif %}
+                  <a class="btn btn-mini" href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
+                      Cancelar Curso
+                  </a>
                 {% endif %}
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    {% if (app.user.rol == 'ROLE_PRESTADOR' and entity.fechaInicio|date('U') > "+0 days"|date('U'))
-                        or ( validar  and app.user.rol == 'ROLE_CNTSV')%}
-                        <a class="btn btn-mini" href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
-                            Agregar choferes
-                        </a>
-
-                    {% endif %}
-                    {% if (entity.fechaInicio|date('U') < "+0 days"|date('U'))%}
-                        {% if (app.user.rol == 'ROLE_PRESTADOR')%}
-                            <a class="btn btn-mini" href="{{ path('curso_realizar', { 'id': entity.id }) }}">
-                            Cargar Notas
-                            </a>
-                        {% endif %}
-                        {% if (app.user.rol == 'ROLE_CNTSV' )%}
-                            <a class="btn btn-mini" href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
-                                Aprobar Documentación
-                            </a>
-                        {% endif %}
-                    {% endif %}
-                    {% if( not validar) %}
-                        <a class="btn btn-mini" href="{{ path('curso_confirmar', { 'id': entity.id }) }}">
-                            Confirmar Curso
-                        </a>
-                    {% endif %}
-                {% endif %}
+              {% endif %}
+            {% endif %}
             </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+
     </div>
 
     <div class="span4">

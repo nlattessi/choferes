@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block title %}
-{{ parent() }} - Consulta Estatus
+{{ parent() }} - Descargar certificados
 {% endblock %}
 
 {% block page %}
@@ -37,7 +37,7 @@
     {% if status is empty %}
       {% if status.message is not defined %}
         <div class="span4 offset4 well">
-          <legend>Consulta Estatus</legend>
+          <legend>Descargar certificados</legend>
           {{ form_start(form) }}
           {{ form_widget(form) }}
           {{ form_end(form) }}

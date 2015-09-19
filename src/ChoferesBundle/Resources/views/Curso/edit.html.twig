@@ -10,11 +10,35 @@
 
 {% block page %}
 
+<link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.css') }}">
+<link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery-timepicker.css') }}">
+
 <h1>{{ 'views.edit.edit'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
 
 <form class="well" action="{{ path('curso_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     <input type="hidden" name="_method" value="PUT" />
-    {{ form_widget(edit_form) }}
+
+    {{ form_errors(edit_form)}}
+
+    <div>
+      <label for="choferesbundle_curso_fechaInicio">Fecha y Hora inicio</label>
+      {{ form_widget(edit_form.fechaInicio, {'type': 'text', 'attr':{
+        'class': 'form-control',
+        'data-provide': 'datepicker',
+        'data-date-format': 'dd/mm/yyyy',
+        'data-date-autoclose': 'true'
+      }}) }}
+      {{ form_widget(edit_form.horaInicio, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
+    </div>
+
+    <div>
+      <label for="choferesbundle_curso_fechaFin">Fecha y Hora fin</label>
+      {{ form_widget(edit_form.fechaFin, {'type': 'text', 'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+      {{ form_widget(edit_form.horaFin, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
+    </div>
+
+    {{ form_rest(edit_form) }}
+
     <p>
         <button type="submit" class="btn btn-success">{{ 'views.edit.editbutton'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
     </p>
@@ -26,16 +50,46 @@
             {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
         </a>
     </div>
-    <div class="float-left">
-        <form action="{{ path('curso_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-        </form>
-    </div>
 </div>
 {% endblock %}
 
 {% block javascript %}
     <script src="{{ asset('bundles/choferes/js/cursoForm.js') }}"></script>
+
+    <script src="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery.timepicker.min.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/jt-timepicker.js') }}"></script>
+
+    <script>
+      {% set var = entity.fechaInicio|date('d/m/Y') %}
+      $('#choferesbundle_curso_fechaInicio').val('{{ var }}');
+
+      {% set var = entity.fechaFin|date('d/m/Y') %}
+      $('#choferesbundle_curso_fechaFin').val('{{ var }}');
+
+      {% set var = entity.fechaInicio|date('Y-m-d H:m:i') %}
+      var t = "{{ var }}".split(/[- :]/);
+      var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+      $('#choferesbundle_curso_horaInicio').timepicker({ useSelect: true, 'step': 15 });
+      $('#choferesbundle_curso_horaInicio').timepicker('setTime', new Date(d));
+
+      {% set var = entity.fechaFin|date('Y-m-d H:m:i') %}
+      var t = "{{ var }}".split(/[- :]/);
+      var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+      $('#choferesbundle_curso_horaFin').timepicker({ useSelect: true, 'step': 15 });
+      $('#choferesbundle_curso_horaFin').timepicker('setTime', new Date(d));
+    </script>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      {% if app.user.rol == 'ROLE_PRESTADOR' %}
+        <script>
+          var dt = new Date();
+          dt.setDate(dt.getDate() + 5);
+          $('#choferesbundle_curso_fechaInicio').datepicker({startDate: dt });
+          $('#choferesbundle_curso_fechaFin').datepicker({startDate: dt });
+        </script>
+      {% endif %}
+    {% endif %}
+
 {% endblock %}

@@ -39,13 +39,17 @@ class ChoferService
             ->where('chofer.dni = :dni')
             ->orderBy('curso.fechaFin', 'DESC')
             ->setParameter('dni', $dni)
+            ->setMaxResults(1)
             ->getQuery();
 
-        $status = $query->getOneOrNullResult();
+        $result = $query->getResult();
+        if ($result) {
+            $status = $result[0];
+        }
 
         $result = array();
 
-        if ($status) {
+        if (isset($status)) {
             $result['certificado'] = false;
             if ($status['tieneCursoBasico']) {
                 if ($status['choferCursoId'] && $status['fechaFin'] > new \DateTime('-1 year')) {

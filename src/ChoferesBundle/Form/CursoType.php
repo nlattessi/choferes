@@ -29,14 +29,18 @@ class CursoType extends AbstractType
 
 
         $builder
-            ->add('fechaInicio', 'datetime', array(
-                'date_widget' => 'single_text',
-                'time_widget' => 'single_text',
-            ))
-            ->add('fechaFin', 'datetime', array(
-                'date_widget' => 'single_text',
-                'time_widget' => 'single_text',
-            ))
+            ->add('fechaInicio', 'text', array('mapped' => false))
+            ->add('horaInicio', 'text', array('mapped' => false))
+            ->add('fechaFin', 'text', array('mapped' => false))
+            ->add('horaFin', 'text', array('mapped' => false))
+            // ->add('fechaInicio', 'datetime', array(
+            //     'date_widget' => 'single_text',
+            //     'time_widget' => 'single_text',
+            // ))
+            // ->add('fechaFin', 'datetime', array(
+            //     'date_widget' => 'single_text',
+            //     'time_widget' => 'single_text',
+            // ))
             ->add('tipocurso')
         ;
 

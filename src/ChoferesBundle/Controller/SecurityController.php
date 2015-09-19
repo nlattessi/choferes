@@ -33,7 +33,7 @@ class SecurityController extends Controller
         $lastUsername = (null === $session) ? '' : $session->get(SecurityContextInterface::LAST_USERNAME);
 
         return $this->render(
-            'ChoferesBundle:Security:login.html.twig',
+            'ChoferesBundle:Security:new_login.html.twig',
             array(
                 // last username entered by the user
                 'last_username' => $lastUsername,

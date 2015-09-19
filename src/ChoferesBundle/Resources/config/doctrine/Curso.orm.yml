@@ -45,7 +45,23 @@ ChoferesBundle\Entity\Curso:
             length: 45
             options:
                 fixed: false
+        anio:
+            type: string
+            nullable: true
+            length: 45
+            options:
+                fixed: false
         comprobante:
+            type: string
+            nullable: true
+            length: 45
+            options:
+                fixed: false
+        fechaPago:
+            type: date
+            nullable: true
+            column: fecha_pago
+        observaciones:
             type: string
             nullable: true
             length: 45

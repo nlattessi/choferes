@@ -18,10 +18,10 @@
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.id }}</span>            </div>
         </div>        <div class="control-group">
             <label class="control-label">Fecha de inicio</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaInicio|date('Y-m-d H:i') }}</span>            </div>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaInicio|date('d/m/Y H:i') }}</span>            </div>
         </div>        <div class="control-group">
             <label class="control-label">Fecha de fin</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaFin|date('Y-m-d H:i') }}</span>            </div>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaFin|date('d/m/Y H:i') }}</span>            </div>
         </div>
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -50,7 +50,7 @@
 
         <div class="control-group">
             <label class="control-label">Fecha de pago</label>
-            <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.fechaPago|date('d/m/Y') }}</span></div>
+            <div class="controls"><span class="input-xlarge uneditable-input">{% if entity.fechaPago %}{{ entity.fechaPago|date('d/m/Y') }}{% endif %}</span></div>
         </div>
 
         <div class="control-group">

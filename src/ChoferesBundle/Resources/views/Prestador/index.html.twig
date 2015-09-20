@@ -1,5 +1,11 @@
 {% extends 'JordiLlonchCrudGeneratorBundle::layout.html.twig' %}
 
+{% block javascript %}
+    <script src="{{ asset('bundles/choferes/js/inputmask.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/js/jquery.inputmask.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/js/cuilmask.js') }}" type="text/javascript"></script>
+{% endblock %}
+
 {% block title %}
 {{ parent() }} - {{ 'views.index.list'|trans({'%entity%': 'Prestador'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
@@ -36,7 +42,7 @@
         <div id="filters" class="collapse">
 
             <form class="well" action="{{ path('prestador') }}" method="get" {{ form_enctype(filterForm) }}>
-                {{ form_row(filterForm.id) }}
+                {#{{ form_row(filterForm.id) }}#}
                 {{ form_row(filterForm.nombre) }}
                 {{ form_row(filterForm.cuit) }}
                 {{ form_row(filterForm.direccion) }}

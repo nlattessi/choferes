@@ -14,13 +14,13 @@ class PrestadorFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', 'filter_number_range')
-            ->add('nombre', 'filter_text')
+            #->add('id', 'filter_number_range')
+            ->add('nombre', 'filter_text', array('label' => 'Nombre/Razon Social'))
             ->add('cuit', 'filter_text')
             ->add('direccion', 'filter_text')
             ->add('telefono', 'filter_text')
             ->add('mail', 'filter_text')
-            ->add('logo', 'filter_text')
+            // ->add('logo', 'filter_text')
         ;
 
         $listener = function(FormEvent $event)

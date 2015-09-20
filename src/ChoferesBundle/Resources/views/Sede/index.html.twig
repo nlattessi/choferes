@@ -36,7 +36,7 @@
         <div id="filters" class="collapse">
 
             <form class="well" action="{{ path('sede') }}" method="get" {{ form_enctype(filterForm) }}>
-                {{ form_row(filterForm.id) }}
+                {#{{ form_row(filterForm.id) }}#}
                 {{ form_row(filterForm.nombre) }}
                 {{ form_row(filterForm.direccion) }}
                 {{ form_row(filterForm.provincia) }}

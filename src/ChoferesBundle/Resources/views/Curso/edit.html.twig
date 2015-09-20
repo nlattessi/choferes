@@ -77,9 +77,11 @@
 
       $('#choferesbundle_curso_anio').datepicker({format: "yyyy", autoclose: true, minViewMode: "years" });
 
-      {% set var = entity.fechaFin|date('d/m/Y') %}
-      $('#choferesbundle_curso_fechaPago').val('{{ var }}');
-      $('#choferesbundle_curso_fechaPago').datepicker({format: "dd/mm/yy", autoclose: true});
+      {% if entity.fechaPago %}
+        {% set var = entity.fechaPago|date('d/m/Y') %}
+        $('#choferesbundle_curso_fechaPago').val('{{ var }}');
+      {% endif %}
+      $('#choferesbundle_curso_fechaPago').datepicker({format: "dd/mm/yyyy", autoclose: true});
     </script>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}

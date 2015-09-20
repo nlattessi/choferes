@@ -87,15 +87,16 @@ class ChoferService
         $curso = $this->em->getRepository('ChoferesBundle:Curso')->find($status['cursoId']);
 
         $data = [
+            'id' => $chofer->getId(),
             'prestador' => $curso->getPrestador()->getNombre(),
             'chofer' => $chofer->getNombre() . ' ' . $chofer->getApellido(),
-            'matricula' => '', //$chofer->getMatricula()
+            'matricula' => $chofer->getMatricula(),
             'dni' => $chofer->getDni(),
             'curso' => $curso->getTipocurso(),
             'sede' => $curso->getSede(),
             'fecha_curso' => $status['fechaFin']->format('d/m/Y'),
             'transaccion' => $curso->getComprobante(),
-            'fecha_transaccion' => '', //$curso->getFechaComprobante()
+            'fecha_transaccion' => $curso->getFechaPago()->format('d/m/Y')
         ];
 
         $pdfHtml  = new \PdfHtml();

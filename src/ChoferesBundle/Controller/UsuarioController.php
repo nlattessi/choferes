@@ -225,7 +225,11 @@ class UsuarioController extends Controller
                ->get('security.encoder_factory')
                ->getEncoder($entity)
             ;
-            $entity->setPassword($encoder->encodePassword($entity->getPassword(), $entity->getSalt()));
+
+            if ($request->request->has('password') && $request->request->get('password') !== '') {
+                $entity->setPassword($encoder->encodePassword($request->request->get('password'), $entity->getSalt()));
+            }
+
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.update.success');

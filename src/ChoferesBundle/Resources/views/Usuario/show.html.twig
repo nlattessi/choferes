@@ -22,7 +22,13 @@
         </div>        <div class="control-group">
             <label class="control-label">Mail</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.mail }}</span>            </div>
-        </div>        <div class="control-group">
+        </div>
+        <div class="control-group">
+            <label class="control-label">Rol</label>
+            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.rol }}</span>            </div>
+        </div>
+
+                <div class="control-group">
             <label class="control-label">Activo</label>
             <div class="controls">                <span class="input-xlarge uneditable-input">{% if entity.activo %}true{% else %}false{% endif %}</span>            </div>
         </div>    </fieldset>

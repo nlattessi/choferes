@@ -153,7 +153,7 @@ class PdfHtml extends FPDF
         // IMAGENES
 
         // QR
-        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" . "status_chofer.php";
+        $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]/" . $parametros['id'];
         $qrFile = QR::generar($url);
         // $qrFile = generarQR($url);
         $pdf->Image($qrFile, 18, 8, 0, 30, 'PNG');

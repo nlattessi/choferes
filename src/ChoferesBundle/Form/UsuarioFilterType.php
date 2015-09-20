@@ -14,11 +14,11 @@ class UsuarioFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', 'filter_number_range')
+            // ->add('id', 'filter_number_range')
             ->add('nombre', 'filter_text')
             ->add('mail', 'filter_text')
-            ->add('password', 'filter_text')
-            ->add('activo', 'filter_choice')
+            #->add('password', 'filter_text')
+            // ->add('activo', 'filter_choice')
         ;
 
         $listener = function(FormEvent $event)

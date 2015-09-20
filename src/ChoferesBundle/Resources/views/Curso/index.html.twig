@@ -36,7 +36,7 @@
         <div id="filters" class="collapse">
 
             <form class="well" action="{{ path('curso') }}" method="get" {{ form_enctype(filterForm) }}>
-                {{ form_row(filterForm.id) }}
+                {#{{ form_row(filterForm.id) }}#}
                 {{ form_row(filterForm.fechaInicio) }}
                 {{ form_row(filterForm.fechaFin) }}
                 {{ form_row(filterForm.codigo) }}
@@ -78,8 +78,8 @@
     {% for entity in entities %}
         <tr>
             <td><a href="{{ path('curso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('Y-m-d H:i') }}{% endif %}</td>
-            <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('Y-m-d H:i') }}{% endif %}</td>
+            <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('d/m/Y H:i') }}{% endif %}</td>
+            <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('d/m/Y H:i') }}{% endif %}</td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                     <td>{{ entity.prestador }}</td>
@@ -88,7 +88,7 @@
             <td>{{ entity.codigo }}</td>
             <td>{{ entity.anio }}</td>
             <td>{{ entity.comprobante }}</td>
-            <td>{{ entity.fechaPago|date('d/m/Y') }}</td>
+            <td>{% if entity.fechaPago %}{{ entity.fechaPago|date('d/m/Y') }}{% endif %}</td>
             <td>{{ entity.docente }}</td>
             <td>{{ entity.sede }}</td>
             <td>{{ entity.tipocurso }}</td>

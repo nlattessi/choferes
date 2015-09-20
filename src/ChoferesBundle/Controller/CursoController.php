@@ -117,6 +117,9 @@ class CursoController extends Controller
 
         $em->persist($entity);
         $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success', 'Curso confirmado');
+
         return $this->indexCursosPrecargadosAction();
     }
 
@@ -196,6 +199,9 @@ class CursoController extends Controller
 
         $em->persist($entity);
         $em->flush();
+
+        $this->get('session')->getFlashBag()->add('error', 'Curso cancelado. Por favor editar el curso y agregar una Observacion.');
+
         return $this->indexCursosPrecargadosAction();
     }
 
@@ -488,7 +494,7 @@ class CursoController extends Controller
             $dtFechaFin = \DateTime::createFromFormat('d/m/Y H:i', $fechaFin);
             $entity->setFechaFin($dtFechaFin);
 
-            if ($form->get('fechaPago')) {
+            if ($form->has('fechaPago') && $form->get('fechaPago')->getData() !== null) {
                 $fechaPago = $form->get('fechaPago')->getData();
                 $dtFechaPago = \DateTime::createFromFormat('d/m/Y', $fechaPago);
                 $entity->setFechaPago($dtFechaPago);
@@ -663,6 +669,12 @@ class CursoController extends Controller
             $dtFin = $editForm->get('fechaFin')->getData() . ' ' . $editForm->get('horaFin')->getData();
             $fechaFin = \DateTime::createFromFormat('d/m/Y H:i', $dtFin);
             $entity->setFechaFin($fechaFin);
+
+            if ($editForm->has('fechaPago') && $editForm->get('fechaPago')->getData() !== null) {
+                $fechaPago = $editForm->get('fechaPago')->getData();
+                $dtFechaPago = \DateTime::createFromFormat('d/m/Y', $fechaPago);
+                $entity->setFechaPago($dtFechaPago);
+            }
 
             $em->persist($entity);
             $em->flush();

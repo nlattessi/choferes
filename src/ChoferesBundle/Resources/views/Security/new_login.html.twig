@@ -71,7 +71,7 @@
               </div>
             {% endif %}
             <div class="form-group form-material floating">
-              <input type="email" class="form-control empty" name="_username" value="{{ last_username }}">
+              <input type="email" class="form-control empty" name="_username" value="{{ last_username }}" id="email" oninvalid="this.setCustomValidity('Por favor ingrese un email valido.')">
               <label class="floating-label">Email</label>
             </div>
             <div class="form-group form-material floating">
@@ -148,6 +148,19 @@
     })(document, window, jQuery);
   </script>
 
+<script>
+  function InvalidMsg(textbox) {
+    if (textbox.value == '') {
+      textbox.setCustomValidity('Se requiere un email.');
+    } else if (textbox.validity.typeMismatch) {
+      textbox.setCustomValidity('Por favor ingrese un email valido.');
+    } else {
+      textbox.setCustomValidity('');
+    }
+    return true;
+  }
+
+</script>
 
 
 

@@ -100,7 +100,7 @@ class ChoferService
         ];
 
         $pdfHtml  = new \PdfHtml();
-        $pdf = $pdfHtml->crear_certificado($data);
+        $pdf = $pdfHtml->crear_certificado($data, $this->kernelCacheDir);
 
         $filename = 'certificado' . $dni . '.pdf';
         $filepath =  $this->kernelCacheDir . '/' . $filename;

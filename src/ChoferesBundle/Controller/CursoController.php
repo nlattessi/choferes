@@ -567,10 +567,19 @@ class CursoController extends Controller
             throw $this->createNotFoundException('Unable to find Curso entity.');
         }
 
+        if ($entity->getEstado()->getId() >= 2) { // Estados: Confirmado, Por validar, Cancelado, Validado y con Falla de validacion
+            $choferesCurso= $em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array(
+                'curso' => $entity
+            ));
+        } else {
+            $choferesCurso = null;
+        }
+
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ChoferesBundle:Curso:show.html.twig', array(
             'entity'      => $entity,
+            'choferesCurso' => $choferesCurso,
             'delete_form' => $deleteForm->createView(),        ));
     }
 

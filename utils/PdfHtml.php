@@ -140,7 +140,7 @@ class PdfHtml extends FPDF
         $this->SetTextColor(0);
     }
 
-    function crear_certificado($parametros) {
+    function crear_certificado($parametros, $cacheDir) {
         $pdf = new PdfHtml('L', 'mm', 'Letter', 20, 7);
         $pdf->AddPage();
 
@@ -150,15 +150,13 @@ class PdfHtml extends FPDF
 
         $pdf->SetFont('Arial', '', 12);
 
-        // IMAGENES
-
         // QR
         $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]/" . $parametros['id'];
-        $qrFile = QR::generar($url);
-        // $qrFile = generarQR($url);
+        $qrFile = QR::generar($url, $cacheDir, $parametros['dni']);
         $pdf->Image($qrFile, 18, 8, 0, 30, 'PNG');
         unlink($qrFile);
 
+        // IMAGENES
         $pdf->Image(__DIR__ . '/escudo_nacion.png', 235, 8, 0, 30);
         $pdf->Image(__DIR__ . '/logo_cntsv.png', 105, 8, 0, 30);
 

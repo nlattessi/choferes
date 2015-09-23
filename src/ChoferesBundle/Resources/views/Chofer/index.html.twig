@@ -36,14 +36,14 @@
         <div id="filters" class="collapse">
 
             <form class="well" action="{{ path('chofer') }}" method="get" {{ form_enctype(filterForm) }}>
-                {{ form_row(filterForm.id) }}
+                {#{{ form_row(filterForm.id) }}#}
                 {{ form_row(filterForm.nombre) }}
                 {{ form_row(filterForm.apellido) }}
                 {{ form_row(filterForm.dni) }}
                 {{ form_row(filterForm.precuil) }}
                 {{ form_row(filterForm.colacuil) }}
                 {{ form_row(filterForm.cuilEmpresa) }}
-                {{ form_row(filterForm.tieneCursoBasico) }}
+                {#{{ form_row(filterForm.tieneCursoBasico) }}#}
                 {{ form_rest(filterForm) }}
 
                 <p>

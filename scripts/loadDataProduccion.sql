@@ -10,11 +10,10 @@ UNLOCK TABLES;
 
 LOCK TABLES `choferes`.`usuario` WRITE;
 /*!40000 ALTER TABLE `choferes`.`usuario` DISABLE KEYS */;
-INSERT INTO `choferes`.`usuario` VALUES (1,'admin','admin@admin.com','$2a$12$7hFGMobKDxo5tthJcgxjDei1dxBdR5nJJ7HwghnTSn3p7yXE9sUxq',1,TRUE);
-INSERT INTO `choferes`.`usuario` VALUES (2,'cntsv','cntsv@cntsv.com','$2a$12$T62s8mN630dp7vo1z9Q7x.Yhp1oKRYGGpyqQcrLae0S3UP4uO0./C',2,TRUE);
-
-INSERT INTO `choferes`.`usuario` VALUES (4,'cnrt','cnrt@cnrt.com','$2a$12$CIrGYbaXxpxbLqL3YMNLYuGIar6gPfKgT19cxQO32hc7Bh93T0Ru2',4,TRUE);
-INSERT INTO `choferes`.`usuario` VALUES (5,'cent','cent@cent.com','$2a$12$wlu8mAWum4byLBiBShoqxuT3.DZ4TBzj7JJNzWXvEveSAmajKKsii',5,TRUE);
+INSERT INTO `choferes`.`usuario` (id, nombre, mail, password, rol_id, activo) VALUES (1,'admin','admin@admin.com','$2a$12$7hFGMobKDxo5tthJcgxjDei1dxBdR5nJJ7HwghnTSn3p7yXE9sUxq',1,TRUE);
+INSERT INTO `choferes`.`usuario` (id, nombre, mail, password, rol_id, activo) VALUES (2,'cntsv','cntsv@cntsv.com','$2a$12$T62s8mN630dp7vo1z9Q7x.Yhp1oKRYGGpyqQcrLae0S3UP4uO0./C',2,TRUE);
+INSERT INTO `choferes`.`usuario` (id, nombre, mail, password, rol_id, activo) VALUES (3,'cnrt','cnrt@cnrt.com','$2a$12$CIrGYbaXxpxbLqL3YMNLYuGIar6gPfKgT19cxQO32hc7Bh93T0Ru2',4,TRUE);
+INSERT INTO `choferes`.`usuario` (id, nombre, mail, password, rol_id, activo) VALUES (4,'cent','cent@cent.com','$2a$12$wlu8mAWum4byLBiBShoqxuT3.DZ4TBzj7JJNzWXvEveSAmajKKsii',5,TRUE);
 /*!40000 ALTER TABLE `choferes`.`usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -32,3 +31,5 @@ INSERT INTO `choferes`.`estado_curso` VALUES (2,'Confirmado');
 INSERT INTO `choferes`.`estado_curso` VALUES (3,'Por Validar');
 INSERT INTO `choferes`.`estado_curso` VALUES (4,'Cancelado');
 INSERT INTO `choferes`.`estado_curso` VALUES (5,'Validado');
+/*!40000 ALTER TABLE `choferes`.`estado_curso` ENABLE KEYS */;
+UNLOCK TABLES;

@@ -86,9 +86,11 @@
                   <tr>
                     <td><span class="label label-inverse">Estado</span></td>
                     {% if status.certificado %}
-                      <td><b>Certificado</b></td>
-                    {% elseif status.message is defined %}
-                      <td><b>{{ status.message }}</b></td>
+                      <td><b>Vigente</b></td>
+                    {% else %}
+                        <td><b>Expirado</b></td>
+                    {#{% else status.message is defined %}
+                      <td><b>{{ status.message }}</b></td> #}
                     {% endif %}
                   </tr>
                   {% if status.certificado %}
@@ -100,15 +102,23 @@
                 </tbody>
               </table>
               {% if status.certificado %}
-                <form class="" action="" method="post">
-                    <input type="hidden" name="choferDni" value="{{ chofer.dni }}">
-                    <button type="submit" name="descargar" class="btn btn-primary">Descargar certificado</button>
-                    {% if goBack %}
-                      <a href="javascript:history.go(-1)" class="btn">Volver</a>
-                    {% else %}
-                      <a href="{{ path('chofer_consulta') }}" class="btn">Volver</a>
-                    {% endif %}
-                </form>
+                {% if (is_granted('IS_AUTHENTICATED_FULLY') and app.user.rol != 'ROLE_CNRT') or (not is_granted('IS_AUTHENTICATED_FULLY')) %}
+                  <form class="" action="" method="post">
+                      <input type="hidden" name="choferDni" value="{{ chofer.dni }}">
+                      <button type="submit" name="descargar" class="btn btn-primary">Descargar certificado</button>
+                      {% if goBack %}
+                        <a href="javascript:history.go(-1)" class="btn">Volver</a>
+                      {% else %}
+                        <a href="{{ path('chofer_consulta') }}" class="btn">Volver</a>
+                      {% endif %}
+                  </form>
+                {% else %}
+                  {% if goBack %}
+                    <a href="javascript:history.go(-1)" class="btn">Volver</a>
+                  {% else %}
+                    <a href="{{ path('chofer_consulta') }}" class="btn">Volver</a>
+                  {% endif %}
+                {% endif %}
               {% else %}
                 {% if goBack %}
                   <a href="javascript:history.go(-1)" class="btn">Volver</a>

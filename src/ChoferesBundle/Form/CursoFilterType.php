@@ -14,11 +14,12 @@ class CursoFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', 'filter_number_range')
-            ->add('fechaInicio', 'filter_date_range')
-            ->add('fechaFin', 'filter_date_range')
-            ->add('fechaCreacion', 'filter_date_range')
+            // ->add('id', 'filter_number_range')
+            ->add('fechaInicio', 'filter_date_range', ['label' => 'Fecha inicio (desde - hasta)'])
+            ->add('fechaFin', 'filter_date_range', ['label' => 'Fecha fin (desde - hasta)'])
+            // ->add('fechaCreacion', 'filter_date_range')
             ->add('codigo', 'filter_text')
+            ->add('comprobante', 'filter_text')
         ;
 
         $listener = function(FormEvent $event)

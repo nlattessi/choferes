@@ -14,7 +14,7 @@ class SedeFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', 'filter_number_range')
+            // ->add('id', 'filter_number_range')
             ->add('nombre', 'filter_text')
             ->add('direccion', 'filter_text')
             ->add('provincia', 'filter_text')

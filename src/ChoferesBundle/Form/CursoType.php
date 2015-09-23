@@ -49,7 +49,7 @@ class CursoType extends AbstractType
             $builder
                 ->add('prestador')
                 ->add('codigo')
-                ->add('anio', 'text',array('label' => 'Año', 'required' => false,))
+                ->add('anio', 'text',array('label' => 'Año', 'required' => false))
                 ->add('comprobante')
                 ->add('observaciones')
                 // ->add('fechaPago', 'date', array(

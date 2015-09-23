@@ -9,9 +9,10 @@ class QR
 
     }
 
-    public static function generar($url)
+    public static function generar($url, $cacheDir, $dni)
     {
-        $qrFile =  __DIR__ . '/' . "qrcode.png";
+        $filename = 'qrcode' . $dni . '.png';
+        $qrFile =  $cacheDir . '/' . $filename;
 
         QRCode::png($url, $qrFile, 'L', '4', '4');
 

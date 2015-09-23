@@ -14,7 +14,7 @@ class ChoferFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', 'filter_number_range')
+            #->add('id', 'filter_number_range')
             ->add('nombre', 'filter_text')
             ->add('apellido', 'filter_text')
             ->add('dni', 'filter_text')
@@ -22,7 +22,7 @@ class ChoferFilterType extends AbstractType
             ->add('colacuil', 'filter_text')
             ->add('cuilEmpresa', 'filter_text')
             ->add('matricula', 'filter_text')
-            ->add('tieneCursoBasico', 'filter_choice')
+            #->add('tieneCursoBasico', 'filter_choice')
         ;
 
         $listener = function(FormEvent $event)

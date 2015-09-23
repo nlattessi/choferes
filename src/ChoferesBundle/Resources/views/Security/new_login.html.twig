@@ -71,7 +71,7 @@
               </div>
             {% endif %}
             <div class="form-group form-material floating">
-              <input type="email" class="form-control empty" name="_username" value="{{ last_username }}">
+              <input type="email" class="form-control empty" name="_username" value="{{ last_username }}" oninvalid="InvalidMsg(this);">
               <label class="floating-label">Email</label>
             </div>
             <div class="form-group form-material floating">
@@ -148,7 +148,13 @@
     })(document, window, jQuery);
   </script>
 
-
-
+  <script>
+    function InvalidMsg(textbox) {
+      if (textbox.validity.typeMismatch){
+          textbox.setCustomValidity('Por favor ingrese un email valido.');
+      }
+      return true;
+    }
+  </script>
 
 </body></html>

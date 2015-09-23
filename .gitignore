@@ -23,3 +23,5 @@ composer.lock
 *.lock
 app/check.php
 app/SymfonyRequirements.php
+app/SymfonyRequirements.php
+app/check.php

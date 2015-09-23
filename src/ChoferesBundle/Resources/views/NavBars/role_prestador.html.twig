@@ -1,31 +1,45 @@
-<div class="navbar nav">
-    <div class="navbar-inner">
-        <div class="container">
-            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
+<li class="site-menu-item has-sub ">
+    <a href="javascript:void(0)" data-slug="layout">
+        <i class="site-menu-icon wb-library" aria-hidden="true"></i>
+        <span class="site-menu-title">Cursos</span>
+        <span class="site-menu-arrow"></span>
+    </a>
+    <ul class="site-menu-sub">
+        <li class="site-menu-item">
+            <a class="animsition-link" href="{{ path('curso_new') }}" data-slug="layout-menu-collapsed">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">Crear Curso</span>
             </a>
-            <a class="brand" href="{{ path('home') }}">Choferes</a>
-
-          	<div class="nav-collapse collapse">
-                <ul class="nav">
-                    <li class="divider-vertical"></li>
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Cursos <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{{ path('curso_new') }}">Crear Curso</a></li>
-                            <li><a href="{{ path('curso_anteriores') }}">Cursos Anteriores</a></li>
-                            <li><a href="{{ path('curso_precargados') }}">Cursos Precargados</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="{{ path('sede') }}">Sedes</a></li>
-                    <li><a href="{{ path('docente') }}">Docentes</a></li>
-                    <li><a href="{{ path('chofer_consulta') }}">Consulta Chofer</a></li>
-                </ul>
-                <div class="pull-right">
-                    {{ include('ChoferesBundle:NavBars:menu_usuario.html.twig') }}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+        </li>
+        <li class="site-menu-item">
+            <a class="animsition-link" href="{{ path('curso_anteriores') }}" data-slug="layout-menu-expended">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">Cursos Anteriores</span>
+            </a>
+        </li>
+        <li class="site-menu-item">
+            <a class="animsition-link" href="{{ path('curso_precargados') }}" data-slug="layout-menu-expended">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">Cursos Precargados</span>
+            </a>
+        </li>
+    </ul>
+</li>
+<li class="site-menu-item">
+    <a href="{{ path('sede') }}" data-slug="dashboard">
+        <i class="site-menu-icon wb-flag" aria-hidden="true"></i>
+        <span class="site-menu-title">Sedes</span>
+    </a>
+</li>
+<li class="site-menu-item">
+    <a href="{{ path('docente') }}" data-slug="dashboard">
+        <i class="site-menu-icon wb-flag" aria-hidden="true"></i>
+        <span class="site-menu-title">Docentes</span>
+    </a>
+</li>
+<li class="site-menu-item">
+    <a href="{{ path('chofer_consulta') }}" data-slug="dashboard">
+        <i class="site-menu-icon wb-flag" aria-hidden="true"></i>
+        <span class="site-menu-title">Consulta Chofer</span>
+    </a>
+</li>

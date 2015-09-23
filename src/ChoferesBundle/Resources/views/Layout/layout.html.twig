@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{{ 'views.layout.bannersadmin'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="apple-touch-icon" href="{{ asset('bundles/choferes/assets/images/apple-touch-icon.png') }}">
+    <link rel="shortcut icon" href="{{ asset('bundles/choferes/assets/images/favicon.ico') }}">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/bootstrap-extend.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/site.css') }}">
+
+    <!-- Plugins -->
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/animsition/animsition.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/asscrollable/asScrollable.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/switchery/switchery.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/intro-js/introjs.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/slidepanel/slidePanel.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/flag-icon-css/flag-icon.css') }}">
+
+    <!-- Fonts -->
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/fonts/web-icons/web-icons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/fonts/brand-icons/brand-icons.min.css') }}">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic') }}">
+    <!-- Inline -->
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/examples/css/pages/login-v3.css') }}">
+
+    <!--[if lt IE 9]>
+    <script src="{{ asset('bundles/choferes/assets/vendor/html5shiv/html5shiv.min.js') }}"></script>
+    <![endif]-->
+
+    <!--[if lt IE 10]>
+    <script src="{{ asset('bundles/choferes/assets/vendor/media-match/media.match.min.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/respond/respond.min.js') }}"></script>
+    <![endif]-->
+
+    <!-- Scripts -->
+    <script src="{{ asset('bundles/choferes/assets/vendor/modernizr/modernizr.min.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/breakpoints/breakpoints.min.js') }}"></script>
+    <script>
+        Breakpoints();
+    </script>
+    <link rel="stylesheet" type="text/css" href="chrome-extension://pkehgijcmpdhfbdbbnkijodmdjhbjlgp/skin/socialwidgets.css">
+</head>
+
+<body class="site-menubar-unfold">
+
+    <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided unfolded" data-toggle="menubar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="hamburger-bar"></span>
+            </button>
+            <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse" data-toggle="collapse">
+                <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+            </button>
+            <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+                <img class="navbar-brand-logo" src="{{ asset('bundles/choferes/assets/images/logo.png') }}" title="cntsv logo">
+                <span class="navbar-brand-text"> CNTSV</span>
+            </div>
+            <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search" data-toggle="collapse">
+                <span class="sr-only">Toggle Search</span>
+                <i class="icon wb-search" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div class="navbar-container container-fluid">
+            <!-- Navbar Collapse -->
+            <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+                <!-- Navbar Toolbar -->
+                <ul class="nav navbar-toolbar">
+                    <li class="hidden-float" id="toggleMenubar">
+                        <a data-toggle="menubar" href="#" role="button">
+                            <i class="icon hamburger hamburger-arrow-left hided unfolded">
+                                <span class="sr-only">Cambiar visualización</span>
+                                <span class="hamburger-bar"></span>
+                            </i>
+                        </a>
+                    </li>
+                </ul>
+                <!-- End Navbar Toolbar -->
+
+                <!-- Navbar Toolbar Right -->
+                <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
+
+                    <li class="dropdown">
+                        <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="scale-up" role="button">
+                            <i class="icon wb-chevron-down-mini"></i>
+                            <span class="avatar avatar-online">{{ app.user.nombre }}</span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation">
+                                <a href="{{ path('cambiar_password') }}" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Cambiar contraseña</a>
+                            </li>
+                            <li class="divider" role="presentation"></li>
+                            <li role="presentation">
+                                <a href="{{ path('logout') }}" role="menuitem"><i class="icon wb-power" aria-hidden="true"></i> Cerrar sesión</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <!-- End Navbar Toolbar Right -->
+            </div>
+            <!-- End Navbar Collapse -->
+
+            <!-- Site Navbar Seach -->
+            <div class="collapse navbar-search-overlap" id="site-navbar-search">
+                <form role="search">
+                    <div class="form-group">
+                        <div class="input-search">
+                            <i class="input-search-icon wb-search" aria-hidden="true"></i>
+                            <input type="text" class="form-control" name="site-search" placeholder="Search...">
+                            <button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search" data-toggle="collapse" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- End Site Navbar Seach -->
+        </div>
+    </nav>
+    <div class="site-menubar">
+        <div class="site-menubar-body scrollable scrollable-inverse is-enabled scrollable-vertical" style="position: relative;">
+            <div class="scrollable-container" style="height: 501px; width: 277px;">
+                <div class="scrollable-content" style="width: 260px;">
+                    <ul class="site-menu">
+                        <li class="site-menu-category">Menu</li>
+
+                        {% block menu %}{% endblock %}
+
+
+                    </ul>
+
+
+                </div>
+            </div>
+            <div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide is-disabled" draggable="false"><div class="scrollable-bar-handle"></div></div></div>
+
+
+    </div>
+
+
+
+    <!-- Page -->
+    <div class="page animsition" style="animation-duration: 0.8s; opacity: 1;">
+        <div class="page-header">
+            <h1 class="page-title">{% block pageTitle %}{% endblock %}</h1>
+
+        </div>
+        <div class="page-content">
+            {% block page %}{% endblock %}
+        </div><!-- content-->
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <span class="site-footer-legal">© 2015 <a href="http://www.cntsv.gob.ar/">Comisión nacional del tránsito y la seguridad vial</a></span>
+
+    </footer>
+
+    <!-- Core  -->
+   <script src="{{ asset('bundles/choferes/assets/vendor/jquery/jquery.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/vendor/bootstrap/bootstrap.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/vendor/animsition/jquery.animsition.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/vendor/asscroll/jquery-asScroll.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/vendor/mousewheel/jquery.mousewheel.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/vendor/asscrollable/jquery.asScrollable.all.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/vendor/ashoverscroll/jquery-asHoverScroll.js') }}"></script>
+
+    <!-- Plugins -->
+   <script src="{{ asset('bundles/choferes/assets/vendor/switchery/switchery.min.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/vendor/intro-js/intro.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/vendor/slidepanel/jquery-slidePanel.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+
+    <!-- Plugins For This Page -->
+   <script src="{{ asset('bundles/choferes/assets/vendor/datatables/jquery.dataTables.js') }}"></script>
+
+   <script src="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery.timepicker.min.js') }}"></script>
+
+
+    <!-- Scripts -->
+   <script src="{{ asset('bundles/choferes/assets/js/core.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/js/site.js') }}"></script>
+
+   <script src="{{ asset('bundles/choferes/assets/js/sections/menu.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/js/sections/menubar.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/js/sections/gridmenu.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/js/sections/sidebar.js') }}"></script>
+
+
+   <script src="{{ asset('bundles/choferes/assets/js/components/asscrollable.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/js/components/animsition.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/js/components/slidepanel.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/js/components/switchery.js') }}"></script>
+
+    <!-- Scripts For This Page -->
+   <script src="{{ asset('bundles/choferes/assets/js/components/datatables.js') }}"></script>
+
+   <script src="{{ asset('bundles/choferes/assets/examples/js/tables/datatable.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/examples/js/uikit/icon.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/assets/js/components/bootstrap-datepicker.js') }}"></script>
+
+   <script src="{{ asset('bundles/choferes/assets/js/components/jt-timepicker.js') }}"></script>
+
+
+</body>
+</html>

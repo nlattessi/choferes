@@ -323,7 +323,8 @@ class ChoferController extends Controller
             'form' => $form->createView(),
             'status' => $status,
             'chofer' => $chofer,
-            'goBack' => $goBack
+            'goBack' => $goBack,
+            'css_active' => 'chofer_consulta',
         ));
     }
 }

@@ -33,6 +33,7 @@ class PrestadorController extends Controller
             'entities' => $entities,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
+            'css_active' => 'prestador',
         ));
     }
 
@@ -131,6 +132,7 @@ class PrestadorController extends Controller
         return $this->render('ChoferesBundle:Prestador:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'prestador',
         ));
     }
 
@@ -146,6 +148,7 @@ class PrestadorController extends Controller
         return $this->render('ChoferesBundle:Prestador:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'prestador',
         ));
     }
 
@@ -167,7 +170,9 @@ class PrestadorController extends Controller
 
         return $this->render('ChoferesBundle:Prestador:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'delete_form' => $deleteForm->createView(),
+            'css_active' => 'prestador',
+        ));
     }
 
     /**
@@ -191,6 +196,7 @@ class PrestadorController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'prestador',
         ));
     }
 
@@ -226,6 +232,7 @@ class PrestadorController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'prestador',
         ));
     }
 

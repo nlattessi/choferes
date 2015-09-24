@@ -34,6 +34,7 @@ class DocenteController extends Controller
             'entities' => $entities,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
+            'css_active' => 'docente',
         ));
     }
 
@@ -154,6 +155,7 @@ class DocenteController extends Controller
         return $this->render('ChoferesBundle:Docente:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'docente',
         ));
     }
 
@@ -169,6 +171,7 @@ class DocenteController extends Controller
         return $this->render('ChoferesBundle:Docente:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'docente',
         ));
     }
 
@@ -190,7 +193,9 @@ class DocenteController extends Controller
 
         return $this->render('ChoferesBundle:Docente:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'delete_form' => $deleteForm->createView(),
+            'css_active' => 'docente',
+        ));
     }
 
     /**

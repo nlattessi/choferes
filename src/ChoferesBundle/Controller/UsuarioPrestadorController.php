@@ -33,6 +33,7 @@ class UsuarioPrestadorController extends Controller
             'entities' => $entities,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
+            'css_active' => 'usuarioprestador',
         ));
     }
 
@@ -132,6 +133,7 @@ class UsuarioPrestadorController extends Controller
         return $this->render('ChoferesBundle:UsuarioPrestador:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'usuarioprestador',
         ));
     }
 
@@ -148,6 +150,7 @@ class UsuarioPrestadorController extends Controller
         return $this->render('ChoferesBundle:UsuarioPrestador:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'usuarioprestador',
         ));
     }
 
@@ -169,7 +172,9 @@ class UsuarioPrestadorController extends Controller
 
         return $this->render('ChoferesBundle:UsuarioPrestador:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'delete_form' => $deleteForm->createView(),
+            'css_active' => 'usuarioprestador',
+        ));
     }
 
     /**
@@ -194,6 +199,7 @@ class UsuarioPrestadorController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'usuarioprestador',
         ));
     }
 
@@ -229,6 +235,7 @@ class UsuarioPrestadorController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'usuarioprestador',
         ));
     }
 

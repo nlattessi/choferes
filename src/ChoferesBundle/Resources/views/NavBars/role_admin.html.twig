@@ -1,16 +1,16 @@
-<li class="site-menu-item">
+<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'usuario' %} active{% endif %}{% endif %}">
     <a href="{{ path('usuario') }}" data-slug="dashboard">
         <i class="site-menu-icon wb-flag" aria-hidden="true"></i>
         <span class="site-menu-title">Usuarios</span>
     </a>
 </li>
-<li class="site-menu-item">
+<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'prestador' %} active{% endif %}{% endif %}">
     <a href="{{ path('prestador') }}" data-slug="dashboard">
         <i class="site-menu-icon wb-flag" aria-hidden="true"></i>
         <span class="site-menu-title">Prestadores</span>
     </a>
 </li>
-<li class="site-menu-item">
+<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'usuarioprestador' %} active{% endif %}{% endif %}">
     <a href="{{ path('usuarioprestador') }}" data-slug="dashboard">
         <i class="site-menu-icon wb-flag" aria-hidden="true"></i>
         <span class="site-menu-title">Asociar usuario con prestador</span>

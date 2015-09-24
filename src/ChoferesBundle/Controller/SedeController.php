@@ -33,6 +33,7 @@ class SedeController extends Controller
             'entities' => $entities,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
+            'css_active' => 'sede',
         ));
     }
 
@@ -153,6 +154,7 @@ class SedeController extends Controller
         return $this->render('ChoferesBundle:Sede:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'sede',
         ));
     }
 
@@ -168,6 +170,7 @@ class SedeController extends Controller
         return $this->render('ChoferesBundle:Sede:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'sede',
         ));
     }
 
@@ -189,7 +192,9 @@ class SedeController extends Controller
 
         return $this->render('ChoferesBundle:Sede:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'delete_form' => $deleteForm->createView(),
+            'css_active' => 'sede',
+        ));
     }
 
     /**
@@ -213,6 +218,7 @@ class SedeController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'sede',
         ));
     }
 
@@ -248,6 +254,7 @@ class SedeController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'sede',
         ));
     }
 

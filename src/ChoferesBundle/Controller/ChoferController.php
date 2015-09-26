@@ -2,6 +2,7 @@
 
 namespace ChoferesBundle\Controller;
 
+use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -9,7 +10,6 @@ use Symfony\Component\Form\FormError;
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\View\TwitterBootstrapView;
 
 use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Form\ChoferType;
@@ -103,7 +103,7 @@ class ChoferController extends Controller
 
         // Paginator - view
         $translator = $this->get('translator');
-        $view = new TwitterBootstrapView();
+        $view = new TwitterBootstrapViewCustom();
         $pagerHtml = $view->render($pagerfanta, $routeGenerator, array(
             'proximity' => 3,
             'prev_message' => $translator->trans('views.index.pagprev', array(), 'JordiLlonchCrudGeneratorBundle'),

@@ -36,6 +36,7 @@ class ChoferController extends Controller
             'entities' => $entities,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
+            'css_active' => 'chofer',
         ));
     }
 
@@ -149,6 +150,7 @@ class ChoferController extends Controller
         return $this->render('ChoferesBundle:Chofer:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'chofer',
         ));
     }
 
@@ -170,6 +172,7 @@ class ChoferController extends Controller
 
         return $this->render('ChoferesBundle:Chofer:show.html.twig', array(
             'entity'      => $entity,
+            'css_active' => 'chofer',
             'delete_form' => $deleteForm->createView(),        ));
     }
 
@@ -194,6 +197,7 @@ class ChoferController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'chofer',
         ));
     }
 
@@ -229,6 +233,7 @@ class ChoferController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'chofer',
         ));
     }
 

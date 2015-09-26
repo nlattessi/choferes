@@ -88,7 +88,7 @@
 
                 <!-- Navbar Toolbar Right -->
                 <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
-
+                    {% if (is_granted('IS_AUTHENTICATED_FULLY')) %}
                     <li class="dropdown">
                         <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="scale-up" role="button">
                             <i class="icon wb-chevron-down-mini"></i>
@@ -104,6 +104,11 @@
                             </li>
                         </ul>
                     </li>
+                    {% else %}
+                        <li role="presentation">
+                            <a href="{{ path('login') }}" ><i class="icon wb-power" aria-hidden="true"></i> Ingresar</a>
+                        </li>
+                    {% endif %}
 
                 </ul>
                 <!-- End Navbar Toolbar Right -->

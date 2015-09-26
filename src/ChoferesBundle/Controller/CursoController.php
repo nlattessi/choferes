@@ -48,7 +48,7 @@ class CursoController extends Controller
             'validar' => true,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
-            'css_active' => 'curso',
+            'css_active' => 'curso_todos',
         ));
     }
 

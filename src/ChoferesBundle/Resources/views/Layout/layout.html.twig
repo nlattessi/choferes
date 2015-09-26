@@ -155,8 +155,7 @@
     <!-- Page -->
     <div class="page animsition" style="animation-duration: 0.8s; opacity: 1;">
         <div class="page-header">
-            <h1 class="page-title">{% block pageTitle %}{% endblock %}</h1>
-
+            {% block pageHeader %}{% endblock %}
         </div>
         <div class="page-content">
             {% block page %}{% endblock %}

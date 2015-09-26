@@ -39,7 +39,7 @@ class ChoferFilterType extends AbstractType
                 }
             }
 
-            $event->getForm()->addError(new FormError('Filter empty'));
+            $event->getForm()->addError(new FormError('Ningún chofer cumple con los parámetros de búsqueda'));
         };
         $builder->addEventListener(FormEvents::POST_BIND, $listener);
     }

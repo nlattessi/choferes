@@ -42,10 +42,6 @@
                         <button type="submit" class="btn btn btn-success" name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
                     </div>
                 </div> <!-- row-->
-                <p>
-                    <button type="submit" name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                    <button type="submit" name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                </p>
             </form>
         </div>
     </div>
@@ -92,7 +88,7 @@
                                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                                     <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="editar"
                                             href="{{ path('docente_edit', { 'id': entity.id }) }}">
-                                        <i class="icon wb-edit" aria-hidden="true"></i>
+                                        <i class="icon wb-pencil" aria-hidden="true"></i>
                                     </a>
                                 {% endif %}
                             {% endif %}

@@ -4,13 +4,13 @@ namespace ChoferesBundle\Controller;
 
 use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Entity\ChoferCurso;
+use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\View\TwitterBootstrapView;
 
 use ChoferesBundle\Entity\Curso;
 use ChoferesBundle\Form\CursoType;
@@ -449,7 +449,7 @@ class CursoController extends Controller
 
         // Paginator - view
         $translator = $this->get('translator');
-        $view = new TwitterBootstrapView();
+        $view = new TwitterBootstrapViewCustom();
         $pagerHtml = $view->render($pagerfanta, $routeGenerator, array(
             'proximity' => 3,
             'prev_message' => $translator->trans('views.index.pagprev', array(), 'JordiLlonchCrudGeneratorBundle'),

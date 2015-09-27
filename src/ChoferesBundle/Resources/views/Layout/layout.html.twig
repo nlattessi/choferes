@@ -30,6 +30,9 @@
     <!-- Inline -->
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/examples/css/pages/login-v3.css') }}">
 
+    {% block css %}
+    {% endblock %}
+
     <!--[if lt IE 9]>
     <script src="{{ asset('bundles/choferes/assets/vendor/html5shiv/html5shiv.min.js') }}"></script>
     <![endif]-->
@@ -209,6 +212,8 @@
 
    <script src="{{ asset('bundles/choferes/assets/js/components/jt-timepicker.js') }}"></script>
 
+   {% block javascript %}
+   {% endblock %}
 
 </body>
 </html>

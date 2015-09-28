@@ -22,7 +22,6 @@
 {% block page %}
 
 <!-- Page -->
-
       <div class="panel">
             <div class="panel-heading">
               <h3 class="panel-title">Todos los campos son obligatorios</h3>
@@ -49,18 +48,17 @@
                          </div>
                          <div class="row margin-top-30">
                            {{ form_widget(form.observaciones, {'attr': {'class': 'form-control'}}) }}
-                           {{ form_widget(form.prestador) }}
+                           {{ form_widget(form.prestador, {'attr': {'class': 'form-control'}}) }}
                          </div>
                          {% endif %}
 
                          <div class="row margin-top-30">
-                           {{ form_row(form.sede) }}
+                           {{ form_widget(form.sede, {'attr': {'class': 'form-control'}}) }}
                            {{ form_widget(form.docente, {'attr': {'class': 'form-control'}}) }}
                          </div> <!-- row-->
                          <div class="row margin-top-30">
                           {{ form_widget(form.tipocurso, {'attr': {'class': 'form-control'}}) }}
                          </div> <!-- row-->
-
 
                          <div class="row">
                            <div class="col-sm-6 col-md-4 margin-top-20">

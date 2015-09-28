@@ -60,15 +60,6 @@
   </div>
 {% endblock %}
 
-{% block _choferesbundle_curso_docente_widget %}
-  <div class="col-sm-6 col-md-6">
-    <h4 class="example-title">Docente</h4>
-    <div class="form-group">
-      {{ block('choice_widget') }}
-    </div>
-  </div>
-{% endblock %}
-
 {% block _choferesbundle_curso_tipocurso_widget %}
   <div class="col-sm-6 col-md-6 ">
     <h4 class="example-title">Tipo de curso</h4>
@@ -112,6 +103,33 @@
         <i class="icon wb-calendar" aria-hidden="true"></i>
       </span>
       {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_curso_prestador_widget %}
+  <div class="col-sm-6 col-md-6 ">
+    <h4 class="example-title">Prestador</h4>
+    <div class="form-group">
+      {{ block('choice_widget') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_curso_sede_widget %}
+  <div class="col-sm-6 col-md-6 ">
+    <h4 class="example-title">Sede</h4>
+    <div class="form-group">
+      {{ block('choice_widget') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_curso_docente_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Docente</h4>
+    <div class="form-group">
+      {{ block('choice_widget') }}
     </div>
   </div>
 {% endblock %}

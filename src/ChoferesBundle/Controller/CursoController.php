@@ -35,9 +35,9 @@ class CursoController extends Controller
      */
     public function indexAction()
     {
-        if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
-            return $this->redirect($this->generateUrl('curso_precargados', array()));
-        }
+        // if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
+        //     return $this->redirect($this->generateUrl('curso_precargados', array()));
+        // }
 
         list($filterForm, $queryBuilder) = $this->filter();
 
@@ -409,6 +409,9 @@ class CursoController extends Controller
             $filterForm->bind($request);
 
             if ($filterForm->isValid()) {
+
+                // var_dump($filterForm);die();
+
                 // Build the query from the given form object
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
                 // Save filter to session

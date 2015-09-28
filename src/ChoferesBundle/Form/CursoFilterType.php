@@ -15,9 +15,35 @@ class CursoFilterType extends AbstractType
     {
         $builder
             // ->add('id', 'filter_number_range')
-            ->add('fechaInicio', 'filter_date_range', ['label' => 'Fecha inicio (desde - hasta)'])
-            ->add('fechaFin', 'filter_date_range', ['label' => 'Fecha fin (desde - hasta)'])
+
+            ->add('fechaInicio', 'filter_date_range', array(
+                'left_date_options' => array(
+                    'widget' => 'single_text',
+                    'format' => 'dd/M/yyyy'
+                ),
+                'right_date_options' => array(
+                  'widget' => 'single_text',
+                  'format' => 'dd/M/yyyy'
+                ),
+                'label' => 'Fecha inicio',
+            ))
+            ->add('fechaFin', 'filter_date_range', array(
+                'left_date_options' => array(
+                    'widget' => 'single_text',
+                    'format' => 'dd/M/yyyy'
+                ),
+                'right_date_options' => array(
+                  'widget' => 'single_text',
+                  'format' => 'dd/M/yyyy'
+                ),
+                'label' => 'Fecha fin',
+            ))
+
+            // ->add('fechaInicio', 'filter_date_range', ['label' => 'Fecha inicio (desde - hasta)'])
+            // ->add('fechaFin', 'filter_date_range', ['label' => 'Fecha fin (desde - hasta)'])
+
             // ->add('fechaCreacion', 'filter_date_range')
+
             ->add('codigo', 'filter_text')
             ->add('comprobante', 'filter_text')
         ;

@@ -47,31 +47,22 @@
 {% endblock %}
 
 {% block _choferesbundle_curso_curso_widget %}
-  <div class="col-sm-6 col-md-6 margin-top-30">
+  <div class="col-sm-6 col-md-6">
     <h4 class="example-title">Código</h4>
     {{ block('form_widget_simple') }}
   </div>
 {% endblock %}
 
 {% block _choferesbundle_curso_codigo_widget %}
-  <div class="col-sm-6 col-md-6 margin-top-30">
+  <div class="col-sm-6 col-md-6">
     <h4 class="example-title">Código</h4>
     {{ block('form_widget_simple') }}
   </div>
 {% endblock %}
 
 {% block _choferesbundle_curso_docente_widget %}
-  <div class="col-sm-6 col-md-6 margin-top-30">
+  <div class="col-sm-6 col-md-6">
     <h4 class="example-title">Docente</h4>
-    <div class="form-group">
-      {{ block('choice_widget') }}
-    </div>
-  </div>
-{% endblock %}
-
-{% block _choferesbundle_curso_sede_widget %}
-  <div class="col-sm-6 col-md-6 margin-top-30">
-    <h4 class="example-title">Sede</h4>
     <div class="form-group">
       {{ block('choice_widget') }}
     </div>
@@ -83,6 +74,44 @@
     <h4 class="example-title">Tipo de curso</h4>
     <div class="form-group">
       {{ block('choice_widget') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_curso_anio_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Año</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-calendar" aria-hidden="true"></i>
+      </span>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_curso_comprobante_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Comprobante</h4>
+    {{ block('form_widget_simple') }}
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_curso_observaciones_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Observaciones</h4>
+    {{ block('form_widget_simple') }}
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_curso_fechaPago_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Fecha de Pago</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-calendar" aria-hidden="true"></i>
+      </span>
+      {{ block('form_widget_simple') }}
     </div>
   </div>
 {% endblock %}

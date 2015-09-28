@@ -30,6 +30,12 @@
       {{ form_widget(form.horaFin, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
     </div>
 
+    <div>
+      {{ form_widget(form.prestador) }}
+      {{ form_widget(form.sede) }}
+      {{ form_widget(form.docente) }}
+    </div>
+
     {{ form_rest(form) }}
 
     <p>

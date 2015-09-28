@@ -564,7 +564,7 @@ class CursoController extends Controller
             'sedes' => $sedes
         ));
 
-        return $this->render('ChoferesBundle:Curso:new2.html.twig', array(
+        return $this->render('ChoferesBundle:Curso:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'css_active' => 'curso_new',

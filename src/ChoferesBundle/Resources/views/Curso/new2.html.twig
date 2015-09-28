@@ -45,6 +45,12 @@
                           {{ form_widget(form.tipocurso, {'attr': {'class': 'form-control'}}) }}
                          </div> <!-- row-->
 
+                         {% if app.user.rol == 'ROLE_CNTSV' %}
+                         <div class="row">
+                           {{ form_row(form.codigo) }}
+                         </div>
+                         {% endif %}
+
                          <div class="row">
                            <div class="col-sm-6 col-md-4 margin-top-20">
                              <button type="button" class="btn btn-outline btn-default">Limpiar </button>

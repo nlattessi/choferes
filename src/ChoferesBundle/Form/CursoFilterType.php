@@ -9,8 +9,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 
-use Doctrine\ORM\EntityRepository;
-
 use ChoferesBundle\Servicios\UsuarioService;
 use ChoferesBundle\Entity\Prestador;
 
@@ -34,8 +32,6 @@ class CursoFilterType extends AbstractType
         }
 
         $builder
-            // ->add('id', 'filter_number_range')
-
             ->add('fechaInicio', 'filter_date_range', array(
                 'left_date_options' => array(
                     'widget' => 'single_text',
@@ -58,11 +54,6 @@ class CursoFilterType extends AbstractType
                 ),
                 'label' => 'Fecha fin',
             ))
-
-            // ->add('fechaInicio', 'filter_date_range', ['label' => 'Fecha inicio (desde - hasta)'])
-            // ->add('fechaFin', 'filter_date_range', ['label' => 'Fecha fin (desde - hasta)'])
-
-            // ->add('fechaCreacion', 'filter_date_range')
 
             ->add('codigo', 'filter_text')
             ->add('comprobante', 'filter_text');

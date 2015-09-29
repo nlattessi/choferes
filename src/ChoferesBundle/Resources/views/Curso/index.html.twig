@@ -1,4 +1,5 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+{% form_theme filterForm 'ChoferesBundle:Curso:fields.html.twig' %}
 
 {% block title %}
 {{ parent() }} - {{ 'views.index.list'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
@@ -8,6 +9,8 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageTitle %}{{ parent() }} - {{ 'views.index.list'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}{% endblock %}
+
 {% block css %}
   <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-bootstrap/dataTables.bootstrap.css') }}">
   <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-fixedheader/dataTables.fixedHeader.css') }}">
@@ -15,6 +18,7 @@
   <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.css') }}">
   <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery-timepicker.css') }}">
 {% endblock %}
+
 
 {% block page %}
 
@@ -45,12 +49,16 @@
 
             <form class="well" action="{{ path('curso') }}" method="get" {{ form_enctype(filterForm) }}>
                 {#{{ form_row(filterForm.id) }}#}
-                {#{{ form_row(filterForm.fechaInicio) }}#}
+                {#{{ form_row(filterForm.fechaInicio) }}
+                {{ form_row(filterForm.fechaFin) }}
+                {{ form_row(filterForm.codigo) }}#}
 
                 {{ form_row(filterForm.fechaInicio, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+                {{ form_row(filterForm.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
 
-                {{ form_row(filterForm.fechaFin) }}
-                {{ form_row(filterForm.codigo) }}
+                {{ form_row(filterForm.codigo, {'attr': {'class': 'form-control'}}) }}
+                {{ form_row(filterForm.comprobante, {'attr': {'class': 'form-control'}}) }}
+
                 {{ form_rest(filterForm) }}
 
                 <p>

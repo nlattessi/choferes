@@ -9,10 +9,30 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 
+use Doctrine\ORM\EntityRepository;
+
+use ChoferesBundle\Servicios\UsuarioService;
+use ChoferesBundle\Entity\Prestador;
+
 class CursoFilterType extends AbstractType
 {
+    private $usuarioService;
+
+    public function __construct(UsuarioService $usuarioService)
+    {
+        $this->usuarioService = $usuarioService;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $usuario = $options['user'];
+
+        if ($usuario->getRol() == 'ROLE_PRESTADOR') {
+            $prestador = $this->usuarioService->obtenerPrestadorPorUsuario($usuario);
+            $docentes = $this->usuarioService->obtenerDocentesPorPrestador($prestador);
+            $sedes = $this->usuarioService->obtenerSedesPorPrestador($prestador);
+        }
+
         $builder
             // ->add('id', 'filter_number_range')
 
@@ -45,7 +65,29 @@ class CursoFilterType extends AbstractType
             // ->add('fechaCreacion', 'filter_date_range')
 
             ->add('codigo', 'filter_text')
-            ->add('comprobante', 'filter_text')
+            ->add('comprobante', 'filter_text');
+
+        if ($usuario->getRol() == 'ROLE_PRESTADOR') {
+            $builder
+                ->add('docente', 'filter_entity', [
+                    'class' => 'ChoferesBundle:Docente',
+                    'choices' => $docentes
+                ])
+                ->add('sede', 'filter_entity', [
+                    'class' => 'ChoferesBundle:Sede',
+                    'choices' => $sedes
+                ])
+            ;
+        } else {
+            $builder
+                ->add('docente', 'filter_entity', ['class' => 'ChoferesBundle:Docente'])
+                ->add('sede', 'filter_entity', ['class' => 'ChoferesBundle:Sede'])
+            ;
+        }
+
+        $builder
+            ->add('tipocurso', 'filter_entity', ['class' => 'ChoferesBundle:TipoCurso'])
+            ->add('estado', 'filter_entity', ['class' => 'ChoferesBundle:EstadoCurso'])
         ;
 
         $listener = function(FormEvent $event)
@@ -65,6 +107,13 @@ class CursoFilterType extends AbstractType
             $event->getForm()->addError(new FormError('Filter empty'));
         };
         $builder->addEventListener(FormEvents::POST_BIND, $listener);
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'user' => null,
+        ));
     }
 
     public function getName()

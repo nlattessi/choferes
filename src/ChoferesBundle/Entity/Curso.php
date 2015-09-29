@@ -343,7 +343,11 @@ class Curso
     }
 
     public function __toString(){
-        return $this->prestador->getNombre() . ": " . $this->codigo;
+        if (is_null($this->prestador)) {
+          return (string) $this->codigo;
+        }else {
+          return $this->prestador->getNombre() . ": " . $this->codigo;
+        }
     }
 
     /**

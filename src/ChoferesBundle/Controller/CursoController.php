@@ -380,12 +380,19 @@ class CursoController extends Controller
     {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $filterForm = $this->createForm(new CursoFilterType());
-        $em = $this->getDoctrine()->getManager();
 
         /*Inicio filtro por prestador*/
         $usuario = $this->getUser();
         $usuarioService =  $this->get('choferes.servicios.usuario');
+
+        // $entity = new Curso();
+        //
+        // $filterForm = $this->createForm(new CursoFilterType($usuarioService), null, array(
+        //     'user' => $this->getUser()
+        // ));
+
+        $filterForm = $this->createForm(new CursoFilterType($usuarioService), null, ['user' => $usuario]);
+        $em = $this->getDoctrine()->getManager();
 
         if($usuario->getRol() == 'ROLE_PRESTADOR') {
             //filtro solo lo que es de este usuario
@@ -422,7 +429,7 @@ class CursoController extends Controller
             // Get filter from session
             if ($session->has('CursoControllerFilter')) {
                 $filterData = $session->get('CursoControllerFilter');
-                $filterForm = $this->createForm(new CursoFilterType(), $filterData);
+                $filterForm = $this->createForm(new CursoFilterType($usuarioService), $filterData, ['user' => $this->getUser()]);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
             }
         }
@@ -567,7 +574,7 @@ class CursoController extends Controller
             'sedes' => $sedes
         ));
 
-        return $this->render('ChoferesBundle:Curso:new2.html.twig', array(
+        return $this->render('ChoferesBundle:Curso:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
             'css_active' => 'curso_new',

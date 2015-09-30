@@ -1,37 +1,30 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ parent() }} - {{ 'views.index.list'|trans({'%entity%': 'ChoferCurso'}, 'JordiLlonchCrudGeneratorBundle') }}
+    Chofer-Curso
 {% endblock %}
 
 {% block menu %}
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
+{% block pageHeader%}
+    <h1 class="page-title">Chofer-Curso</h1>
+    {% if form_errors(filterForm) %}
+        <div class="span2">
 
-{% block page %}
+            <div class="alert alert-block alert-error fade in form-errors">
+                {{ form_errors(filterForm) }}
+            </div>
 
-<div class="row">
-
-    <div class="span8">
-        <h1>{{ 'views.index.list'|trans({'%entity%': 'ChoferCurso'}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
-    </div>
-    <div class="span2">
-        {% if form_errors(filterForm) %}
-        <div class="alert alert-block alert-error fade in form-errors">
-            {{ form_errors(filterForm) }}
+            &nbsp;
         </div>
-        {% endif %}
-        &nbsp;
+    {% endif %}
+    <div class="page-header-actions">
+        <a class="btn btn-sm btn-default btn-outline btn-round" data-toggle="collapse"  data-target="#filters" aria-expanded="false" aria-controls="exampleCollapseExample">
+            <i class="icon wb-chevron-down" aria-hidden="true"></i>
+            <span class="hidden-xs">Filtrar</span>
+        </a>
     </div>
-    <div class="span2">
-        <div class="filters-right">
-            <a class="btn dropdown-toggle" data-toggle="collapse" data-target="#filters">
-                {{ 'views.index.filters'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-                <span class="caret"></span>
-            </a>
-        </div>
-    </div>
-
     <div class="span12">
         <div id="filters" class="collapse">
 
@@ -41,18 +34,23 @@
                 {{ form_row(filterForm.pagado) }}
                 {{ form_rest(filterForm) }}
 
-                <p>
-                    <button type="submit" name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                    <button type="submit" name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                </p>
+                <div class="row">
+                    <div class="col-sm-6 col-md-4 margin-top-20">
+                        <button type="submit" class="btn btn-outline btn-default" name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                        <button type="submit" class="btn btn btn-success" name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                    </div>
+                </div> <!-- row-->
             </form>
         </div>
     </div>
+{% endblock %}
+{% block page %}
 
-    <div class="span12">
+    <!-- Panel Table Add Row -->
+    <div class="panel">
+        <div class="panel-body">
 
-    <table class="table table-striped table-bordered table-condensed">
-    <thead>
+            <table class="table table-bordered table-hover table-striped">
         <tr>
             <th>Id</th>
             <th>Aprobado</th>
@@ -62,16 +60,18 @@
     </thead>
     <tbody>
     {% for entity in entities %}
-        <tr>
+        <tr class="gradeA">
             <td><a href="{{ path('chofercurso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{% if entity.aprobado %}true{% else %}false{% endif %}</td>
             <td>{% if entity.pagado %}true{% else %}false{% endif %}</td>
             <td>
-        <a class="btn btn-mini" href="{{ path('chofercurso_show', { 'id': entity.id }) }}">
-            {{ 'views.actions.show'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+        <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="ver"
+           href="{{ path('chofercurso_show', { 'id': entity.id }) }}">
+            <i class="icon wb-eye" aria-hidden="true"></i>
         </a>
-        <a class="btn btn-mini" href="{{ path('chofercurso_edit', { 'id': entity.id }) }}">
-            {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+        <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="editar"
+           href="{{ path('chofercurso_edit', { 'id': entity.id }) }}">
+            <i class="icon wb-pencil" aria-hidden="true"></i>
         </a>            </td>
         </tr>
     {% endfor %}
@@ -79,9 +79,11 @@
 </table>
     </div>
 
-    <div class="span4">
-    {{ pagerHtml|raw }}
-    </div>
+        <div class="dt-panelfooter clearfix">
+            <div class="dataTables_paginate paging_simple_numbers" id="exampleTableTools_paginate">
+                {{ pagerHtml|raw }}
+            </div>
+        </div>
 
         <div class="span8">
     <a class="btn btn-primary likepaginator" href="{{ path('chofercurso_new') }}">

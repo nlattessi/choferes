@@ -25,12 +25,6 @@ class CursoFilterType extends AbstractType
     {
         $usuario = $options['user'];
 
-        if ($usuario->getRol() == 'ROLE_PRESTADOR') {
-            $prestador = $this->usuarioService->obtenerPrestadorPorUsuario($usuario);
-            $docentes = $this->usuarioService->obtenerDocentesPorPrestador($prestador);
-            $sedes = $this->usuarioService->obtenerSedesPorPrestador($prestador);
-        }
-
         $builder
             ->add('fechaInicio', 'filter_date_range', array(
                 'left_date_options' => array(
@@ -59,6 +53,10 @@ class CursoFilterType extends AbstractType
             ->add('comprobante', 'filter_text');
 
         if ($usuario->getRol() == 'ROLE_PRESTADOR') {
+            $prestador = $this->usuarioService->obtenerPrestadorPorUsuario($usuario);
+            $docentes = $this->usuarioService->obtenerDocentesPorPrestador($prestador);
+            $sedes = $this->usuarioService->obtenerSedesPorPrestador($prestador);
+
             $builder
                 ->add('docente', 'filter_entity', [
                     'class' => 'ChoferesBundle:Docente',
@@ -71,14 +69,22 @@ class CursoFilterType extends AbstractType
             ;
         } else {
             $builder
-                ->add('docente', 'filter_entity', ['class' => 'ChoferesBundle:Docente'])
-                ->add('sede', 'filter_entity', ['class' => 'ChoferesBundle:Sede'])
+                ->add('docente', 'filter_entity', [
+                    'class' => 'ChoferesBundle:Docente'
+                ])
+                ->add('sede', 'filter_entity', [
+                    'class' => 'ChoferesBundle:Sede'
+                ])
             ;
         }
 
         $builder
-            ->add('tipocurso', 'filter_entity', ['class' => 'ChoferesBundle:TipoCurso'])
-            ->add('estado', 'filter_entity', ['class' => 'ChoferesBundle:EstadoCurso'])
+            ->add('tipocurso', 'filter_entity', [
+                'class' => 'ChoferesBundle:TipoCurso'
+            ])
+            ->add('estado', 'filter_entity', [
+                'class' => 'ChoferesBundle:EstadoCurso'
+            ])
         ;
 
         $listener = function(FormEvent $event)
@@ -95,7 +101,7 @@ class CursoFilterType extends AbstractType
                 }
             }
 
-            $event->getForm()->addError(new FormError('Filter empty'));
+            $event->getForm()->addError(new FormError('Ningún curso cumple con los parámetros de búsqueda'));
         };
         $builder->addEventListener(FormEvents::POST_BIND, $listener);
     }

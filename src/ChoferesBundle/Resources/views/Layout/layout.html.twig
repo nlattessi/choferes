@@ -22,6 +22,11 @@
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/intro-js/introjs.css') }}">
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/slidepanel/slidePanel.css') }}">
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/flag-icon-css/flag-icon.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-bootstrap/dataTables.bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-fixedheader/dataTables.fixedHeader.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-responsive/dataTables.responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.css') }}">
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery-timepicker.css') }}">
 
     <!-- Fonts -->
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/fonts/web-icons/web-icons.min.css') }}">
@@ -29,9 +34,6 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic') }}">
     <!-- Inline -->
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/examples/css/pages/login-v3.css') }}">
-
-    {% block css %}
-    {% endblock %}
 
     <!--[if lt IE 9]>
     <script src="{{ asset('bundles/choferes/assets/vendor/html5shiv/html5shiv.min.js') }}"></script>
@@ -48,7 +50,6 @@
     <script>
         Breakpoints();
     </script>
-    <link rel="stylesheet" type="text/css" href="chrome-extension://pkehgijcmpdhfbdbbnkijodmdjhbjlgp/skin/socialwidgets.css">
 </head>
 
 <body class="site-menubar-unfold">
@@ -91,7 +92,7 @@
 
                 <!-- Navbar Toolbar Right -->
                 <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
-
+                    {% if (is_granted('IS_AUTHENTICATED_FULLY')) %}
                     <li class="dropdown">
                         <a class="navbar-avatar dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" data-animation="scale-up" role="button">
                             <i class="icon wb-chevron-down-mini"></i>
@@ -107,6 +108,11 @@
                             </li>
                         </ul>
                     </li>
+                    {% else %}
+                        <li role="presentation">
+                            <a href="{{ path('login') }}" ><i class="icon wb-power" aria-hidden="true"></i> Ingresar</a>
+                        </li>
+                    {% endif %}
 
                 </ul>
                 <!-- End Navbar Toolbar Right -->
@@ -153,8 +159,7 @@
     <!-- Page -->
     <div class="page animsition" style="animation-duration: 0.8s; opacity: 1;">
         <div class="page-header">
-            <h1 class="page-title">{% block pageTitle %}{% endblock %}</h1>
-
+            {% block pageHeader %}{% endblock %}
         </div>
         <div class="page-content">
             {% block page %}{% endblock %}
@@ -211,6 +216,8 @@
    <script src="{{ asset('bundles/choferes/assets/js/components/bootstrap-datepicker.js') }}"></script>
 
    <script src="{{ asset('bundles/choferes/assets/js/components/jt-timepicker.js') }}"></script>
+
+  {#<script src="{{ asset('bundles/choferes/js/bootstrap2.min.js') }}"></script>#}
 
    {% block javascript %}
    {% endblock %}

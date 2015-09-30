@@ -35,7 +35,7 @@ class UsuarioFilterType extends AbstractType
                 }
             }
 
-            $event->getForm()->addError(new FormError('Filter empty'));
+            $event->getForm()->addError(new FormError('Ningún usuario cumple con los parámetros de búsqueda'));
         };
         $builder->addEventListener(FormEvents::POST_BIND, $listener);
     }

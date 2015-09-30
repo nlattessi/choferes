@@ -1,5 +1,6 @@
-(function($){
-  $(function(){
+// (function($){
+//   $(function(){
+(function(window, document, $) {
     $('#typeahead').typeahead({
       minLength: 3,
       source: function (query, process) {
@@ -12,6 +13,7 @@
           },
           dataType: 'json',
           success: function(result) {
+            console.log("success");
             var data = [];
             $.each(result, function(i, obj) {
               var item = { id: obj.id, nombre: obj.nombre + ' ' + obj.apellido + ' -  Dni: ' + obj.dni };
@@ -19,6 +21,9 @@
             });
 
             return process(data);
+          },
+          error: function(result) {
+            console.log('error');
           }
         });
       },
@@ -67,5 +72,6 @@
         return;
       }
     });
-  }); // end of document ready
-})(jQuery); // end of jQuery name space
+//   }); // end of document ready
+// })(jQuery); // end of jQuery name space
+})(window, document, jQuery);

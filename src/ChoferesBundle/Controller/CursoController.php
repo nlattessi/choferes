@@ -4,13 +4,13 @@ namespace ChoferesBundle\Controller;
 
 use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Entity\ChoferCurso;
+use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\View\TwitterBootstrapView;
 
 use ChoferesBundle\Entity\Curso;
 use ChoferesBundle\Form\CursoType;
@@ -35,10 +35,6 @@ class CursoController extends Controller
      */
     public function indexAction()
     {
-        // if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
-        //     return $this->redirect($this->generateUrl('curso_precargados', array()));
-        // }
-
         list($filterForm, $queryBuilder) = $this->filter();
 
         list($entities, $pagerHtml) = $this->paginator($queryBuilder);
@@ -48,7 +44,7 @@ class CursoController extends Controller
             'validar' => true,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
-            'css_active' => 'curso',
+            'css_active' => 'curso_todos',
         ));
     }
 
@@ -385,12 +381,6 @@ class CursoController extends Controller
         $usuario = $this->getUser();
         $usuarioService =  $this->get('choferes.servicios.usuario');
 
-        // $entity = new Curso();
-        //
-        // $filterForm = $this->createForm(new CursoFilterType($usuarioService), null, array(
-        //     'user' => $this->getUser()
-        // ));
-
         $filterForm = $this->createForm(new CursoFilterType($usuarioService), null, ['user' => $usuario]);
         $em = $this->getDoctrine()->getManager();
 
@@ -416,9 +406,6 @@ class CursoController extends Controller
             $filterForm->bind($request);
 
             if ($filterForm->isValid()) {
-
-                // var_dump($filterForm);die();
-
                 // Build the query from the given form object
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
                 // Save filter to session
@@ -429,7 +416,32 @@ class CursoController extends Controller
             // Get filter from session
             if ($session->has('CursoControllerFilter')) {
                 $filterData = $session->get('CursoControllerFilter');
-                $filterForm = $this->createForm(new CursoFilterType($usuarioService), $filterData, ['user' => $this->getUser()]);
+
+                if ($filterData['docente']) {
+                    $entity = $filterData['docente'];
+                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                    $filterData['docente'] = $entity;
+                }
+
+                if ($filterData['sede']) {
+                    $entity = $filterData['sede'];
+                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                    $filterData['sede'] = $entity;
+                }
+
+                if ($filterData['tipocurso']) {
+                    $entity = $filterData['tipocurso'];
+                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                    $filterData['tipocurso'] = $entity;
+                }
+
+                if ($filterData['estado']) {
+                    $entity = $filterData['estado'];
+                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                    $filterData['estado'] = $entity;
+                }
+
+                $filterForm = $this->createForm(new CursoFilterType($usuarioService), $filterData, ['user' => $usuario]);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
             }
         }
@@ -459,7 +471,7 @@ class CursoController extends Controller
 
         // Paginator - view
         $translator = $this->get('translator');
-        $view = new TwitterBootstrapView();
+        $view = new TwitterBootstrapViewCustom();
         $pagerHtml = $view->render($pagerfanta, $routeGenerator, array(
             'proximity' => 3,
             'prev_message' => $translator->trans('views.index.pagprev', array(), 'JordiLlonchCrudGeneratorBundle'),

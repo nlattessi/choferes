@@ -2,12 +2,12 @@
 
 namespace ChoferesBundle\Controller;
 
+use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\View\TwitterBootstrapView;
 
 use ChoferesBundle\Entity\UsuarioPrestador;
 use ChoferesBundle\Form\UsuarioPrestadorType;
@@ -33,6 +33,7 @@ class UsuarioPrestadorController extends Controller
             'entities' => $entities,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
+            'css_active' => 'usuarioprestador',
         ));
     }
 
@@ -99,7 +100,7 @@ class UsuarioPrestadorController extends Controller
 
         // Paginator - view
         $translator = $this->get('translator');
-        $view = new TwitterBootstrapView();
+        $view = new TwitterBootstrapViewCustom();
         $pagerHtml = $view->render($pagerfanta, $routeGenerator, array(
             'proximity' => 3,
             'prev_message' => $translator->trans('views.index.pagprev', array(), 'JordiLlonchCrudGeneratorBundle'),
@@ -132,6 +133,7 @@ class UsuarioPrestadorController extends Controller
         return $this->render('ChoferesBundle:UsuarioPrestador:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'usuarioprestador',
         ));
     }
 
@@ -148,6 +150,7 @@ class UsuarioPrestadorController extends Controller
         return $this->render('ChoferesBundle:UsuarioPrestador:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'usuarioprestador',
         ));
     }
 
@@ -169,7 +172,9 @@ class UsuarioPrestadorController extends Controller
 
         return $this->render('ChoferesBundle:UsuarioPrestador:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'delete_form' => $deleteForm->createView(),
+            'css_active' => 'usuarioprestador',
+        ));
     }
 
     /**
@@ -194,6 +199,7 @@ class UsuarioPrestadorController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'usuarioprestador',
         ));
     }
 
@@ -229,6 +235,7 @@ class UsuarioPrestadorController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'usuarioprestador',
         ));
     }
 

@@ -1,10 +1,11 @@
-<div class="pull-right">
-    <ul class="nav pull-right">
-        <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ app.user.nombre }} <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li><a href="{{ path('cambiar_password') }}"><i class="icon-lock"></i> Cambiar password</a></li>
-                <li><a href="{{ path('logout') }}"><i class="icon-off"></i> Logout</a></li>
-            </ul>
-        </li>
-    </ul>
-</div>
+<ul class="site-menu">
+    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <b class="caret"></b>
+            <span class="avatar avatar-online">{{ app.user.nombre }}</span>
+        </a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ path('cambiar_password') }}"><i class="icon-lock"></i> Cambiar password</a></li>
+            <li><a href="{{ path('logout') }}"><i class="icon-off"></i> Logout</a></li>
+        </ul>
+    </li>
+</ul>
+

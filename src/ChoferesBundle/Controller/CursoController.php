@@ -4,13 +4,13 @@ namespace ChoferesBundle\Controller;
 
 use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Entity\ChoferCurso;
+use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\View\TwitterBootstrapView;
 
 use ChoferesBundle\Entity\Curso;
 use ChoferesBundle\Form\CursoType;
@@ -48,6 +48,7 @@ class CursoController extends Controller
             'validar' => true,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
+            'css_active' => 'curso_todos',
         ));
     }
 
@@ -66,6 +67,7 @@ class CursoController extends Controller
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
             'validar' => true,
+            'css_active' => 'curso_anteriores',
         ));
     }
 
@@ -86,6 +88,7 @@ class CursoController extends Controller
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
             'validar' => true,
+            'css_active' => 'curso_precargados',
         ));
     }
 
@@ -106,6 +109,7 @@ class CursoController extends Controller
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
             'validar' => false,
+            'css_active' => 'curso_paraconfirmar',
         ));
     }
 
@@ -146,13 +150,16 @@ class CursoController extends Controller
 
             return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', array(
                 'titulo' => "Las notas fueron cargadas con éxito",
-                'mensaje' => "El curso está ahora pendiente de validación por la CNSVT"));
+                'mensaje' => "El curso está ahora pendiente de validación por la CNSVT",
+                'css_active' => 'curso'
+            ));
         }
 
 
         return $this->render('ChoferesBundle:Curso:cargarnotas.html.twig', array(
             'curso'=> $entity,
-            'entities' => $choferesCurso
+            'entities' => $choferesCurso,
+            'css_active' => 'curso',
         ));
     }
 
@@ -181,13 +188,16 @@ class CursoController extends Controller
 
             return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', array(
                 'titulo' => "Se registró el estado de la documentación",
-                'mensaje' => "El curso está ahora en estado VALIDADO"));
+                'mensaje' => "El curso está ahora en estado VALIDADO",
+                'css_active' => 'curso',
+            ));
         }
 
 
         return $this->render('ChoferesBundle:Curso:validardocumentacion.html.twig', array(
             'curso'=> $entity,
-            'entities' => $choferesCurso
+            'entities' => $choferesCurso,
+            'css_active' => 'curso',
         ));
     }
 
@@ -249,6 +259,7 @@ class CursoController extends Controller
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
             'validar' => false,
+            'css_active' => 'curso_confirmados',
         ));
     }
 
@@ -261,6 +272,7 @@ class CursoController extends Controller
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
             'validar' => true,
+            'css_active' => 'curso_porvalidar',
         ));
     }
 
@@ -273,6 +285,7 @@ class CursoController extends Controller
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
             'validar' => true,
+            'css_active' => 'curso_validados',
         ));
     }
 
@@ -285,6 +298,7 @@ class CursoController extends Controller
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
             'validar' => false,
+            'css_active' => 'curso_cancelados',
         ));
     }
 
@@ -297,6 +311,7 @@ class CursoController extends Controller
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
             'validar' => false,
+            'css_active' => 'curso_fallavalidacion',
         ));
     }
 
@@ -329,7 +344,8 @@ class CursoController extends Controller
 
         return $this->render('ChoferesBundle:Curso:addchofer.html.twig', array(
             'idCurso'=> $id,
-            'entities' => $choferes
+            'entities' => $choferes,
+            'css_active' => 'curso',
         ));
     }
 
@@ -433,7 +449,7 @@ class CursoController extends Controller
 
         // Paginator - view
         $translator = $this->get('translator');
-        $view = new TwitterBootstrapView();
+        $view = new TwitterBootstrapViewCustom();
         $pagerHtml = $view->render($pagerfanta, $routeGenerator, array(
             'proximity' => 3,
             'prev_message' => $translator->trans('views.index.pagprev', array(), 'JordiLlonchCrudGeneratorBundle'),
@@ -510,6 +526,7 @@ class CursoController extends Controller
         return $this->render('ChoferesBundle:Curso:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'curso_new',
         ));
     }
 
@@ -550,6 +567,7 @@ class CursoController extends Controller
         return $this->render('ChoferesBundle:Curso:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'curso_new',
         ));
     }
 
@@ -580,7 +598,9 @@ class CursoController extends Controller
         return $this->render('ChoferesBundle:Curso:show.html.twig', array(
             'entity'      => $entity,
             'choferesCurso' => $choferesCurso,
-            'delete_form' => $deleteForm->createView(),        ));
+            'delete_form' => $deleteForm->createView(),
+            'css_active' => 'curso',
+        ));
     }
 
     /**
@@ -626,6 +646,7 @@ class CursoController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'curso',
         ));
     }
 
@@ -703,6 +724,7 @@ class CursoController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'css_active' => 'curso',
         ));
     }
 

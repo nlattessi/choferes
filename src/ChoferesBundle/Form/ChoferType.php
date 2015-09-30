@@ -17,7 +17,7 @@ class ChoferType extends AbstractType
             ->add('precuil')
             ->add('colacuil')
             ->add('cuilEmpresa')
-            ->add('matricula')
+            ->add('matricula', 'text',array('required' => false))
             ->add('tieneCursoBasico', 'checkbox', array('required' => false))
         ;
     }

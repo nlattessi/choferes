@@ -2,6 +2,7 @@
 
 namespace ChoferesBundle\Controller;
 
+use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -34,6 +35,7 @@ class DocenteController extends Controller
             'entities' => $entities,
             'pagerHtml' => $pagerHtml,
             'filterForm' => $filterForm->createView(),
+            'css_active' => 'docente',
         ));
     }
 
@@ -114,7 +116,7 @@ class DocenteController extends Controller
 
         // Paginator - view
         $translator = $this->get('translator');
-        $view = new TwitterBootstrapView();
+        $view = new TwitterBootstrapViewCustom();
         $pagerHtml = $view->render($pagerfanta, $routeGenerator, array(
             'proximity' => 3,
             'prev_message' => $translator->trans('views.index.pagprev', array(), 'JordiLlonchCrudGeneratorBundle'),
@@ -154,6 +156,7 @@ class DocenteController extends Controller
         return $this->render('ChoferesBundle:Docente:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'docente',
         ));
     }
 
@@ -169,6 +172,7 @@ class DocenteController extends Controller
         return $this->render('ChoferesBundle:Docente:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'css_active' => 'docente',
         ));
     }
 
@@ -190,7 +194,9 @@ class DocenteController extends Controller
 
         return $this->render('ChoferesBundle:Docente:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
+            'delete_form' => $deleteForm->createView(),
+            'css_active' => 'docente',
+        ));
     }
 
     /**

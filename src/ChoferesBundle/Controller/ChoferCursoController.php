@@ -63,6 +63,7 @@ class ChoferCursoController extends Controller
             ->andWhere('cu.id <> :idcurso OR cu.id IS NULL')
             ->setParameter('query', '%'.$request->query->get('query').'%')
             ->setParameter('idcurso', $request->query->get('idcurso'))
+            ->distinct()
             ->getQuery();
 
         $entities = $query->getResult();

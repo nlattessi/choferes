@@ -33,14 +33,6 @@ class CursoType extends AbstractType
             ->add('horaInicio', 'text', array('mapped' => false))
             ->add('fechaFin', 'text', array('mapped' => false))
             ->add('horaFin', 'text', array('mapped' => false))
-            // ->add('fechaInicio', 'datetime', array(
-            //     'date_widget' => 'single_text',
-            //     'time_widget' => 'single_text',
-            // ))
-            // ->add('fechaFin', 'datetime', array(
-            //     'date_widget' => 'single_text',
-            //     'time_widget' => 'single_text',
-            // ))
             ->add('tipocurso')
         ;
 
@@ -52,9 +44,6 @@ class CursoType extends AbstractType
                 ->add('anio', 'text',array('label' => 'Año', 'required' => false))
                 ->add('comprobante')
                 ->add('observaciones')
-                // ->add('fechaPago', 'date', array(
-                //     'widget' => 'choice', 'required' => false,
-                // ));
                 ->add('fechaPago', 'text', array(
                     'required' => false,
                     'mapped' => false

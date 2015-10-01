@@ -48,9 +48,7 @@ class CursoFilterType extends AbstractType
                 ),
                 'label' => 'Fecha fin',
             ))
-
-            ->add('codigo', 'filter_text')
-            ->add('comprobante', 'filter_text');
+      ;
 
         if ($usuario->getRol() == 'ROLE_PRESTADOR') {
             $prestador = $this->usuarioService->obtenerPrestadorPorUsuario($usuario);
@@ -67,14 +65,21 @@ class CursoFilterType extends AbstractType
                     'choices' => $sedes
                 ])
             ;
-        } else {
+        }
+
+        if ($usuario->getRol() == 'ROLE_CNTSV') {
             $builder
-                ->add('docente', 'filter_entity', [
-                    'class' => 'ChoferesBundle:Docente'
+                ->add('codigo', 'filter_text')
+                // ->add('comprobante', 'filter_text')
+                ->add('prestador', 'filter_entity', [
+                    'class' => 'ChoferesBundle:Prestador'
                 ])
-                ->add('sede', 'filter_entity', [
-                    'class' => 'ChoferesBundle:Sede'
-                ])
+                // ->add('docente', 'filter_entity', [
+                //     'class' => 'ChoferesBundle:Docente'
+                // ])
+                // ->add('sede', 'filter_entity', [
+                //     'class' => 'ChoferesBundle:Sede'
+                // ])
             ;
         }
 

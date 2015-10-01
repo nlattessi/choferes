@@ -9,19 +9,10 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
-{% block pageTitle %}Crear Curso{% endblock %}
-
-{% block css %}
-  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-bootstrap/dataTables.bootstrap.css') }}">
-  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-fixedheader/dataTables.fixedHeader.css') }}">
-  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-responsive/dataTables.responsive.css') }}">
-  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.css') }}">
-  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery-timepicker.css') }}">
-{% endblock %}
+{% block pageHeader %}<h1 class="page-title">Crear curso</h1>{% endblock %}
 
 {% block page %}
 
-<!-- Page -->
       <div class="panel">
             <div class="panel-heading">
               <h3 class="panel-title">Todos los campos son obligatorios</h3>
@@ -63,7 +54,6 @@
                          <div class="row">
                            <div class="col-sm-6 col-md-4 margin-top-20">
                              <button type="button" class="btn btn-outline btn-default">Limpiar </button>
-                             <!-- <button type="submit" class="btn btn btn-success">Crear</button> -->
                              <button type="submit" class="btn btn-success">{{ 'views.new.create'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
                            </div>
                          </div> <!-- row-->

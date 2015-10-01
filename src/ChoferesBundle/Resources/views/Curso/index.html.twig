@@ -17,8 +17,6 @@
         </a>
     </div>
 
-
-    <!-- <div class="span12"> -->
         <div id="filters" class="collapse">
             <form class="well" action="{{ path('curso') }}" method="get" {{ form_enctype(filterForm) }}>
 
@@ -28,14 +26,20 @@
               <div class="row">
                 {{ form_widget(filterForm.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
               </div>
-              <div class="row">
-                {{ form_widget(filterForm.codigo, {'attr': {'class': 'form-control'}}) }}
-                {{ form_widget(filterForm.comprobante, {'attr': {'class': 'form-control'}}) }}
-              </div>
-              <div class="row">
-                {{ form_widget(filterForm.sede, {'attr': {'class': 'form-control'}}) }}
-                {{ form_widget(filterForm.docente, {'attr': {'class': 'form-control'}}) }}
-              </div>
+              {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                  {% if (app.user.rol == 'ROLE_CNTSV') %}
+                    <div class="row">
+                      {{ form_widget(filterForm.prestador, {'attr': {'class': 'form-control'}}) }}
+                      {{ form_widget(filterForm.codigo, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                  {% endif %}
+                  {% if (app.user.rol == 'ROLE_PRESTADOR') %}
+                    <div class="row">
+                      {{ form_widget(filterForm.sede, {'attr': {'class': 'form-control'}}) }}
+                      {{ form_widget(filterForm.docente, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                  {% endif %}
+              {% endif %}
               <div class="row">
                 {{ form_widget(filterForm.tipocurso, {'attr': {'class': 'form-control'}}) }}
                 {{ form_widget(filterForm.estado, {'attr': {'class': 'form-control'}}) }}
@@ -50,7 +54,6 @@
                 </div> <!-- row-->
             </form>
         </div>
-    <!-- </div> -->
 {% endblock %}
 {% block page %}
     <!-- Panel Table Add Row -->

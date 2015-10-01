@@ -284,6 +284,7 @@ class ChoferController extends Controller
         $status = null;
         $chofer = null;
         $goBack = false;
+        $errors = array();
 
         // Descargo certificado si el usuario pidio hacerlo.
         if ($request->isMethod('POST')) {
@@ -320,7 +321,23 @@ class ChoferController extends Controller
             if ($status) {
                 $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
             } else {
-                $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
+                // $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
+                $errors[] = new FormError('No se encuentran resultados.');
+                if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                    $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
+                } else {
+                    $form = $this->createForm(new ChoferStatusType());
+                }
+            }
+        } else {
+            $errors = array();
+            foreach($form->getErrors() as $key => $error) {
+                $errors[$key] = $error;
+            }
+            if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
+            } else {
+                $form = $this->createForm(new ChoferStatusType());
             }
         }
 
@@ -330,11 +347,14 @@ class ChoferController extends Controller
             'chofer' => $chofer,
             'goBack' => $goBack,
             'css_active' => 'chofer_consulta',
+            'errors' => $errors,
         ));
     }
 
     public function descargarCertificadosAction(Request $request)
     {
+        $errors = array();
+
         $form = $this->createForm(new ChoferStatusType());
 
         $form->handleRequest($request);

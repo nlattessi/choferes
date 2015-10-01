@@ -10,59 +10,77 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageHeader %}<h1 class="page-title">Agregar chofer</h1>{% endblock %}
+
 {% block page %}
-    <div class="container">
-      <div class="row">
-      <div class="span4 well">
-        <legend>Agregar chofer</legend>
-        <form action="{{ path('curso_addchofer') }}" method="post">
-          <input id="typeahead" type="text" class="span4" data-provide="typeahead" autocomplete="off" placeholder="Buscar chofer">
-          <input id="idcurso" type="hidden" name="idCurso" value="{{idCurso}}">
-          <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-          <button type="submit" name="submit" class="btn btn-success btn-block disabled" id="addChoferSubmit" disabled>Agregar los siguientes choferes</button>
-          <hr>
-          <ul id="choferesCandidatos" class="unstyled"></ul>
-        </form>
-      </div>
-      </div>
+  <div class="panel">
+    <div class="panel-heading">
+      <h4 class="panel-title">Escriba para buscar un nombre existente.</h4>
     </div>
 
-    <div>
-        <div class="float-left">
-            <a class="btn" href="{{ path('curso') }}">
-                {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-            </a>
-        </div>
-    </div>
-
-    <div id="listaChoferes">
-        <table class="table table-striped table-bordered table-condensed">
-            <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Dni</th>
-                <th>Tiene curso basico</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for entity in entities %}
+    <div class="panel-body container-fluid">
+      <form action="{{ path('curso_addchofer') }}" method="post">
+        <div class="row ">
+          <div class="col-sm-6 col-md-6 ">
+            <h4 class="example-title">Buscar chofer</h4>
+            <input id="typeahead" type="text" class="form-control" data-provide="typeahead" autocomplete="off" placeholder="Buscar chofer">
+            <input id="idcurso" type="hidden" name="idCurso" value="{{idCurso}}">
+          </div>
+        </div> <!-- row-->
+         <div class="row ">
+          <div class="col-sm-6 col-md-4 margin-top-30">
+            <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+              <thead>
                 <tr>
-
-                    <td>{{ entity.nombre }}</td>
-                    <td>{{ entity.apellido }}</td>
-                    <td>{{ entity.dni }}</td>
-
-                    <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
-                    <td>
-                        <a class="btn btn-mini" href="{{ path('curso_borrarchofer', { 'idBorrar': entity.id, 'idCurso':idCurso  }) }}">
-                            Borrar
-                        </a> </td>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Dni</th>
+                  <th>Acciones</th>
                 </tr>
+              </thead>
+              <tbody id="choferesCandidatos">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-md-4 margin-top-20">
+            <button type="submit" class="btn btn btn-success disabled" id="addChoferSubmit" disabled>Agregar los siguientes choferes</button>
+      </form>
+          </div>
+        </div> <!-- row-->
+        <div class="row">
+          <div class="col-sm-6 col-md-8 margin-top-10">
+            <a class="btn btn-outline btn-default" href="{{ path('curso') }}">
+              Volver al listado
+            </a>
+          </div>
+        </div>
+        <table class="table table-bordered table-hover table-striped margin-top-30" id="exampleAddRow">
+          <thead>
+            <tr>
+              <td>Nombre</td>
+              <td>Apellido</td>
+              <td>Dni</td>
+              <td>Tiene curso basico</td>
+              <td>Acciones</td>
+            </tr>
+          </thead>
+          <tbody>
+            {% for entity in entities %}
+            <tr class="gradeA">
+              <td>{{ entity.nombre }}</td>
+              <td>{{ entity.apellido }}</td>
+              <td>{{ entity.dni }}</td>
+              <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
+              <td class="actions">
+                <a href="{{ path('curso_borrarchofer', { 'idBorrar': entity.id, 'idCurso':idCurso  }) }}" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"
+                data-toggle="tooltip" data-original-title="Borrar"><i class="icon wb-trash" aria-hidden="true"></i></a>
+              </td>
+            </tr>
             {% endfor %}
-            </tbody>
+          </tbody>
         </table>
     </div>
-
+  </div>
 {% endblock %}

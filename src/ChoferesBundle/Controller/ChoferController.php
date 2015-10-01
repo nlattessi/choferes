@@ -332,4 +332,37 @@ class ChoferController extends Controller
             'css_active' => 'chofer_consulta',
         ));
     }
+
+    public function descargarCertificadosAction(Request $request)
+    {
+        $form = $this->createForm(new ChoferStatusType());
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $dni = $form->get('dni')->getData();
+            $choferService = $this->get('choferes.servicios.chofer');
+            $status = $choferService->getStatusPorDniChofer($dni);
+
+            if ($status) {
+                $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
+                return $this->redirect($this->generateUrl('chofer_consulta_id', array('id' => $chofer->getId())));
+            } else {
+                $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
+            }
+        } else {
+            $errors = array();
+            foreach($form->getErrors() as $key => $error) {
+                $errors[$key] = $error;
+            }
+            $form = $this->createForm(new ChoferStatusType());
+        }
+
+        return $this->render('ChoferesBundle:Chofer:descargar-certificados.html.twig', [
+            'form' => $form->createView(),
+            'errors' => $errors,
+        ]);
+    }
 }

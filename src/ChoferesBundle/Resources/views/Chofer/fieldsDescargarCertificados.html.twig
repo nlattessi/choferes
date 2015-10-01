@@ -1,0 +1,16 @@
+{% block _choferesbundle_choferstatus_dni_widget %}
+  <div class="form-group form-material floating">
+    {{ block('form_widget_simple') }}
+    <label class="floating-label">DNI</label>
+  </div>
+{% endblock %}
+
+{% block captcha_widget %}
+{% spaceless %}
+  <img class="img-rounded img-bordered img-bordered-orange margin-top-30" width="{{ captcha_width }}" height="{{ captcha_height }}" src="{{ captcha_code }}" alt="">
+  <div class="form-group form-material floating">
+    {{ form_widget(form, {'attr': {'class': 'form-control empty'}}) }}
+    <label class="floating-label">Código de seguridad</label>
+  </div>
+{% endspaceless %}
+{% endblock %}

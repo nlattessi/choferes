@@ -162,7 +162,14 @@
             {% block pageHeader %}{% endblock %}
         </div>
         <div class="page-content">
-            {% block page %}{% endblock %}
+          {% for type, flashMessages in app.session.flashbag.all() %}
+            {% for flashMessage in flashMessages %}
+              <div class="alert ng-isolate-scope alert-{% if type == 'error' %}danger{% else %}{{ type }}{% endif %} alert-dismissible">
+                <div ><span class="ng-binding ng-scope">{{ flashMessage|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</span></div>
+              </div>
+            {% endfor %}
+          {% endfor %}
+          {% block page %}{% endblock %}
         </div><!-- content-->
     </div>
 
@@ -217,7 +224,7 @@
 
    <script src="{{ asset('bundles/choferes/assets/js/components/jt-timepicker.js') }}"></script>
 
-  <script src="{{ asset('bundles/choferes/js/bootstrap3-typeahead.min.js') }}"></script>
+   <script src="{{ asset('bundles/choferes/js/bootstrap3-typeahead.min.js') }}"></script>
 
    {% block javascript %}
    {% endblock %}

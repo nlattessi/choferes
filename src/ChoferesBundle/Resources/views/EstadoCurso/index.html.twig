@@ -74,17 +74,18 @@
     {% endfor %}
     </tbody>
 </table>
+
+        <div class="dt-panelfooter clearfix">
+            <a class="btn btn btn-success margin-top-10" href="{{ path('estadocurso_new') }}">
+                {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} EstadoCurso
+            </a>
+            <div class="dataTables_paginate paging_simple_numbers" id="exampleTableTools_paginate">
+                {{ pagerHtml|raw }}
+            </div>
+        </div>
     </div>
 
-    <div class="span4">
-    {{ pagerHtml|raw }}
-    </div>
 
-        <div class="span8">
-    <a class="btn btn-primary likepaginator" href="{{ path('estadocurso_new') }}">
-            {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} EstadoCurso
-        </a>
-    </div>
     </div>
 
 {% endblock %}

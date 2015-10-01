@@ -41,8 +41,8 @@
                 {{ form_rest(filterForm) }}
                 <div class="row">
                     <div class="col-sm-6 col-md-4 margin-top-20">
-                        <button type="submit" class="btn btn-outline btn-default" name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                        <button type="submit" class="btn btn btn-success" name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                        <button type="submit" class="btn btn btn-outline btn-default " name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                        <button type="submit" class="btn btn-success " name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
                     </div>
                 </div> <!-- row-->
             </form>
@@ -88,18 +88,15 @@
     {% endfor %}
     </tbody>
 </table>
-    </div>
 
-    <div class="dt-panelfooter clearfix">
-        <div class="dataTables_paginate paging_simple_numbers" id="exampleTableTools_paginate">
-            {{ pagerHtml|raw }}
+        <div class="dt-panelfooter clearfix">
+            <a class="btn btn btn-success margin-top-10" href="{{ path('usuario_new') }}">
+                {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Usuario
+            </a>
+            <div class="dataTables_paginate paging_simple_numbers" id="exampleTableTools_paginate">
+                {{ pagerHtml|raw }}
+            </div>
         </div>
-    </div>
-
-        <div class="span8">
-    <a class="btn btn-primary likepaginator" href="{{ path('usuario_new') }}">
-            {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Usuario
-        </a>
     </div>
     </div>
 

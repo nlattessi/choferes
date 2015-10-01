@@ -36,8 +36,8 @@
 
                 <div class="row">
                     <div class="col-sm-6 col-md-4 margin-top-20">
-                        <button type="submit" class="btn btn-outline btn-default" name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                        <button type="submit" class="btn btn btn-success" name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                        <button type="submit" class="btn btn btn-outline btn-default " name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                        <button type="submit" class="btn btn-success " name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
                     </div>
                 </div> <!-- row-->
             </form>
@@ -86,7 +86,7 @@
         </div>
 
         <div class="span8">
-    <a class="btn btn-primary likepaginator" href="{{ path('chofercurso_new') }}">
+    <a class="btn btn btn-success margin-top-10" href="{{ path('chofercurso_new') }}">
             {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} ChoferCurso
         </a>
     </div>

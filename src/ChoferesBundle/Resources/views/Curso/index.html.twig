@@ -38,8 +38,8 @@
                 {{ form_rest(filterForm) }}
                 <div class="row">
                     <div class="col-sm-6 col-md-4 margin-top-20">
-                        <button type="submit" class="btn btn-outline btn-default" name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                        <button type="submit" class="btn btn btn-success" name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                        <button type="submit" class="btn btn btn-outline btn-default " name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                        <button type="submit" class="btn btn-success " name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
                     </div>
                 </div> <!-- row-->
             </form>
@@ -63,11 +63,6 @@
                 {% endif %}
             {% endif %}
             <th>Codigo</th>
-            <th>Año</th>
-            <th>Comprobante</th>
-            <th>Fecha de pago</th>
-            <th>Docente</th>
-            <th>Sede</th>
             <th>Tipo</th>
             <th>Estado</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
@@ -85,11 +80,6 @@
                 {% endif %}
             {% endif %}
             <td>{{ entity.codigo }}</td>
-            <td>{{ entity.anio }}</td>
-            <td>{{ entity.comprobante }}</td>
-            <td>{% if entity.fechaPago %}{{ entity.fechaPago|date('d/m/Y') }}{% endif %}</td>
-            <td>{{ entity.docente }}</td>
-            <td>{{ entity.sede }}</td>
             <td>{{ entity.tipocurso }}</td>
             <td>{{ entity.estado }}</td>
             <td>
@@ -106,25 +96,25 @@
                   {% if entity.estado.id != 4 %} <!--Estado: Cancelado -->
                   <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="cancelar"
                      href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
-                      <i class="icon wb-trash" aria-hidden="true"></i>
+                      <i class="icon wb-close red-400" aria-hidden="true"></i>
                   </a>
                   {% endif %}
                   {% if entity.estado.id == 1 %} <!--Estado: Cargado-->
                     <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="confirmar"
                        href="{{ path('curso_confirmar', { 'id': entity.id }) }}">
-                        <i class="icon wb-thumb-up" aria-hidden="true"></i>
+                        <i class="icon wb-check-circle green-600" aria-hidden="true"></i>
                     </a>
                   {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
                     {% if entity.fechaInicio|date('U') >= "now"|date('U') %}
                         <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="agregar choferes"
                          href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
-                            <i class="icon wb-users" aria-hidden="true"></i>
+                            <i class="icon wb-user-add" aria-hidden="true"></i>
                       </a>
                     {% endif %}
                   {% elseif entity.estado.id == 3 %} <!--Estado: Por Validar-->
                       <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="aprobar documentación"
                        href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
-                        <i class="icon wb-briefcase" aria-hidden="true"></i>
+                        <i class="icon wb-check green-400" aria-hidden="true"></i>
                     </a>
                   {% endif %}
               {% elseif app.user.rol == 'ROLE_PRESTADOR' %}
@@ -139,13 +129,13 @@
                   </a>
                     <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="cancelar"
                      href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
-                      <i class="icon wb-trash" aria-hidden="true"></i>
+                      <i class="icon wb-close red-400" aria-hidden="true"></i>
                   </a>
                 {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
                   {% if entity.fechaInicio|date('U') < "now"|date('U')  %}
                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="agregar choferes"
                        href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
-                        <i class="icon wb-users" aria-hidden="true"></i>
+                        <i class="icon wb-user-add" aria-hidden="true"></i>
                     </a>
                   {% endif %}
                   {% if entity.fechaInicio|date('U') > "+4 days"|date('U') %}
@@ -156,7 +146,7 @@
 
                     <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="cancelar"
                      href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
-                      <i class="icon wb-trash" aria-hidden="true"></i>
+                      <i class="icon wb-close red-400" aria-hidden="true"></i>
                   </a>
                   {% endif %}
                 {% endif %}
@@ -168,19 +158,17 @@
     </tbody>
 </table>
 
-    </div>
+<div class="dt-panelfooter clearfix">
+  <a class="btn btn btn-success margin-top-10 likepaginator" href="{{ path('curso_new') }}">
+          {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Curso
+      </a>
 
-        <div class="dt-panelfooter clearfix">
-            <div class="dataTables_paginate paging_simple_numbers" id="exampleTableTools_paginate">
-                {{ pagerHtml|raw }}
-            </div>
-        </div>
+    <div class="dataTables_paginate paging_simple_numbers" id="exampleTableTools_paginate">
+        {{ pagerHtml|raw }}
+    </div>
+</div>
 
-        <div class="span8">
-    <a class="btn btn-primary likepaginator" href="{{ path('curso_new') }}">
-            {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Curso
-        </a>
     </div>
-    </div>
+  </div>
 
 {% endblock %}

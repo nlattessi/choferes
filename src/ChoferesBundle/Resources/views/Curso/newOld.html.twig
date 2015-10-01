@@ -1,0 +1,84 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ parent() }} - {{ 'views.new.creation'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
+{% endblock %}
+
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block page %}
+
+<link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.css') }}">
+<link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery-timepicker.css') }}">
+
+<h1>{{ 'views.new.creation'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
+
+<form class="well" action="{{ path('curso_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_errors(form)}}
+
+    <div>
+      <label for="choferesbundle_curso_fechaInicio">Fecha y Hora inicio</label>
+      {{ form_widget(form.fechaInicio, {'type': 'text', 'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+      {{ form_widget(form.horaInicio, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
+    </div>
+
+    <div>
+      <label for="choferesbundle_curso_fechaFin">Fecha y Hora fin</label>
+      {{ form_widget(form.fechaFin, {'type': 'text', 'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+      {{ form_widget(form.horaFin, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
+    </div>
+
+    <div>
+      {{ form_widget(form.prestador) }}
+      {{ form_widget(form.sede) }}
+      {{ form_widget(form.docente) }}
+    </div>
+
+    {{ form_rest(form) }}
+
+    <p>
+        <button type="submit" class="btn btn-success">{{ 'views.new.create'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+    </p>
+</form>
+
+<div>
+    <div class="float-left">
+        <a class="btn" href="{{ path('curso') }}">
+            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
+        </a>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('bundles/choferes/js/cursoForm.js') }}"></script>
+
+    <script src="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery.timepicker.min.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/jt-timepicker.js') }}"></script>
+
+    <script>
+      $('#choferesbundle_curso_horaInicio').timepicker({ useSelect: true, 'step': 15 });
+      $('#choferesbundle_curso_horaInicio').timepicker('setTime', new Date());
+      $('#choferesbundle_curso_horaFin').timepicker({ useSelect: true, 'step': 15 });
+      $('#choferesbundle_curso_horaFin').timepicker('setTime', new Date());
+      $('#choferesbundle_curso_anio').datepicker({format: "yyyy", autoclose: true, minViewMode: "years" });
+      $('#choferesbundle_curso_fechaPago').datepicker({format: "dd/mm/yyyy", autoclose: true });
+    </script>
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+      {% if app.user.rol == 'ROLE_PRESTADOR' %}
+        <script>
+          var dt = new Date();
+          dt.setDate(dt.getDate() + 5);
+          $('#choferesbundle_curso_fechaInicio').datepicker({startDate: dt });
+          $('#choferesbundle_curso_fechaFin').datepicker({startDate: dt });
+        </script>
+      {% endif %}
+    {% endif %}
+
+{% endblock %}

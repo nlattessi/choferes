@@ -35,10 +35,6 @@ class CursoController extends Controller
      */
     public function indexAction()
     {
-        if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
-            return $this->redirect($this->generateUrl('curso_precargados', array()));
-        }
-
         list($filterForm, $queryBuilder) = $this->filter();
 
         list($entities, $pagerHtml) = $this->paginator($queryBuilder);
@@ -380,12 +376,13 @@ class CursoController extends Controller
     {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $filterForm = $this->createForm(new CursoFilterType());
-        $em = $this->getDoctrine()->getManager();
 
         /*Inicio filtro por prestador*/
         $usuario = $this->getUser();
         $usuarioService =  $this->get('choferes.servicios.usuario');
+
+        $filterForm = $this->createForm(new CursoFilterType($usuarioService), null, ['user' => $usuario]);
+        $em = $this->getDoctrine()->getManager();
 
         if($usuario->getRol() == 'ROLE_PRESTADOR') {
             //filtro solo lo que es de este usuario
@@ -419,7 +416,32 @@ class CursoController extends Controller
             // Get filter from session
             if ($session->has('CursoControllerFilter')) {
                 $filterData = $session->get('CursoControllerFilter');
-                $filterForm = $this->createForm(new CursoFilterType(), $filterData);
+
+                if ($filterData['docente']) {
+                    $entity = $filterData['docente'];
+                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                    $filterData['docente'] = $entity;
+                }
+
+                if ($filterData['sede']) {
+                    $entity = $filterData['sede'];
+                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                    $filterData['sede'] = $entity;
+                }
+
+                if ($filterData['tipocurso']) {
+                    $entity = $filterData['tipocurso'];
+                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                    $filterData['tipocurso'] = $entity;
+                }
+
+                if ($filterData['estado']) {
+                    $entity = $filterData['estado'];
+                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                    $filterData['estado'] = $entity;
+                }
+
+                $filterForm = $this->createForm(new CursoFilterType($usuarioService), $filterData, ['user' => $usuario]);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
             }
         }

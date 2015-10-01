@@ -1,4 +1,5 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+{% form_theme filterForm 'ChoferesBundle:Curso:fieldsFilter.html.twig' %}
 
 {% block title %}
     Cursos
@@ -9,16 +10,6 @@
 {% endblock %}
 {% block pageHeader%}
     <h1 class="page-title">Cursos</h1>
-    {% if form_errors(filterForm) %}
-        <div class="span2">
-
-            <div class="alert alert-block alert-error fade in form-errors">
-                {{ form_errors(filterForm) }}
-            </div>
-
-            &nbsp;
-        </div>
-    {% endif %}
     <div class="page-header-actions">
         <a class="btn btn-sm btn-default btn-outline btn-round" data-toggle="collapse"  data-target="#filters" aria-expanded="false" aria-controls="exampleCollapseExample">
             <i class="icon wb-chevron-down" aria-hidden="true"></i>
@@ -26,30 +17,50 @@
         </a>
     </div>
 
-
-    <div class="span12">
         <div id="filters" class="collapse">
-
             <form class="well" action="{{ path('curso') }}" method="get" {{ form_enctype(filterForm) }}>
-                {#{{ form_row(filterForm.id) }}#}
-                {{ form_row(filterForm.fechaInicio) }}
-                {{ form_row(filterForm.fechaFin) }}
-                {{ form_row(filterForm.codigo) }}
+
+              <div class="row">
+                {{ form_widget(filterForm.fechaInicio, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+              </div>
+              <div class="row">
+                {{ form_widget(filterForm.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+              </div>
+              {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                  {% if (app.user.rol == 'ROLE_CNTSV') %}
+                    <div class="row">
+                      {{ form_widget(filterForm.prestador, {'attr': {'class': 'form-control'}}) }}
+                      {{ form_widget(filterForm.codigo, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                  {% endif %}
+                  {% if (app.user.rol == 'ROLE_PRESTADOR') %}
+                    <div class="row">
+                      {{ form_widget(filterForm.sede, {'attr': {'class': 'form-control'}}) }}
+                      {{ form_widget(filterForm.docente, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                  {% endif %}
+              {% endif %}
+              <div class="row">
+                {{ form_widget(filterForm.tipocurso, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(filterForm.estado, {'attr': {'class': 'form-control'}}) }}
+              </div>
+
                 {{ form_rest(filterForm) }}
                 <div class="row">
                     <div class="col-sm-6 col-md-4 margin-top-20">
-                        <button type="submit" class="btn btn btn-outline btn-default " name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                        <button type="submit" class="btn btn-success " name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                        <button type="submit" class="btn btn-outline btn-default" name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                        <button type="submit" class="btn btn btn-success" name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
                     </div>
                 </div> <!-- row-->
             </form>
         </div>
-    </div>
 {% endblock %}
 {% block page %}
     <!-- Panel Table Add Row -->
     <div class="panel">
         <div class="panel-body">
+
+          {{ form_errors(filterForm) }}
 
             <table class="table table-bordered table-hover table-striped">
     <thead>
@@ -132,13 +143,13 @@
                       <i class="icon wb-close red-400" aria-hidden="true"></i>
                   </a>
                 {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
-                  {% if entity.fechaInicio|date('U') < "now"|date('U')  %}
+                  {% if entity.fechaInicio|date('U') > "+4 days"|date('U') %}
                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="agregar choferes"
                        href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                         <i class="icon wb-user-add" aria-hidden="true"></i>
                     </a>
                   {% endif %}
-                  {% if entity.fechaInicio|date('U') > "+4 days"|date('U') %}
+                  {% if entity.fechaInicio|date('U') < "now"|date('U') %}
                       <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="cargar notas"
                        href="{{ path('curso_realizar', { 'id': entity.id }) }}">
                           <i class="icon wb-edit" aria-hidden="true"></i>
@@ -159,6 +170,7 @@
 </table>
 
 <div class="dt-panelfooter clearfix">
+
   <a class="btn btn btn-success margin-top-10 likepaginator" href="{{ path('curso_new') }}">
           {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Curso
       </a>

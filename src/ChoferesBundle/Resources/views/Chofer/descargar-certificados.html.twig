@@ -1,12 +1,15 @@
+{% form_theme form 'ChoferesBundle:Chofer:fieldsDescargarCertificados.html.twig' %}
+
 <!DOCTYPE html>
-<html class="js flexbox canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths js-menubar" lang="en"><head>
+<html class="no-js css-menubar" lang="en">
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
   <meta name="description" content="bootstrap admin template">
   <meta name="author" content="">
 
-  <title>Iniciar sesión</title>
+  <title>Descargar certificados</title>
 
   <link rel="apple-touch-icon" href="{{ asset('bundles/choferes/assets/images/apple-touch-icon.png') }}">
   <link rel="shortcut icon" href="{{ asset('bundles/choferes/assets/images/favicon.ico') }}">
@@ -27,7 +30,7 @@
   <!-- Fonts -->
   <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/fonts/web-icons/web-icons.min.css') }}">
   <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/fonts/brand-icons/brand-icons.min.css') }}">
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic') }}">
+  <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
   <!-- Inline -->
   <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/examples/css/pages/login-v3.css') }}">
 
@@ -36,8 +39,8 @@
     <![endif]-->
 
   <!--[if lt IE 10]>
-    <script src="{{ asset('bundles/choferes/assets/vendor/media-match/media.match.min.js') }}"></script>
-    <script src="{{ asset('bundles/choferes/assets/vendor/respond/respond.min.js') }}"></script>
+    <script src="../../assets/vendor/media-match/media.match.min.js"></script>
+    <script src="../../assets/vendor/respond/respond.min.js"></script>
     <![endif]-->
 
   <!-- Scripts -->
@@ -54,7 +57,8 @@
 
 
   <!-- Page -->
-  <div class="page animsition vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
+  <div class="page animsition vertical-align text-center" data-animsition-in="fade-in"
+  data-animsition-out="fade-out">
     <div class="page-content vertical-align-middle">
       <div class="panel">
         <div class="panel-body">
@@ -62,35 +66,33 @@
             <img class="brand-img" src="{{ asset('bundles/choferes/assets/images/logo-full.png') }}" alt="cntsv logo">
 
           </div>
-          <form method="post" action="{{ path('login_check') }}">
-            {% if error %}
-              <div class="toast toast-just-text toast-danger">
-                <div class="toast-message">
-                  <strong>Error:</strong> {{ error.messageKey|trans(error.messageData, 'security') }}
+          <h4 class="align-left">Descargar certificados de cursos realizados</h4>
+          <h5 class="align-left">Ingrese su DNI y el código de seguridad para continuar</h5>
+
+          <form action="{{ path('choferes_descargar_certificados') }}" method="post" {{ form_enctype(form) }}>
+
+            {% if errors|length > 0 %}
+              {% for error in errors %}
+                <div class="toast toast-just-text toast-danger">
+                  <div class="toast-message">
+                    <strong>Error:</strong> {{ error.message }}
+                  </div>
                 </div>
-              </div>
+              {% endfor %}
             {% endif %}
-            <div class="form-group form-material floating">
-              <input type="email" class="form-control empty" name="_username" value="{{ last_username }}" oninvalid="InvalidMsg(this);">
-              <label class="floating-label">Email</label>
-            </div>
-            <div class="form-group form-material floating">
-              <input type="password" class="form-control empty" name="_password">
-              <label class="floating-label">Password</label>
-            </div>
 
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            {{ form_widget(form.dni, {'attr': {'class': 'form-control empty'}}) }}
+            <div></div>
+            {{ form_widget(form.captcha) }}
+            <button type="submit" class="btn btn-success btn-block btn-lg margin-top-40"><i class="icon wb-download" aria-hidden="true"></i> Descargar certificados</button>
 
-            <button type="submit" class="btn btn-success btn-block btn-lg margin-top-40">Iniciar sesión</button>
-
-          </form>
-          <a href="{{ path('choferes_descargar_certificados') }}"><button type="button" class="btn btn-outline btn-default btn-sm margin-top-20">Descargar certificados</button></a>
+          {{ form_end(form) }}
 
         </div>
       </div>
 
       <footer class="page-copyright page-copyright-inverse">
-        <p>Este es un producto de <a href="http://www.hera-digital.com"><img class="hera-brand-img" src="{{ asset('bundles/choferes/assets/images/hera-logo.png') }}" alt="hera logo"></a></p>
+        <p>Este es un producto de <a href="www.hera-digital.com"><img class="hera-brand-img" src="{{ asset('bundles/choferes/assets/images/hera-logo.png') }}" alt="hera logo"></a></p>
         <p>© 2015. Todos los derechos reservados.</p>
 
       </footer>
@@ -148,13 +150,6 @@
     })(document, window, jQuery);
   </script>
 
-  <script>
-    function InvalidMsg(textbox) {
-      if (textbox.validity.typeMismatch){
-          textbox.setCustomValidity('Por favor ingrese un email valido.');
-      }
-      return true;
-    }
-  </script>
+</body>
 
-</body></html>
+</html>

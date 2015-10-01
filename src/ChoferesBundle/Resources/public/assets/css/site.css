@@ -7,12 +7,12 @@
   border-right: 1px solid #cacaca;
 }
 .site-navbar .navbar-header .navbar-toggle {
-  color: #fff;
+  color: #76838f;
 }
 .site-navbar .navbar-header .hamburger:before,
 .site-navbar .navbar-header .hamburger:after,
 .site-navbar .navbar-header .hamburger .hamburger-bar {
-  background-color: #fff;
+  background-color: #76838f ;
 }
 .site-navbar .navbar-header .navbar-brand {
   font-family: "Roboto", sans-serif;

@@ -1,8 +1,9 @@
-(function($){
-  $(function(){
+(function(window, document, $) {
     $('#typeahead').typeahead({
       minLength: 3,
       source: function (query, process) {
+        console.log(query);
+        console.log($('#idcurso').val());
         return $.ajax({
           url: 'autocompletar',
           type: 'GET',
@@ -12,19 +13,23 @@
           },
           dataType: 'json',
           success: function(result) {
+            console.log(result);
             var data = [];
             $.each(result, function(i, obj) {
-              var item = { id: obj.id, nombre: obj.nombre + ' ' + obj.apellido + ' -  Dni: ' + obj.dni };
+              var item = { id: obj.id, query: obj.nombre + ' ' + obj.apellido + ' -  Dni: ' + obj.dni, nombre: obj.nombre, apellido: obj.apellido, dni: obj.dni };
               data.push(JSON.stringify(item));
             });
 
             return process(data);
+          },
+          error: function(result) {
+            console.log('error');
           }
         });
       },
       matcher: function(obj) {
         var item = JSON.parse(obj);
-        if (item.nombre.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
+        if (item.query.toLowerCase().indexOf(this.query.trim().toLowerCase()) != -1) {
             return true;
         }
       },
@@ -34,7 +39,7 @@
       highlighter: function (obj) {
         var item = JSON.parse(obj);
         var regex = new RegExp( '(' + this.query + ')', 'gi' );
-        return item.nombre.replace( regex, "<strong>$1</strong>" );
+        return item.query.replace( regex, "<strong>$1</strong>" );
       },
       updater: function (obj) {
         var item = JSON.parse(obj);
@@ -47,14 +52,20 @@
         });
         if(!exists) {
           $('#choferesCandidatos').append(
-              '<li><input type="hidden" class="chofer" name="chofer[]" value="' + item.id + '"/>'
-              + item.nombre
-              + ' <button class="btn btn-mini noAgregar">No agregar</button>'
-              + '</li>'
+            '<tr class="gradeA">'
+            + '<input type="hidden" class="chofer" name="chofer[]" value="' + item.id + '"/>'
+            + '<td>' + item.nombre + '</td>'
+            + '<td>' + item.apellido + '</td>'
+            + '<td>' + item.dni + '</td>'
+            + '<td class="actions">'
+            +   '<button class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row noAgregar" data-toggle="tooltip" data-original-title="borrar"><i class="icon wb-trash " aria-hidden="true"></i></a>'
+            + '</td>'
+            + '</tr>'
           );
+
           $(".noAgregar").click(function(){
-            $(this).parent().remove();
-            if ($('#choferesCandidatos li').length < 1) {
+            $(this).parent().parent().remove();
+            if ($('#choferesCandidatos tr').length < 1) {
               $('#addChoferSubmit').addClass("disabled");
               $('#addChoferSubmit').prop("disabled", true);
             }
@@ -64,8 +75,7 @@
 
         }
 
-        return;
+        return '';
       }
     });
-  }); // end of document ready
-})(jQuery); // end of jQuery name space
+})(window, document, jQuery);

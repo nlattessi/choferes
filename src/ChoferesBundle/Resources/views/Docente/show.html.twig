@@ -10,59 +10,83 @@
 
 {% block page %}
 
-<h1>Docente</h1>
 
-<form class="form-horizontal">
-    <fieldset>        <div class="control-group">
-            <label class="control-label">Id</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.id }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Nombre</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.nombre }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Apellido</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.apellido }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Dni</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.dni }}</span>            </div>
+    <!-- Page -->
+    <div class="animsition">
+        <div class="page-header">
+            <h1 class="page-title">Ver</h1>
+            <ol class="breadcrumb">
+                <li><a href="{{ path('docente') }}">Docente</a></li>
+                <li class="active">Ver</li>
+            </ol>
+
+
         </div>
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
-                <div class="control-group">
-                    <label class="control-label">Prestador</label>
-                    <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.prestador }}</span></div>
+        <div class="page-content">
+
+            <!-- Panel Table Add Row -->
+            <div class="panel">
+                <div class="panel-body">
+
+                    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+
+                        <tbody>
+                        <tr class="gradeA">
+                            <td><b>ID</b></td>
+                            <td>{{ entity.id }}</td>
+                        </tr>
+                        <tr class="gradeA">
+                            <td><b>Usuario</b></td>
+                            <td>{{ entity.nombre }}</td>
+                        </tr>
+                        <tr class="gradeA">
+                            <td><b>Apellido</b></td>
+                            <td>{{ entity.apellido }}</td>
+                        </tr>
+                        <tr class="gradeA">
+                            <td><b>DNI</b></td>
+                            <td>{{ entity.dni }}</td>
+                        </tr>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                                <tr class="gradeA">
+                                    <td><b>Prestador</b></td>
+                                    <td>{{ entity.prestador }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+
+
+                    <div class="dt-panelfooter clearfix">
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                                <button type="button" onclick="location.href='{{ path('docente_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
+                            {% endif %}
+                        {% endif %}
+
+                        <button type="button" onclick="location.href='{{ path('docente') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                                <div class="float-left">
+                                    <form action="{{ path('docente_delete', { 'id': entity.id }) }}" method="post">
+                                        <input type="hidden" name="_method" value="DELETE" />
+                                        {{ form_widget(delete_form) }}
+                                        <button class="pull-right btn btn-default margin-top-10r" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">Eliminar</button>
+                                    </form>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
+
+
                 </div>
-            {% endif %}
-        {% endif %}
-      </fieldset>
-</form>
-
-<div>
-    <div class="float-left">
-        <a class="btn" href="{{ path('docente') }}">
-            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
+            </div>
+        </div>
     </div>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        {% if (app.user.rol != 'ROLE_PRESTADOR') %}
-            <div class="float-left">
-                <a class="btn btn-primary" href="{{ path('docente_edit', { 'id': entity.id }) }}">
-                    {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-                </a>
-            </div>
-        {% endif %}
-    {% endif %}
+    <!-- End Page -->
 
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        {% if (app.user.rol != 'ROLE_PRESTADOR') %}
-            <div class="float-left">
-                <form action="{{ path('docente_delete', { 'id': entity.id }) }}" method="post">
-                    <input type="hidden" name="_method" value="DELETE" />
-                    {{ form_widget(delete_form) }}
-                    <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                </form>
-            </div>
-        {% endif %}
-    {% endif %}
-</div>
+
 {% endblock %}

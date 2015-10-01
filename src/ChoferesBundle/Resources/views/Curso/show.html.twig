@@ -1,123 +1,141 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ parent() }} - {{ 'views.show.show'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
+    {{ parent() }} - {{ 'views.show.show'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
 
 {% block menu %}
-{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+    {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
 {% block page %}
 
-<h1>Curso</h1>
 
-<form class="form-horizontal">
-    <fieldset>        <div class="control-group">
-            <label class="control-label">Id</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.id }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Fecha de inicio</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaInicio|date('d/m/Y H:i') }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Fecha de fin</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.fechaFin|date('d/m/Y H:i') }}</span>            </div>
-        </div>
+<!-- Page -->
+<div class="animsition">
+    <div class="page-header">
+        <h1 class="page-title">Ver</h1>
+        <ol class="breadcrumb">
+            <li><a href="javascript:void(0)">Cursos</a></li>
+            <li class="active">Ver</li>
+        </ol>
 
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
-                <div class="control-group">
-                    <label class="control-label">Prestador</label>
-                    <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.prestador }}</span></div>
-                </div>
-            {% endif %}
-        {% endif %}
 
-        <div class="control-group">
-            <label class="control-label">Codigo</label>
-            <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.codigo }}</span></div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Año</label>
-            <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.anio }}</span></div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Comprobante</label>
-            <div class="controls"><span class="input-xlarge uneditable-input">{{ entity.comprobante }}</span></div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Fecha de pago</label>
-            <div class="controls"><span class="input-xlarge uneditable-input">{% if entity.fechaPago %}{{ entity.fechaPago|date('d/m/Y') }}{% endif %}</span></div>
-        </div>
-
-        <div class="control-group">
-            <label class="control-label">Docente</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.docente }}</span>            </div>
-        </div>
-        <div class="control-group">
-            <label class="control-label">Sede</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.sede }}</span>            </div>
-        </div>
-                <div class="control-group">
-            <label class="control-label">Tipo</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.tipocurso }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Estado</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.estado }}</span>            </div>
-        </div>        </fieldset>
-</form>
-
-{% if choferesCurso is not empty %} <!-- Estados: Confirmado, Por validar, Cancelado, Validado y con Falla de validacion -->
-<div id="listaChoferes">
-    <table class="table table-striped table-bordered table-condensed">
-        <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Dni</th>
-            <th>Nota</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for choferCurso in choferesCurso %}
-            <tr>
-                <td>{{ choferCurso.chofer.nombre }}</td>
-                <td>{{ choferCurso.chofer.apellido }}</td>
-                <td>{{ choferCurso.chofer.dni }}</td>
-                <td>{{ choferCurso.aprobado }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% endif %}
-
-<div>
-    <div class="float-left">
-        <a class="btn" href="{{ path('curso') }}">
-            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
     </div>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-      {% if app.user.rol == 'ROLE_CNTSV' %}
-        <div class="float-left">
-          <a class="btn btn-primary" href="{{ path('curso_edit', { 'id': entity.id }) }}">
-              {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-          </a>
-          <a class="btn btn-danger" href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
-              Cancelar Curso
-          </a>
-        </div>
-      {% elseif app.user.rol == 'ROLE_PRESTADOR' and entity.estado.id == 1 and entity.fechaInicio|date('U') > "+4 days"|date('U') %} <!--Estado: Cargado-->
-        <div class="float-left">
-          <a class="btn btn-primary" href="{{ path('curso_edit', { 'id': entity.id }) }}">
-              {{ 'views.actions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-          </a>
-        </div>
-      {% endif %}
-    {% endif %}
-</div>
+    <div class="page-content">
 
-{% endblock %}
+        <!-- Panel Table Add Row -->
+        <div class="panel">
+            <div class="panel-body">
+
+                <table class="table table-bordered table-hover table-striped"
+                       id="exampleAddRow">
+
+                    <tbody>
+                    <tr class="gradeA">
+                        <td><b>ID</b></td>
+                        <td>{{ entity.id }}</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><b>Fecha de inicio</b></td>
+                        <td>{{ entity.fechaInicio|date('d/m/Y H:i') }}</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><b>Fecha de fin</b></td>
+                        <td>{{ entity.fechaFin|date('d/m/Y H:i') }}</td>
+                    </tr>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                            <tr class="gradeA">
+                                <td><b>Prestador</b></td>
+                                <td>{{ entity.prestador }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endif %}
+                    <tr class="gradeA">
+                        <td><b>{{ entity.codigo }}</b></td>
+                        <td></td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><b>Docente</b></td>
+                        <td>{{ entity.docente }}</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><b>Sede</b></td>
+                        <td>{{ entity.sede }}</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><b>Tipo</b></td>
+                        <td>{{ entity.tipocurso }}</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><b>Estado</b></td>
+                        <td>{{ entity.estado }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+                <div class="dt-panelfooter clearfix">
+                    <button type="button"
+                            onclick="location.href='{{ path('curso') }}'"
+                            class="btn btn-outline btn-default margin-top-10">
+                        Volver al listado
+                    </button>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if app.user.rol == 'ROLE_CNTSV' %}
+                            <button type="button"
+                                    onclick="location.href='{{ path('curso_edit', { 'id': entity.id }) }}'"
+                                    class="btn btn-success margin-top-10">Editar
+                            </button>
+                            <button type="button"
+                                    onclick="location.href='{{ path('curso_cancelar', { 'id': entity.id }) }}'"
+                                    class="btn btn-success margin-top-10">
+                                Cancelar Curso
+                            </button>
+                        {% elseif app.user.rol == 'ROLE_PRESTADOR' and entity.estado.id == 1 and entity.fechaInicio|date('U') > "+4 days"|date('U') %} <!--Estado: Cargado-->
+                            <button type="button"
+                                    onclick="location.href='{{ path('curso_edit', { 'id': entity.id }) }}'"
+                                    class="btn btn-success margin-top-10">Editar
+                            </button>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if choferesCurso is not empty %}
+            <div class="panel-body">
+                <!-- Estados: Confirmado, Por validar, Cancelado, Validado y con Falla de validacion -->
+                <div id="listaChoferes">
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Dni</th>
+                            <th>Nota</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for choferCurso in choferesCurso %}
+                            <tr>
+                                <td>{{ choferCurso.chofer.nombre }}</td>
+                                <td>{{ choferCurso.chofer.apellido }}</td>
+                                <td>{{ choferCurso.chofer.dni }}</td>
+                                <td>{{ choferCurso.aprobado }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- End Page -->
+
+    {% endblock %}

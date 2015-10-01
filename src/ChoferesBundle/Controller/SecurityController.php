@@ -66,7 +66,7 @@ class SecurityController extends Controller
                 $entity->setPassword($encoder->encodePassword($password, $entity->getSalt()));
                 $em->persist($entity);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
+                $this->get('session')->getFlashBag()->add('success', 'Se actualizo la contraseña exitosamente.');
 
                 return $this->redirect($this->generateUrl('home'));
             } else {

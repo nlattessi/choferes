@@ -99,3 +99,15 @@
     </div>
   </div>
 {% endblock %}
+
+{% block form_errors %}
+  {% spaceless %}
+    {% if errors|length > 0 %}
+      {% for error in errors %}
+        <div class="alert ng-isolate-scope alert-danger alert-dismissible">
+          <div><span class="ng-binding ng-scope">{{ error.message }}</span></div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endspaceless %}
+{% endblock %}

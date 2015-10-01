@@ -10,14 +10,6 @@
 {% endblock %}
 {% block pageHeader%}
     <h1 class="page-title">Cursos</h1>
-    {% if form_errors(filterForm) %}
-        <div class="span2">
-            <div class="alert alert-block alert-error fade in form-errors">
-                {{ form_errors(filterForm) }}
-            </div>
-            &nbsp;
-        </div>
-    {% endif %}
     <div class="page-header-actions">
         <a class="btn btn-sm btn-default btn-outline btn-round" data-toggle="collapse"  data-target="#filters" aria-expanded="false" aria-controls="exampleCollapseExample">
             <i class="icon wb-chevron-down" aria-hidden="true"></i>
@@ -64,6 +56,8 @@
     <!-- Panel Table Add Row -->
     <div class="panel">
         <div class="panel-body">
+
+          {{ form_errors(filterForm) }}
 
             <table class="table table-bordered table-hover table-striped">
     <thead>

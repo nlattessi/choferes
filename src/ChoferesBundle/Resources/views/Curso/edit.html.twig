@@ -27,7 +27,8 @@
               <h3 class="panel-title">Todos los campos son obligatorios</h3>
             </div>
                   <div class="panel-body container-fluid">
-                    <form action="{{ path('curso_create') }}" method="post" {{ form_enctype(edit_form) }}>
+                    <form action="{{ path('curso_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+                        <input type="hidden" name="_method" value="PUT" />
                          <div class="row margin-top-30">
                            {{ form_widget(edit_form.fechaInicio, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
                            {{ form_widget(edit_form.horaInicio, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off',

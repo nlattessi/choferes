@@ -8,8 +8,10 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
-{% block page %}
+{% block pageHeader %}<h1 class="page-title">Crear asociacion usuario - prestador</h1>{% endblock %}
 
+{% block page %}
+{#
 <h1>{{ 'views.new.creation'|trans({'%entity%': 'UsuarioPrestador'}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
 
 <form class="well" action="{{ path('usuarioprestador_create') }}" method="post" {{ form_enctype(form) }}>
@@ -25,5 +27,40 @@
             {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
         </a>
     </div>
+</div>
+#}
+
+<div class="panel">
+  <div class="panel-heading">
+    <h4 class="panel-title">Complete todos los campos.</h4>
+  </div>
+
+  <div class="panel-body container-fluid">
+    <form action="{{ path('usuarioprestador_create') }}" method="post" {{ form_enctype(form) }}>
+      <div class="row ">
+        <div class="col-sm-6 col-md-6 margin-top-30">
+                            <h4 class="example-title">Usuario</h4>
+                                <div class="form-group">
+                                  {{ form_widget(form.usuario, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                          </div>
+                          <div class="col-sm-6 col-md-6 margin-top-30">
+                                              <h4 class="example-title">Prestador</h4>
+                                                  <div class="form-group">
+                                                    {{ form_widget(form.prestador, {'attr': {'class': 'form-control'}}) }}
+                                                  </div>
+                                            </div>
+
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-6 margin-top-20">
+        <button type="submit" class="btn btn btn-success">Crear</button>
+        {{ form_widget(form.reset, {'attr': {'class': 'btn btn-outline btn-default'}}) }}
+        <a href="{{ path('usuarioprestador') }}" class="btn btn-outline btn-warning">Ver asociaciones</a>
+        </div>
+      </div> <!-- row-->
+      {{ form_end(form) }}
+    </form>
+  </div>
 </div>
 {% endblock %}

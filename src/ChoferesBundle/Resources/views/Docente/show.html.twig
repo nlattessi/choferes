@@ -67,17 +67,6 @@
                         {% endif %}
 
                         <button type="button" onclick="location.href='{{ path('docente') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
-                                <div class="float-left">
-                                    <form action="{{ path('docente_delete', { 'id': entity.id }) }}" method="post">
-                                        <input type="hidden" name="_method" value="DELETE" />
-                                        {{ form_widget(delete_form) }}
-                                        <button class="pull-right btn btn-default margin-top-10r" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">Eliminar</button>
-                                    </form>
-                                </div>
-                            {% endif %}
-                        {% endif %}
                     </div>
 
 

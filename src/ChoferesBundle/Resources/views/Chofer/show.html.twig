@@ -76,11 +76,6 @@
                         <button type="button" onclick="location.href='{{ path('chofer_consulta_id', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Estado</button>
                         <button type="button" onclick="location.href='{{ path('chofer') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
 
-                        <form  style="display: inline;" action="{{ path('chofer_delete', { 'id': entity.id }) }}" method="post">
-                            <input type="hidden" name="_method" value="DELETE" />
-                            {{ form_widget(delete_form) }}
-                            <button class="pull-right btn btn-default margin-top-10" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                        </form>
                     </div>
 
 

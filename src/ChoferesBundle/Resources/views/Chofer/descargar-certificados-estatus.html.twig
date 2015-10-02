@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html class="no-js css-menubar" lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta name="description" content="bootstrap admin template">
+  <meta name="author" content="">
+
+  <title>CNTSV - Descargar certificado</title>
+
+  <link rel="apple-touch-icon" href="{{ asset('bundles/choferes/assets/images/apple-touch-icon.png') }}">
+  <link rel="shortcut icon" href="{{ asset('bundles/choferes/assets/images/favicon.ico') }}">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/bootstrap-extend.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/site.css') }}">
+
+  <!-- Plugins -->
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/animsition/animsition.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/asscrollable/asScrollable.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/switchery/switchery.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/intro-js/introjs.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/slidepanel/slidePanel.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/flag-icon-css/flag-icon.css') }}">
+
+  <!-- Plugins For This Page -->
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-bootstrap/dataTables.bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-fixedheader/dataTables.fixedHeader.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-responsive/dataTables.responsive.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.css') }}">
+
+  <!-- Page -->
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/../fonts/font-awesome/font-awesome.css') }}">
+
+  <!-- Fonts -->
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/fonts/web-icons/web-icons.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/fonts/brand-icons/brand-icons.min.css') }}">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic') }}">
+  <!-- Inline -->
+  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/examples/css/tables/datatable.css') }}">
+
+  <!--[if lt IE 9]>
+    <script src="{{ asset('bundles/choferes/assets/vendor/html5shiv/html5shiv.min.js') }}"></script>
+    <![endif]-->
+
+  <!--[if lt IE 10]>
+    <script src="{{ asset('bundles/choferes/assets/vendor/media-match/media.match.min.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/respond/respond.min.js') }}"></script>
+    <![endif]-->
+
+  <!-- Scripts -->
+  <script src="{{ asset('bundles/choferes/assets/vendor/modernizr/modernizr.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/vendor/breakpoints/breakpoints.js') }}"></script>
+  <script>
+    Breakpoints();
+  </script>
+</head>
+<body class="site-menubar-unfold">
+  <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+  <nav class="site-navbar navbar navbar-default navbar-fixed-top navbar-mega" role="navigation">
+
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle hamburger hamburger-close navbar-toggle-left hided unfolded" data-toggle="menubar">
+        <span class="sr-only"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-collapse" data-toggle="collapse">
+        <i class="icon wb-more-horizontal" aria-hidden="true"></i>
+      </button>
+      <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
+        <img class="navbar-brand-logo" src="{{ asset('bundles/choferes/assets/images/logo.png') }}" title="cntsv logo">
+        <span class="navbar-brand-text"> CNTSV</span>
+      </div>
+
+    </div>
+
+    <div class="navbar-container container-fluid">
+      <!-- Navbar Collapse -->
+      <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+        <!-- Navbar Toolbar -->
+        <ul class="nav navbar-toolbar">
+          <li class="hidden-float" id="toggleMenubar">
+            <a data-toggle="menubar" href="#" role="button">
+              <i class="icon hamburger hamburger-arrow-left hided unfolded">
+                  <span class="sr-only">Cambiar visualización</span>
+                  <span class="hamburger-bar"></span>
+                </i>
+            </a>
+          </li>
+        </ul>
+        <!-- End Navbar Toolbar -->
+
+        <!-- Navbar Toolbar Right -->
+
+        <!-- End Navbar Toolbar Right -->
+      </div>
+      <!-- End Navbar Collapse -->
+
+      <!-- Site Navbar Seach -->
+      <div class="collapse navbar-search-overlap" id="site-navbar-search">
+        <form role="search">
+          <div class="form-group">
+            <div class="input-search">
+              <i class="input-search-icon wb-search" aria-hidden="true"></i>
+              <input type="text" class="form-control" name="site-search" placeholder="Search...">
+              <button type="button" class="input-search-close icon wb-close" data-target="#site-navbar-search" data-toggle="collapse" aria-label="Close"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- End Site Navbar Seach -->
+    </div>
+  </nav>
+   <div class="site-menubar">
+    <div class="site-menubar-body">
+      <div>
+        <div>
+          <ul class="site-menu">
+            <li class="site-menu-category">Menu</li>
+
+
+
+
+            <li class="site-menu-item active open ">
+              <a href="#" >
+                <i class="site-menu-icon wb-download" aria-hidden="true"></i>
+                <span class="site-menu-title">Descargar certificado</span>
+              </a>
+            </li>
+
+          </ul>
+
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+
+
+  <!-- Page -->
+  <div class="page animsition">
+    <div class="page-header">
+      <h1 class="page-title">Descargar certificado</h1>
+      <ol class="breadcrumb">
+        <li><a href="javascript:void(0)">Choferes</a></li>
+        <li class="active">Descargar certificado</li>
+      </ol>
+
+
+    </div>
+<div class="page-content">
+
+      <!-- Panel Table Add Row -->
+      <div class="panel">
+         <div class="panel-body">
+
+          <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+
+            <tbody>
+              <tr class="gradeA">
+                <tr class="gradeA">
+                <td><b>Nombre</b></td>
+                <td>{{ chofer.nombre }}</td>
+              </tr>
+              <tr class="gradeA">
+                <td><b>DNI</b></td>
+                <td>{{ chofer.dni }}</td>
+              </tr>
+              <tr class="gradeA">
+                <td><b>Matricula</b></td>
+                <td>
+                {% if chofer.matricula %}
+                    {{ chofer.matricula }}
+                {% else %}
+                    <i>(no informada)</i>
+                {% endif %}
+              </td>
+              </tr>
+              <tr class="gradeA">
+                <td><b>Estado</b></td>
+                <td>
+                {% if status.certificado %}
+                  Vigente
+                {% else %}
+                    Expirado
+                {% endif %}
+                </td>
+              </tr>
+              {% if status.certificado %}
+                <tr class="gradeA">
+                  <td><b>Fecha curso complementario</b></td>
+                  <td>{{ status.fechaFin|date('d/m/Y') }}</td>
+                </tr>
+              {% endif %}
+
+            </tbody>
+          </table>
+
+
+          <div class="dt-panelfooter clearfix">
+
+          {% if status.certificado %}
+          <form class="" action="" method="post">
+            <input type="hidden" name="choferDni" value="{{ chofer.dni }}">
+            <a href="{{ path('choferes_descargar_certificados') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
+            <button type="submit" name="descargar" class="margin-top-10 btn btn-outline btn-warning">Descargar certificado</button>
+          </form>
+          {% else %}
+            <a href="{{ path('choferes_descargar_certificados') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
+          {% endif %}
+          </div>
+
+
+
+    </div>
+  </div>
+</div>
+</div>
+  <!-- End Page -->
+
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <span class="site-footer-legal">© 2015 <a href="http://www.cntsv.gob.ar/">Comisión nacional del tránsito y la seguridad vial</a></span>
+
+  </footer>
+
+  <!-- Core  -->
+  <script src="{{ asset('bundles/choferes/assets/vendor/jquery/jquery.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/vendor/bootstrap/bootstrap.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/vendor/animsition/jquery.animsition.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/vendor/asscroll/jquery-asScroll.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/vendor/mousewheel/jquery.mousewheel.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/vendor/asscrollable/jquery.asScrollable.all.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/vendor/ashoverscroll/jquery-asHoverScroll.js') }}"></script>
+
+  <!-- Plugins -->
+  <script src="{{ asset('bundles/choferes/assets/vendor/switchery/switchery.min.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/vendor/intro-js/intro.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/vendor/slidepanel/jquery-slidePanel.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+
+  <!-- Plugins For This Page -->
+  <script src="{{ asset('bundles/choferes/assets/vendor/datatables/jquery.dataTables.js') }}"></script>
+
+  <!-- Scripts -->
+  <script src="{{ asset('bundles/choferes/assets/js/core.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/js/site.js') }}"></script>
+
+  <script src="{{ asset('bundles/choferes/assets/js/sections/menu.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/js/sections/menubar.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/js/sections/gridmenu.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/js/sections/sidebar.js') }}"></script>
+
+
+  <script src="{{ asset('bundles/choferes/assets/js/components/asscrollable.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/js/components/animsition.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/js/components/slidepanel.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/js/components/switchery.js') }}"></script>
+
+  <!-- Scripts For This Page -->
+  <script src="{{ asset('bundles/choferes/assets/js/components/datatables.js') }}"></script>
+
+  <script src="{{ asset('bundles/choferes/assets/examples/js/tables/datatable.js') }}"></script>
+  <script src="{{ asset('bundles/choferes/assets/examples/js/uikit/icon.js') }}"></script>
+ <script src="{{ asset('bundles/choferes/assets/js/components/bootstrap-datepicker.js') }}"></script>
+
+
+
+
+</body></html>

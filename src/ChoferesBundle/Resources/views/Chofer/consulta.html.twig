@@ -89,40 +89,28 @@
         </table>
         <div class="dt-panelfooter clearfix">
         {% if status.certificado %}
-          {% if (is_granted('IS_AUTHENTICATED_FULLY') and app.user.rol != 'ROLE_CNRT') or (not is_granted('IS_AUTHENTICATED_FULLY')) %}
+          {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.rol != 'ROLE_CNRT'%}
             <form class="" action="" method="post">
-              {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                {% if goBack %}
-                  <a href="javascript:history.go(-1)" class="btn btn-outline btn-default margin-top-10">Volver</a>
-                {% else %}
-                  <a href="{{ path('chofer_consulta') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
-                {% endif %}
-              {% else %}
-                <a href="{{ path('choferes_descargar_certificados') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
-              {% endif %}
-              <input type="hidden" name="choferDni" value="{{ chofer.dni }}">
-              <button type="submit" name="descargar" class="margin-top-10 btn btn-outline btn-warning">Descargar certificado</button>
-            </form>
-          {% else %}
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
               {% if goBack %}
                 <a href="javascript:history.go(-1)" class="btn btn-outline btn-default margin-top-10">Volver</a>
               {% else %}
                 <a href="{{ path('chofer_consulta') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
               {% endif %}
-            {% else %}
-              <a href="{{ path('choferes_descargar_certificados') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
-            {% endif %}
-          {% endif %}
-        {% else %}
-          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+              <input type="hidden" name="choferDni" value="{{ chofer.dni }}">
+              <button type="submit" name="descargar" class="margin-top-10 btn btn-outline btn-warning">Descargar certificado</button>
+            </form>
+          {% elseif is_granted('IS_AUTHENTICATED_FULLY') %}
             {% if goBack %}
               <a href="javascript:history.go(-1)" class="btn btn-outline btn-default margin-top-10">Volver</a>
             {% else %}
               <a href="{{ path('chofer_consulta') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
             {% endif %}
+          {% endif %}
+        {% else %}
+          {% if goBack %}
+            <a href="javascript:history.go(-1)" class="btn btn-outline btn-default margin-top-10">Volver</a>
           {% else %}
-            <a href="{{ path('choferes_descargar_certificados') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
+            <a href="{{ path('chofer_consulta') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
           {% endif %}
         {% endif %}
         </div>

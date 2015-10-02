@@ -27,7 +27,6 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/consulta, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/descargar-certificados, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/generate-captcha/gcb_captcha, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
@@ -48,6 +47,7 @@ security:
         - { path: ^/en_construccion, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/cambiar_password, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/logout, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/consulta, roles: IS_AUTHENTICATED_FULLY }
 
         - { path: ^/(.+), roles: ROLE_ADMIN }
 

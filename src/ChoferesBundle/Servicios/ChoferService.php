@@ -12,11 +12,15 @@ class ChoferService
 {
     protected $em;
     protected $kernelCacheDir;
+    protected $hashids;
+    protected $router;
 
-    public function __construct(EntityManager $entityManager, $kernelCacheDir)
+    public function __construct(EntityManager $entityManager, $kernelCacheDir, $hashids, $router)
     {
         $this->em = $entityManager;
         $this->kernelCacheDir = $kernelCacheDir;
+        $this->hashids = $hashids;
+        $this->router = $router;
     }
 
     public function getStatusPorDniChofer($dni)
@@ -86,6 +90,11 @@ class ChoferService
 
         $curso = $this->em->getRepository('ChoferesBundle:Curso')->find($status['cursoId']);
 
+        $url = $this->router->generate('choferes_descargar_certificados_hash', [
+            'hash' => $this->hashids->encode($chofer->getId())
+        ]);
+        $url = "http://$_SERVER[HTTP_HOST]" . $url;
+
         $data = [
             'id' => $chofer->getId(),
             'prestador' => $curso->getPrestador()->getNombre(),
@@ -96,7 +105,8 @@ class ChoferService
             'sede' => $curso->getSede(),
             'fecha_curso' => $status['fechaFin']->format('d/m/Y'),
             'transaccion' => $curso->getComprobante(),
-            'fecha_transaccion' => $curso->getFechaPago()->format('d/m/Y')
+            'fecha_transaccion' => $curso->getFechaPago()->format('d/m/Y'),
+            'url' => $url
         ];
 
         $pdfHtml  = new \PdfHtml();

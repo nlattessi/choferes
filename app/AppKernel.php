@@ -24,6 +24,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
 
             new Gregwar\CaptchaBundle\GregwarCaptchaBundle(),
+
+            new cayetanosoriano\HashidsBundle\cayetanosorianoHashidsBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

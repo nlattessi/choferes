@@ -16,7 +16,7 @@ class PrestadorType extends AbstractType
             ->add('direccion')
             ->add('telefono')
             ->add('mail')
-            // ->add('logo')
+            ->add('reset', 'reset', ['label' => 'Limpiar'])
         ;
     }
 

@@ -1,11 +1,5 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
 
-{% block javascript %}
-    <script src="{{ asset('bundles/choferes/js/inputmask.js') }}"></script>
-    <script src="{{ asset('bundles/choferes/js/jquery.inputmask.js') }}"></script>
-    <script src="{{ asset('bundles/choferes/js/cuilmask.js') }}" type="text/javascript"></script>
-{% endblock %}
-
 {% block title %}
 {{ parent() }} -  {{ 'views.edit.edit'|trans({'%entity%': 'Prestador'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
@@ -14,30 +8,48 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageHeader %}<h1 class="page-title">Editar prestador</h1>{% endblock %}
+
 {% block page %}
-
-<h1>{{ 'views.edit.edit'|trans({'%entity%': 'Prestador'}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
-
-<form class="well" action="{{ path('prestador_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    <input type="hidden" name="_method" value="PUT" />
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit" class="btn btn-success">{{ 'views.edit.editbutton'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-    </p>
-</form>
-
-<div>
-    <div class="float-left">
-        <a class="btn" href="{{ path('prestador') }}">
-            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
+<div class="panel">
+  <div class="panel-body">
+    <form action="{{ path('prestador_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+      <tbody>
+        <tr class="gradeA">
+          <td><b>Nombre / Razón social</td>
+          <td>{{ form_widget(edit_form.nombre, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>CUIT</td>
+          <td>{{ form_widget(edit_form.cuit, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Dirección</td>
+          <td>{{ form_widget(edit_form.direccion, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Teléfono</td>
+          <td>{{ form_widget(edit_form.telefono, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>E-mail</td>
+          <td>{{ form_widget(edit_form.mail, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="dt-panelfooter clearfix">
+      <button type="submit" class="btn btn btn-success margin-top-10">Guardar</button>
+      <a href="{{ path('prestador') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
     </div>
-    <div class="float-left">
-        <form action="{{ path('prestador_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-        </form>
-    </div>
+    {{ form_widget(edit_form._token) }}
+    </form>
+  </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('bundles/choferes/js/inputmask.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/js/jquery.inputmask.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/js/cuilmask.js') }}" type="text/javascript"></script>
 {% endblock %}

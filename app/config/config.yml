@@ -83,3 +83,6 @@ swiftmailer:
     spool:     { type: memory }
 
 gregwar_captcha: ~
+
+cayetanosoriano_hashids:
+    min_hash_length: 12

@@ -321,24 +321,25 @@ class ChoferController extends Controller
             if ($status) {
                 $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
             } else {
-                // $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
                 $errors[] = new FormError('No se encuentran resultados.');
-                if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-                    $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
-                } else {
-                    $form = $this->createForm(new ChoferStatusType());
-                }
+                // if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+                //     $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
+                // } else {
+                //     $form = $this->createForm(new ChoferStatusType());
+                // }
+                $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
             }
         } else {
             $errors = array();
             foreach($form->getErrors() as $key => $error) {
                 $errors[$key] = $error;
             }
-            if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-                $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
-            } else {
-                $form = $this->createForm(new ChoferStatusType());
-            }
+            // if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            //     $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
+            // } else {
+            //     $form = $this->createForm(new ChoferStatusType());
+            // }
+            $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
         }
 
         return $this->render('ChoferesBundle:Chofer:consulta.html.twig', array(
@@ -351,9 +352,33 @@ class ChoferController extends Controller
         ));
     }
 
-    public function descargarCertificadosAction(Request $request)
+    public function descargarCertificadosAction(Request $request, $hash = null)
     {
         $errors = array();
+
+        // Descargo certificado si el usuario pidio hacerlo.
+        if ($request->isMethod('POST')) {
+            if ($request->request->has('descargar')) {
+                $choferService = $this->get('choferes.servicios.chofer');
+                return $choferService->descargarCertificado($request->request->get('choferDni'));
+            }
+        }
+
+        if ($hash) {
+            $hashids = $this->get('hashids');
+            $id = $hashids->decode($hash);
+            if (! empty($id)) {
+                $id = $id[0];
+                $em = $this->getDoctrine()->getManager();
+                $choferService = $this->get('choferes.servicios.chofer');
+                $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($id);
+                $status = $choferService->getStatusPorDniChofer($chofer->getDni());
+                return $this->render('ChoferesBundle:Chofer:descargar-certificados-estatus.html.twig', [
+                    'chofer' => $chofer,
+                    'status' => $status,
+                ]);
+            }
+        }
 
         $form = $this->createForm(new ChoferStatusType());
 
@@ -368,7 +393,10 @@ class ChoferController extends Controller
 
             if ($status) {
                 $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
-                return $this->redirect($this->generateUrl('chofer_consulta_id', array('id' => $chofer->getId())));
+                return $this->render('ChoferesBundle:Chofer:descargar-certificados-estatus.html.twig', [
+                    'chofer' => $chofer,
+                    'status' => $status,
+                ]);
             } else {
                 $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
             }

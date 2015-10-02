@@ -34,6 +34,7 @@ class CursoType extends AbstractType
             ->add('fechaFin', 'text', array('mapped' => false))
             ->add('horaFin', 'text', array('mapped' => false))
             ->add('tipocurso')
+            ->add('reset', 'reset', ['label' => 'Limpiar '])
         ;
 
         if ($usuario->getRol() == 'ROLE_CNTSV')

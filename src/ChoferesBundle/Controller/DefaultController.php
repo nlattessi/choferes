@@ -18,7 +18,7 @@ class DefaultController extends Controller
 
     public function homeAction()
     {
-        return $this->render('ChoferesBundle:Default:home.html.twig');
+        return $this->render('ChoferesBundle:Default:home.html.twig', ['css_active' => 'home']);
     }
 
     public function enConstruccionAction()

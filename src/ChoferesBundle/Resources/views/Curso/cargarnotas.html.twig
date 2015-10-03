@@ -8,38 +8,38 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageTitle %}Cargar notas{% endblock %}
+
 {% block page %}
-
-    <div id="listaChoferes">
-        <form action="{{ path('curso_realizar', { 'id': curso.id }) }}" method="post">
-        <table class="table table-striped table-bordered table-condensed">
-            <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Dni</th>
-                <th>Nota</th>
+<div class="panel">
+  <div class="panel-body">
+    <form action="{{ path('curso_realizar', { 'id': curso.id }) }}" method="post">
+      <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>DNI</th>
+            <th>Nota</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entity in entities %}
+            <tr class="gradeA">
+              <td>{{ entity.chofer.nombre }}</td>
+              <td>{{ entity.chofer.apellido }}</td>
+              <td>{{ entity.chofer.dni }}</td>
+              <td class="actions">
+                <input type="number" class="form-control" name="{{ entity.id }}" value="{{ entity.aprobado }}" /> </td>
+              </td>
             </tr>
-            </thead>
-            <tbody>
-
-            {% for entity in entities %}
-                <tr>
-
-                    <td>{{ entity.chofer.nombre }}</td>
-                    <td>{{ entity.chofer.apellido }}</td>
-                    <td>{{ entity.chofer.dni }}</td>
-
-                    <td>
-                        <input type="number" name="{{ entity.id }}" value="{{ entity.aprobado }}" /> </td>
-                </tr>
-            {% endfor %}
-
-
-            </tbody>
-        </table>
-            <button type="submit" name="submit" class="btn btn-success"
-                    id="cargarNotasSubmit" >Subir Notas</button>
-        </form>
-    </div>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="dt-panelfooter clearfix">
+        <button type="submit" name="submit" class="btn btn-success margin-top-10" id="cargarNotasSubmit">Cargar Notas</button>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

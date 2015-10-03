@@ -127,6 +127,11 @@
                        href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
                         <i class="icon wb-check green-400" aria-hidden="true"></i>
                     </a>
+                  {% elseif entity.estado.id == 5 %} <!-- Estado: Validado -->
+                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="actualizar documentación"
+                       href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
+                        <i class="icon wb-check green-400" aria-hidden="true"></i>
+                    </a>
                   {% endif %}
               {% elseif app.user.rol == 'ROLE_PRESTADOR' %}
                   <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="ver"

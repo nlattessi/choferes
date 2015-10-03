@@ -97,3 +97,7 @@ choferes_descargar_certificados:
 choferes_descargar_certificados_hash:
     path: /descargar-certificados/{hash}
     defaults: { _controller: ChoferesBundle:Chofer:descargarCertificados }
+
+reporte:
+    resource: "@ChoferesBundle/Resources/config/routing/reporte.yml"
+    prefix:   /reporte

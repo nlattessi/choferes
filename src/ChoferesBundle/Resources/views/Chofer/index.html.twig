@@ -70,7 +70,7 @@
             <th>Colacuil</th>
             <th>Cuilempresa</th>
             <th>Matricula</th>
-            <th>Tienecursobasico</th>
+            <th>Tiene curso básico</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
     </thead>
@@ -85,7 +85,7 @@
             <td>{{ entity.colacuil }}</td>
             <td>{{ entity.cuilEmpresa }}</td>
             <td>{{ entity.matricula }}</td>
-            <td>{% if entity.tieneCursoBasico %}true{% else %}false{% endif %}</td>
+            <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
             <td>
               <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="ver"
                  href="{{ path('chofer_show', { 'id': entity.id }) }}">

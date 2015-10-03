@@ -3,6 +3,7 @@
 namespace ChoferesBundle\Controller;
 
 use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
+use Doctrine\ORM\Query\ResultSetMapping;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -411,6 +412,49 @@ class ChoferController extends Controller
         return $this->render('ChoferesBundle:Chofer:descargar-certificados.html.twig', [
             'form' => $form->createView(),
             'errors' => $errors,
+        ]);
+    }
+
+    public function reporteCursoAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
+        $rsm = new ResultSetMapping($em);
+        $rsm->addScalarResult('nombre','nombre');
+        $rsm->addScalarResult('cantidad','cantidad');
+
+        $query = $em->createNativeQuery('select tipo_curso.nombre as nombre, count(chofer_curso.id) as cantidad
+                                    from curso , chofer_curso, tipo_curso
+                                    where curso.id = chofer_curso.curso_id
+                                    and curso.tipoCurso_id = tipo_curso.id
+                                    and month(curso.fecha_inicio) = month(now())
+                                    group by curso.tipoCurso_id',$rsm);
+
+        $resultado = $query->getResult();
+
+        return $this->render('ChoferesBundle:Reporte:curso-por-tipo.html.twig', [
+            'resultado' => $resultado,
+            'css_active' => 'tipo',
+        ]);
+    }
+
+    public function reportePrestadorAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+        $rsm = new ResultSetMapping($em);
+        $rsm->addScalarResult('nombre','nombre');
+        $rsm->addScalarResult('cantidad','cantidad');
+
+        $query = $em->createNativeQuery('select prestador.nombre as nombre, count(chofer_curso.id) as cantidad
+                                    from curso , chofer_curso, prestador
+                                    where curso.id = chofer_curso.curso_id
+                                    and curso.prestador_id = prestador.id
+                                    and month(curso.fecha_inicio) = month(now())
+                                    group by curso.prestador_id;',$rsm);
+
+        $resultado = $query->getResult();
+
+        return $this->render('ChoferesBundle:Reporte:curso-por-prestador.html.twig', [
+            'resultado' => $resultado,
+            'css_active' => 'prestador',
         ]);
     }
 }

@@ -28,3 +28,11 @@ chofer_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ChoferesBundle:Chofer:delete" }
     requirements: { _method: post|delete }
+
+chofer_reporte_curso:
+    pattern:  /curso
+    defaults: { _controller: "ChoferesBundle:Chofer:reporteCurso" }
+
+chofer_reporte_prestador:
+    pattern:  /prestador
+    defaults: { _controller: "ChoferesBundle:Chofer:reportePrestador" }

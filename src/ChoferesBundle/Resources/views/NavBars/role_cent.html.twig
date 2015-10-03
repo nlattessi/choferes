@@ -5,16 +5,16 @@
         <span class="site-menu-arrow"></span>
     </a>
     <ul class="site-menu-sub">
-        <li class="site-menu-item active is-shown">
-            <a class="animsition-link" href="#" data-slug="layout-menu-collapsed">
+        <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'tipo' %} active{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('chofer_reporte_curso') }}" data-slug="layout-menu-collapsed">
                 <i class="site-menu-icon " aria-hidden="true"></i>
-                <span class="site-menu-title">Cantidad choferes curso basico</span>
+                <span class="site-menu-title">Cantidad choferes por tipo de curso</span>
             </a>
         </li>
-        <li class="site-menu-item">
-            <a class="animsition-link" href="#" data-slug="layout-menu-expended">
+        <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'prestador' %} active{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('chofer_reporte_prestador') }}" data-slug="layout-menu-expended">
                 <i class="site-menu-icon " aria-hidden="true"></i>
-                <span class="site-menu-title">Cantidad choferes curso actualizacion</span>
+                <span class="site-menu-title">Cantidad choferes por prestador</span>
             </a>
         </li>
     </ul>

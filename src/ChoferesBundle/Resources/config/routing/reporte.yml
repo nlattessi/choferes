@@ -1,0 +1,7 @@
+chofer_reporte_curso:
+    pattern:  /choferxtipocurso
+    defaults: { _controller: "ChoferesBundle:Chofer:reporteCurso" }
+
+chofer_reporte_prestador:
+    pattern:  /choferxprestador
+    defaults: { _controller: "ChoferesBundle:Chofer:reportePrestador" }

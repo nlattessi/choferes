@@ -48,7 +48,7 @@ security:
         - { path: ^/cambiar_password, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/logout, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/consulta, roles: IS_AUTHENTICATED_FULLY }
-
+        - { path: ^/reporte, roles: [ROLE_ADMIN, ROLE_CENT] }
         - { path: ^/(.+), roles: ROLE_ADMIN }
 
     encoders:

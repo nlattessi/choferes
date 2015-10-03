@@ -8,21 +8,14 @@
     {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageHeader %}<h1 class="page-title">Ver curso</h1>{% endblock %}
+
 {% block page %}
 
 
 <!-- Page -->
-<div class="animsition">
-    <div class="page-header">
-        <h1 class="page-title">Ver</h1>
-        <ol class="breadcrumb">
-            <li><a href="javascript:void(0)">Cursos</a></li>
-            <li class="active">Ver</li>
-        </ol>
 
 
-    </div>
-    <div class="page-content">
 
         <!-- Panel Table Add Row -->
         <div class="panel">
@@ -53,8 +46,8 @@
                         {% endif %}
                     {% endif %}
                     <tr class="gradeA">
-                        <td><b>{{ entity.codigo }}</b></td>
-                        <td></td>
+                        <td><b>Código</b></td>
+                        <td>{{ entity.codigo }}</td>
                     </tr>
                     <tr class="gradeA">
                         <td><b>Docente</b></td>
@@ -103,11 +96,14 @@
                 </div>
             </div>
 
+            </div>
+
             {% if choferesCurso is not empty %}
-            <div class="panel-body">
+            <div class="panel">
+              <div class="panel-body">
                 <!-- Estados: Confirmado, Por validar, Cancelado, Validado y con Falla de validacion -->
-                <div id="listaChoferes">
-                    <table class="table table-bordered table-hover table-striped">
+
+                    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
                         <thead>
                         <tr>
                             <th>Nombre</th>
@@ -118,7 +114,7 @@
                         </thead>
                         <tbody>
                         {% for choferCurso in choferesCurso %}
-                            <tr>
+                            <tr class="gradeA">
                                 <td>{{ choferCurso.chofer.nombre }}</td>
                                 <td>{{ choferCurso.chofer.apellido }}</td>
                                 <td>{{ choferCurso.chofer.dni }}</td>
@@ -128,12 +124,13 @@
                         </tbody>
                     </table>
 
+                  </div>
                 </div>
                 {% endif %}
 
-            </div>
-        </div>
-    </div>
+
+
+
 
 
     <!-- End Page -->

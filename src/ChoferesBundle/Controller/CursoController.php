@@ -167,7 +167,6 @@ class CursoController extends Controller
             'curso' => $entity
         ));
 
-
         if ($request->getMethod() == 'POST') {
 
             $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_VALIDADO));
@@ -181,6 +180,11 @@ class CursoController extends Controller
             }
 
             $em->flush();
+
+            if ($entity->getEstado()->getId() == self::ESTADO_CURSO_VALIDADO) {
+                $this->get('session')->getFlashBag()->add('success', 'Se actualizó el estado de la documentación.');
+                return $this->redirect($this->generateUrl('curso_validados', []));
+            }
 
             return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', array(
                 'titulo' => "Se registró el estado de la documentación",

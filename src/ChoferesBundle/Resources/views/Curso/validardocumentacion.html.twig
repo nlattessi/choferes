@@ -8,43 +8,47 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageHeader %}<h1 class="page-title">Aprobar documentación</h1>{% endblock %}
+
 {% block page %}
-
-    <div id="listaChoferes">
-        <form action="{{ path('curso_documentacion', { 'id': curso.id }) }}" method="post">
-        <table class="table table-striped table-bordered table-condensed">
-            <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Dni</th>
-                <th>Documentación</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            {% for entity in entities %}
-                <tr>
-
-                    <td>{{ entity.chofer.nombre }}</td>
-                    <td>{{ entity.chofer.apellido }}</td>
-                    <td>{{ entity.chofer.dni }}</td>
-                    <td>
-                    <input type="checkbox" name="{{ entity.id }}" value="SI"
-                            {% if(entity.documentacion) %}
-                                checked
-                            {% endif %}
-
-                            /> </td>
-
-                </tr>
-            {% endfor %}
-
-
-            </tbody>
-        </table>
-            <button type="submit" name="submit" class="btn btn-success"
-                    id="cargarNotasSubmit" >Actualizar Documentación</button>
-        </form>
-    </div>
+<div class="panel">
+  <div class="panel-heading">
+    <h4 class="panel-title">Seleccione la documentación que desea aprobar.</h4>
+  </div>
+  <div class="panel-body container-fluid">
+    <form action="{{ path('curso_documentacion', { 'id': curso.id }) }}" method="post">
+      <table class="table table-bordered table-hover table-striped " id="exampleAddRow">
+        <thead>
+          <tr>
+            <td>Nombre</td>
+            <td>Apellido</td>
+            <td>Dni</td>
+            <td>Documentación</td>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entity in entities %}
+            <tr class="gradeA">
+            <td>{{ entity.chofer.nombre }}</td>
+            <td>{{ entity.chofer.apellido }}</td>
+            <td>{{ entity.chofer.dni }}</td>
+            <td class="actions">
+              <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-left">
+                <input type="checkbox" id="inputCheckbox" name="{{ entity.id }}" value="SI"{% if(entity.documentacion) %}checked{% endif %}>
+                <label for="inputCheckbox"></label>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 margin-top-20">
+          <a href="{{ path('curso')}}" class="btn btn btn-outline btn-default">Volver al listado</a>
+          <button type="submit" class="btn btn btn-success" id="cargarNotasSubmit">Actualizar documentación</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}

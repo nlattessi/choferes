@@ -1,4 +1,5 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+{% form_theme form 'ChoferesBundle:Sede:fields.html.twig' %}
 
 {% block title %}
 {{ parent() }} - {{ 'views.new.creation'|trans({'%entity%': 'Sede'}, 'JordiLlonchCrudGeneratorBundle') }}
@@ -8,22 +9,36 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageHeader %}<h1 class="page-title">Crear Sede</h1>{% endblock %}
+
 {% block page %}
+<div class="panel">
+  <div class="panel-heading">
+    <h4 class="panel-title">Complete todos los campos.</h4>
+  </div>
 
-<h1>{{ 'views.new.creation'|trans({'%entity%': 'Sede'}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
-
-<form class="well" action="{{ path('sede_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit" class="btn btn-success">{{ 'views.new.create'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-    </p>
-</form>
-
-<div>
-    <div class="float-left">
-        <a class="btn" href="{{ path('sede') }}">
-            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
-    </div>
+  <div class="panel-body container-fluid">
+    <form action="{{ path('sede_create') }}" method="post" {{ form_enctype(form) }}>
+      <div class="row ">
+        {{ form_widget(form.nombre, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.direccion, {'attr': {'class': 'form-control'}}) }}
+      </div>
+      <div class="row">
+        {{ form_widget(form.provincia, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.ciudad, {'attr': {'class': 'form-control'}}) }}
+      </div>
+      <div class="row">
+        {{ form_widget(form.telefono, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.prestador, {'attr': {'class': 'form-control'}}) }}
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-4 margin-top-20">
+        <button type="submit" class="btn btn btn-success">Crear</button>
+        {{ form_widget(form.reset, {'attr': {'class': 'btn btn-outline btn-default'}}) }}
+        </div>
+      </div>
+      {{ form_end(form) }}
+    </form>
+  </div>
 </div>
 {% endblock %}

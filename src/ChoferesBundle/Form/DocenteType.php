@@ -15,6 +15,7 @@ class DocenteType extends AbstractType
             ->add('apellido')
             ->add('dni')
             ->add('prestador')
+            ->add('reset', 'reset', ['label' => 'Limpiar '])
         ;
     }
 

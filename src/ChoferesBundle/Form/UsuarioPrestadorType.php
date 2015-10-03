@@ -21,14 +21,14 @@ class UsuarioPrestadorType extends AbstractType
     {
         $builder
             ->add('prestador')
-            ->add('usuario')
+            ->add('reset', 'reset', ['label' => 'Limpiar'])
+            ->add('usuario', 'entity', array(
+                'class' => 'ChoferesBundle:Usuario',
+                'empty_value' => '',
+                'required' => true,
+                'choices' =>$this->usuarioService->obtenerUsuariosRolPrestador()
+            ))
         ;
-        $builder->add('usuario', 'entity', array(
-            'class' => 'ChoferesBundle:Usuario',
-            'empty_value' => '',
-            'required' => true,
-            'choices' =>$this->usuarioService->obtenerUsuariosRolPrestador()
-        ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

@@ -1,9 +1,8 @@
-$(document).ready(function(){
+(function(window, document, $) {
    $("#choferesbundle_prestador_cuit")
     .inputmask(
       "99-99999999-9",
       {
-        //"placeholder": "xx-xxxxxxxx-x",
         "removeMaskOnSubmit": true,
         "clearMaskOnLostFocus": false,
       }
@@ -12,9 +11,8 @@ $(document).ready(function(){
      .inputmask(
        "99-99999999-9",
        {
-         //"placeholder": "xx-xxxxxxxx-x",
          "removeMaskOnSubmit": true,
          "clearMaskOnLostFocus": false,
        }
-     );  
-});
+     );
+})(window, document, jQuery);

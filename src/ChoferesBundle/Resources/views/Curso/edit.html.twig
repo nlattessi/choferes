@@ -1,5 +1,4 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
-{% form_theme edit_form 'ChoferesBundle:Curso:fields.html.twig' %}
 
 {% block title %}
 {{ parent() }} -  {{ 'views.edit.edit'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
@@ -11,75 +10,118 @@
 
 {% block pageTitle %}Editar Curso{% endblock %}
 
-{% block css %}
-  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-bootstrap/dataTables.bootstrap.css') }}">
-  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-fixedheader/dataTables.fixedHeader.css') }}">
-  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/datatables-responsive/dataTables.responsive.css') }}">
-  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.css') }}">
-  <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery-timepicker.css') }}">
-{% endblock %}
-
 {% block page %}
-
-<!-- Page -->
-      <div class="panel">
-            <div class="panel-heading">
-              <h3 class="panel-title">Todos los campos son obligatorios</h3>
-            </div>
-                  <div class="panel-body container-fluid">
-                    <form action="{{ path('curso_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-                        <input type="hidden" name="_method" value="PUT" />
-                         <div class="row margin-top-30">
-                           {{ form_widget(edit_form.fechaInicio, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
-                           {{ form_widget(edit_form.horaInicio, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off',
-                              'data-time-format': 'H:i',
-                              'data-time-step': 15
-                              }})
-                            }}
-                         </div> <!-- row-->
-                         <div class="row margin-top-30">
-                           {{ form_widget(edit_form.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
-                           {{ form_widget(edit_form.horaFin, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
-                         </div> <!-- row-->
-
-                         {% if app.user.rol == 'ROLE_CNTSV' %}
-                         <div class="row margin-top-30">
-                           {{ form_widget(edit_form.anio, {'attr': {'class': 'form-control'}}) }}
-                           {{ form_widget(edit_form.codigo, {'attr': {'class': 'form-control'}}) }}
-                         </div>
-                           <div class="row margin-top-30">
-                           {{ form_widget(edit_form.comprobante, {'attr': {'class': 'form-control'}}) }}
-                           {{ form_widget(edit_form.fechaPago, {'attr': {'class': 'form-control'}}) }}
-                         </div>
-                         <div class="row margin-top-30">
-                           {{ form_widget(edit_form.observaciones, {'attr': {'class': 'form-control'}}) }}
-                           {{ form_widget(edit_form.prestador, {'attr': {'class': 'form-control'}}) }}
-                         </div>
-                         {% endif %}
-
-                         <div class="row margin-top-30">
-                           {{ form_widget(edit_form.sede, {'attr': {'class': 'form-control'}}) }}
-                           {{ form_widget(edit_form.docente, {'attr': {'class': 'form-control'}}) }}
-                         </div> <!-- row-->
-                         <div class="row margin-top-30">
-                          {{ form_widget(edit_form.tipocurso, {'attr': {'class': 'form-control'}}) }}
-                         </div> <!-- row-->
-
-                         <div class="row">
-                           <div class="col-sm-6 col-md-4 margin-top-20">
-                             <button type="button" class="btn btn-outline btn-default">Limpiar </button>
-                             <!-- <button type="submit" class="btn btn btn-success">Crear</button> -->
-                             <button type="submit" class="btn btn-success">{{ 'views.edit.editbutton'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                           </div>
-                         </div> <!-- row-->
-
-                         {{ form_end(edit_form) }}
-
-                        </div><!-- panel-->
-                        </div><!-- panel body-->
-
-  <!-- End Page -->
-
+<div class="panel">
+  <div class="panel-body">
+    <form action="{{ path('curso_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+      <tbody>
+        <tr class="gradeA">
+          <td><b>Fecha de inicio</td>
+          <td><div class="input-group">
+            <span class="input-group-addon">
+              <i class="icon wb-calendar" aria-hidden="true"></i>
+            </span>
+            {{ form_widget(edit_form.fechaInicio, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+          </div></td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Hora de inicio</td>
+          <td><div class="input-group">
+            <span class="input-group-addon">
+              <i class="icon wb-time" aria-hidden="true"></i>
+            </span>
+            {{ form_widget(edit_form.horaInicio, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off',
+                'data-time-format': 'H:i',
+                'data-time-step': 15
+                }})
+            }}
+          </div></td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Fecha de fin</td>
+          <td><div class="input-group">
+            <span class="input-group-addon">
+              <i class="icon wb-calendar" aria-hidden="true"></i>
+            </span>
+            {{ form_widget(edit_form.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+          </div></td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Hora de Fin</td>
+          <td><div class="input-group">
+            <span class="input-group-addon">
+              <i class="icon wb-time" aria-hidden="true"></i>
+            </span>
+            {{ form_widget(edit_form.horaFin, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off',
+                'data-time-format': 'H:i',
+                'data-time-step': 15
+                }})
+            }}
+          </div></td>
+        </tr>
+        {% if app.user.rol == 'ROLE_CNTSV' %}
+          <tr class="gradeA">
+            <td><b>Año</td>
+            <td><div class="input-group">
+              <span class="input-group-addon">
+                <i class="icon wb-calendar" aria-hidden="true"></i>
+              </span>
+              {{ form_widget(edit_form.anio, {'attr': {'class': 'form-control'}}) }}
+            </div></td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Código</td>
+            <td>{{ form_widget(edit_form.codigo, {'attr': {'class': 'form-control'}}) }}</td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Comprobante</td>
+              <td>{{ form_widget(edit_form.comprobante, {'attr': {'class': 'form-control'}}) }}</td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Fecha de pago</td>
+            <td><div class="input-group">
+              <span class="input-group-addon">
+                <i class="icon wb-calendar" aria-hidden="true"></i>
+              </span>
+              {{ form_widget(edit_form.fechaPago, {'attr': {'class': 'form-control'}}) }}
+            </div></td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Observaciones</td>
+            <td>{{ form_widget(edit_form.observaciones, {'attr': {'class': 'form-control'}}) }}</td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Comprobante</td>
+            <td>{{ form_widget(edit_form.prestador, {'attr': {'class': 'form-control'}}) }}</td>
+          </tr>
+        {% endif %}
+        <tr class="gradeA">
+          <td><b>Sede</td>
+          <td>{{ form_widget(edit_form.sede, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Docente</td>
+          <td>{{ form_widget(edit_form.docente, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Tipo de curso</td>
+          <td>{{ form_widget(edit_form.tipocurso, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="dt-panelfooter clearfix">
+      <button type="submit" class="btn btn btn-success margin-top-10">Guardar</button>
+      {% if app.user.rol == 'ROLE_PRESTADOR' %}
+        <a href="{{ path('curso_precargados') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
+      {% else %}
+        <a href="{{ path('curso') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
+      {% endif %}
+    </div>
+    {{ form_widget(edit_form._token) }}
+    </form>
+  </div>
+</div>
 {% endblock %}
 
 {% block javascript %}
@@ -95,16 +137,12 @@
       {% set var = entity.fechaInicio|date('Y-m-d H:m:i') %}
       var t = "{{ var }}".split(/[- :]/);
       var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
-      // $('#choferesbundle_curso_horaInicio').timepicker({ useSelect: true, 'step': 15 });
       $('#choferesbundle_curso_horaInicio').timepicker().timepicker('setTime', new Date(d));
-      // $('#choferesbundle_curso_horaInicio').timepicker('setTime', new Date(d));
 
       {% set var = entity.fechaFin|date('Y-m-d H:m:i') %}
       var t = "{{ var }}".split(/[- :]/);
       var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
-      // $('#choferesbundle_curso_horaFin').timepicker({ useSelect: true, 'step': 15 });
       $('#choferesbundle_curso_horaFin').timepicker().timepicker('setTime', new Date(d));
-      // $('#choferesbundle_curso_horaFin').timepicker('setTime', new Date(d));
 
       $('#choferesbundle_curso_anio').datepicker({format: "yyyy", autoclose: true, minViewMode: "years" });
 

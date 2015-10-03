@@ -1,0 +1,22 @@
+{% block _choferesbundle_usuario_nombre_widget %}
+  <div class="col-sm-6 col-md-6 margin-top-30">
+    <h4 class="example-title">Nombre</h4>
+    {{ block('form_widget_simple') }}
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_usuario_mail_widget %}
+  <div class="col-sm-6 col-md-6 margin-top-30">
+    <h4 class="example-title">E-mail</h4>
+    {{ block('form_widget_simple') }}
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_usuario_rol_widget %}
+  <div class="col-sm-6 col-md-6 margin-top-30">
+    <h4 class="example-title">Rol</h4>
+    <div class="form-group">
+      {{ block('choice_widget') }}
+    </div>
+  </div>
+{% endblock %}

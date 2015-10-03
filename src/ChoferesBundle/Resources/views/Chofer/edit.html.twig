@@ -8,30 +8,59 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageHeader %}<h1 class="page-title">Editar Chofer</h1>{% endblock %}
+
 {% block page %}
-
-<h1>{{ 'views.edit.edit'|trans({'%entity%': 'Chofer'}, 'JordiLlonchCrudGeneratorBundle') }}</h1>
-
-<form class="well" action="{{ path('chofer_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    <input type="hidden" name="_method" value="PUT" />
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit" class="btn btn-success">{{ 'views.edit.editbutton'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-    </p>
-</form>
-
-<div>
-    <div class="float-left">
-        <a class="btn" href="{{ path('chofer') }}">
-            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
+<div class="panel">
+  <div class="panel-body">
+    <form action="{{ path('chofer_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+      <tbody>
+        <tr class="gradeA">
+          <td><b>Nombre</td>
+          <td>{{ form_widget(edit_form.nombre, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Apellido</td>
+          <td>{{ form_widget(edit_form.apellido, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>DNI</td>
+          <td>{{ form_widget(edit_form.dni, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>PreCUIL</td>
+          <td>{{ form_widget(edit_form.precuil, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>PosCUIL</td>
+          <td>{{ form_widget(edit_form.colacuil, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>CUIL empresa</td>
+          <td>{{ form_widget(edit_form.cuilEmpresa, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Matrícula</td>
+          <td>{{ form_widget(edit_form.matricula, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Tiene curso básico</b></td>
+          <td>
+            <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-left">
+              {{ form_widget(edit_form.tieneCursoBasico) }}
+              <label for="inputCheckbox"></label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="dt-panelfooter clearfix">
+      <button type="submit" class="btn btn btn-success margin-top-10">Guardar</button>
+      <a href="{{ path('chofer') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
     </div>
-    <div class="float-left">
-        <form action="{{ path('chofer_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-        </form>
-    </div>
+    {{ form_widget(edit_form._token) }}
+    </form>
+  </div>
 </div>
 {% endblock %}

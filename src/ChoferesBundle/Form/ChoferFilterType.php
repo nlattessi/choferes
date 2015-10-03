@@ -18,8 +18,6 @@ class ChoferFilterType extends AbstractType
             ->add('nombre', 'filter_text')
             ->add('apellido', 'filter_text')
             ->add('dni', 'filter_text')
-            ->add('precuil', 'filter_text')
-            ->add('colacuil', 'filter_text')
             ->add('cuilEmpresa', 'filter_text')
             ->add('matricula', 'filter_text')
             #->add('tieneCursoBasico', 'filter_choice')

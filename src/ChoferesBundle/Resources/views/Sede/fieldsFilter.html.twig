@@ -1,0 +1,57 @@
+
+{% block _choferesbundle_choferfiltertype_nombre_widget %}
+  <div class="col-sm-6 col-md-4">
+    <div class="">
+      <h4 class="example-title">Nombre</h4>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_choferfiltertype_apellido_widget %}
+  <div class="col-sm-6 col-md-4">
+    <div class="">
+      <h4 class="example-title">Apellido</h4>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_choferfiltertype_dni_widget %}
+    <div class="col-sm-6 col-md-4">
+        <div class="">
+            <h4 class="example-title">Dni</h4>
+            {{ block('form_widget_simple') }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _choferesbundle_choferfiltertype_cuilEmpresa_widget %}
+    <div class="col-sm-6 col-md-4">
+        <div class="">
+            <h4 class="example-title">Cuil Empresa</h4>
+            {{ block('form_widget_simple') }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _choferesbundle_choferfiltertype_matricula_widget %}
+    <div class="col-sm-6 col-md-4">
+        <div class="">
+            <h4 class="example-title">Matricula</h4>
+            {{ block('form_widget_simple') }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block form_errors %}
+  {% spaceless %}
+    {% if errors|length > 0 %}
+      {% for error in errors %}
+        <div class="alert ng-isolate-scope alert-danger alert-dismissible">
+          <div><span class="ng-binding ng-scope">{{ error.message }}</span></div>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endspaceless %}
+{% endblock %}

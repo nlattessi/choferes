@@ -1,4 +1,5 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+{% form_theme filterForm 'ChoferesBundle:Prestador:fieldsFilter.html.twig' %}
 
 {% block javascript %}
     <script src="{{ asset('bundles/choferes/js/inputmask.js') }}"></script>
@@ -16,14 +17,12 @@
 
 {% block pageHeader%}
     <h1 class="page-title">Prestadores</h1>
-    {% if form_errors(filterForm) %}
+    {% if not filterForm.vars.valid %}
         <div class="span2">
 
             <div class="alert alert-block alert-error fade in form-errors">
                 {{ form_errors(filterForm) }}
             </div>
-
-            &nbsp;
         </div>
     {% endif %}
     <div class="page-header-actions">
@@ -34,25 +33,30 @@
     </div>
 
 
-    <div class="span12">
-        <div id="filters" class="collapse">
+    <div id="filters" class="collapse">
 
-            <form class="well" action="{{ path('prestador') }}" method="get" {{ form_enctype(filterForm) }}>
-                {#{{ form_row(filterForm.id) }}#}
-                {{ form_row(filterForm.nombre) }}
-                {{ form_row(filterForm.cuit) }}
-                {{ form_row(filterForm.direccion) }}
-                {{ form_row(filterForm.telefono) }}
-                {{ form_row(filterForm.mail) }}
-                {{ form_rest(filterForm) }}
-                <div class="row">
-                    <div class="col-sm-6 col-md-4 margin-top-20">
-                        <button type="submit" class="btn btn btn-outline btn-default " name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                        <button type="submit" class="btn btn-success " name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                    </div>
-                </div> <!-- row-->
-            </form>
-        </div>
+        <form class="well" action="{{ path('prestador') }}" method="get" {{ form_enctype(filterForm) }}>
+            {#{{ form_row(filterForm.id) }}#}
+            <div class="row">
+                {{ form_widget(filterForm.nombre, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(filterForm.cuit, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="row">
+                {{ form_widget(filterForm.direccion, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(filterForm.telefono, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="row">
+                {{ form_widget(filterForm.mail, {'attr': {'class': 'form-control'}}) }}
+            </div>
+
+            {{ form_row(filterForm._token) }}
+            <div class="row">
+                <div class="col-sm-6 col-md-4 margin-top-20">
+                    <button type="submit" class="btn btn btn-outline btn-default " name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                    <button type="submit" class="btn btn-success " name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                </div>
+            </div> <!-- row-->
+        </form>
     </div>
 {% endblock %}
 

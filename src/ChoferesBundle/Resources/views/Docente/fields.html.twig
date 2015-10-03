@@ -1,0 +1,29 @@
+{% block _choferesbundle_docente_nombre_widget %}
+  <div class="col-sm-6 col-md-6 margin-top-30">
+    <h4 class="example-title">Nombre</h4>
+    {{ block('form_widget_simple') }}
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_docente_apellido_widget %}
+  <div class="col-sm-6 col-md-6 margin-top-30">
+    <h4 class="example-title">Apellido</h4>
+    {{ block('form_widget_simple') }}
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_docente_dni_widget %}
+  <div class="col-sm-6 col-md-6 margin-top-30">
+    <h4 class="example-title">DNI</h4>
+    {{ block('form_widget_simple') }}
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_docente_prestador_widget %}
+  <div class="col-sm-6 col-md-6 margin-top-30">
+    <h4 class="example-title">Prestador</h4>
+    <div class="form-group">
+      {{ block('choice_widget') }}
+    </div>
+  </div>
+{% endblock %}

@@ -9,10 +9,14 @@
 {% endblock %}
 
 {% block page %}
-
-<div class="jumbotron">
-    <h1>Home</h1>
-    <p class="lead">Bienvenido, {{ app.user.nombre }}</p>
+<div class="panel">
+  <div class="panel-body">
+    <div class="page-header text-center">
+      <h1 class="page-title">Home</h1>
+      <p class="page-description">
+        Bienvenido {{ app.user.nombre }}.
+      </p>
+    </div>
+  </div>
 </div>
-
 {% endblock %}

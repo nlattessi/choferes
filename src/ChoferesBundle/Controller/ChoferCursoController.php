@@ -45,7 +45,7 @@ class ChoferCursoController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $query = $em->createQueryBuilder()
-            ->select('c.nombre', 'c.apellido', 'c.id', 'c.dni')
+            ->select('c.nombre', 'c.apellido', 'c.id', 'c.dni', 'c.tieneCursoBasico')
             ->from('ChoferesBundle:Chofer', 'c')
             ->leftJoin(
                 'ChoferesBundle:ChoferCurso',

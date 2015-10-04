@@ -322,16 +322,21 @@ class CursoController extends Controller
         if ($request->getMethod() == 'POST') {
             $id =  $request->get('idCurso');
             $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(array('id' => $id));
+            $choferes = $this->obtenerChoferesPorCurso($curso);
             $choferesIds = $request->get('chofer');
             foreach ($choferesIds as $idChofer) {
-                $choferCurso = new ChoferCurso();
                 $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($idChofer);
-                $choferCurso->setChofer($chofer);
-                $choferCurso->setCurso($curso);
-                //Si el curso tiene comprobante de pago marco el choferCurso como pagado
-                $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
+                if (! in_array($chofer, $choferes)) {
+                  $choferCurso = new ChoferCurso();
+                  $choferCurso->setChofer($chofer);
+                  $choferCurso->setCurso($curso);
+                  //Si el curso tiene comprobante de pago marco el choferCurso como pagado
+                  $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
 
-                $em->persist($choferCurso);
+                  $em->persist($choferCurso);
+                } else {
+                    $this->get('session')->getFlashBag()->add('warning', 'El chofer fue previamente agregado.');
+                }
             }
             $em->flush();
             $choferes = $this->obtenerChoferesPorCurso($curso);

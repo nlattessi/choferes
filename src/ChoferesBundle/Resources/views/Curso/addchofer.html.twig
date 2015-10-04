@@ -1,7 +1,5 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
-{% block javascript %}
-    <script src="{{ asset('bundles/choferes/js/autocompletar.js') }}"></script>
-{% endblock %}
+
 {% block title %}
 {{ parent() }} - {{ 'views.new.creation'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
@@ -13,6 +11,13 @@
 {% block pageHeader %}<h1 class="page-title">Agregar chofer</h1>{% endblock %}
 
 {% block page %}
+  <style>
+    td.highlight {
+      font-weight: bold;
+      color: red;
+    }
+  </style>
+
   <div class="panel">
     <div class="panel-heading">
       <h4 class="panel-title">Escriba para buscar un nombre existente.</h4>
@@ -35,6 +40,7 @@
                   <th>Nombre</th>
                   <th>Apellido</th>
                   <th>Dni</th>
+                  <th>Tiene curso basico</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -72,7 +78,7 @@
               <td>{{ entity.nombre }}</td>
               <td>{{ entity.apellido }}</td>
               <td>{{ entity.dni }}</td>
-              <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
+              <td{% if entity.tieneCursoBasico %}>Si{% else %} class="highlight">No{% endif %}</td>
               <td class="actions">
                 <a href="{{ path('curso_borrarchofer', { 'idBorrar': entity.id, 'idCurso':idCurso  }) }}" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row"
                 data-toggle="tooltip" data-original-title="Borrar"><i class="icon wb-trash" aria-hidden="true"></i></a>
@@ -83,4 +89,8 @@
         </table>
     </div>
   </div>
+{% endblock %}
+
+{% block javascript %}
+  <script src="{{ asset('bundles/choferes/js/autocompletar.js') }}"></script>
 {% endblock %}

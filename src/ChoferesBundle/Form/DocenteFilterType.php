@@ -9,15 +9,23 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 
+use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+
 class DocenteFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             #->add('id', 'filter_number_range')
-            ->add('nombre', 'filter_text')
-            ->add('apellido', 'filter_text')
-            ->add('dni', 'filter_text')
+            ->add('nombre', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('apellido', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('dni', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
         ;
 
         $listener = function(FormEvent $event)

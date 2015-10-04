@@ -9,17 +9,29 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 
+use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+
 class SedeFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             // ->add('id', 'filter_number_range')
-            ->add('nombre', 'filter_text')
-            ->add('direccion', 'filter_text')
-            ->add('provincia', 'filter_text')
-            ->add('ciudad', 'filter_text')
-            ->add('telefono', 'filter_text')
+            ->add('nombre', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('direccion', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('provincia', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('ciudad', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('telefono', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
         ;
 
         $listener = function(FormEvent $event)

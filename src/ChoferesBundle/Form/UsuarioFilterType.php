@@ -9,14 +9,20 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 
+use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+
 class UsuarioFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             // ->add('id', 'filter_number_range')
-            ->add('nombre', 'filter_text')
-            ->add('mail', 'filter_text')
+            ->add('nombre', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('mail', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
             #->add('password', 'filter_text')
             // ->add('activo', 'filter_choice')
         ;

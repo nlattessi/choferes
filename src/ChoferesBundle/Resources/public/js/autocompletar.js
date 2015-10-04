@@ -2,8 +2,6 @@
     $('#typeahead').typeahead({
       minLength: 3,
       source: function (query, process) {
-        console.log(query);
-        console.log($('#idcurso').val());
         return $.ajax({
           url: 'autocompletar',
           type: 'GET',
@@ -13,10 +11,16 @@
           },
           dataType: 'json',
           success: function(result) {
-            console.log(result);
             var data = [];
             $.each(result, function(i, obj) {
-              var item = { id: obj.id, query: obj.nombre + ' ' + obj.apellido + ' -  Dni: ' + obj.dni, nombre: obj.nombre, apellido: obj.apellido, dni: obj.dni };
+              var item = {
+                id: obj.id,
+                query: obj.nombre + ' ' + obj.apellido + ' -  Dni: ' + obj.dni,
+                nombre: obj.nombre,
+                apellido: obj.apellido,
+                dni: obj.dni,
+                tieneCursoBasico: obj.tieneCursoBasico
+              };
               data.push(JSON.stringify(item));
             });
 
@@ -51,12 +55,14 @@
           }
         });
         if(!exists) {
+          var $tdTieneCursoBasico = (item.tieneCursoBasico) ? '<td>Si</td>' : '<td class="highlight">No</td>';
           $('#choferesCandidatos').append(
             '<tr class="gradeA">'
             + '<input type="hidden" class="chofer" name="chofer[]" value="' + item.id + '"/>'
             + '<td>' + item.nombre + '</td>'
             + '<td>' + item.apellido + '</td>'
             + '<td>' + item.dni + '</td>'
+            + $tdTieneCursoBasico
             + '<td class="actions">'
             +   '<button class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row noAgregar" data-toggle="tooltip" data-original-title="borrar"><i class="icon wb-trash " aria-hidden="true"></i></a>'
             + '</td>'

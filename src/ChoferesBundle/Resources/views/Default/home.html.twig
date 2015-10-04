@@ -20,3 +20,11 @@
   </div>
 </div>
 {% endblock %}
+
+{% block javascript %}
+<script>
+  (function(window, document, $) {
+    $( "#layout_pageHeader" ).remove();
+  })(window, document, jQuery);
+</script>
+{% endblock %}

@@ -10,38 +10,65 @@
 
 {% block page %}
 
-<h1>UsuarioPrestador</h1>
+    <!-- Page -->
+    <div class="animsition">
+        <div class="page-header">
+            <h1 class="page-title">Ver prestador</h1>
+            <ol class="breadcrumb">
+                <li><a href='{{ path('usuarioprestador') }}'>Prestadores</a></li>
+                <li class="active">Ver</li>
+            </ol>
+        </div>
+        <div class="page-content">
 
-<form class="form-horizontal">
-    <fieldset>        <div class="control-group">
-            <label class="control-label">Id</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.id }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Usuario</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.usuario }}</span>            </div>
-        </div>        <div class="control-group">
-            <label class="control-label">Prestador</label>
-            <div class="controls">                <span class="input-xlarge uneditable-input">{{ entity.prestador }}</span>            </div>
-        </div>    </fieldset>
-</form>
+            <!-- Panel Table Add Row -->
+            <div class="panel">
+                <div class="panel-body">
 
-<div>
-    <div class="float-left">
-        <a class="btn" href="{{ path('usuarioprestador') }}">
-            {{ 'views.recordactions.backtothelist'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
+                    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+
+                        <tbody>
+                        <tr class="gradeA">
+                            <td><b>ID</b></td>
+                            <td>{{ entity.id }}</td>
+                        </tr>
+                        <tr class="gradeA">
+                            <td><b>Nombre</b></td>
+                            <td>{{ entity.usuario }}</td>
+                        </tr>
+                        <tr class="gradeA">
+                            <td><b>Prestador</b></td>
+                            <td>{{ entity.prestador }}</td>
+                        </tr>
+                        <tr class="gradeA">
+                            <td><b>Dirección</b></td>
+                            <td>saraza 123</td>
+                        </tr>
+                        <tr class="gradeA">
+                            <td><b>Teléfono</b></td>
+                            <td>4455-4022</td>
+                        </tr>
+                        <tr class="gradeA">
+                            <td><b>E-mail</b></td>
+                            <td>asdasd@asd.com</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+
+                    <div class="dt-panelfooter clearfix">
+                        <button type="button" onclick="location.href='{{ path('usuarioprestador_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
+                        <button type="button" onclick="location.href='{{ path('usuarioprestador') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="float-left">
-        <a class="btn btn-primary" href="{{ path('usuarioprestador_edit', { 'id': entity.id }) }}">
-            {{ 'views.recordactions.edit'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}
-        </a>
-    </div>
-    <div class="float-left">
-        <form action="{{ path('usuarioprestador_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.recordactions.confirm'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}');">{{ 'views.recordactions.delete'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-        </form>
-    </div>
-</div>
+    <!-- End Page -->
+
+
 {% endblock %}

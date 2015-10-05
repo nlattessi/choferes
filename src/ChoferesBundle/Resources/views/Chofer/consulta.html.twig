@@ -72,7 +72,7 @@
             <tr class="gradeA">
               <td><b>Estado</b></td>
               <td>
-                 {{ status.message }}
+                {% if status.certificado %}Vigente{% else %}Expirado{% endif %}
               </td>
             </tr>
             {% if status.certificado is defined %}

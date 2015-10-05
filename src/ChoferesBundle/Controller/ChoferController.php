@@ -379,7 +379,7 @@ class ChoferController extends Controller
     {
         $errors = array();
 
-        $dni = $request->request->get('dni');
+        $dni = $request->request->get('choferDni');
         $form = $this->createForm(new ChoferStatusType());
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
@@ -408,6 +408,8 @@ class ChoferController extends Controller
             $id = $hashids->decode($hash);
             if (! empty($id)) {
                 $id = $id[0];
+
+                $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['id' => $id]);
 
                 $choferService = $this->get('choferes.servicios.chofer');
 

@@ -65,6 +65,11 @@ class DocenteController extends Controller
         }
         /*Fin filtro por prestador*/
 
+        /* Inicio filtro docentes activos */
+        $queryBuilder->andWhere('d.activo = ?1')
+            ->setParameter(1, true);
+        /* Fin docentes activos*/
+
         // Reset filter
         $session->remove('DocenteControllerFilter');
 
@@ -297,5 +302,23 @@ class DocenteController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    public function darDeBajaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('ChoferesBundle:Docente')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Docente entity.');
+        }
+
+        $bajaAdministrativaService = $this->get('choferes.servicios.bajaAdministrativa');
+        $bajaAdministrativaService->darDeBajaDocente($entity);
+
+        $this->get('session')->getFlashBag()->add('success', 'Se realizó la baja administrativa.');
+
+        return $this->redirect($this->generateUrl('docente'));
     }
 }

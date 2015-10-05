@@ -40,7 +40,12 @@ class CursoType extends AbstractType
         if ($usuario->getRol() == 'ROLE_CNTSV')
         {
             $builder
-                ->add('prestador')
+                // ->add('prestador')
+                ->add('prestador', 'entity', [
+                    'class' => 'ChoferesBundle:Prestador',
+                    'empty_value' => '',
+                    'choices' => $this->usuarioService->obtenerPrestadoresActivos()
+                ])
                 ->add('codigo')
                 ->add('anio', 'text',array('label' => 'Año', 'required' => false))
                 ->add('comprobante')

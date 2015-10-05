@@ -15,6 +15,13 @@ class UsuarioService
         $this->idRolPrestador = 3;
     }
 
+    public function obtenerPrestadoresActivos()
+    {
+        $prestadores = $this->em->getRepository('ChoferesBundle:Prestador')->findBy(array('activo' => true));
+
+        return $prestadores;
+    }
+
     public function obtenerPrestadorPorUsuario($usuario)
     {
         $usuarioPrestador = $this->em->getRepository('ChoferesBundle:UsuarioPrestador')->findOneBy(array('usuario' => $usuario));

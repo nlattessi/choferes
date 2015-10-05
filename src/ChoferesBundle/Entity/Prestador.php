@@ -42,6 +42,11 @@ class Prestador
      */
     private $logo;
 
+    /**
+     * @var boolean
+     */
+    private $activo = true;
+
 
     /**
      * Get id
@@ -199,5 +204,29 @@ class Prestador
 
     public function __toString(){
         return $this->nombre;
+    }
+
+    /**
+     * Set activo
+     *
+     * @param boolean $activo
+     *
+     * @return Usuario
+     */
+    public function setActivo($activo)
+    {
+        $this->activo = $activo;
+
+        return $this;
+    }
+
+    /**
+     * Get activo
+     *
+     * @return boolean
+     */
+    public function getActivo()
+    {
+        return $this->activo;
     }
 }

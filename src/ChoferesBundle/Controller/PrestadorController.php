@@ -47,7 +47,10 @@ class PrestadorController extends Controller
         $session = $request->getSession();
         $filterForm = $this->createForm(new PrestadorFilterType());
         $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->getRepository('ChoferesBundle:Prestador')->createQueryBuilder('e');
+        // $queryBuilder = $em->getRepository('ChoferesBundle:Prestador')->createQueryBuilder('e');
+        $queryBuilder = $em->getRepository('ChoferesBundle:Prestador')->createQueryBuilder('e')
+            ->andWhere('e.activo = ?1')
+            ->setParameter(1, true);
 
         // Reset filter
         $session->remove('PrestadorControllerFilter');
@@ -275,5 +278,23 @@ class PrestadorController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    public function darDeBajaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('ChoferesBundle:Prestador')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Prestador entity.');
+        }
+
+        $bajaAdministrativaService = $this->get('choferes.servicios.bajaAdministrativa');
+        $bajaAdministrativaService->darDeBajaPrestador($entity);
+
+        $this->get('session')->getFlashBag()->add('success', 'Se realizó la baja administrativa.');
+
+        return $this->redirect($this->generateUrl('prestador'));
     }
 }

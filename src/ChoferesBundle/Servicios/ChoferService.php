@@ -14,6 +14,7 @@ class ChoferService
     protected $kernelCacheDir;
     protected $hashids;
     protected $router;
+    static $idTipoCursoBasico = 1;
 
     public function __construct(EntityManager $entityManager, $kernelCacheDir, $hashids, $router)
     {
@@ -27,9 +28,9 @@ class ChoferService
     {
         $query = $this->em->createQueryBuilder()
             ->select(
-                'chofer.id as choferId', 'chofer.nombre', 'chofer.apellido', 'chofer.dni', 'chofer.tieneCursoBasico',
-                'choferCurso.id as choferCursoId', 'choferCurso.aprobado','choferCurso.pagado', 'choferCurso.documentacion',
-                'curso.id as cursoId', 'curso.fechaFin'
+                'chofer.id as choferId', 'chofer.nombre', 'chofer.apellido', 'chofer.dni', 'chofer.tieneCursoBasico as tieneCursoBasico',
+                'choferCurso.id as choferCursoId', 'choferCurso.aprobado as aprobado','choferCurso.pagado', 'choferCurso.documentacion',
+                'curso.id as cursoId', 'curso.fechaFin as fechaFin'
             )
             ->from('ChoferesBundle:Chofer', 'chofer')
             ->leftJoin(
@@ -41,30 +42,29 @@ class ChoferService
                 \Doctrine\ORM\Query\Expr\Join::WITH, 'choferCurso.curso = curso.id'
             )
             ->where('chofer.dni = :dni')
+            ->andWhere('curso.tipocurso != :idTipoCursoBasico')
             ->orderBy('curso.fechaFin', 'DESC')
             ->setParameter('dni', $dni)
+            ->setParameter('idTipoCursoBasico', ChoferService::$idTipoCursoBasico)
             ->setMaxResults(1)
             ->getQuery();
 
         $result = $query->getResult();
+        /*print json_encode($result);
+        exit;*/
+
         if ($result) {
-            $status = $result[0];
-        }
-
-        $result = array();
-
-        if (isset($status)) {
+            $result = $result[0];
             $result['certificado'] = false;
-            if ($status['tieneCursoBasico']) {
-                if ($status['choferCursoId'] && $status['fechaFin'] > new \DateTime('-1 year')) {
-                    if ($status['aprobado']) {
-                        if ($status['pagado']) {
-                            if ($status['documentacion']) {
-                                $result['fechaFin'] = $status['fechaFin'];
-                                $result['cursoId'] = $status['cursoId'];
+            if ($result['tieneCursoBasico']) {
+                if ($result['choferCursoId'] && $result['fechaFin'] > new \DateTime('-1 year')) {
+                    if ($result['aprobado'] > 3) {
+                        if ($result['pagado']) {
+                            if ($result['documentacion']) {
                                 $result['certificado'] = true;
+                                $result['message'] = "Puede descargar el certificado para este chofer.";
                             } else {
-                                $result['message'] = "No se cargo en sistema la documentacion correspondiente.";
+                                $result['message'] = "No se cargo en sistema la documentación correspondiente.";
                             }
                         } else {
                             $result['message'] = 'No figura pago el ultimo curso complementario.';
@@ -86,8 +86,22 @@ class ChoferService
     public function descargarCertificado($dni)
     {
         $chofer = $this->em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
+
+        if(!$chofer){
+            //no Existe el chofer
+            return null;
+        }
+
         $status = $this->getStatusPorDniChofer($chofer->getDni());
 
+        if(count($status) < 1){
+            //No existen certificados
+            return null;
+        }
+        if(!$status['certificado']){
+            //Por algún motivo no está listo para ser impreso, falta pago, falta documentación
+            return null;
+        }
         $curso = $this->em->getRepository('ChoferesBundle:Curso')->find($status['cursoId']);
 
         $url = $this->router->generate('choferes_descargar_certificados_hash', [

@@ -72,14 +72,10 @@
             <tr class="gradeA">
               <td><b>Estado</b></td>
               <td>
-                {% if status.certificado %}
-                  Vigente
-                {% else %}
-                    Expirado
-                {% endif %}
+                 {{ status.message }}
               </td>
             </tr>
-            {% if status.certificado %}
+            {% if status.certificado is defined %}
               <tr class="gradeA">
                 <td><b>Fecha curso complementario</b></td>
                 <td>{{ status.fechaFin|date('d/m/Y') }}</td>
@@ -88,7 +84,7 @@
           </tbody>
         </table>
         <div class="dt-panelfooter clearfix">
-        {% if status.certificado %}
+        {% if status.certificado is defined and status.certificado %}
           {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.rol != 'ROLE_CNRT'%}
             <form class="" action="" method="post">
               {% if goBack %}
@@ -97,7 +93,7 @@
                 <a href="{{ path('chofer_consulta') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
               {% endif %}
               <input type="hidden" name="choferDni" value="{{ chofer.dni }}">
-              <button type="submit" name="descargar" class="margin-top-10 btn btn-outline btn-warning">Descargar certificado</button>
+              <button type="submit" name="descargar" class="margin-top-10 btn btn-outline btn-warning" >Descargar certificado</button>
             </form>
           {% elseif is_granted('IS_AUTHENTICATED_FULLY') %}
             {% if goBack %}

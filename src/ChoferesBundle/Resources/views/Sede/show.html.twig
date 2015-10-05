@@ -70,6 +70,7 @@
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                                 <button type="button" onclick="location.href='{{ path('sede_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
+                                <a type="button" href="{{ path('sede_dar_de_baja', { 'id': entity.id }) }}" id="darDeBaja" class="pull-right btn btn-default margin-top-10">Dar de baja</a>
                             {% endif %}
                         {% endif %}
                         <button type="button" onclick="location.href='{{ path('sede') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
@@ -79,4 +80,22 @@
         </div>
     </div>
     <!-- End Page -->
+{% endblock %}
+
+{% block javascript %}
+<script>
+  (function(window, document, $) {
+    $("#darDeBaja").on("click",function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var $confirm = confirm('¿Se encuentra seguro de realizar la baja administrativa?');
+      if ($confirm) {
+        var $href = this.href;
+        var $form = $('<form action="' + $href + '" method="post" id="formDarDeBaja">' + '</form>');
+        $("body").append('<form action="' + $href + '" method="post" id="formDarDeBaja">' + '</form>');
+        $("#formDarDeBaja").submit();
+      }
+    });
+  })(window, document, jQuery);
+</script>
 {% endblock %}

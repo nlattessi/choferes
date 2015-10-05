@@ -35,7 +35,7 @@ class UsuarioService
     public function obtenerSedesPorPrestador($prestador)
     {
         if ($prestador) {
-            $sedes = $this->em->getRepository('ChoferesBundle:Sede')->findBy(array('prestador' => $prestador));
+            $sedes = $this->em->getRepository('ChoferesBundle:Sede')->findBy(array('prestador' => $prestador, 'activo' => true));
         } else {
           $sedes = null;
         }

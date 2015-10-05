@@ -63,6 +63,11 @@ class SedeController extends Controller
         }
         /*Fin filtro por prestador*/
 
+        /* Inicio filtro sedes activos */
+        $queryBuilder->andWhere('d.activo = ?1')
+            ->setParameter(1, true);
+        /* Fin sedes activos*/
+
         // Reset filter
         $session->remove('SedeControllerFilter');
 
@@ -297,5 +302,23 @@ class SedeController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    public function darDeBajaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('ChoferesBundle:Sede')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Sede entity.');
+        }
+
+        $bajaAdministrativaService = $this->get('choferes.servicios.bajaAdministrativa');
+        $bajaAdministrativaService->darDeBaja($entity);
+
+        $this->get('session')->getFlashBag()->add('success', 'Se realizó la baja administrativa.');
+
+        return $this->redirect($this->generateUrl('sede'));
     }
 }

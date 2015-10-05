@@ -13,10 +13,10 @@ class BajaAdministrativaService
         $this->em = $entityManager;
     }
 
-    public function darDeBajaDocente($docente)
+    public function darDeBaja($entity)
     {
-        $docente->setActivo(false);
-        $this->em->persist($docente);
+        $entity->setActivo(false);
+        $this->em->persist($entity);
         $this->em->flush();
     }
 }

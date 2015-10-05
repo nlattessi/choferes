@@ -315,7 +315,7 @@ class DocenteController extends Controller
         }
 
         $bajaAdministrativaService = $this->get('choferes.servicios.bajaAdministrativa');
-        $bajaAdministrativaService->darDeBajaDocente($entity);
+        $bajaAdministrativaService->darDeBaja($entity);
 
         $this->get('session')->getFlashBag()->add('success', 'Se realizó la baja administrativa.');
 

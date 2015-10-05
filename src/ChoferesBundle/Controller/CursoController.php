@@ -532,7 +532,8 @@ class CursoController extends Controller
             ));
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
-                'prestador' => $prestador
+                'prestador' => $prestador,
+                'activo' => true
             ));
         } else {
             $docentes = null;
@@ -604,7 +605,8 @@ class CursoController extends Controller
             ));
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
-                'prestador' => $prestador
+                'prestador' => $prestador,
+                'activo' => true
             ));
         } else {
 
@@ -682,7 +684,8 @@ class CursoController extends Controller
             ));
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
-                'prestador' => $prestador
+                'prestador' => $prestador,
+                'activo' => true
             ));
         } else {
             $docentes = null;
@@ -732,7 +735,8 @@ class CursoController extends Controller
             ));
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
-                'prestador' => $prestador
+                'prestador' => $prestador,
+                'activo' => true
             ));
         } else {
             $docentes = null;

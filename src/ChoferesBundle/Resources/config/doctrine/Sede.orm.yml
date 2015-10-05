@@ -45,6 +45,11 @@ ChoferesBundle\Entity\Sede:
             length: 45
             options:
                 fixed: false
+        activo:
+            type: boolean
+            nullable: true
+            options:
+                default: true
     manyToOne:
         prestador:
             targetEntity: Prestador

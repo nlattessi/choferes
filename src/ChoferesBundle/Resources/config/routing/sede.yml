@@ -28,3 +28,8 @@ sede_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ChoferesBundle:Sede:delete" }
     requirements: { _method: post|delete }
+
+sede_dar_de_baja:
+    pattern:  /{id}/dar_de_baja
+    defaults: { _controller: "ChoferesBundle:Sede:darDeBaja" }
+    requirements: { _method: post|delete }

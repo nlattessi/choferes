@@ -34,7 +34,8 @@
         <a href="{{ path('usuario') }}" class="btn btn-outline btn-warning">Ver usuarios</a>
         </div>
       </div> <!-- row-->
-      {{ form_end(form) }}
+      {{ form_widget(form._token) }}
+
     </form>
   </div>
 </div>

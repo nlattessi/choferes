@@ -57,18 +57,16 @@ class SedeController extends Controller
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
             $queryBuilder = $em->getRepository('ChoferesBundle:Sede')->createQueryBuilder('d')
                 ->where('d.prestador = ?1')
-                ->setParameter(1, $prestador->getId());
+                ->andWhere('d.activo = ?2')
+                ->setParameter(1, $prestador->getId())
+                ->setParameter(2, true);;
         } else {
-            $queryBuilder = $em->getRepository('ChoferesBundle:Sede')->createQueryBuilder('d');
+            $queryBuilder = $em->getRepository('ChoferesBundle:Sede')->createQueryBuilder('d')
+                ->andWhere('d.activo = ?1')
+                ->setParameter(1, true);
         }
         /*Fin filtro por prestador*/
 
-        /* Inicio filtro sedes activos */
-        $queryBuilder->andWhere('d.activo = ?1')
-            ->setParameter(1, true);
-        /* Fin sedes activos*/
-
-        // Reset filter
         $session->remove('SedeControllerFilter');
 
 

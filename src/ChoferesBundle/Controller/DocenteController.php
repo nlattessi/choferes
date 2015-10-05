@@ -59,16 +59,15 @@ class DocenteController extends Controller
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
             $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d')
                 ->where('d.prestador = ?1')
-                ->setParameter(1, $prestador->getId());
+                ->andWhere('d.activo = ?2')
+                ->setParameter(1, $prestador->getId())
+                ->setParameter(2, true);
         } else {
-            $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d');
+            $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d')
+                ->andWhere('d.activo = ?1')
+                ->setParameter(1, true);
         }
         /*Fin filtro por prestador*/
-
-        /* Inicio filtro docentes activos */
-        $queryBuilder->andWhere('d.activo = ?1')
-            ->setParameter(1, true);
-        /* Fin docentes activos*/
 
         // Reset filter
         $session->remove('DocenteControllerFilter');

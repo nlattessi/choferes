@@ -22,21 +22,21 @@ class BajaAdministrativaService
 
     public function darDeBajaPrestador($prestador)
     {
-        $docentes = $this->em->getRepository('ChoferesBundle:Docente')->findBy(array('prestador' => $prestador, 'activo' => true));
+        $docentes = $this->em->getRepository('ChoferesBundle:Docente')->findBy(array('prestador' => $prestador));
         foreach ($docentes as $docente) {
             $this->darDeBaja($docente);
         }
 
-        $sedes = $this->em->getRepository('ChoferesBundle:Sede')->findBy(array('prestador' => $prestador, 'activo' => true));
+        $sedes = $this->em->getRepository('ChoferesBundle:Sede')->findBy(array('prestador' => $prestador));
         foreach ($sedes as $sede) {
             $this->darDeBaja($sede);
         }
 
-        $usuarioPrestador = $this->em->getRepository('ChoferesBundle:UsuarioPrestador')->findOneBy(array('prestador' => $prestador));
-        $usuario = $usuarioPrestador->getUsuario();
-        $usuario->setActivo(false);
-        $this->em->persist($usuario);
-        $this->em->flush();
+        $usuariosPrestador = $this->em->getRepository('ChoferesBundle:UsuarioPrestador')->findBy(array('prestador' => $prestador));
+        foreach($usuariosPrestador as $usuarioPrestador) {
+            $usuario = $usuarioPrestador->getUsuario();
+            $this->darDeBaja($usuario);
+        }
 
         $this->darDeBaja($prestador);
     }

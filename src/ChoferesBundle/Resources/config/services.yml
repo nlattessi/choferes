@@ -15,3 +15,7 @@ services:
             hashids: @hashids
             router: @router
         scope: request
+    choferes.servicios.bajaAdministrativa:
+        class: ChoferesBundle\Servicios\BajaAdministrativaService
+        arguments:
+            entityManager: @doctrine.orm.entity_manager

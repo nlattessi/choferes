@@ -527,7 +527,8 @@ class CursoController extends Controller
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
 
             $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
-                'prestador' => $prestador
+                'prestador' => $prestador,
+                'activo' => true
             ));
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
@@ -598,7 +599,8 @@ class CursoController extends Controller
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
 
             $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
-                'prestador' => $prestador
+                'prestador' => $prestador,
+                'activo' => true
             ));
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
@@ -675,7 +677,8 @@ class CursoController extends Controller
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
 
             $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
-                'prestador' => $prestador
+                'prestador' => $prestador,
+                'activo' => true
             ));
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
@@ -724,7 +727,8 @@ class CursoController extends Controller
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
 
             $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
-                'prestador' => $prestador
+                'prestador' => $prestador,
+                'activo' => true
             ));
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(

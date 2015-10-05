@@ -25,8 +25,16 @@
           <td>{{ form_widget(edit_form.mail, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
         <tr class="gradeA">
-          <td><b>Activo</td>
+          <td><b>Rol</td>
           <td>{{ form_widget(edit_form.rol, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Activo</td>
+          <td>{{ form_widget(edit_form.activo, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Password</td>
+          <td><input type="password" name="password" class="form-control"></td>
         </tr>
       </tbody>
     </table>

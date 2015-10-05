@@ -14,6 +14,7 @@ class UsuarioType extends AbstractType
             ->add('nombre')
             ->add('mail')
             ->add('rol')
+            ->add('activo', 'choice', ['choices' => [1 => 'Si', 0 => 'No']])
             ->add('reset', 'reset', ['label' => 'Limpiar '])
         ;
     }

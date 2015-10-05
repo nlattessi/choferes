@@ -47,7 +47,6 @@ class PrestadorController extends Controller
         $session = $request->getSession();
         $filterForm = $this->createForm(new PrestadorFilterType());
         $em = $this->getDoctrine()->getManager();
-        // $queryBuilder = $em->getRepository('ChoferesBundle:Prestador')->createQueryBuilder('e');
         $queryBuilder = $em->getRepository('ChoferesBundle:Prestador')->createQueryBuilder('e')
             ->andWhere('e.activo = ?1')
             ->setParameter(1, true);

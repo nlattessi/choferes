@@ -1,5 +1,5 @@
 
-{% block _choferesbundle_choferfiltertype_nombre_widget %}
+{% block _choferesbundle_sedefiltertype_nombre_widget %}
   <div class="col-sm-6 col-md-4">
     <div class="">
       <h4 class="example-title">Nombre</h4>
@@ -8,37 +8,36 @@
   </div>
 {% endblock %}
 
-{% block _choferesbundle_choferfiltertype_apellido_widget %}
+{% block _choferesbundle_sedefiltertype_direccion_widget %}
   <div class="col-sm-6 col-md-4">
     <div class="">
-      <h4 class="example-title">Apellido</h4>
+      <h4 class="example-title">Dirección</h4>
       {{ block('form_widget_simple') }}
     </div>
   </div>
 {% endblock %}
 
-{% block _choferesbundle_choferfiltertype_dni_widget %}
+{% block _choferesbundle_sedefiltertype_provincia_widget %}
     <div class="col-sm-6 col-md-4">
-        <div class="">
-            <h4 class="example-title">Dni</h4>
+        <h4 class="example-title">Provincia</h4>
+        <div class="form-group">
+            {{ block('form_widget_simple') }}
+        </div>
+    </div>
+{% endblock %}
+{% block _choferesbundle_sedefiltertype_ciudad_widget %}
+    <div class="col-sm-6 col-md-4">
+        <h4 class="example-title">Ciudad</h4>
+        <div class="form-group">
             {{ block('form_widget_simple') }}
         </div>
     </div>
 {% endblock %}
 
-{% block _choferesbundle_choferfiltertype_cuilEmpresa_widget %}
+{% block _choferesbundle_sedefiltertype_telefono_widget %}
     <div class="col-sm-6 col-md-4">
         <div class="">
-            <h4 class="example-title">Cuil Empresa</h4>
-            {{ block('form_widget_simple') }}
-        </div>
-    </div>
-{% endblock %}
-
-{% block _choferesbundle_choferfiltertype_matricula_widget %}
-    <div class="col-sm-6 col-md-4">
-        <div class="">
-            <h4 class="example-title">Matricula</h4>
+            <h4 class="example-title">Teléfono</h4>
             {{ block('form_widget_simple') }}
         </div>
     </div>

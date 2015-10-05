@@ -14,7 +14,9 @@ class UsuarioPrestadorFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('id', 'filter_number_range')
+            ->add('prestador', 'filter_entity', [
+                'class' => 'ChoferesBundle:Prestador'
+            ])
         ;
 
         $listener = function(FormEvent $event)

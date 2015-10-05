@@ -12,7 +12,7 @@
 {% block pageHeader %}
 
     <h1 class="page-title">Choferes</h1>
-    {% if form_errors(filterForm) %}
+    {% if not filterForm.vars.valid %}
         <div class="span2">
 
             <div class="alert alert-block alert-error fade in form-errors">

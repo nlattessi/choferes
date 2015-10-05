@@ -49,9 +49,8 @@ class RolController extends Controller
         $queryBuilder = $em->getRepository('ChoferesBundle:Rol')->createQueryBuilder('e');
 
         // Reset filter
-        if ($request->get('filter_action') == 'reset') {
-            $session->remove('RolControllerFilter');
-        }
+        $session->remove('RolControllerFilter');
+
 
         // Filter action
         if ($request->get('filter_action') == 'filter') {

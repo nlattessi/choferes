@@ -50,9 +50,8 @@ class UsuarioController extends Controller
         $queryBuilder = $em->getRepository('ChoferesBundle:Usuario')->createQueryBuilder('e');
 
         // Reset filter
-        if ($request->get('filter_action') == 'reset') {
             $session->remove('UsuarioControllerFilter');
-        }
+
 
         // Filter action
         if ($request->get('filter_action') == 'filter') {

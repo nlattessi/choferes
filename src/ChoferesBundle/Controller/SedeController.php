@@ -64,9 +64,8 @@ class SedeController extends Controller
         /*Fin filtro por prestador*/
 
         // Reset filter
-        if ($request->get('filter_action') == 'reset') {
-            $session->remove('SedeControllerFilter');
-        }
+        $session->remove('SedeControllerFilter');
+
 
         // Filter action
         if ($request->get('filter_action') == 'filter') {

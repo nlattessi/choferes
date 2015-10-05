@@ -50,9 +50,8 @@ class PrestadorController extends Controller
         $queryBuilder = $em->getRepository('ChoferesBundle:Prestador')->createQueryBuilder('e');
 
         // Reset filter
-        if ($request->get('filter_action') == 'reset') {
-            $session->remove('PrestadorControllerFilter');
-        }
+        $session->remove('PrestadorControllerFilter');
+
 
         // Filter action
         if ($request->get('filter_action') == 'filter') {

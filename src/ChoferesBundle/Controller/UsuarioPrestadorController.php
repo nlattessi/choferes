@@ -49,11 +49,7 @@ class UsuarioPrestadorController extends Controller
         $em = $this->getDoctrine()->getManager();
         $queryBuilder = $em->getRepository('ChoferesBundle:UsuarioPrestador')->createQueryBuilder('e');
 
-        // Reset filter
-        if ($request->get('filter_action') == 'reset') {
-            $session->remove('UsuarioPrestadorControllerFilter');
-        }
-
+        $session->remove('UsuarioPrestadorControllerFilter');
         // Filter action
         if ($request->get('filter_action') == 'filter') {
             // Bind values from the request

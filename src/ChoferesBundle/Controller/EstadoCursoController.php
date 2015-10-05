@@ -49,9 +49,8 @@ class EstadoCursoController extends Controller
         $queryBuilder = $em->getRepository('ChoferesBundle:EstadoCurso')->createQueryBuilder('e');
 
         // Reset filter
-        if ($request->get('filter_action') == 'reset') {
-            $session->remove('EstadoCursoControllerFilter');
-        }
+        $session->remove('EstadoCursoControllerFilter');
+
 
         // Filter action
         if ($request->get('filter_action') == 'filter') {

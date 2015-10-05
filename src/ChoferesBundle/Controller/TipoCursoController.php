@@ -49,9 +49,8 @@ class TipoCursoController extends Controller
         $queryBuilder = $em->getRepository('ChoferesBundle:TipoCurso')->createQueryBuilder('e');
 
         // Reset filter
-        if ($request->get('filter_action') == 'reset') {
-            $session->remove('TipoCursoControllerFilter');
-        }
+        $session->remove('TipoCursoControllerFilter');
+
 
         // Filter action
         if ($request->get('filter_action') == 'filter') {

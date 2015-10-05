@@ -54,9 +54,8 @@ class ChoferController extends Controller
         $queryBuilder = $em->getRepository('ChoferesBundle:Chofer')->createQueryBuilder('e');
 
         // Reset filter
-        if ($request->get('filter_action') == 'reset') {
-            $session->remove('ChoferControllerFilter');
-        }
+        $session->remove('ChoferControllerFilter');
+
 
         // Filter action
         if ($request->get('filter_action') == 'filter') {

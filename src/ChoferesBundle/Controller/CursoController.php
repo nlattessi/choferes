@@ -50,6 +50,7 @@ class CursoController extends Controller
 
     public function indexCursosAnterioresAction()
     {
+        $this->resetearFiltro();
         list($filterForm, $queryBuilder) = $this->filter();
 
         $queryBuilder
@@ -69,6 +70,7 @@ class CursoController extends Controller
 
     public function indexCursosPrecargadosAction()
     {
+        $this->resetearFiltro();
         list($filterForm, $queryBuilder) = $this->filter();
         $em = $this->getDoctrine()->getManager();
 
@@ -90,6 +92,7 @@ class CursoController extends Controller
 
     public function indexCursosConfirmarAction()
     {
+        $this->resetearFiltro();
         list($filterForm, $queryBuilder) = $this->filter();
         $em = $this->getDoctrine()->getManager();
         $queryBuilder
@@ -239,6 +242,7 @@ class CursoController extends Controller
 
     private function getCursosPorEstado($estado)
     {
+        $this->resetearFiltro();
         list($filterForm, $queryBuilder) = $this->filter();
         $em = $this->getDoctrine()->getManager();
         $queryBuilder
@@ -381,6 +385,15 @@ class CursoController extends Controller
     * Create filter form and process filter request.
     *
     */
+    protected function resetearFiltro(){
+        $request = $this->getRequest();
+        $session = $request->getSession();
+
+        $session->remove('CursoControllerFilter');
+
+    }
+
+
     protected function filter()
     {
         $request = $this->getRequest();
@@ -406,7 +419,7 @@ class CursoController extends Controller
 
         // Reset filter
         if ($request->get('filter_action') == 'reset') {
-            $session->remove('CursoControllerFilter');
+            $this->resetearFiltro();
         }
 
         // Filter action
@@ -426,28 +439,36 @@ class CursoController extends Controller
             if ($session->has('CursoControllerFilter')) {
                 $filterData = $session->get('CursoControllerFilter');
 
-                if ($filterData['docente']) {
+                if (array_key_exists('docente',$filterData)) {
                     $entity = $filterData['docente'];
-                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
-                    $filterData['docente'] = $entity;
+                    if($entity) {
+                        $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                        $filterData['docente'] = $entity;
+                    }
                 }
 
-                if ($filterData['sede']) {
+                if (array_key_exists('sede',$filterData)) {
                     $entity = $filterData['sede'];
-                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
-                    $filterData['sede'] = $entity;
+                    if($entity) {
+                        $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                        $filterData['sede'] = $entity;
+                    }
                 }
 
-                if ($filterData['tipocurso']) {
+                if (array_key_exists('tipocurso',$filterData)) {
                     $entity = $filterData['tipocurso'];
-                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
-                    $filterData['tipocurso'] = $entity;
+                    if($entity){
+                        $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                        $filterData['tipocurso'] = $entity;
+                    }
                 }
 
-                if ($filterData['estado']) {
+                if (array_key_exists('estado',$filterData)) {
                     $entity = $filterData['estado'];
-                    $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
-                    $filterData['estado'] = $entity;
+                    if($entity) {
+                        $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                        $filterData['estado'] = $entity;
+                    }
                 }
 
                 $filterForm = $this->createForm(new CursoFilterType($usuarioService), $filterData, ['user' => $usuario]);

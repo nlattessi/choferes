@@ -9,19 +9,29 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormError;
 
+use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+
 class ChoferFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             #->add('id', 'filter_number_range')
-            ->add('nombre', 'filter_text')
-            ->add('apellido', 'filter_text')
-            ->add('dni', 'filter_text')
-            ->add('precuil', 'filter_text')
-            ->add('colacuil', 'filter_text')
-            ->add('cuilEmpresa', 'filter_text')
-            ->add('matricula', 'filter_text')
+            ->add('nombre', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('apellido', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('dni', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('cuilEmpresa', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
+            ->add('matricula', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
             #->add('tieneCursoBasico', 'filter_choice')
         ;
 

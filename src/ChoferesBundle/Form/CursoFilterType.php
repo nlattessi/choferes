@@ -12,6 +12,8 @@ use Symfony\Component\Form\FormError;
 use ChoferesBundle\Servicios\UsuarioService;
 use ChoferesBundle\Entity\Prestador;
 
+use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
+
 class CursoFilterType extends AbstractType
 {
     private $usuarioService;
@@ -69,7 +71,9 @@ class CursoFilterType extends AbstractType
 
         if ($usuario->getRol() == 'ROLE_CNTSV') {
             $builder
-                ->add('codigo', 'filter_text')
+                ->add('codigo', 'filter_text', [
+                    'condition_pattern' => FilterOperands::STRING_BOTH,
+                ])
                 // ->add('comprobante', 'filter_text')
                 ->add('prestador', 'filter_entity', [
                     'class' => 'ChoferesBundle:Prestador'

@@ -66,9 +66,8 @@ class DocenteController extends Controller
         /*Fin filtro por prestador*/
 
         // Reset filter
-        if ($request->get('filter_action') == 'reset') {
-            $session->remove('DocenteControllerFilter');
-        }
+        $session->remove('DocenteControllerFilter');
+
 
         // Filter action
         if ($request->get('filter_action') == 'filter') {

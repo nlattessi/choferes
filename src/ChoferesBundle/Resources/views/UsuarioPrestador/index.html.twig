@@ -1,7 +1,8 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+{% form_theme filterForm 'ChoferesBundle:UsuarioPrestador:fieldsFilter.html.twig' %}
 
 {% block title %}
-{{ parent() }} - {{ 'views.index.list'|trans({'%entity%': 'UsuarioPrestador'}, 'JordiLlonchCrudGeneratorBundle') }}
+    Usuarios <--> Prestadores
 {% endblock %}
 
 {% block menu %}
@@ -10,7 +11,7 @@
 
 {% block pageHeader%}
     <h1 class="page-title">Usuarios <--> Prestadores</h1>
-    {% if form_errors(filterForm) %}
+    {% if not filterForm.vars.valid  %}
         <div class="span2">
 
             <div class="alert alert-block alert-error fade in form-errors">
@@ -32,12 +33,14 @@
         <div id="filters" class="collapse">
 
             <form class="well" action="{{ path('usuarioprestador') }}" method="get" {{ form_enctype(filterForm) }}>
-                {{ form_row(filterForm.id) }}
-                {{ form_rest(filterForm) }}
+                <div class="row">
+                    {{ form_widget(filterForm.prestador, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                {{ form_row(filterForm._token) }}
                 <div class="row">
                     <div class="col-sm-6 col-md-4 margin-top-20">
-                        <button type="submit" class="btn btn btn-outline btn-default " name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
                         <button type="submit" class="btn btn-success " name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                        <button type="submit" class="btn btn btn-outline btn-default " name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
                     </div>
                 </div> <!-- row-->
             </form>

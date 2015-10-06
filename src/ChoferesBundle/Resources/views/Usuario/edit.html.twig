@@ -8,7 +8,13 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
-{% block pageHeader %}<h1 class="page-title">Editar usuario</h1>{% endblock %}
+{% block pageHeader %}
+    <h1 class="page-title">Editar usuario</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('usuario') }}">Usuarios</a></li>
+        <li class="active">Editar usuario</li>
+    </ol>
+{% endblock %}
 
 {% block page %}
 <div class="panel">

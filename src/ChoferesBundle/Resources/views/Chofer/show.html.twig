@@ -7,83 +7,75 @@
 {% block menu %}
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
-
+{% block pageHeader %}
+    <h1 class="page-title">Ver Chofer</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('chofer') }}">Choferes</a></li>
+        <li class="active">Ver Chofer</li>
+    </ol>
+{% endblock %}
 {% block page %}
 
-    <!-- Page -->
-    <div class="animsition">
-        <div class="page-header">
-            <h1 class="page-title">Ver</h1>
-            <ol class="breadcrumb">
-                <li><a href="{{ path('chofer') }}">Choferes</a></li>
-                <li class="active">Ver</li>
-            </ol>
-
-
-        </div>
-        <div class="page-content">
-
             <!-- Panel Table Add Row -->
-            <div class="panel">
-                <div class="panel-body">
+    <div class="panel">
+        <div class="panel-body">
 
-                    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+            <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
 
-                        <tbody>
-                        <tr class="gradeA">
-                            <td><b>ID</b></td>
-                            <td>{{ entity.id }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Usuario</b></td>
-                            <td>{{ entity.nombre }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Apellido</b></td>
-                            <td>{{ entity.apellido }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>DNI</b></td>
-                            <td>{{ entity.dni }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>PreCUIL</b></td>
-                            <td>{{ entity.precuil }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>ColaCUIL</b></td>
-                            <td>{{ entity.colacuil }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>CUIL empresa</b></td>
-                            <td>{{  entity.cuilEmpresa }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Matricula</b></td>
-                            <td>{{ entity.matricula }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Tiene curso básico</b></td>
-                            <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
-                        </tr>
+                <tbody>
+                <tr class="gradeA">
+                    <td><b>ID</b></td>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Usuario</b></td>
+                    <td>{{ entity.nombre }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Apellido</b></td>
+                    <td>{{ entity.apellido }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>DNI</b></td>
+                    <td>{{ entity.dni }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>PreCUIL</b></td>
+                    <td>{{ entity.precuil }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>ColaCUIL</b></td>
+                    <td>{{ entity.colacuil }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>CUIL empresa</b></td>
+                    <td>{{  entity.cuilEmpresa }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Matricula</b></td>
+                    <td>{{ entity.matricula }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Tiene curso básico</b></td>
+                    <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
+                </tr>
 
-                        </tbody>
-                    </table>
-
-
-                    <div class="dt-panelfooter clearfix">
-                        <button type="button" onclick="location.href='{{ path('chofer_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
-                        <button type="button" onclick="location.href='{{ path('chofer_consulta_id', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Estado</button>
-                        <button type="button" onclick="location.href='{{ path('chofer') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
-
-                    </div>
+                </tbody>
+            </table>
 
 
+            <div class="dt-panelfooter clearfix">
+                <button type="button" onclick="location.href='{{ path('chofer_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
+                <button type="button" onclick="location.href='{{ path('chofer_consulta_id', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Estado</button>
+                <button type="button" onclick="location.href='{{ path('chofer') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
 
-                </div>
             </div>
+
+
+
         </div>
     </div>
+
     <!-- End Page -->
 
 

@@ -8,64 +8,57 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageHeader %}
+    <h1 class="page-title">Ver usuario</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('usuario') }}">Inicio</a></li>
+        <li>Usuarios</li>
+        <li class="active">Ver usuario</li>
+    </ol>
+{% endblock %}
+
 {% block page %}
-    <!-- Page -->
-    <div class="animsition" style="animation-duration: 0.8s; opacity: 1;">
-        <div class="page-header">
-            <h1 class="page-title">Ver usuario</h1>
-            <ol class="breadcrumb">
-                <li><a href="{{ path('usuario') }}">Inicio</a></li>
-                <li>Usuarios</li>
-                <li class="active">Ver usuario</li>
-            </ol>
-        </div>
-        <div class="page-content">
+    <div class="panel">
+        <div class="panel-body">
 
-            <!-- Panel Table Add Row -->
-            <div class="panel">
-                <div class="panel-body">
+            <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
 
-                    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+                <tbody>
+                <tr class="gradeA">
+                    <td><b>ID</b></td>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Nombre</b></td>
+                    <td>{{ entity.nombre }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>E-mail</b></td>
+                    <td>{{ entity.mail }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Rol</b></td>
+                    <td>{{ entity.rol }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Activo</b></td>
+                    <td>{% if entity.activo %}Si{% else %}No{% endif %}</td>
+                </tr>
 
-                        <tbody>
-                        <tr class="gradeA">
-                            <td><b>ID</b></td>
-                            <td>{{ entity.id }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Nombre</b></td>
-                            <td>{{ entity.nombre }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>E-mail</b></td>
-                            <td>{{ entity.mail }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Rol</b></td>
-                            <td>{{ entity.rol }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Activo</b></td>
-                            <td>{% if entity.activo %}Si{% else %}No{% endif %}</td>
-                        </tr>
+                </tbody>
+            </table>
 
-                        </tbody>
-                    </table>
+            <div class="dt-panelfooter clearfix">
+                <button type="button" onclick="location.href='{{ path('usuario_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
 
-                    <div class="dt-panelfooter clearfix">
-                        <button type="button" onclick="location.href='{{ path('usuario_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
-
-                        <button type="button" onclick="location.href='{{ path('usuario') }}';" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
-                    </div>
-                    <!-- -->
-
-                </div>
+                <button type="button" onclick="location.href='{{ path('usuario') }}';" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
             </div>
-            <!-- End Panel Table Add Row -->
+            <!-- -->
 
         </div>
     </div>
-    <!-- End Page -->
+<!-- End Panel Table Add Row -->
+
 
 
 {% endblock %}

@@ -8,78 +8,71 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageHeader %}
+    <h1 class="page-title">Ver</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('sede') }}">Sedes</a></li>
+        <li class="active">Ver</li>
+    </ol>
+{% endblock %}
+
 {% block page %}
 
-    <!-- Page -->
-    <div class="animsition">
-        <div class="page-header">
-            <h1 class="page-title">Ver</h1>
-            <ol class="breadcrumb">
-                <li><a href="{{ path('sede') }}">Sedes</a></li>
-                <li class="active">Ver</li>
-            </ol>
+     <!-- Panel Table Add Row -->
+    <div class="panel">
+        <div class="panel-body">
 
+            <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
 
-        </div>
-        <div class="page-content">
-
-            <!-- Panel Table Add Row -->
-            <div class="panel">
-                <div class="panel-body">
-
-                    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
-
-                        <tbody>
+                <tbody>
+                <tr class="gradeA">
+                    <td><b>ID</b></td>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Nombre</b></td>
+                    <td>{{ entity.nombre }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Direccion</b></td>
+                    <td>{{ entity.direccion }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Provincia</b></td>
+                    <td>{{ entity.provincia }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Ciudad</b></td>
+                    <td>{{ entity.ciudad }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Teléfono</b></td>
+                    <td>{{ entity.telefono }}</td>
+                </tr>
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                         <tr class="gradeA">
-                            <td><b>ID</b></td>
-                            <td>{{ entity.id }}</td>
+                            <td><b>Prestador</b></td>
+                            <td>{{ entity.prestador }}</td>
                         </tr>
-                        <tr class="gradeA">
-                            <td><b>Nombre</b></td>
-                            <td>{{ entity.nombre }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Direccion</b></td>
-                            <td>{{ entity.direccion }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Provincia</b></td>
-                            <td>{{ entity.provincia }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Ciudad</b></td>
-                            <td>{{ entity.ciudad }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Teléfono</b></td>
-                            <td>{{ entity.telefono }}</td>
-                        </tr>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
-                                <tr class="gradeA">
-                                    <td><b>Prestador</b></td>
-                                    <td>{{ entity.prestador }}</td>
-                                </tr>
-                            {% endif %}
-                        {% endif %}
-                        </tbody>
-                    </table>
+                    {% endif %}
+                {% endif %}
+                </tbody>
+            </table>
 
 
-                    <div class="dt-panelfooter clearfix">
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            {% if (app.user.rol != 'ROLE_PRESTADOR') %}
-                                <button type="button" onclick="location.href='{{ path('sede_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
-                                <a type="button" href="{{ path('sede_dar_de_baja', { 'id': entity.id }) }}" id="darDeBaja" class="pull-right btn btn-default margin-top-10">Dar de baja</a>
-                            {% endif %}
-                        {% endif %}
-                        <button type="button" onclick="location.href='{{ path('sede') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
-                    </div>
-                </div>
+            <div class="dt-panelfooter clearfix">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                        <button type="button" onclick="location.href='{{ path('sede_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
+                        <a type="button" href="{{ path('sede_dar_de_baja', { 'id': entity.id }) }}" id="darDeBaja" class="pull-right btn btn-default margin-top-10">Dar de baja</a>
+                    {% endif %}
+                {% endif %}
+                <button type="button" onclick="location.href='{{ path('sede') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
             </div>
         </div>
     </div>
-    <!-- End Page -->
+
 {% endblock %}
 
 {% block javascript %}

@@ -8,76 +8,65 @@
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
+{% block pageHeader %}
+    <h1 class="page-title">Prestadores: lista</h1>
+    <ol class="breadcrumb">
+        <li><a href="javascript:void(0)">Inicio</a></li>
+        <li>Prestadores</li>
+        <li class="active">Ver prestador</li>
+    </ol>
+{% endblock %}
+
 {% block page %}
 
-    <!-- Page -->
-    <div class="animsition" style="animation-duration: 0.8s; opacity: 1;">
-        <div class="page-header">
-            <h1 class="page-title">Prestadores: lista</h1>
-            <ol class="breadcrumb">
-                <li><a href="javascript:void(0)">Inicio</a></li>
-                <li>Prestadores</li>
-                <li class="active">Ver prestador</li>
-            </ol>
+    <div class="panel">
+        <div class="panel-body">
+
+            <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+
+                <tbody>
+                <tr class="gradeA">
+                    <td><b>ID</b></td>
+                    <td>{{ entity.id }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Nombre / Razón social</b></td>
+                    <td>{{ entity.nombre }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>CUIT</b></td>
+                    <td>{{ entity.cuit[0:2] }}-{{ entity.cuit[2:8] }}-{{ entity.cuit[10:] }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Dirección</b></td>
+                    <td>{{ entity.direccion }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>Teléfono</b></td>
+                    <td>{{ entity.telefono }}</td>
+                </tr>
+                <tr class="gradeA">
+                    <td><b>E-mail</b></td>
+                    <td>{{ entity.mail }}</td>
+                </tr>
+
+                </tbody>
+            </table>
+
+            <div class="dt-panelfooter clearfix">
+
+                <button type="button" onclick="location.href='{{ path('prestador') }}';" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
+                <a type="button" href="{{ path('prestador_dar_de_baja', { 'id': entity.id }) }}" id="darDeBaja" class="pull-right btn btn-default margin-top-10">Dar de baja</a>
+                <a href="{{ path('prestador') }}" data-slug="dashboard" />
 
 
-        </div>
-        <div class="page-content">
-
-            <!-- Panel Table Add Row -->
-            <div class="panel">
-                <div class="panel-body">
-
-                    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
-
-                        <tbody>
-                        <tr class="gradeA">
-                            <td><b>ID</b></td>
-                            <td>{{ entity.id }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Nombre / Razón social</b></td>
-                            <td>{{ entity.nombre }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>CUIT</b></td>
-                            <td>{{ entity.cuit[0:2] }}-{{ entity.cuit[2:8] }}-{{ entity.cuit[10:] }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Dirección</b></td>
-                            <td>{{ entity.direccion }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>Teléfono</b></td>
-                            <td>{{ entity.telefono }}</td>
-                        </tr>
-                        <tr class="gradeA">
-                            <td><b>E-mail</b></td>
-                            <td>{{ entity.mail }}</td>
-                        </tr>
-
-                        </tbody>
-                    </table>
-
-                    <div class="dt-panelfooter clearfix">
-
-                        <button type="button" onclick="location.href='{{ path('prestador') }}';" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
-                        <a type="button" href="{{ path('prestador_dar_de_baja', { 'id': entity.id }) }}" id="darDeBaja" class="pull-right btn btn-default margin-top-10">Dar de baja</a>
-                        <a href="{{ path('prestador') }}" data-slug="dashboard" />
-
-
-                    </div>
-                    <!-- -->
-
-                </div>
             </div>
-            <!-- End Panel Table Add Row -->
-
-
+            <!-- -->
 
         </div>
     </div>
-    <!-- End Page -->
+    <!-- End Panel Table Add Row -->
+
 
 {% endblock %}
 

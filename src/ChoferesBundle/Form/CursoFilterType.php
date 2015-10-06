@@ -76,7 +76,8 @@ class CursoFilterType extends AbstractType
                 ])
                 // ->add('comprobante', 'filter_text')
                 ->add('prestador', 'filter_entity', [
-                    'class' => 'ChoferesBundle:Prestador'
+                    'class' => 'ChoferesBundle:Prestador',
+                    'choices' => $this->usuarioService->obtenerPrestadoresActivos()
                 ])
                 // ->add('docente', 'filter_entity', [
                 //     'class' => 'ChoferesBundle:Docente'

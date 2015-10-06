@@ -59,9 +59,13 @@ class DocenteController extends Controller
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
             $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d')
                 ->where('d.prestador = ?1')
-                ->setParameter(1, $prestador->getId());
+                ->andWhere('d.activo = ?2')
+                ->setParameter(1, $prestador->getId())
+                ->setParameter(2, true);
         } else {
-            $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d');
+            $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d')
+                ->andWhere('d.activo = ?1')
+                ->setParameter(1, true);
         }
         /*Fin filtro por prestador*/
 
@@ -297,5 +301,23 @@ class DocenteController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    public function darDeBajaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('ChoferesBundle:Docente')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Docente entity.');
+        }
+
+        $bajaAdministrativaService = $this->get('choferes.servicios.bajaAdministrativa');
+        $bajaAdministrativaService->darDeBaja($entity);
+
+        $this->get('session')->getFlashBag()->add('success', 'Se realizó la baja administrativa.');
+
+        return $this->redirect($this->generateUrl('docente'));
     }
 }

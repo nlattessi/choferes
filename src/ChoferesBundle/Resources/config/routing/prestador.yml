@@ -28,3 +28,8 @@ prestador_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ChoferesBundle:Prestador:delete" }
     requirements: { _method: post|delete }
+
+prestador_dar_de_baja:
+    pattern:  /{id}/dar_de_baja
+    defaults: { _controller: "ChoferesBundle:Prestador:darDeBaja" }
+    requirements: { _method: post|delete }

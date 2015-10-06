@@ -15,6 +15,13 @@ class UsuarioService
         $this->idRolPrestador = 3;
     }
 
+    public function obtenerPrestadoresActivos()
+    {
+        $prestadores = $this->em->getRepository('ChoferesBundle:Prestador')->findBy(array('activo' => true));
+
+        return $prestadores;
+    }
+
     public function obtenerPrestadorPorUsuario($usuario)
     {
         $usuarioPrestador = $this->em->getRepository('ChoferesBundle:UsuarioPrestador')->findOneBy(array('usuario' => $usuario));
@@ -25,7 +32,7 @@ class UsuarioService
     public function obtenerDocentesPorPrestador($prestador)
     {
         if ($prestador) {
-            $docentes = $this->em->getRepository('ChoferesBundle:Docente')->findBy(array('prestador' => $prestador));
+            $docentes = $this->em->getRepository('ChoferesBundle:Docente')->findBy(array('prestador' => $prestador, 'activo' => true));
         } else {
           $docentes = null;
         }
@@ -35,7 +42,7 @@ class UsuarioService
     public function obtenerSedesPorPrestador($prestador)
     {
         if ($prestador) {
-            $sedes = $this->em->getRepository('ChoferesBundle:Sede')->findBy(array('prestador' => $prestador));
+            $sedes = $this->em->getRepository('ChoferesBundle:Sede')->findBy(array('prestador' => $prestador, 'activo' => true));
         } else {
           $sedes = null;
         }

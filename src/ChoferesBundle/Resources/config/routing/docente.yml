@@ -28,3 +28,8 @@ docente_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ChoferesBundle:Docente:delete" }
     requirements: { _method: post|delete }
+
+docente_dar_de_baja:
+    pattern:  /{id}/dar_de_baja
+    defaults: { _controller: "ChoferesBundle:Docente:darDeBaja" }
+    requirements: { _method: post|delete }

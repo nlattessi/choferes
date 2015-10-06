@@ -62,7 +62,9 @@
                     <div class="dt-panelfooter clearfix">
 
                         <button type="button" onclick="location.href='{{ path('prestador') }}';" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
+                        <a type="button" href="{{ path('prestador_dar_de_baja', { 'id': entity.id }) }}" id="darDeBaja" class="pull-right btn btn-default margin-top-10">Dar de baja</a>
                         <a href="{{ path('prestador') }}" data-slug="dashboard" />
+
 
                     </div>
                     <!-- -->
@@ -77,4 +79,22 @@
     </div>
     <!-- End Page -->
 
+{% endblock %}
+
+{% block javascript %}
+<script>
+  (function(window, document, $) {
+    $("#darDeBaja").on("click",function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var $confirm = confirm('¿Se encuentra seguro de realizar la baja administrativa?');
+      if ($confirm) {
+        var $href = this.href;
+        var $form = $('<form action="' + $href + '" method="post" id="formDarDeBaja">' + '</form>');
+        $("body").append('<form action="' + $href + '" method="post" id="formDarDeBaja">' + '</form>');
+        $("#formDarDeBaja").submit();
+      }
+    });
+  })(window, document, jQuery);
+</script>
 {% endblock %}

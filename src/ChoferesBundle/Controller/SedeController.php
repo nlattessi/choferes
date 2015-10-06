@@ -57,13 +57,16 @@ class SedeController extends Controller
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
             $queryBuilder = $em->getRepository('ChoferesBundle:Sede')->createQueryBuilder('d')
                 ->where('d.prestador = ?1')
-                ->setParameter(1, $prestador->getId());
+                ->andWhere('d.activo = ?2')
+                ->setParameter(1, $prestador->getId())
+                ->setParameter(2, true);;
         } else {
-            $queryBuilder = $em->getRepository('ChoferesBundle:Sede')->createQueryBuilder('d');
+            $queryBuilder = $em->getRepository('ChoferesBundle:Sede')->createQueryBuilder('d')
+                ->andWhere('d.activo = ?1')
+                ->setParameter(1, true);
         }
         /*Fin filtro por prestador*/
 
-        // Reset filter
         $session->remove('SedeControllerFilter');
 
 
@@ -297,5 +300,23 @@ class SedeController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    public function darDeBajaAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('ChoferesBundle:Sede')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Sede entity.');
+        }
+
+        $bajaAdministrativaService = $this->get('choferes.servicios.bajaAdministrativa');
+        $bajaAdministrativaService->darDeBaja($entity);
+
+        $this->get('session')->getFlashBag()->add('success', 'Se realizó la baja administrativa.');
+
+        return $this->redirect($this->generateUrl('sede'));
     }
 }

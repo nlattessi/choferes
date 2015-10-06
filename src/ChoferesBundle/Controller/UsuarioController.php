@@ -129,6 +129,7 @@ class UsuarioController extends Controller
                ->getEncoder($entity)
             ;
             $entity->setPassword($encoder->encodePassword($entity->getPassword(), $entity->getSalt()));
+            $entity->setActivo(true);
             $em->persist($entity);
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.create.success');

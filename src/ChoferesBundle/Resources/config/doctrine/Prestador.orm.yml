@@ -47,4 +47,9 @@ ChoferesBundle\Entity\Prestador:
             length: 45
             options:
                 fixed: false
+        activo:
+            type: boolean
+            nullable: true
+            options:
+                default: true
     lifecycleCallbacks: {  }

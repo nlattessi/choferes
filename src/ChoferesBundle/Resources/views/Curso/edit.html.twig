@@ -37,11 +37,7 @@
             <span class="input-group-addon">
               <i class="icon wb-time" aria-hidden="true"></i>
             </span>
-            {{ form_widget(edit_form.horaInicio, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off',
-                'data-time-format': 'H:i',
-                'data-time-step': 15
-                }})
-            }}
+            {{ form_widget(edit_form.horaInicio, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
           </div></td>
         </tr>
         <tr class="gradeA">
@@ -59,11 +55,7 @@
             <span class="input-group-addon">
               <i class="icon wb-time" aria-hidden="true"></i>
             </span>
-            {{ form_widget(edit_form.horaFin, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off',
-                'data-time-format': 'H:i',
-                'data-time-step': 15
-                }})
-            }}
+            {{ form_widget(edit_form.horaFin, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
           </div></td>
         </tr>
         {% if app.user.rol == 'ROLE_CNTSV' %}
@@ -140,14 +132,14 @@
       {% set var = entity.fechaFin|date('d/m/Y') %}
       $('#choferesbundle_curso_fechaFin').val('{{ var }}');
 
-      {% set var = entity.fechaInicio|date('Y-m-d H:m:i') %}
+      {% set var = entity.fechaInicio|date('Y-m-d H:i') %}
       var t = "{{ var }}".split(/[- :]/);
-      var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+      var d = new Date(t[0], t[1]-1, t[2], t[3], t[4]);
       $('#choferesbundle_curso_horaInicio').timepicker().timepicker('setTime', new Date(d));
 
-      {% set var = entity.fechaFin|date('Y-m-d H:m:i') %}
+      {% set var = entity.fechaFin|date('Y-m-d H:i') %}
       var t = "{{ var }}".split(/[- :]/);
-      var d = new Date(t[0], t[1]-1, t[2], t[3], t[4], t[5]);
+      var d = new Date(t[0], t[1]-1, t[2], t[3], t[4]);
       $('#choferesbundle_curso_horaFin').timepicker().timepicker('setTime', new Date(d));
 
       $('#choferesbundle_curso_anio').datepicker({format: "yyyy", autoclose: true, minViewMode: "years" });

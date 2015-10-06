@@ -25,7 +25,7 @@
             </div>
                   <div class="panel-body container-fluid">
                     <form action="{{ path('curso_create') }}" method="post" {{ form_enctype(form) }}>
-                         <div class="row margin-top-30">
+                         <div class="row ">
                            {{ form_widget(form.fechaInicio, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
                            {{ form_widget(form.horaInicio, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
                          </div> <!-- row-->
@@ -53,7 +53,7 @@
                            {{ form_widget(form.sede, {'attr': {'class': 'form-control'}}) }}
                            {{ form_widget(form.docente, {'attr': {'class': 'form-control'}}) }}
                          </div> <!-- row-->
-                         <div class="row margin-top-30">
+                         <div class="row ">
                           {{ form_widget(form.tipocurso, {'attr': {'class': 'form-control'}}) }}
                          </div> <!-- row-->
 

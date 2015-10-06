@@ -208,7 +208,7 @@
 
           {% if status.certificado %}
           <form class="" action="" method="post">
-            <input type="hidden" name="choferDni" value="{{ chofer.dni }}">
+            <input type="hidden" name="dni" value="{{ chofer.dni }}">
             <a href="{{ path('choferes_descargar_certificados') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
             <button type="submit" name="descargar" class="margin-top-10 btn btn-outline btn-warning">Descargar certificado</button>
           </form>

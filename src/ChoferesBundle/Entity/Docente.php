@@ -145,7 +145,7 @@ class Docente
     }
 
     public function __toString(){
-        return $this->nombre . $this->apellido;
+        return $this->nombre . ' ' . $this->apellido;
     }
 
     /**

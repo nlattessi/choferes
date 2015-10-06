@@ -8,8 +8,18 @@
 {% block menu %}
 {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
-{% block pageHeader%}
+
+{% block pageHeader %}
     <h1 class="page-title">Cursos</h1>
+    <ol class="breadcrumb">
+      <li><a href="{{ path('home') }}">Inicio</a></li>
+      <li class="active">Cursos</li>
+    </ol>
+    {% if not filterForm.vars.valid %}
+            <div class="alert alert-block alert-error fade in form-errors">
+                {{ form_errors(filterForm) }}
+            </div>
+    {% endif %}
     <div class="page-header-actions">
         <a class="btn btn-sm btn-default btn-outline btn-round" data-toggle="collapse"  data-target="#filters" aria-expanded="false" aria-controls="exampleCollapseExample">
             <i class="icon wb-chevron-down" aria-hidden="true"></i>
@@ -59,9 +69,6 @@
     <!-- Panel Table Add Row -->
     <div class="panel">
         <div class="panel-body">
-
-          {{ form_errors(filterForm) }}
-
             <table class="table table-bordered table-hover table-striped">
     <thead>
         <tr>
@@ -96,66 +103,70 @@
             <td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
               {% if app.user.rol == 'ROLE_CNTSV' %}
-                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="ver"
+                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
                      href="{{ path('curso_show', { 'id': entity.id }) }}">
                       <i class="icon wb-eye" aria-hidden="true"></i>
                   </a>
-                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="editar"
+                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
                      href="{{ path('curso_edit', { 'id': entity.id }) }}">
-                      <i class="icon wb-pencil" aria-hidden="true"></i>
+                      <i class="icon wb-edit" aria-hidden="true"></i>
                   </a>
                   {% if entity.estado.id != 4 %} <!--Estado: Cancelado -->
-                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="cancelar"
+                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cancelar"
                      href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
                       <i class="icon wb-close red-400" aria-hidden="true"></i>
                   </a>
                   {% endif %}
                   {% if entity.estado.id == 1 %} <!--Estado: Cargado-->
-                    <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="confirmar"
+                    <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Confirmar"
                        href="{{ path('curso_confirmar', { 'id': entity.id }) }}">
                         <i class="icon wb-check-circle green-600" aria-hidden="true"></i>
                     </a>
                   {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
                     {% if entity.fechaInicio|date('U') >= "now"|date('U') %}
-                        <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="agregar choferes"
+                        <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
                          href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                             <i class="icon wb-user-add" aria-hidden="true"></i>
                       </a>
                     {% endif %}
                   {% elseif entity.estado.id == 3 %} <!--Estado: Por Validar-->
-                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="aprobar documentación"
+                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Aprobar documentación"
                        href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
                         <i class="icon wb-check green-400" aria-hidden="true"></i>
                     </a>
                   {% elseif entity.estado.id == 5 %} <!-- Estado: Validado -->
-                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="actualizar documentación"
+                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Actualizar documentación"
                        href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
                         <i class="icon wb-check green-400" aria-hidden="true"></i>
                     </a>
+                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Actualizar notas"
+                     href="{{ path('curso_realizar', { 'id': entity.id }) }}">
+                        <i class="icon wb-edit" aria-hidden="true"></i>
+                  </a>
                   {% endif %}
               {% elseif app.user.rol == 'ROLE_PRESTADOR' %}
-                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="ver"
+                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
                    href="{{ path('curso_show', { 'id': entity.id }) }}">
                     <i class="icon wb-eye" aria-hidden="true"></i>
                 </a>
                 {% if entity.estado.id == 1 and entity.fechaInicio|date('U') > "+4 days"|date('U') %} <!--Estado: Cargado-->
-                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="editar"
+                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
                      href="{{ path('curso_edit', { 'id': entity.id }) }}">
-                      <i class="icon wb-pencil" aria-hidden="true"></i>
+                      <i class="icon wb-edit" aria-hidden="true"></i>
                   </a>
-                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="cancelar"
+                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cancelar"
                      href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
                       <i class="icon wb-close red-400" aria-hidden="true"></i>
                   </a>
                 {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
                   {% if entity.fechaInicio|date('U') > "+4 days"|date('U') %}
-                     <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="agregar choferes"
+                     <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
                        href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                         <i class="icon wb-user-add" aria-hidden="true"></i>
                     </a>
                   {% endif %}
                   {% if entity.fechaInicio|date('U') < "now"|date('U') %}
-                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="cargar notas"
+                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cargar notas"
                        href="{{ path('curso_realizar', { 'id': entity.id }) }}">
                           <i class="icon wb-edit" aria-hidden="true"></i>
                     </a>

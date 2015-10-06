@@ -12,15 +12,14 @@
 
 {% block pageHeader%}
     <h1 class="page-title">Usuarios</h1>
-    {% if not filterForm.vars.valid  %}
-        <div class="span2">
-
+    <ol class="breadcrumb">
+      <li><a href="{{ path('home') }}">Inicio</a></li>
+      <li class="active">Usuarios</li>
+    </ol>
+    {% if not filterForm.vars.valid %}
             <div class="alert alert-block alert-error fade in form-errors">
                 {{ form_errors(filterForm) }}
             </div>
-
-            &nbsp;
-        </div>
     {% endif %}
     <div class="page-header-actions">
         <a class="btn btn-sm btn-default btn-outline btn-round" data-toggle="collapse"  data-target="#filters" aria-expanded="false" aria-controls="exampleCollapseExample">
@@ -34,14 +33,11 @@
         <div id="filters" class="collapse">
 
             <form class="well" action="{{ path('usuario') }}" method="get" {{ form_enctype(filterForm) }}>
-                {#{{ form_row(filterForm.id) }}#}
                 <div class="row">
                     {{ form_widget(filterForm.nombre, {'attr': {'class': 'form-control'}}) }}
                     {{ form_widget(filterForm.mail, {'attr': {'class': 'form-control'}}) }}
                 </div>
                 {{ form_row(filterForm._token) }}
-                {#{{ form_row(filterForm.password) }}#}
-                {#{{ form_row(filterForm.activo) }}#}
                 <div class="row">
                     <div class="col-sm-6 col-md-4 margin-top-20">
                         <button type="submit" class="btn btn-success " name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
@@ -78,14 +74,14 @@
             <td>{{ entity.mail }}</td>
             <td>{{ entity.rol }}</td>
             <td>{% if entity.activo %}Si{% else %}No{% endif %}</td>
-            <td>
-        <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="ver"
+            <td class="actions">
+        <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
            href="{{ path('usuario_show', { 'id': entity.id }) }}">
             <i class="icon wb-eye" aria-hidden="true"></i>
         </a>
-        <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="editar"
+        <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
            href="{{ path('usuario_edit', { 'id': entity.id }) }}">
-            <i class="icon wb-pencil" aria-hidden="true"></i>
+            <i class="icon wb-edit" aria-hidden="true"></i>
         </a>            </td>
         </tr>
     {% endfor %}

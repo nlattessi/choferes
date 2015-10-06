@@ -10,17 +10,15 @@
 {% endblock %}
 
 {% block pageHeader %}
-
     <h1 class="page-title">Choferes</h1>
+    <ol class="breadcrumb">
+      <li><a href="{{ path('home') }}">Inicio</a></li>
+      <li class="active">Choferes</li>
+    </ol>
     {% if not filterForm.vars.valid %}
-        <div class="span2">
-
             <div class="alert alert-block alert-error fade in form-errors">
                 {{ form_errors(filterForm) }}
             </div>
-
-            &nbsp;
-        </div>
     {% endif %}
     <div class="page-header-actions">
         <a class="btn btn-sm btn-default btn-outline btn-round" data-toggle="collapse"  data-target="#filters" aria-expanded="false" aria-controls="exampleCollapseExample">
@@ -87,16 +85,16 @@
             <td>{{ entity.cuilEmpresa }}</td>
             <td>{{ entity.matricula }}</td>
             <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
-            <td>
-              <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="ver"
+            <td class="actions">
+              <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
                  href="{{ path('chofer_show', { 'id': entity.id }) }}">
                   <i class="icon wb-eye" aria-hidden="true"></i>
               </a>
-              <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="editar"
+              <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
                  href="{{ path('chofer_edit', { 'id': entity.id }) }}">
-                  <i class="icon wb-pencil" aria-hidden="true"></i>
+                  <i class="icon wb-edit" aria-hidden="true"></i>
               </a>
-              <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="estatus"
+              <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Estatus"
                  href="{{ path('chofer_consulta_id', { 'id': entity.id }) }}">
                   <i class="icon wb-stats-bars" aria-hidden="true"></i>
               </a>

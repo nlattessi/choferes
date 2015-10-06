@@ -135,6 +135,18 @@ class CursoController extends Controller
         ));
 
         if ($request->getMethod() == 'POST') {
+
+            if ($entity->getEstado()->getId() == self::ESTADO_CURSO_VALIDADO) {
+                foreach($choferesCurso as $choferCurso){
+                    $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
+                    $choferCurso->setAprobado($request->get("" . $choferCurso->getId()));
+                    $em->persist($choferCurso);
+                }
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('success', 'Se actualizaron las notas.');
+                return $this->redirect($this->generateUrl('curso_validados', []));
+            }
+
             $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_PORVALIDAR));
             $em->persist($entity);
 

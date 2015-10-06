@@ -17,13 +17,14 @@
 
 {% block pageHeader%}
     <h1 class="page-title">Prestadores</h1>
+    <ol class="breadcrumb">
+      <li><a href="{{ path('home') }}">Inicio</a></li>
+      <li class="active">Prestadores</li>
+    </ol>
     {% if not filterForm.vars.valid %}
-        <div class="span2">
-
             <div class="alert alert-block alert-error fade in form-errors">
                 {{ form_errors(filterForm) }}
             </div>
-        </div>
     {% endif %}
     <div class="page-header-actions">
         <a class="btn btn-sm btn-default btn-outline btn-round" data-toggle="collapse"  data-target="#filters" aria-expanded="false" aria-controls="exampleCollapseExample">
@@ -87,14 +88,14 @@
             <td>{{ entity.direccion }}</td>
             <td>{{ entity.telefono }}</td>
             <td>{{ entity.mail }}</td>
-            <td>
-        <a class="btn btn-mini" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="ver"
+            <td class="actions">
+        <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
            href="{{ path('prestador_show', { 'id': entity.id }) }}">
             <i class="icon wb-eye" aria-hidden="true"></i>
         </a>
-        <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="editar"
+        <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
            href="{{ path('prestador_edit', { 'id': entity.id }) }}">
-            <i class="icon wb-pencil" aria-hidden="true"></i>
+            <i class="icon wb-edit" aria-hidden="true"></i>
         </a>            </td>
         </tr>
     {% endfor %}

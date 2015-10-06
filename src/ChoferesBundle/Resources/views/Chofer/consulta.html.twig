@@ -76,7 +76,7 @@
             <tr class="gradeA">
               <td><b>Estado</b></td>
               <td>
-                {% if status.certificado %}Vigente{% else %}Expirado{% endif %}
+                {% if status.certificado is defined and status.certificado %}Vigente{% else %}Expirado{% endif %}
               </td>
             </tr>
             {% if status.certificado is defined %}

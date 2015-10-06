@@ -81,10 +81,10 @@
               {% endfor %}
             {% endif %}
 
-            {{ form_widget(form.dni, {'attr': {'class': 'form-control empty'}, 'full_name' : 'choferDni'}) }}
+            {{ form_widget(form.dni, {'attr': {'class': 'form-control empty'}, 'full_name' : 'dni'}) }}
             <div></div>
             {{ form_widget(form.captcha) }}
-            <button type="submit" class="btn btn-success btn-block btn-lg margin-top-40" value="descargar" name="descargar"><i class="icon wb-download" aria-hidden="true"></i> Descargar certificados</button>
+            <button type="submit" class="btn btn-success btn-block btn-lg margin-top-40" ><i class="icon wb-download" aria-hidden="true"></i> Consultar</button>
 
           {{ form_end(form) }}
 

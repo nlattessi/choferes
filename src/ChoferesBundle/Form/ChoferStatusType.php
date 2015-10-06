@@ -17,8 +17,8 @@ class ChoferStatusType extends AbstractType
               // 'attr' => ['placeholder' => 'Ingrese el DNI', 'class' => 'span4'],
               'constraints' => [
                 new Assert\Length(['min' => 7, 'minMessage' => 'DNI debe tener un minimo de 7 digitos']),
-                new Assert\Regex(['pattern' => '/^[0-9]*$/', 'message' => 'DNI solo con caracteres numericos']),
-                new Assert\NotBlank(['message' => 'Ingrese el DNI'])
+                new Assert\Regex(['pattern' => '/^[0-9]*$/', 'message' => 'DNI solo con caracteres numericos'])/*,
+                new Assert\NotBlank(['message' => 'Ingrese el DNI'])*/
               ],
               'error_bubbling' => true,
               'invalid_message' => 'En DNI solo debe ingresar numeros',

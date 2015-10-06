@@ -379,7 +379,7 @@ class ChoferController extends Controller
     {
         $errors = array();
 
-        $dni = $request->request->get('choferDni');
+        $dni = $request->request->get('dni');
         $form = $this->createForm(new ChoferStatusType());
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
@@ -392,11 +392,7 @@ class ChoferController extends Controller
                 if($resultado){
                     return $resultado;
                 }
-                if($chofer){
-                    $errors[0] =array('message'=>"No hay certificados imprimibles para este chofer");
-                }else{
-                    $errors[0] =array('message'=>"El DNI ingresado no corresponde a un chofer presente en la base");
-                }
+
                 return $this->render('ChoferesBundle:Chofer:descargar-certificados.html.twig', [
                     'form' => $form->createView(),
                     'errors' => $errors,
@@ -422,20 +418,18 @@ class ChoferController extends Controller
         }
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            $dni = $form->get('dni')->getData();
             $choferService = $this->get('choferes.servicios.chofer');
             $status = $choferService->getStatusPorDniChofer($dni);
 
             if ($status) {
-                $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
                 return $this->render('ChoferesBundle:Chofer:descargar-certificados-estatus.html.twig', [
                     'chofer' => $chofer,
                     'status' => $status,
                 ]);
-            } else {
-                $form->get('dni')->addError(new FormError('No se encuentran resultados.'));
+            } else if($chofer){
+                $errors[0] =array('message'=>"No hay certificados imprimibles para este chofer");
+            }else{
+                $errors[0] =array('message'=>"El DNI ingresado no corresponde a un chofer presente en la base");
             }
         } else {
             $errors = array();

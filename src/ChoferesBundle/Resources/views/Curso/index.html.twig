@@ -129,6 +129,12 @@
                             <i class="icon wb-user-add" aria-hidden="true"></i>
                       </a>
                     {% endif %}
+                    {% if entity.fechaInicio|date('U') < "now"|date('U') %}
+                        <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cargar notas"
+                         href="{{ path('curso_realizar', { 'id': entity.id }) }}">
+                            <i class="icon wb-edit" aria-hidden="true"></i>
+                      </a>
+                    {% endif %}
                   {% elseif entity.estado.id == 3 %} <!--Estado: Por Validar-->
                       <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Aprobar documentación"
                        href="{{ path('curso_documentacion', { 'id': entity.id }) }}">

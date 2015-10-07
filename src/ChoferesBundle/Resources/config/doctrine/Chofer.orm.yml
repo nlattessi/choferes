@@ -56,7 +56,7 @@ ChoferesBundle\Entity\Chofer:
             column: tiene_curso_basico
         matricula:
             type: string
-            nullable: false
+            nullable: true
             length: 18
             options:
                 fixed: false

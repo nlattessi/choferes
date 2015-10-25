@@ -2,7 +2,7 @@
 
 $url = parse_url(getenv('DATABASE_URL'));
 
-$container->setParameter('database_driver', 'pdo_pgsql');
+$container->setParameter('database_driver', 'pdo_mysql');
 $container->setParameter('database_host', $url['host']);
 $container->setParameter('database_port', $url['port']);
 

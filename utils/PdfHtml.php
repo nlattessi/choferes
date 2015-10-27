@@ -16,17 +16,19 @@ class PdfHtml extends FPDF
       $texto = 'Firma del Director del Prestador de Servicios';
       $this->Cell(100, 5, utf8_decode($texto), 0, 0, 'L');
       $this->Cell(50, 5, '', 0, 0, 'L');
-      $texto = 'Firma del Auditor de la Comisión Nacional';
-      $this->Cell(100, 5, utf8_decode($texto), 0, 0, 'L');
+      //$texto = 'Firma del Auditor de la Comisión Nacional';
+      //$this->Cell(100, 5, utf8_decode($texto), 0, 0, 'L');
 
       $this->Ln(5);
 
       $texto = 'de Formacion Profesional.';
       $this->Cell(15, 5, '', 0, 0, 'L');
       $this->Cell(50, 5, utf8_decode($texto), 0, 0, 'L');
-      $texto = 'del Tránsito y la Seguridad Vial.';
-      $this->Cell(95, 5, '', 0, 0, 'L');
-      $this->Cell(90, 5, utf8_decode($texto), 0, 0, 'L');
+      //$texto = 'del Tránsito y la Seguridad Vial.';
+      //$this->Cell(95, 5, '', 0, 0, 'L');
+      //$this->Cell(90, 5, utf8_decode($texto), 0, 0, 'L');
+
+      $this->Image(__DIR__ . '/firma_cntsv.png', 180, 170, 0, 35);
     }
 
     function __construct ($orientation = 'P', $unit = 'pt', $format = 'Letter', $margin = 40, $lineHeight = 5) {

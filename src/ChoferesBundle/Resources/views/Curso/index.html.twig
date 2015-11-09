@@ -123,7 +123,7 @@
                         <i class="icon wb-check-circle green-600" aria-hidden="true"></i>
                     </a>
                   {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
-                      {% if entity.fechaInicio|date('d/m/Y H:i') > "-2 hours"|date('d/m/Y H:i',"America/Argentina/Buenos_Aires") %}
+                      {% if entity.fechaFin|date('d/m/Y H:i') > "-1 hours"|date('d/m/Y H:i',"America/Argentina/Buenos_Aires") %}
                         <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
                          href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                             <i class="icon wb-user-add" aria-hidden="true"></i>
@@ -140,6 +140,12 @@
                        href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
                         <i class="icon wb-check green-400" aria-hidden="true"></i>
                     </a>
+                      {% if entity.fechaFin|date('d/m/Y H:i') > "-1 hours"|date('d/m/Y H:i',"America/Argentina/Buenos_Aires") %}
+                          <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
+                              href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
+                              <i class="icon wb-user-add" aria-hidden="true"></i>
+                          </a>
+                      {% endif %}
                   {% elseif entity.estado.id == 5 %} <!-- Estado: Validado -->
                       <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Actualizar documentación"
                        href="{{ path('curso_documentacion', { 'id': entity.id }) }}">

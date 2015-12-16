@@ -64,7 +64,7 @@ ChoferesBundle\Entity\Curso:
         observaciones:
             type: string
             nullable: true
-            length: 45
+            length: 500
             options:
                 fixed: false
     manyToOne:

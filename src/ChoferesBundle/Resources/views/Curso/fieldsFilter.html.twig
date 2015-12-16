@@ -120,3 +120,12 @@
     {% endif %}
   {% endspaceless %}
 {% endblock %}
+
+{% block _choferesbundle_cursofiltertype_id_widget %}
+  <div class="col-sm-6 col-md-4">
+    <div class="">
+      <h4 class="example-title">Id</h4>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}

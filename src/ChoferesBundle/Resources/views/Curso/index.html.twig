@@ -31,6 +31,10 @@
             <form class="well" action="{{ path('curso') }}" method="get" {{ form_enctype(filterForm) }}>
 
               <div class="row">
+                {{ form_widget(filterForm.id, {'attr': {'class': 'form-control'}}) }}
+              </div>
+
+              <div class="row">
                 {{ form_widget(filterForm.fechaInicio, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
               </div>
               <div class="row">

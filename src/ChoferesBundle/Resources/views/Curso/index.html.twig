@@ -83,6 +83,7 @@
             <th>Nro de TRI</th>
             <th>Tipo</th>
             <th>Estado</th>
+            <th>Sede</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
     </thead>
@@ -100,6 +101,7 @@
             <td>{{ entity.codigo }}</td>
             <td>{{ entity.tipocurso }}</td>
             <td>{{ entity.estado }}</td>
+            <td>{{ entity.sede }}</td>
             <td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
               {% if app.user.rol == 'ROLE_CNTSV' %}

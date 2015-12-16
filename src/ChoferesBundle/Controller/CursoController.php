@@ -561,32 +561,38 @@ class CursoController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
-                $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
-                $entity->setPrestador($prestador);
+            $dtInicio = $form->get('fechaInicio')->getData() . ' ' . $form->get('horaInicio')->getData();
+            $fechaInicio = \DateTime::createFromFormat('d/m/Y H:i', $dtInicio);
+
+            $dtFin = $form->get('fechaFin')->getData() . ' ' . $form->get('horaFin')->getData();
+            $fechaFin = \DateTime::createFromFormat('d/m/Y H:i', $dtFin);
+
+            if ($fechaInicio > $fechaFin) {
+                $this->get('session')->getFlashBag()->add('error', 'ERROR! Fecha de inicio posterior a fecha fin. Por favor corregir.');
+            } else {
+
+                if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
+                    $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
+                    $entity->setPrestador($prestador);
+                }
+
+                $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT) );
+
+                $entity->setFechaInicio($fechaInicio);
+                $entity->setFechaFin($fechaFin);
+
+                if ($form->has('fechaPago') && $form->get('fechaPago')->getData() !== null) {
+                    $fechaPago = $form->get('fechaPago')->getData();
+                    $dtFechaPago = \DateTime::createFromFormat('d/m/Y', $fechaPago);
+                    $entity->setFechaPago($dtFechaPago);
+                }
+
+                $em->persist($entity);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
+
+                return $this->redirect($this->generateUrl('curso_show', array('id' => $entity->getId())));
             }
-
-            $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT) );
-
-            $fechaInicio = $form->get('fechaInicio')->getData() . ' ' . $form->get('horaInicio')->getData();
-            $dtFechaInicio = \DateTime::createFromFormat('d/m/Y H:i', $fechaInicio);
-            $entity->setFechaInicio($dtFechaInicio);
-
-            $fechaFin = $form->get('fechaFin')->getData() . ' ' . $form->get('horaFin')->getData();
-            $dtFechaFin = \DateTime::createFromFormat('d/m/Y H:i', $fechaFin);
-            $entity->setFechaFin($dtFechaFin);
-
-            if ($form->has('fechaPago') && $form->get('fechaPago')->getData() !== null) {
-                $fechaPago = $form->get('fechaPago')->getData();
-                $dtFechaPago = \DateTime::createFromFormat('d/m/Y', $fechaPago);
-                $entity->setFechaPago($dtFechaPago);
-            }
-
-            $em->persist($entity);
-            $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
-
-            return $this->redirect($this->generateUrl('curso_show', array('id' => $entity->getId())));
         }
 
         return $this->render('ChoferesBundle:Curso:new.html.twig', array(
@@ -766,28 +772,34 @@ class CursoController extends Controller
         if ($editForm->isValid()) {
             $dtInicio = $editForm->get('fechaInicio')->getData() . ' ' . $editForm->get('horaInicio')->getData();
             $fechaInicio = \DateTime::createFromFormat('d/m/Y H:i', $dtInicio);
-            $entity->setFechaInicio($fechaInicio);
 
             $dtFin = $editForm->get('fechaFin')->getData() . ' ' . $editForm->get('horaFin')->getData();
             $fechaFin = \DateTime::createFromFormat('d/m/Y H:i', $dtFin);
-            $entity->setFechaFin($fechaFin);
 
-            if ($editForm->has('fechaPago') && $editForm->get('fechaPago')->getData() !== null) {
-                $fechaPago = $editForm->get('fechaPago')->getData();
-                $dtFechaPago = \DateTime::createFromFormat('d/m/Y', $fechaPago);
-                $entity->setFechaPago($dtFechaPago);
+            if ($fechaInicio > $fechaFin) {
+                $this->get('session')->getFlashBag()->add('error', 'ERROR! Fecha de inicio posterior a fecha fin. Por favor corregir.');
+            } else {
+
+                $entity->setFechaInicio($fechaInicio);
+                $entity->setFechaFin($fechaFin);
+
+                if ($editForm->has('fechaPago') && $editForm->get('fechaPago')->getData() !== null) {
+                    $fechaPago = $editForm->get('fechaPago')->getData();
+                    $dtFechaPago = \DateTime::createFromFormat('d/m/Y', $fechaPago);
+                    $entity->setFechaPago($dtFechaPago);
+                }
+
+                $em->persist($entity);
+                $em->flush();
+                if(strlen($entity->getComprobante()) > 0){
+                    //comprobante seteado, hay que marcar como pagado todos los ChoferCurso
+                    $this->actualizarCursoChofer($entity);
+                }
+
+                $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
+
+                return $this->redirect($this->generateUrl('curso_edit', array('id' => $id)));
             }
-
-            $em->persist($entity);
-            $em->flush();
-            if(strlen($entity->getComprobante()) > 0){
-                //comprobante seteado, hay que marcar como pagado todos los ChoferCurso
-                $this->actualizarCursoChofer($entity);
-            }
-
-            $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
-
-            return $this->redirect($this->generateUrl('curso_edit', array('id' => $id)));
         } else {
             $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
         }

@@ -22,19 +22,21 @@ class InformeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('fechaInicio', 'text', array('mapped' => false))
-        ->add('horaInicio', 'text', array('mapped' => false))
-        ->add('fechaFin', 'text', array('mapped' => false))
-        ->add('horaFin', 'text', array('mapped' => false))
+        ->add('fechaInicio', 'text', ['mapped' => false, 'required' => true])
+        ->add('horaInicio', 'text', ['mapped' => false, 'required' => true])
+        ->add('fechaFin', 'text', ['mapped' => false, 'required' => true])
+        ->add('horaFin', 'text', ['mapped' => false, 'required' => true])
 
         ->add('prestador', 'entity', [
             'class' => 'ChoferesBundle:Prestador',
-            'empty_value' => '',
-            'choices' => $this->usuarioService->obtenerPrestadoresActivos()
+            //'empty_value' => '',
+            'choices' => $this->usuarioService->obtenerPrestadoresActivos(),
+            'required' => true
         ])
 
         ->add('tipocurso', 'filter_entity', [
-            'class' => 'ChoferesBundle:TipoCurso'
+            'class' => 'ChoferesBundle:TipoCurso',
+            'required' => true
         ])
 
         ->add('reset', 'reset', ['label' => 'Limpiar '])

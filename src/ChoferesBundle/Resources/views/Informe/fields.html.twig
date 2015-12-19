@@ -45,3 +45,21 @@
     </div>
   </div>
 {% endblock %}
+
+{% block _choferesbundle_informe_prestador_widget %}
+  <div class="col-sm-6 col-md-6 ">
+    <h4 class="example-title">Prestador</h4>
+    <div class="form-group">
+      {{ block('choice_widget') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_informe_tipocurso_widget %}
+  <div class="col-sm-6 col-md-6 ">
+    <h4 class="example-title">Tipo de curso</h4>
+    <div class="form-group">
+      {{ block('choice_widget') }}
+    </div>
+  </div>
+{% endblock %}

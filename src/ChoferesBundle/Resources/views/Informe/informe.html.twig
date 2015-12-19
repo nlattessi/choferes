@@ -28,6 +28,10 @@
         {{ form_widget(form.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
         {{ form_widget(form.horaFin, {'attr': {'class': 'form-control ui-timepicker-input', 'data-plugin': 'timepicker', 'autocomplete': 'off', 'data-time-format': 'H:i'}}) }}
       </div> <!-- row-->
+      <div class="row margin-top-30">
+        {{ form_widget(form.prestador, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.tipocurso, {'attr': {'class': 'form-control'}}) }}
+      </div>
       <div class="row">
         <div class="col-sm-6 col-md-4 margin-top-20">
           {{ form_widget(form.reset, {'attr': {'class': 'btn btn-outline btn-default'}}) }}
@@ -37,8 +41,4 @@
       {{ form_end(form) }}
     </div><!-- panel-->
   </div><!-- panel body-->
-{% endblock %}
-
-{% block javascript %}
-    <script src="{{ asset('bundles/choferes/js/cursoForm.js') }}"></script>
 {% endblock %}

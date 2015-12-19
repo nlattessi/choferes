@@ -6,8 +6,6 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
 use ChoferesBundle\Servicios\UsuarioService;
 use ChoferesBundle\Entity\Prestador;
 
@@ -23,11 +21,6 @@ class InformeType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // $builder
-        //     ->add('fecha_desde') //LISTO
-        //     ->add('fecha_hasta') //LISTO
-        //     ->add('prestador') // FALTA ESTILOS
-        //     ->add('curso_basico o complementario') // FALTA ESTILOS
         $builder
         ->add('fechaInicio', 'text', array('mapped' => false))
         ->add('horaInicio', 'text', array('mapped' => false))
@@ -46,18 +39,11 @@ class InformeType extends AbstractType
 
         ->add('reset', 'reset', ['label' => 'Limpiar '])
       ;
-
-        // $builder->add('submit', 'submit', [
-        //   'label' => 'Realizar',
-        //   'attr' => ['type' => 'submit', 'class' => 'btn btn-info btn-block']
-        // ]);
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setDefaults([
-
-        ]);
+        $resolver->setDefaults([]);
     }
 
     public function getName()

@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block page %}
+  {% if choferes is empty %}
   <div class="panel">
     <div class="panel-heading">
       <h3 class="panel-title">Todos los campos son obligatorios</h3>
@@ -41,4 +42,43 @@
       {{ form_end(form) }}
     </div><!-- panel-->
   </div><!-- panel body-->
+  {% else %}
+  <div class="panel">
+    <div class="panel-body">
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Cuil</th>
+            <th>Cuilempresa</th>
+            <th>Matricula</th>
+            <th>Tiene curso básico</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for chofer in choferes %}
+          <tr class="gradeA">
+            <td><a href="{{ path('chofer_show', { 'id': chofer.id }) }}">{{ chofer.id }}</a></td>
+            <td>{{ chofer.nombre }}</td>
+            <td>{{ chofer.apellido }}</td>
+            <td>{% if chofer.precuil and chofer.colacuil %}{{ chofer.precuil }}-{{ chofer.dni }}-{{ chofer.colacuil }}{% endif %}</td>
+            <td>{{ chofer.cuilEmpresa }}</td>
+            <td>{{ chofer.matricula }}</td>
+            <td>{% if chofer.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="row">
+        <div class="col-sm-6 margin-top-20">
+          <form class="" action="" method="post">
+            <button type="submit" name="exportar_excel" class="margin-top-10 btn btn-outline btn-warning" >Exportar a Excel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
 {% endblock %}

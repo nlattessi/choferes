@@ -41,6 +41,12 @@ ChoferesBundle\Entity\Chofer:
             length: 1
             options:
                 fixed: false
+        triCode:
+            type: string
+            nullable: true
+            length: 18
+            options:
+                fixed: false
         cuilEmpresa:
             type: string
             nullable: true

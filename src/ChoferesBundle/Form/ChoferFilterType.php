@@ -32,6 +32,9 @@ class ChoferFilterType extends AbstractType
             ->add('matricula', 'filter_text', [
                 'condition_pattern' => FilterOperands::STRING_BOTH,
             ])
+            ->add('triCode', 'filter_text', [
+                'condition_pattern' => FilterOperands::STRING_BOTH,
+            ])
             #->add('tieneCursoBasico', 'filter_choice')
         ;
 

@@ -28,7 +28,7 @@ class CursoFilterType extends AbstractType
         $usuario = $options['user'];
 
         $builder
-            ->add('id')
+            ->add('id', 'integer', ['required' => false])
             ->add('fechaInicio', 'filter_date_range', array(
                 'left_date_options' => array(
                     'widget' => 'single_text',

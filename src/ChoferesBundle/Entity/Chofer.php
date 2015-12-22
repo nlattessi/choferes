@@ -52,6 +52,11 @@ class Chofer
      */
     private $matricula;
 
+    /**
+     * @var string
+     */
+    private $triCode;
+
 
     /**
      * Get id
@@ -264,6 +269,23 @@ class Chofer
     {
         $this->matricula = $matricula;
     }
+
+    /**
+     * @return string
+     */
+    public function getTriCode()
+    {
+        return $this->triCode;
+    }
+
+    /**
+     * @param string $triCode
+     */
+    public function setTriCode($triCode)
+    {
+        $this->triCode = $triCode;
+    }
+
 
 
 }

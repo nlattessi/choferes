@@ -105,7 +105,7 @@
             <td>{{ entity.codigo }}</td>
             <td>{{ entity.tipocurso }}</td>
             <td>{{ entity.estado }}</td>
-            <td>{{ entity.sede }}</td>
+            <td>{% if entity.sede %}{{ entity.sede }}({{ entity.sede.direccion }}){% endif %}</td>
             <td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
               {% if app.user.rol == 'ROLE_CNTSV' %}

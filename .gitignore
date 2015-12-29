@@ -25,3 +25,6 @@ app/check.php
 app/SymfonyRequirements.php
 app/SymfonyRequirements.php
 app/check.php
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/frameworkRootSettings.xml
+.idea/inspectionProfiles/Project_Default.xml

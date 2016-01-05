@@ -50,10 +50,15 @@
     </table>
     <div class="dt-panelfooter clearfix">
       <button type="submit" class="btn btn btn-success margin-top-10">Guardar</button>
-      <a href="{{ path('sede') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
+      <a id="listado"  href="{{ path('sede') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
     </div>
     {{ form_widget(edit_form._token) }}
     </form>
   </div>
 </div>
+
+  <script type="application/javascript">
+    getInLocalStorage('sede')
+  </script>
+
 {% endblock %}

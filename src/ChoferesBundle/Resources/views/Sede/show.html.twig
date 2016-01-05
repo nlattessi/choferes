@@ -68,7 +68,7 @@
                         <a type="button" href="{{ path('sede_dar_de_baja', { 'id': entity.id }) }}" id="darDeBaja" class="pull-right btn btn-default margin-top-10">Dar de baja</a>
                     {% endif %}
                 {% endif %}
-                <button type="button" onclick="location.href='{{ path('sede') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
+                <a id="listado" href='{{ path('sede') }}' class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
             </div>
         </div>
     </div>
@@ -76,6 +76,9 @@
 {% endblock %}
 
 {% block javascript %}
+    <script type="application/javascript">
+        getInLocalStorage('sede')
+    </script>
 <script>
   (function(window, document, $) {
     $("#darDeBaja").on("click",function(e) {

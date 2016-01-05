@@ -54,7 +54,7 @@
 
             <div class="dt-panelfooter clearfix">
 
-                <button type="button" onclick="location.href='{{ path('prestador') }}';" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
+                <a id="listado" type="button" href='{{ path('prestador') }}' class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
                 <a type="button" href="{{ path('prestador_dar_de_baja', { 'id': entity.id }) }}" id="darDeBaja" class="pull-right btn btn-default margin-top-10">Dar de baja</a>
                 <a href="{{ path('prestador') }}" data-slug="dashboard" />
 
@@ -70,6 +70,10 @@
 {% endblock %}
 
 {% block javascript %}
+    <script type="application/javascript">
+        getInLocalStorage('prestador')
+    </script>
+
 <script>
   (function(window, document, $) {
     $("#darDeBaja").on("click",function(e) {

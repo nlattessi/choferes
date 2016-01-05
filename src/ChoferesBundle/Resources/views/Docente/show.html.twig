@@ -61,7 +61,7 @@
                     {% endif %}
                 {% endif %}
 
-                <button type="button" onclick="location.href='{{ path('docente') }}'" class="btn btn-outline btn-default margin-top-10">Volver al listado</button>
+                <a id="listado" href="{{ path('docente') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
             </div>
 
 
@@ -76,6 +76,9 @@
 
 
 {% block javascript %}
+    <script type="application/javascript">
+        getInLocalStorage('docente')
+    </script>
 <script>
   (function(window, document, $) {
     $("#darDeBaja").on("click",function(e) {

@@ -73,11 +73,11 @@
 
 
                 <div class="dt-panelfooter clearfix">
-                    <button type="button"
-                            onclick="location.href='{{ path('curso') }}'"
+                    <a      id="listado"
+                            href="{{ path('curso') }}"
                             class="btn btn-outline btn-default margin-top-10">
                         Volver al listado
-                    </button>
+                    </a>
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         {% if app.user.rol == 'ROLE_CNTSV' %}
                             <button type="button"
@@ -135,7 +135,9 @@
 
 
 
-
+    <script type="application/javascript">
+        getInLocalStorage('curso')
+    </script>
     <!-- End Page -->
 
     {% endblock %}

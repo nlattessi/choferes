@@ -46,7 +46,7 @@
     </table>
     <div class="dt-panelfooter clearfix">
       <button type="submit" class="btn btn btn-success margin-top-10">Guardar</button>
-      <a href="{{ path('prestador') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
+      <a id="listado" href="{{ path('prestador') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
     </div>
     {{ form_widget(edit_form._token) }}
     </form>
@@ -55,6 +55,11 @@
 {% endblock %}
 
 {% block javascript %}
+
+  <script type="application/javascript">
+    getInLocalStorage('prestador')
+  </script>
+
     <script src="{{ asset('bundles/choferes/js/inputmask.js') }}"></script>
     <script src="{{ asset('bundles/choferes/js/jquery.inputmask.js') }}"></script>
     <script src="{{ asset('bundles/choferes/js/cuilmask.js') }}" type="text/javascript"></script>

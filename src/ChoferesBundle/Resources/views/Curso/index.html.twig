@@ -109,81 +109,81 @@
             <td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
               {% if app.user.rol == 'ROLE_CNTSV' %}
-                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
+                  <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
                      href="{{ path('curso_show', { 'id': entity.id }) }}">
                       <i class="icon wb-eye" aria-hidden="true"></i>
                   </a>
-                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
+                  <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
                      href="{{ path('curso_edit', { 'id': entity.id }) }}">
                       <i class="icon wb-edit" aria-hidden="true"></i>
                   </a>
                   {% if entity.estado.id != 4 %} <!--Estado: Cancelado -->
-                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cancelar"
+                  <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cancelar"
                      href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
                       <i class="icon wb-close red-400" aria-hidden="true"></i>
                   </a>
                   {% endif %}
                   {% if entity.estado.id == 1 %} <!--Estado: Cargado-->
-                    <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Confirmar"
+                    <a onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Confirmar"
                        href="{{ path('curso_confirmar', { 'id': entity.id }) }}">
                         <i class="icon wb-check-circle green-600" aria-hidden="true"></i>
                     </a>
                   {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
-                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
+                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
                       href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                         <i class="icon wb-user-add" aria-hidden="true"></i>
                     </a>
                     {% if date(entity.fechaInicio) < date('-2 hours') %}
-                        <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cargar notas"
+                        <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cargar notas"
                          href="{{ path('curso_realizar', { 'id': entity.id }) }}">
                             <i class="icon wb-edit" aria-hidden="true"></i>
                       </a>
                     {% endif %}
                   {% elseif entity.estado.id == 3 %} <!--Estado: Por Validar-->
-                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
+                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
                       href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                         <i class="icon wb-user-add" aria-hidden="true"></i>
                     </a>
-                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Aprobar documentación"
+                      <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Aprobar documentación"
                        href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
                         <i class="icon wb-check green-400" aria-hidden="true"></i>
                     </a>
                   {% elseif entity.estado.id == 5 %} <!-- Estado: Validado -->
-                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
+                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
                       href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                         <i class="icon wb-user-add" aria-hidden="true"></i>
                     </a>
-                      <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Actualizar documentación"
+                      <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Actualizar documentación"
                        href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
                         <i class="icon wb-check green-400" aria-hidden="true"></i>
                     </a>
-                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Actualizar notas"
+                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Actualizar notas"
                      href="{{ path('curso_realizar', { 'id': entity.id }) }}">
                         <i class="icon wb-edit" aria-hidden="true"></i>
                   </a>
                   {% endif %}
               {% elseif app.user.rol == 'ROLE_PRESTADOR' %}
-                  <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
+                  <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
                    href="{{ path('curso_show', { 'id': entity.id }) }}">
                     <i class="icon wb-eye" aria-hidden="true"></i>
                 </a>
                 {% if entity.estado.id == 1 and date(entity.fechaInicio) > date('+4 days') %} <!--Estado: Cargado-->
-                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
+                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
                      href="{{ path('curso_edit', { 'id': entity.id }) }}">
                       <i class="icon wb-edit" aria-hidden="true"></i>
                   </a>
-                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cancelar"
+                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cancelar"
                      href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
                       <i class="icon wb-close red-400" aria-hidden="true"></i>
                   </a>
                 {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
                   {% if date(entity.fechaInicio) > date('-2 hours') %}
-                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
+                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
                       href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
                         <i class="icon wb-user-add" aria-hidden="true"></i>
                     </a>
                   {% else %}
-                    <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cargar notas"
+                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cargar notas"
                       href="{{ path('curso_realizar', { 'id': entity.id }) }}">
                         <i class="icon wb-edit" aria-hidden="true"></i>
                     </a>

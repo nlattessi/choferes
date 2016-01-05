@@ -89,11 +89,11 @@
             <td>{{ entity.telefono }}</td>
             <td>{{ entity.mail }}</td>
             <td class="actions">
-        <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
+        <a onclick="saveInLocalStorage('prestador');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
            href="{{ path('prestador_show', { 'id': entity.id }) }}">
             <i class="icon wb-eye" aria-hidden="true"></i>
         </a>
-        <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
+        <a onclick="saveInLocalStorage('prestador');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
            href="{{ path('prestador_edit', { 'id': entity.id }) }}">
             <i class="icon wb-edit" aria-hidden="true"></i>
         </a>            </td>

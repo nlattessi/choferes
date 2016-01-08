@@ -82,7 +82,7 @@
     <tbody>
     {% for entity in entities %}
         <tr class="gradeA">
-            <td><a href="{{ path('prestador_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td><a onclick="saveInLocalStorage('prestador');" href="{{ path('prestador_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nombre }}</td>
             <td>{{ entity.cuit[0:2] }}-{{ entity.cuit[2:8] }}-{{ entity.cuit[10:] }}</td>
             <td>{{ entity.direccion }}</td>

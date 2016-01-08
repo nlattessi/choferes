@@ -75,7 +75,7 @@
                 <tbody>
                 {% for entity in entities %}
                     <tr class="gradeA">
-                        <td><a href="{{ path('docente_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                        <td><a onclick="saveInLocalStorage('docente');" href="{{ path('docente_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                         <td>{{ entity.nombre }}</td>
                         <td>{{ entity.apellido }}</td>
                         <td>{{ entity.dni }}</td>

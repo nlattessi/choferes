@@ -78,7 +78,7 @@
     <tbody>
     {% for entity in entities %}
         <tr class="gradeA">
-            <td><a href="{{ path('chofer_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td><a onclick="saveInLocalStorage('chofer');" href="{{ path('chofer_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nombre }}</td>
             <td>{{ entity.apellido }}</td>
             <td>{% if entity.precuil and entity.colacuil %}{{ entity.precuil }}-{{ entity.dni }}-{{ entity.colacuil }}{% endif %}</td>

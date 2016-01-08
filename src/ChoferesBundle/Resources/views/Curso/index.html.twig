@@ -94,7 +94,7 @@
     <tbody>
     {% for entity in entities %}
         <tr  class="gradeA">
-            <td><a href="{{ path('curso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+            <td><a onclick="saveInLocalStorage('curso');" href="{{ path('curso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('d/m/Y H:i') }}{% endif %}</td>
             <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('d/m/Y H:i') }}{% endif %}</td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}

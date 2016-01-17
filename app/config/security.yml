@@ -27,7 +27,7 @@ security:
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/descargar-certificados, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/descargar-certificados, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/generate-captcha/gcb_captcha, roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
         - { path: ^/chofer, roles: [ROLE_ADMIN, ROLE_CNTSV, ROLE_PRESTADOR] }

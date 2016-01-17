@@ -90,12 +90,12 @@ chofer_consulta_id:
     path: /consulta/{id}
     defaults: { _controller: ChoferesBundle:Chofer:consulta }
 
+choferes_descargar_certificados_hash:
+    path: /descargar-certificados/{hash}
+    defaults: { _controller: ChoferesBundle:Chofer:descargarCertificados }
+
 #choferes_descargar_certificados:
 #    path: /descargar-certificados
-#    defaults: { _controller: ChoferesBundle:Chofer:descargarCertificados }
-
-#choferes_descargar_certificados_hash:
-#    path: /descargar-certificados/{hash}
 #    defaults: { _controller: ChoferesBundle:Chofer:descargarCertificados }
 
 reporte:

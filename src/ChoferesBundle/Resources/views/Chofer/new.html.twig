@@ -31,10 +31,9 @@
       </div>
       <div class="row">
         {{ form_widget(form.dni, {'attr': {'class': 'form-control'}}) }}
-        {{ form_widget(form.precuil, {'attr': {'class': 'form-control'}}) }}
+        {{ form_widget(form.cuil, {'attr': {'class': 'form-control'}}) }}
       </div>
       <div class="row">
-        {{ form_widget(form.colacuil, {'attr': {'class': 'form-control'}}) }}
         {{ form_widget(form.cuilEmpresa, {'attr': {'class': 'form-control'}}) }}
       </div>
       <div class="row">
@@ -54,4 +53,10 @@
     </form>
   </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('bundles/choferes/js/inputmask.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/js/jquery.inputmask.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/js/cuilmask.js') }}" type="text/javascript"></script>
 {% endblock %}

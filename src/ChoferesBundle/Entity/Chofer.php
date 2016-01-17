@@ -30,12 +30,7 @@ class Chofer
     /**
      * @var string
      */
-    private $precuil;
-
-    /**
-     * @var string
-     */
-    private $colacuil;
+    private $cuil;
 
     /**
      * @var string
@@ -155,51 +150,27 @@ class Chofer
     }
 
     /**
-     * Set precuil
+     * Set cuil
      *
-     * @param string $precuil
+     * @param string $cuil
      *
      * @return Chofer
      */
-    public function setPrecuil($precuil)
+    public function setCuil($cuil)
     {
-        $this->precuil = $precuil;
+        $this->cuil = $cuil;
 
         return $this;
     }
 
     /**
-     * Get precuil
+     * Get cuil
      *
      * @return string
      */
-    public function getPrecuil()
+    public function getCuil()
     {
-        return $this->precuil;
-    }
-
-    /**
-     * Set colacuil
-     *
-     * @param string $colacuil
-     *
-     * @return Chofer
-     */
-    public function setColacuil($colacuil)
-    {
-        $this->colacuil = $colacuil;
-
-        return $this;
-    }
-
-    /**
-     * Get colacuil
-     *
-     * @return string
-     */
-    public function getColacuil()
-    {
-        return $this->colacuil;
+        return $this->cuil;
     }
 
     /**

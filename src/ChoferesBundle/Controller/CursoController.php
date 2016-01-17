@@ -141,6 +141,15 @@ class CursoController extends Controller
                     $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
                     $choferCurso->setAprobado($request->get("" . $choferCurso->getId()));
                     $em->persist($choferCurso);
+
+                    $curso = $choferCurso->getCurso();
+                    if ($curso->getTipoCurso()->getId() == 1) {
+                        if ($request->get("" . $choferCurso->getId()) > 3) {
+                            $chofer = $choferCurso->getChofer();
+                            $chofer->setTieneCursoBasico(true);
+                            $em->persist($chofer);
+                        }
+                    }
                 }
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('success', 'Se actualizaron las notas.');
@@ -155,6 +164,15 @@ class CursoController extends Controller
                 $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
                 $choferCurso->setAprobado($request->get("" . $choferCurso->getId()));
                 $em->persist($choferCurso);
+
+                $curso = $choferCurso->getCurso();
+                if ($curso->getTipoCurso()->getId() == 1) {
+                    if ($request->get("" . $choferCurso->getId()) > 3) {
+                        $chofer = $choferCurso->getChofer();
+                        $chofer->setTieneCursoBasico(true);
+                        $em->persist($chofer);
+                    }
+                }
             }
 
             $em->flush();

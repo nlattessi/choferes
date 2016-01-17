@@ -209,7 +209,7 @@
 
           <div class="dt-panelfooter clearfix">
 
-          {% if status.certificado %}
+          {#{% if status.certificado %}
           <form class="" action="" method="post">
             <input type="hidden" name="dni" value="{{ chofer.dni }}">
             <a href="{{ path('choferes_descargar_certificados') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
@@ -217,7 +217,7 @@
           </form>
           {% else %}
             <a href="{{ path('choferes_descargar_certificados') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
-          {% endif %}
+          {% endif %}#}
           </div>
 
 

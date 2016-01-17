@@ -379,7 +379,7 @@ class ChoferController extends Controller
     {
         $errors = array();
 
-        $dni = $request->request->get('dni');
+        /*$dni = $request->request->get('dni');
         $form = $this->createForm(new ChoferStatusType());
         $form->handleRequest($request);
         $em = $this->getDoctrine()->getManager();
@@ -398,7 +398,8 @@ class ChoferController extends Controller
                     'errors' => $errors,
                 ]);
             }
-        }
+        }*/
+        $em = $this->getDoctrine()->getManager();
         if ($hash) {
             $hashids = $this->get('hashids');
             $id = $hashids->decode($hash);
@@ -417,7 +418,9 @@ class ChoferController extends Controller
             }
         }
 
-        if ($form->isValid()) {
+        return $this->redirect($this->generateUrl('login'));
+
+        /*if ($form->isValid()) {
             $choferService = $this->get('choferes.servicios.chofer');
             $status = $choferService->getStatusPorDniChofer($dni);
 
@@ -442,7 +445,9 @@ class ChoferController extends Controller
         return $this->render('ChoferesBundle:Chofer:descargar-certificados.html.twig', [
             'form' => $form->createView(),
             'errors' => $errors,
-        ]);
+        ]);*/
+
+
     }
 
     public function reporteCursoAction(Request $request){

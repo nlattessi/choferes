@@ -15,4 +15,12 @@
          "clearMaskOnLostFocus": false,
        }
      );
+     $("#choferesbundle_chofer_cuil")
+      .inputmask(
+        "99-99999999-9",
+        {
+          "removeMaskOnSubmit": true,
+          "clearMaskOnLostFocus": false,
+        }
+      );
 })(window, document, jQuery);

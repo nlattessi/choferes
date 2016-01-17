@@ -40,12 +40,8 @@
                     <td>{{ entity.dni }}</td>
                 </tr>
                 <tr class="gradeA">
-                    <td><b>PreCUIL</b></td>
-                    <td>{{ entity.precuil }}</td>
-                </tr>
-                <tr class="gradeA">
-                    <td><b>ColaCUIL</b></td>
-                    <td>{{ entity.colacuil }}</td>
+                    <td><b>CUIL</b></td>
+                    <td>{% if entity.cuil %}{{ entity.cuil[0:2] }}-{{ entity.cuil[2:8] }}-{{ entity.cuil[10:] }}{% endif %}</td>
                 </tr>
                 <tr class="gradeA">
                     <td><b>CUIL empresa</b></td>

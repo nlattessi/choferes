@@ -29,22 +29,16 @@ ChoferesBundle\Entity\Chofer:
             length: 8
             options:
                 fixed: false
-        precuil:
-            type: string
-            nullable: true
-            length: 2
-            options:
-                fixed: false
-        colacuil:
-            type: string
-            nullable: true
-            length: 1
-            options:
-                fixed: false
         triCode:
             type: string
             nullable: true
             length: 18
+            options:
+                fixed: false
+        cuil:
+            type: string
+            nullable: true
+            length: 45
             options:
                 fixed: false
         cuilEmpresa:

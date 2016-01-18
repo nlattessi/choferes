@@ -142,14 +142,15 @@ class CursoController extends Controller
                     $choferCurso->setAprobado($request->get("" . $choferCurso->getId()));
                     $em->persist($choferCurso);
 
-                    $curso = $choferCurso->getCurso();
+                    /*$curso = $choferCurso->getCurso();
                     if ($curso->getTipoCurso()->getId() == 1) {
                         if ($request->get("" . $choferCurso->getId()) > 3) {
                             $chofer = $choferCurso->getChofer();
                             $chofer->setTieneCursoBasico(true);
                             $em->persist($chofer);
                         }
-                    }
+                    }*/
+                    $this->checkAndUpdateTieneCursoBasico($em, $choferCurso);
                 }
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('success', 'Se actualizaron las notas.');
@@ -165,14 +166,15 @@ class CursoController extends Controller
                 $choferCurso->setAprobado($request->get("" . $choferCurso->getId()));
                 $em->persist($choferCurso);
 
-                $curso = $choferCurso->getCurso();
+                /*$curso = $choferCurso->getCurso();
                 if ($curso->getTipoCurso()->getId() == 1) {
                     if ($request->get("" . $choferCurso->getId()) > 3) {
                         $chofer = $choferCurso->getChofer();
                         $chofer->setTieneCursoBasico(true);
                         $em->persist($chofer);
                     }
-                }
+                }*/
+                $this->checkAndUpdateTieneCursoBasico($em, $choferCurso);
             }
 
             $em->flush();
@@ -210,6 +212,8 @@ class CursoController extends Controller
                 $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
                 $choferCurso->setDocumentacion("SI" == $request->get($choferCurso->getId()));
                 $em->persist($choferCurso);
+
+                $this->checkAndUpdateTieneCursoBasico($em, $choferCurso);
             }
 
             $em->flush();
@@ -838,6 +842,8 @@ class CursoController extends Controller
         foreach($choferesCurso as $choferCurso){
             $choferCurso->setPagado(true);
             $em->persist($choferCurso);
+
+            $this->checkAndUpdateTieneCursoBasico($em, $choferCurso);
         }
         $em->flush();
     }
@@ -895,4 +901,27 @@ class CursoController extends Controller
 
         return $choferes;
     }
+
+    private function checkAndUpdateTieneCursoBasico($em, $choferCurso)
+    {
+        $curso = $choferCurso->getCurso();
+
+        if ($curso->getTipoCurso()->getId() == 1) {
+
+            if ($choferCurso->isDocumentacion() == true) {
+
+                if ($choferCurso->getPagado() == true) {
+
+                    if ($choferCurso->getAprobado() > 3) {
+
+                        $chofer = $choferCurso->getChofer();
+                        $chofer->setTieneCursoBasico(true);
+                        $em->persist($chofer);
+
+                    }
+                }
+            }
+        }
+    }
+
 }

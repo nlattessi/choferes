@@ -82,7 +82,7 @@
                 {% if status.certificado is defined and status.certificado %}Vigente{% else %}Expirado{% endif %}
               </td>
             </tr>
-            {% if status.certificado is defined %}
+            {% if status.certificado %}
               <tr class="gradeA">
                 <td><b>Fecha curso complementario</b></td>
                 <td>{{ status.fechaFin|date('d/m/Y') }}</td>

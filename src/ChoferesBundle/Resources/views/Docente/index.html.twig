@@ -57,7 +57,7 @@
     <div class="panel">
         <div class="panel-body">
 
-            <table class="table table-bordered table-hover table-striped">
+            <table class="display" id="table_id">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -121,4 +121,36 @@
             </div>
         </div>
 
+{% endblock %}
+
+{% block javascript %}
+<script>
+(function(window, document, $) {
+  $('#table_id').DataTable({
+    dom: 'Bfrtip',
+    select: true,
+    buttons: [
+      'copy', 'csv', 'excel', 'pdf', 'print', {
+        extend: 'pdf',
+        text: 'Exportar seleccionados a PDF',
+        exportOptions: {
+          modifier: {
+            selected: true
+          }
+        }
+      }
+    ],
+    language: {
+      url: '//cdn.datatables.net/plug-ins/1.10.10/i18n/Spanish.json'
+    },
+    columns: [
+      null,
+      null,
+      null,
+      null,
+      { "orderable": false, "searchable": false }
+    ]
+  });
+})(window, document, jQuery);
+</script>
 {% endblock %}

@@ -31,6 +31,8 @@ class DocenteController extends Controller
 
         list($entities, $pagerHtml) = $this->paginator($queryBuilder);
 
+        $entities = $queryBuilder->getQuery()->getResult();
+
         return $this->render('ChoferesBundle:Docente:index.html.twig', array(
             'entities' => $entities,
             'pagerHtml' => $pagerHtml,

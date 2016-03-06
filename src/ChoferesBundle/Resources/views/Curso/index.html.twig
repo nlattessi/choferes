@@ -148,6 +148,10 @@
                        href="{{ path('curso_documentacion', { 'id': entity.id }) }}">
                         <i class="icon wb-check green-400" aria-hidden="true"></i>
                     </a>
+                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Actualizar notas"
+                     href="{{ path('curso_realizar', { 'id': entity.id }) }}">
+                        <i class="icon wb-edit" aria-hidden="true"></i>
+                  </a>
                   {% elseif entity.estado.id == 5 %} <!-- Estado: Validado -->
                     <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
                       href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">

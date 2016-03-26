@@ -118,7 +118,7 @@
                       <i class="icon wb-edit" aria-hidden="true"></i>
                   </a>
                   {% if entity.estado.id != 4 %} <!--Estado: Cancelado -->
-                  <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cancelar"
+                  <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row cancelarCurso" data-toggle="tooltip" data-original-title="Cancelar"
                      href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
                       <i class="icon wb-close red-400" aria-hidden="true"></i>
                   </a>
@@ -176,7 +176,7 @@
                      href="{{ path('curso_edit', { 'id': entity.id }) }}">
                       <i class="icon wb-edit" aria-hidden="true"></i>
                   </a>
-                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cancelar"
+                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row cancelarCurso" data-toggle="tooltip" data-original-title="Cancelar"
                      href="{{ path('curso_cancelar', { 'id': entity.id }) }}">
                       <i class="icon wb-close red-400" aria-hidden="true"></i>
                   </a>

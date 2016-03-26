@@ -126,7 +126,7 @@ class CursoController extends Controller
 
         $this->get('session')->getFlashBag()->add('success', 'Curso confirmado');
 
-        return $this->indexCursosPrecargadosAction();
+        return $this->indexCursosConfirmarAction();
     }
 
     public function realizarCursoAction(Request $request, $id)

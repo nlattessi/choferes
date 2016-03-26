@@ -51,6 +51,7 @@ class CursoController extends Controller
     public function indexCursosAnterioresAction()
     {
         $this->resetearFiltro();
+
         list($filterForm, $queryBuilder) = $this->filter();
 
         $queryBuilder
@@ -92,7 +93,9 @@ class CursoController extends Controller
 
     public function indexCursosConfirmarAction()
     {
+
         $this->resetearFiltro();
+
         list($filterForm, $queryBuilder) = $this->filter();
         $em = $this->getDoctrine()->getManager();
         $queryBuilder
@@ -512,9 +515,9 @@ class CursoController extends Controller
 
         // Paginator - route generator
         $me = $this;
-        $routeGenerator = function($page) use ($me)
+        $routeGenerator = function($page) use ($me )
         {
-            return $me->generateUrl('curso', array('page' => $page));
+            return $me->generateUrl($me->getRequest()->get('_route'), array('page' => $page));
         };
 
         // Paginator - view

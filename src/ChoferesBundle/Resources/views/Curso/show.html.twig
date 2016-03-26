@@ -84,11 +84,11 @@
                                     onclick="location.href='{{ path('curso_edit', { 'id': entity.id }) }}'"
                                     class="btn btn-success margin-top-10">Editar
                             </button>
-                            <button type="button"
-                                    onclick="location.href='{{ path('curso_cancelar', { 'id': entity.id }) }}'"
-                                    class="btn btn-success margin-top-10">
+                            <a
+                                    href="{{ path('curso_cancelar', { 'id': entity.id }) }}"
+                                    class="btn btn-success margin-top-10 cancelarCurso">
                                 Cancelar Curso
-                            </button>
+                            </a>
                         {% elseif app.user.rol == 'ROLE_PRESTADOR' and entity.estado.id == 1 and entity.fechaInicio|date('U') > "+4 days"|date('U') %} <!--Estado: Cargado-->
                             <button type="button"
                                     onclick="location.href='{{ path('curso_edit', { 'id': entity.id }) }}'"

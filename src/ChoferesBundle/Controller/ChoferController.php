@@ -125,11 +125,17 @@ class ChoferController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
 
-            return $this->redirect($this->generateUrl('chofer_show', array('id' => $entity->getId())));
+            $duplicate = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $entity->getDni()]);
+            if ($duplicate) {
+                $this->get('session')->getFlashBag()->add('error', 'Ya se encuentra registrado un chofer con el DNI ingresado.');
+            } else {
+              $em->persist($entity);
+              $em->flush();
+              $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
+
+              return $this->redirect($this->generateUrl('chofer_show', array('id' => $entity->getId())));
+            }
         }
 
         return $this->render('ChoferesBundle:Chofer:new.html.twig', array(

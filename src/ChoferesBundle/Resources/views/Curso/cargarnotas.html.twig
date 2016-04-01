@@ -26,7 +26,7 @@
             <th>Nombre</th>
             <th>Apellido</th>
             <th>DNI</th>
-            <th>Nota</th>
+            <th>Aprobado?</th>
           </tr>
         </thead>
         <tbody>
@@ -36,7 +36,10 @@
               <td>{{ entity.chofer.apellido }}</td>
               <td>{{ entity.chofer.dni }}</td>
               <td class="actions">
-                <input type="number" class="form-control" name="{{ entity.id }}" value="{{ entity.aprobado }}" /> </td>
+                <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-left">
+                  <input type="checkbox" id="inputCheckbox" name="{{ entity.id }}" value="SI"{% if(entity.isAprobado) %}checked{% endif %}>
+                  <label for="inputCheckbox"></label>
+                </div>
               </td>
             </tr>
           {% endfor %}

@@ -15,7 +15,7 @@ class ChoferCursoFilterType extends AbstractType
     {
         $builder
             ->add('id', 'filter_number_range')
-            ->add('aprobado', 'filter_choice')
+            ->add('isAprobado', 'filter_choice')
             ->add('pagado', 'filter_choice')
         ;
 

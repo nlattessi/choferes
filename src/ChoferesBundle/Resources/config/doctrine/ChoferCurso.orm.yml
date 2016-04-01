@@ -23,6 +23,11 @@ ChoferesBundle\Entity\ChoferCurso:
             nullable: false
             options:
                 default: 0
+        isAprobado:
+            type: boolean
+            nullable: false
+            options:
+                default: false
         pagado:
             type: boolean
             nullable: false

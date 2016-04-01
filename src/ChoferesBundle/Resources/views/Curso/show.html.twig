@@ -121,7 +121,9 @@
                                 <td>{{ choferCurso.chofer.nombre }}</td>
                                 <td>{{ choferCurso.chofer.apellido }}</td>
                                 <td>{{ choferCurso.chofer.dni }}</td>
-                                <td>{{ choferCurso.aprobado }}</td>
+                                <td>
+                                  {% if choferCurso.isAprobado %}Aprobado{% else %}Desaprobado{% endif %}
+                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>

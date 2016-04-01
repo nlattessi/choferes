@@ -62,7 +62,7 @@
     {% for entity in entities %}
         <tr class="gradeA">
             <td><a href="{{ path('chofercurso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-            <td>{% if entity.aprobado %}true{% else %}false{% endif %}</td>
+            <td>{% if entity.isAprobado %}true{% else %}false{% endif %}</td>
             <td>{% if entity.pagado %}true{% else %}false{% endif %}</td>
             <td>
         <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="ver"

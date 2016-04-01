@@ -13,11 +13,6 @@ class ChoferCurso
     private $id;
 
     /**
-     * @var integer
-     */
-    private $aprobado = 0;
-
-    /**
     * @var boolean
     */
     private $isAprobado = false;
@@ -51,30 +46,6 @@ class ChoferCurso
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set aprobado
-     *
-     * @param integer $aprobado
-     *
-     * @return ChoferCurso
-     */
-    public function setAprobado($aprobado)
-    {
-        $this->aprobado = $aprobado;
-
-        return $this;
-    }
-
-    /**
-     * Get aprobado
-     *
-     * @return integerº
-     */
-    public function getAprobado()
-    {
-        return $this->aprobado;
     }
 
     /**

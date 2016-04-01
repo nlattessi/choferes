@@ -18,11 +18,6 @@ ChoferesBundle\Entity\ChoferCurso:
             generator:
                 strategy: IDENTITY
     fields:
-        aprobado:
-            type: integer
-            nullable: false
-            options:
-                default: 0
         isAprobado:
             type: boolean
             nullable: false

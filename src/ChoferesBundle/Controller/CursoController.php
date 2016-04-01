@@ -142,7 +142,7 @@ class CursoController extends Controller
             if ($entity->getEstado()->getId() == self::ESTADO_CURSO_VALIDADO) {
                 foreach($choferesCurso as $choferCurso){
                     $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
-                    $choferCurso->setAprobado($request->get("" . $choferCurso->getId()));
+                    $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
                     $em->persist($choferCurso);
 
                     $this->checkAndUpdateTieneCursoBasico($em, $choferCurso);
@@ -158,7 +158,7 @@ class CursoController extends Controller
             foreach($choferesCurso as $choferCurso){
 
                 $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
-                $choferCurso->setAprobado($request->get("" . $choferCurso->getId()));
+                $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
                 $em->persist($choferCurso);
 
                 $this->checkAndUpdateTieneCursoBasico($em, $choferCurso);
@@ -899,7 +899,7 @@ class CursoController extends Controller
 
                 if ($choferCurso->getPagado() == true) {
 
-                    if ($choferCurso->getAprobado() > 3) {
+                    if ($choferCurso->getIsAprobado() == true) {
 
                         $chofer = $choferCurso->getChofer();
                         $chofer->setTieneCursoBasico(true);

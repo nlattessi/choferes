@@ -18,6 +18,11 @@ class ChoferCurso
     private $aprobado = 0;
 
     /**
+    * @var boolean
+    */
+    private $isAprobado = false;
+
+    /**
      * @var boolean
      */
     private $pagado = false;
@@ -70,6 +75,30 @@ class ChoferCurso
     public function getAprobado()
     {
         return $this->aprobado;
+    }
+
+    /**
+     * Set isAprobado
+     *
+     * @param boolean $isAprobado
+     *
+     * @return ChoferCurso
+     */
+    public function setIsAprobado($isAprobado)
+    {
+        $this->isAprobado = $isAprobado;
+
+        return $this;
+    }
+
+    /**
+     * Get isAprobado
+     *
+     * @return boolean
+     */
+    public function getIsAprobado()
+    {
+        return $this->isAprobado;
     }
 
     /**

@@ -29,7 +29,7 @@ class ChoferService
         $query = $this->em->createQueryBuilder()
             ->select(
                 'chofer.id as choferId', 'chofer.nombre', 'chofer.apellido', 'chofer.dni', 'chofer.tieneCursoBasico as tieneCursoBasico',
-                'choferCurso.id as choferCursoId', 'choferCurso.aprobado as aprobado','choferCurso.pagado', 'choferCurso.documentacion',
+                'choferCurso.id as choferCursoId', 'choferCurso.isAprobado as aprobado','choferCurso.pagado', 'choferCurso.documentacion',
                 'curso.id as cursoId', 'curso.fechaFin as fechaFin'
             )
             ->from('ChoferesBundle:Chofer', 'chofer')
@@ -58,7 +58,7 @@ class ChoferService
             $result['certificado'] = false;
             if ($result['tieneCursoBasico']) {
                 if ($result['choferCursoId'] && $result['fechaFin'] > new \DateTime('-1 year')) {
-                    if ($result['aprobado'] > 3) {
+                    if ($result['aprobado']) {
                         if ($result['pagado']) {
                             if ($result['documentacion']) {
                                 $result['certificado'] = true;

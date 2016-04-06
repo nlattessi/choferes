@@ -1,0 +1,44 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+Reportes
+{% endblock %}
+
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block pageHeader%}
+<h1 class="page-title">Choferes vigentes a la fecha ingresada</h1>
+{% endblock %}
+
+{% block page %}
+<div class="panel">
+  <div class="panel-body container-fluid">
+    <form action="{{ path('reporte_choferes_vigentes') }}" method="post">
+      <div class="row">
+        <div class="col-sm-6 col-md-6">
+          <h4 class="example-title">Fecha de Pago</h4>
+          <div class="input-group">
+            <span class="input-group-addon">
+              <i class="icon wb-calendar" aria-hidden="true"></i>
+            </span>
+            <input type="text" name="fecha_vigencia" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6 col-md-4 margin-top-20">
+          <button type="reset" class="btn btn-outline btn-default">Limpiar</button>
+          <button type="submit" class="btn btn-success">Descargar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+
+
+{% block javascript %}
+{% endblock %}

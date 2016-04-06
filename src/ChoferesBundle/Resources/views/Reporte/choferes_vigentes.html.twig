@@ -1,39 +1,32 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+{% form_theme form 'ChoferesBundle:Reporte:fields.html.twig' %}
 
 {% block title %}
-Reportes
+    Reportes
 {% endblock %}
 
 {% block menu %}
-{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+    {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
 {% block pageHeader%}
-<h1 class="page-title">Choferes vigentes a la fecha ingresada</h1>
+    <h1 class="page-title">Choferes vigentes a la fecha ingresada</h1>
 {% endblock %}
 
 {% block page %}
 <div class="panel">
   <div class="panel-body container-fluid">
-    <form action="{{ path('reporte_choferes_vigentes') }}" method="post">
+    <form action="{{ path('reporte_choferes_vigentes') }}" method="post" {{ form_enctype(form) }}>
       <div class="row">
-        <div class="col-sm-6 col-md-6">
-          <h4 class="example-title">Fecha de Pago</h4>
-          <div class="input-group">
-            <span class="input-group-addon">
-              <i class="icon wb-calendar" aria-hidden="true"></i>
-            </span>
-            <input type="text" name="fecha_vigencia" class="form-control">
-          </div>
-        </div>
+        {{ form_widget(form.fechaVigencia, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
       </div>
       <div class="row">
         <div class="col-sm-6 col-md-4 margin-top-20">
-          <button type="reset" class="btn btn-outline btn-default">Limpiar</button>
-          <button type="submit" class="btn btn-success">Descargar</button>
+          {{ form_widget(form.reset, {'attr': {'class': 'btn btn-outline btn-default'}}) }}
+          <button type="submit" class="btn btn-success">Generar</button>
         </div>
       </div>
-    </form>
+    {{ form_end(form) }}
   </div>
 </div>
 {% endblock %}

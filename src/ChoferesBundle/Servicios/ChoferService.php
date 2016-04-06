@@ -146,4 +146,43 @@ class ChoferService
 
         return $response;
     }
+
+/*SELECT c0_.id AS id_0, c0_.nombre AS nombre_1, c0_.apellido AS apellido_2, c0_.dni AS dni_3, c0_.tiene_curso_basico AS tiene_curso_basico_4, c1_.id AS id_5, c1_.is_aprobado AS aprobado_6, c1_.pagado AS pagado_7, c1_.documentacion AS documentacion_8, c2_.id AS id_9, c2_.fecha_fin AS fecha_fin_10, c2_.fecha_fin + INTERVAL 1 YEAR AS fecha_vigencia
+FROM chofer c0_ LEFT JOIN chofer_curso c1_ ON (c1_.chofer_id = c0_.id) LEFT JOIN curso c2_ ON (c1_.curso_id = c2_.id)
+WHERE c0_.tiene_curso_basico = 1
+    AND c1_.is_aprobado = 1
+    AND c1_.pagado = 1
+    AND c1_.documentacion = 1
+    AND c2_.fecha_fin > DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
+ORDER BY c2_.fecha_fin DESC*/
+
+
+    public function getChoferesVigentes($fecha)
+    {
+        return $this->em->createQueryBuilder()
+            ->select(
+                'chofer.id as choferId', 'chofer.nombre', 'chofer.apellido', 'chofer.dni',
+                'curso.id as cursoId', 'curso.fechaFin as fechaFin',
+                'chofer.tieneCursoBasico', 'choferCurso.isAprobado', 'choferCurso.pagado', 'choferCurso.documentacion'
+            )
+            ->from('ChoferesBundle:Chofer', 'chofer')
+            ->leftJoin(
+                'ChoferesBundle:ChoferCurso', 'choferCurso',
+                \Doctrine\ORM\Query\Expr\Join::WITH, 'choferCurso.chofer = chofer.id'
+            )
+            ->leftJoin(
+                'ChoferesBundle:Curso', 'curso',
+                \Doctrine\ORM\Query\Expr\Join::WITH, 'choferCurso.curso = curso.id'
+            )
+            ->where('chofer.tieneCursoBasico = TRUE')
+            ->andWhere('choferCurso.isAprobado = TRUE')
+            ->andWhere('choferCurso.pagado = TRUE')
+            ->andWhere('choferCurso.documentacion = 1')
+            ->andWhere('curso.fechaFin > :fechaVigencia')
+            ->orderBy('curso.fechaFin', 'DESC')
+            ->setParameter('fechaVigencia', new \DateTime('-1 year'))
+            ->setMaxResults(5)
+            ->getQuery()
+            ->execute();
+    }
 }

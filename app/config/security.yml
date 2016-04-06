@@ -24,6 +24,7 @@ security:
             logout:
                 path:   /logout
                 target: /login
+            switch_user: { role: ROLE_ADMIN, parameter: _want_to_be_this_user }
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -49,6 +50,7 @@ security:
         - { path: ^/logout, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/consulta, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/reporte, roles: [ROLE_ADMIN, ROLE_CENT] }
+        - { path: ^/informe, roles: [ROLE_ADMIN, ROLE_CNRT] }
         - { path: ^/(.+), roles: ROLE_ADMIN }
 
     encoders:

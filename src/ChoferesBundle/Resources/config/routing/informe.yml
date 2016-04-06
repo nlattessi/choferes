@@ -1,0 +1,3 @@
+chofer_cnrt_informe:
+    pattern:  /cnrt
+    defaults: { _controller: "ChoferesBundle:Informe:informe" }

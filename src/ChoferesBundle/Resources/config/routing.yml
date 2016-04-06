@@ -101,3 +101,7 @@ choferes_descargar_certificados_hash:
 reporte:
     resource: "@ChoferesBundle/Resources/config/routing/reporte.yml"
     prefix:   /reporte
+
+informe:
+    resource: "@ChoferesBundle/Resources/config/routing/informe.yml"
+    prefix:   /informe

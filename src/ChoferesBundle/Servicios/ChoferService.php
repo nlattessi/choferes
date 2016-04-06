@@ -50,8 +50,6 @@ class ChoferService
             ->getQuery();
 
         $result = $query->getResult();
-        /*print json_encode($result);
-        exit;*/
 
         if ($result) {
             $result = $result[0];
@@ -145,5 +143,28 @@ class ChoferService
         $response->headers->set('Content-Disposition', $d);
 
         return $response;
+    }
+
+    public function getChoferesPorCursos($cursos)
+    {
+        $choferes = [];
+
+        foreach ($cursos as $curso) {
+            $choferes = array_merge($choferes, $this->getChoferesPorCurso($curso));
+        }
+
+        return $choferes;
+    }
+
+    public function getChoferesPorCurso($curso)
+    {
+        $choferes = [];
+
+        $choferesCursos = $this->em->getRepository('ChoferesBundle:ChoferCurso')->findBy(['curso' => $curso]);
+        foreach ($choferesCursos as $choferCurso) {
+            $choferes[] = $choferCurso->getChofer();
+        }
+
+        return $choferes;
     }
 }

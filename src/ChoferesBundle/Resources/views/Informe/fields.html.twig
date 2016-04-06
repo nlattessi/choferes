@@ -1,0 +1,65 @@
+{% block _choferesbundle_informe_fechaInicio_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Fecha de inicio</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-calendar" aria-hidden="true"></i>
+      </span>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_informe_fechaFin_widget %}
+  <div class="col-sm-6 col-md-6 ">
+    <h4 class="example-title">Fecha fin</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-calendar" aria-hidden="true"></i>
+      </span>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_informe_horaInicio_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Hora</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-time" aria-hidden="true"></i>
+      </span>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_informe_horaFin_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Hora</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-time" aria-hidden="true"></i>
+      </span>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_informe_prestador_widget %}
+  <div class="col-sm-6 col-md-6 ">
+    <h4 class="example-title">Prestador</h4>
+    <div class="form-group">
+      {{ block('choice_widget') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_informe_tipocurso_widget %}
+  <div class="col-sm-6 col-md-6 ">
+    <h4 class="example-title">Tipo de curso</h4>
+    <div class="form-group">
+      {{ block('choice_widget') }}
+    </div>
+  </div>
+{% endblock %}

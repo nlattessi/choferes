@@ -147,19 +147,14 @@ class ChoferService
         return $response;
     }
 
-/*SELECT c0_.id AS id_0, c0_.nombre AS nombre_1, c0_.apellido AS apellido_2, c0_.dni AS dni_3, c0_.tiene_curso_basico AS tiene_curso_basico_4, c1_.id AS id_5, c1_.is_aprobado AS aprobado_6, c1_.pagado AS pagado_7, c1_.documentacion AS documentacion_8, c2_.id AS id_9, c2_.fecha_fin AS fecha_fin_10, c2_.fecha_fin + INTERVAL 1 YEAR AS fecha_vigencia
-FROM chofer c0_ LEFT JOIN chofer_curso c1_ ON (c1_.chofer_id = c0_.id) LEFT JOIN curso c2_ ON (c1_.curso_id = c2_.id)
-WHERE c0_.tiene_curso_basico = 1
-    AND c1_.is_aprobado = 1
-    AND c1_.pagado = 1
-    AND c1_.documentacion = 1
-    AND c2_.fecha_fin > DATE_SUB(CURDATE(), INTERVAL 1 YEAR)
-ORDER BY c2_.fecha_fin DESC*/
-
-
-    public function getChoferesVigentes($fecha)
+    public function getChoferesVigentes($fechaForm)
     {
-        return $this->em->createQueryBuilder()
+        $choferesVigentes = [];
+
+        $fecha = \DateTime::createFromFormat('d/m/Y', $fechaForm);
+        $fechaVigente = $fecha->sub(new \DateInterval('P1Y'));
+
+        $query = $this->em->createQueryBuilder()
             ->select(
                 'chofer.id as choferId', 'chofer.nombre', 'chofer.apellido', 'chofer.dni',
                 'curso.id as cursoId', 'curso.fechaFin as fechaFin',
@@ -180,9 +175,21 @@ ORDER BY c2_.fecha_fin DESC*/
             ->andWhere('choferCurso.documentacion = 1')
             ->andWhere('curso.fechaFin > :fechaVigencia')
             ->orderBy('curso.fechaFin', 'DESC')
-            ->setParameter('fechaVigencia', new \DateTime('-1 year'))
-            ->setMaxResults(5)
-            ->getQuery()
-            ->execute();
+            ->setParameter('fechaVigencia', $fechaVigente)
+            ->getQuery();
+
+        $result = $query->getResult();
+
+        if (isset($result)) {
+            foreach ($result as $chofer) {
+                $fechaFin = $chofer['fechaFin']->format('Y-m-d H:i:s');
+                $fechaVigencia = new \DateTime("+1 year $fechaFin");
+
+                $chofer['fechaVigencia'] = $fechaVigencia;
+                $choferesVigentes[] = $chofer;
+            }
+        }
+
+        return $choferesVigentes;
     }
 }

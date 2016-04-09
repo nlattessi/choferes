@@ -14,16 +14,20 @@
 {% endblock %}
 
 {% block page %}
+<div id="errorMessage"></div>
 <div class="panel">
   <div class="panel-body container-fluid">
-    <form action="{{ path('reporte_choferes_vigentes') }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('reporte_choferes_vigentes') }}" method="post" {{ form_enctype(form) }} class="formReporteChoferesVigentes">
       <div class="row">
-        {{ form_widget(form.fechaVigencia, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+        {{ form_widget(form.fechaVigencia, {'attr': {'class': 'fechaVigencia form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
       </div>
       <div class="row">
-        <div class="col-sm-6 col-md-4 margin-top-20">
+        <div class="col-sm-3 col-md-3 margin-top-20">
           {{ form_widget(form.reset, {'attr': {'class': 'btn btn-outline btn-default'}}) }}
           <button type="submit" class="btn btn-success">Generar</button>
+        </div>
+        <div class="col-sm-1 col-md-1 margin-top-40">
+            <div class="loader-inner ball-spin-fade-loader"></div>
         </div>
       </div>
     {{ form_end(form) }}
@@ -31,7 +35,6 @@
 </div>
 {% endblock %}
 
-
-
 {% block javascript %}
+<script src="{{ asset('bundles/choferes/js/formReporteChoferesVigentes.js') }}"></script>
 {% endblock %}

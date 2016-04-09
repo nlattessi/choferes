@@ -1,0 +1,11 @@
+{% block _choferesbundle_reporte_choferes_vigente_fechaVigencia_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Fecha de Vigencia</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-calendar" aria-hidden="true"></i>
+      </span>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}

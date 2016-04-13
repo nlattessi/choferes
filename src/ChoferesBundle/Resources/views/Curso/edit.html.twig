@@ -20,6 +20,7 @@
 <div class="panel">
   <div class="panel-body">
     <form action="{{ path('curso_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <div class="table-responsive">
     <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
       <tbody>
         <tr class="gradeA">
@@ -108,6 +109,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
     <div class="dt-panelfooter clearfix">
       <button type="submit" class="btn btn btn-success margin-top-10">Guardar</button>
       {% if app.user.rol == 'ROLE_PRESTADOR' %}

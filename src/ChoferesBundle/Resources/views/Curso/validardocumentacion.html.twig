@@ -24,6 +24,7 @@
   </div>
   <div class="panel-body container-fluid">
     <form action="{{ path('curso_documentacion', { 'id': curso.id }) }}" method="post">
+      <div class="table-responsive">
       <table class="table table-bordered table-hover table-striped " id="exampleAddRow">
         <thead>
           <tr>
@@ -49,6 +50,7 @@
           {% endfor %}
         </tbody>
       </table>
+      </div>
       <div class="row">
         <div class="col-sm-12 col-md-12 margin-top-20">
           <a href="{{ path('curso')}}" class="btn btn btn-outline btn-default">Volver al listado</a>

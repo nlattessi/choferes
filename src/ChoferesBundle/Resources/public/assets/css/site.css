@@ -571,7 +571,7 @@ body.site-gridmenu-active {
   position: relative;
   min-height: -webkit-calc(100% - 44px);
   min-height:         calc(100% - 44px);
-  background: #f1f4f5;
+  background: #e4eaec;
 }
 .page-dark.layout-full {
   color: #fff;

@@ -20,6 +20,7 @@
 <div class="panel">
   <div class="panel-body">
     <form action="{{ path('curso_realizar', { 'id': curso.id }) }}" method="post">
+      <div class="table-responsive">
       <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
         <thead>
           <tr>
@@ -45,6 +46,7 @@
           {% endfor %}
         </tbody>
       </table>
+      </div>
       <div class="dt-panelfooter clearfix">
         <button type="submit" name="submit" class="btn btn-success margin-top-10" id="cargarNotasSubmit">Cargar Notas</button>
       </div>

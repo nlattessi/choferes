@@ -52,6 +52,7 @@
     {% else %}
     <div class="panel">
       <div class="panel-body">
+      <div class="table-responsive">
         <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
           <tbody>
             <tr class="gradeA">
@@ -90,6 +91,7 @@
             {% endif %}
           </tbody>
         </table>
+        </div>
         <div class="dt-panelfooter clearfix">
         {% if status.certificado is defined and status.certificado %}
           {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.rol != 'ROLE_CNRT'%}

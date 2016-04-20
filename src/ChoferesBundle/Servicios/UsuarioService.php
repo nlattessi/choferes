@@ -26,7 +26,11 @@ class UsuarioService
     {
         $usuarioPrestador = $this->em->getRepository('ChoferesBundle:UsuarioPrestador')->findOneBy(array('usuario' => $usuario));
 
-        return $usuarioPrestador->getPrestador();
+        if (isset($usuarioPrestador)) {
+            return $usuarioPrestador->getPrestador();
+        }
+
+        return $usuarioPrestador;
     }
 
     public function obtenerDocentesPorPrestador($prestador)

@@ -102,7 +102,9 @@
                 <a href="{{ path('chofer_consulta') }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
               {% endif %}
               <input type="hidden" name="choferDni" value="{{ chofer.dni }}">
-              <button type="submit" name="descargar" class="margin-top-10 btn btn-outline btn-warning" >Descargar certificado</button>
+              {% if canPrint %}
+                <button type="submit" name="descargar" class="margin-top-10 btn btn-outline btn-warning" >Descargar certificado</button>
+              {% endif %}
             </form>
           {% elseif is_granted('IS_AUTHENTICATED_FULLY') %}
             {% if goBack %}

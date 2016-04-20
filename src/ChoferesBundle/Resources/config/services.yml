@@ -1,7 +1,4 @@
 services:
-#    choferes.example:
-#        class: ChoferesBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
     choferes.servicios.usuario:
         class: ChoferesBundle\Servicios\UsuarioService
         arguments:
@@ -9,11 +6,11 @@ services:
     choferes.servicios.chofer:
         class: ChoferesBundle\Servicios\ChoferService
         arguments:
-            # entityManager: [@doctrine.orm.entity_manager, "%kernel.cache_dir%"]
             entityManager: @doctrine.orm.entity_manager
             kernelCacheDir: "%kernel.cache_dir%"
             hashids: @hashids
             router: @router
+            usuarioService: @choferes.servicios.usuario
         scope: request
     choferes.servicios.bajaAdministrativa:
         class: ChoferesBundle\Servicios\BajaAdministrativaService

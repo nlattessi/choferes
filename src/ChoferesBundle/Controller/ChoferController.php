@@ -290,7 +290,8 @@ class ChoferController extends Controller
         $status = null;
         $chofer = null;
         $goBack = false;
-        $errors = array();
+        $canPrint = true;
+        $errors = [];
 
         // Descargo certificado si el usuario pidio hacerlo.
         if ($request->isMethod('POST')) {
@@ -302,34 +303,41 @@ class ChoferController extends Controller
 
         // Saco captcha si el usuario esta logueado al sistema.
         if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
+            $form = $this->createForm(new ChoferStatusType(), null, ['use_captcha' => false]);
         } else {
             $form = $this->createForm(new ChoferStatusType());
         }
 
         if ($id) {
             $em = $this->getDoctrine()->getManager();
-            $choferService = $this->get('choferes.servicios.chofer');
             $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($id);
+            $choferService = $this->get('choferes.servicios.chofer');
             $status = $choferService->getStatusPorDniChofer($chofer->getDni());
-            if(!$status)
-            {
-                if($chofer->getTieneCursoBasico()){
+            if ($status) {
+                $user = $this->getUser();
+                if ($user->getRol()->getNombre() === 'ROLE_PRESTADOR') {
+                    if (! $choferService->isChoferFromPrestador($chofer, $user, $status['cursoId'])) {
+                      $canPrint = false;
+                    }
+                }
+            } else {
+                if ($chofer->getTieneCursoBasico()) {
                     $status['message'] = 'No tiene el curso complementario o la vigencia del mismo ya expiro.';
-                }else{
+                } else {
                     $status['message'] = 'No tiene el curso basico.';
                 }
             }
             $goBack = true;
 
-            return $this->render('ChoferesBundle:Chofer:consulta.html.twig', array(
+            return $this->render('ChoferesBundle:Chofer:consulta.html.twig', [
                 'form' => $form->createView(),
                 'status' => $status,
                 'chofer' => $chofer,
                 'goBack' => $goBack,
                 'css_active' => 'chofer_consulta',
                 'errors' => $errors,
-            ));
+                'canPrint' => $canPrint
+            ]);
 
         }
 
@@ -337,37 +345,34 @@ class ChoferController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-
             $dni = $form->get('dni')->getData();
-            $choferService = $this->get('choferes.servicios.chofer');
-            $status = $choferService->getStatusPorDniChofer($dni);
             $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
-            if(!$chofer){
-                $errors[] = new FormError('El DNI ingresado no corresponde a ningún chofer registrado');
-                // if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-                //     $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
-                // } else {
-                //     $form = $this->createForm(new ChoferStatusType());
-                // }
-                $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
-            }else if(!$status)
-                {
-                if($chofer->getTieneCursoBasico()){
-                     $status['message'] = 'No tiene el curso complementario o la vigencia del mismo ya expiro.';
-                    }else{
-                     $status['message'] = 'No tiene el curso basico.';
+            if ($chofer) {
+                $choferService = $this->get('choferes.servicios.chofer');
+                $status = $choferService->getStatusPorDniChofer($dni);
+                if ($status) {
+                    $user = $this->getUser();
+                    if ($user->getRol()->getNombre() === 'ROLE_PRESTADOR') {
+                        if (! $choferService->isChoferFromPrestador($chofer, $user, $status['cursoId'])) {
+                          $canPrint = false;
+                        }
+                    }
+                } else {
+                    if ($chofer->getTieneCursoBasico()) {
+                        $status['message'] = 'No tiene el curso complementario o la vigencia del mismo ya expiro.';
+                    } else {
+                        $status['message'] = 'No tiene el curso basico.';
                     }
                 }
+            } else {
+                $errors[] = new FormError('El DNI ingresado no corresponde a ningún chofer registrado');
+                $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
+            }
         } else {
-            $errors = array();
             foreach($form->getErrors() as $key => $error) {
                 $errors[$key] = $error;
             }
-            // if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            //     $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
-            // } else {
-            //     $form = $this->createForm(new ChoferStatusType());
-            // }
+
             $form = $this->createForm(new ChoferStatusType(), null, array('use_captcha' => false));
         }
 
@@ -378,82 +383,8 @@ class ChoferController extends Controller
             'goBack' => $goBack,
             'css_active' => 'chofer_consulta',
             'errors' => $errors,
+            'canPrint' => $canPrint
         ));
-    }
-
-    public function descargarCertificadosAction(Request $request, $hash = null)
-    {
-        $errors = array();
-
-        /*$dni = $request->request->get('dni');
-        $form = $this->createForm(new ChoferStatusType());
-        $form->handleRequest($request);
-        $em = $this->getDoctrine()->getManager();
-        $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
-        // Descargo certificado si el usuario pidio hacerlo.
-        if ($request->isMethod('POST')) {
-            if ($request->request->has('descargar')) {
-                $choferService = $this->get('choferes.servicios.chofer');
-                $resultado = $choferService->descargarCertificado($dni);
-                if($resultado){
-                    return $resultado;
-                }
-
-                return $this->render('ChoferesBundle:Chofer:descargar-certificados.html.twig', [
-                    'form' => $form->createView(),
-                    'errors' => $errors,
-                ]);
-            }
-        }*/
-        $em = $this->getDoctrine()->getManager();
-        if ($hash) {
-            $hashids = $this->get('hashids');
-            $id = $hashids->decode($hash);
-            if (! empty($id)) {
-                $id = $id[0];
-
-                $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['id' => $id]);
-
-                $choferService = $this->get('choferes.servicios.chofer');
-
-                $status = $choferService->getStatusPorDniChofer($chofer->getDni());
-                return $this->render('ChoferesBundle:Chofer:descargar-certificados-estatus.html.twig', [
-                    'chofer' => $chofer,
-                    'status' => $status,
-                ]);
-            }
-        }
-
-        return $this->redirect($this->generateUrl('login'));
-
-        /*if ($form->isValid()) {
-            $choferService = $this->get('choferes.servicios.chofer');
-            $status = $choferService->getStatusPorDniChofer($dni);
-
-            if ($status) {
-                return $this->render('ChoferesBundle:Chofer:descargar-certificados-estatus.html.twig', [
-                    'chofer' => $chofer,
-                    'status' => $status,
-                ]);
-            } else if($chofer){
-                $errors[0] =array('message'=>"No hay certificados imprimibles para este chofer");
-            }else{
-                $errors[0] =array('message'=>"El DNI ingresado no corresponde a un chofer presente en la base");
-            }
-        } else {
-            $errors = array();
-            foreach($form->getErrors() as $key => $error) {
-                $errors[$key] = $error;
-            }
-            $form = $this->createForm(new ChoferStatusType());
-        }
-
-        return $this->render('ChoferesBundle:Chofer:descargar-certificados.html.twig', [
-            'form' => $form->createView(),
-            'errors' => $errors,
-        ]);*/
-
-
     }
 
     public function reporteCursoAction(Request $request){

@@ -14,14 +14,16 @@ class ChoferService
     protected $kernelCacheDir;
     protected $hashids;
     protected $router;
+    protected $usuarioService;
     static $idTipoCursoBasico = 1;
 
-    public function __construct(EntityManager $entityManager, $kernelCacheDir, $hashids, $router)
+    public function __construct(EntityManager $entityManager, $kernelCacheDir, $hashids, $router, $usuarioService)
     {
         $this->em = $entityManager;
         $this->kernelCacheDir = $kernelCacheDir;
         $this->hashids = $hashids;
         $this->router = $router;
+        $this->usuarioService = $usuarioService;
     }
 
     public function getStatusPorDniChofer($dni)
@@ -191,5 +193,22 @@ class ChoferService
         }
 
         return $choferesVigentes;
+    }
+
+    public function isChoferFromPrestador($chofer, $userPrestador, $cursoId)
+    {
+        $curso = $this->em->getRepository('ChoferesBundle:Curso')->find($cursoId);
+
+        if (isset($curso)) {
+            $prestador = $this->usuarioService->obtenerPrestadorPorUsuario($userPrestador);
+
+            if (isset($prestador)) {
+                if ($curso->getPrestador() === $prestador) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -313,7 +313,7 @@ class ChoferController extends Controller
             $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($id);
             $choferService = $this->get('choferes.servicios.chofer');
             $status = $choferService->getStatusPorDniChofer($chofer->getDni());
-            if ($status) {
+            if ($status['certificado']) {
                 $user = $this->getUser();
                 if ($user->getRol()->getNombre() === 'ROLE_PRESTADOR') {
                     if (! $choferService->isChoferFromPrestador($chofer, $user, $status['cursoId'])) {
@@ -350,7 +350,7 @@ class ChoferController extends Controller
             if ($chofer) {
                 $choferService = $this->get('choferes.servicios.chofer');
                 $status = $choferService->getStatusPorDniChofer($dni);
-                if ($status) {
+                if ($status['certificado']) {
                     $user = $this->getUser();
                     if ($user->getRol()->getNombre() === 'ROLE_PRESTADOR') {
                         if (! $choferService->isChoferFromPrestador($chofer, $user, $status['cursoId'])) {

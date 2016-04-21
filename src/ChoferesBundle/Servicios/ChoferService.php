@@ -44,16 +44,12 @@ class ChoferService
                 \Doctrine\ORM\Query\Expr\Join::WITH, 'choferCurso.curso = curso.id'
             )
             ->where('chofer.dni = :dni')
-            #->andWhere('curso.tipocurso != :idTipoCursoBasico')
             ->orderBy('curso.fechaFin', 'DESC')
             ->setParameter('dni', $dni)
-            #->setParameter('idTipoCursoBasico', ChoferService::$idTipoCursoBasico)
             ->setMaxResults(1)
             ->getQuery();
 
         $result = $query->getResult();
-        /*print json_encode($result);
-        exit;*/
 
         if ($result) {
             $result = $result[0];

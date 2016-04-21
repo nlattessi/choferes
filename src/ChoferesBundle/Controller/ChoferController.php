@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Form\FormError;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
@@ -115,7 +116,7 @@ class ChoferController extends Controller
 
     /**
      * Creates a new Chofer entity.
-     *
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV')")
      */
     public function createAction(Request $request)
     {
@@ -146,7 +147,7 @@ class ChoferController extends Controller
 
     /**
      * Displays a form to create a new Chofer entity.
-     *
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV')")
      */
     public function newAction()
     {
@@ -184,7 +185,7 @@ class ChoferController extends Controller
 
     /**
      * Displays a form to edit an existing Chofer entity.
-     *
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV')")
      */
     public function editAction($id)
     {
@@ -209,7 +210,7 @@ class ChoferController extends Controller
 
     /**
      * Edits an existing Chofer entity.
-     *
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV')")
      */
     public function updateAction(Request $request, $id)
     {
@@ -245,7 +246,7 @@ class ChoferController extends Controller
 
     /**
      * Deletes a Chofer entity.
-     *
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV')")
      */
     public function deleteAction(Request $request, $id)
     {
@@ -276,6 +277,8 @@ class ChoferController extends Controller
      * @param mixed $id The entity id
      *
      * @return Symfony\Component\Form\Form The form
+     *
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV')")
      */
     private function createDeleteForm($id)
     {

@@ -87,12 +87,14 @@
             <td>{{ entity.matricula }}</td>
             <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
             <td class="actions">
-                <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver" onclick="saveInLocalStorage('chofer');" href="{{ path('chofer_show', { 'id': entity.id }) }}">
-                  <i class="icon wb-eye" aria-hidden="true"></i>
+              <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver" onclick="saveInLocalStorage('chofer');" href="{{ path('chofer_show', { 'id': entity.id }) }}">
+                <i class="icon wb-eye" aria-hidden="true"></i>
               </a>
-              <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar" onclick="saveInLocalStorage('chofer');" href="{{ path('chofer_edit', { 'id': entity.id }) }}">
+              {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CNTSV') %}
+                <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar" onclick="saveInLocalStorage('chofer');" href="{{ path('chofer_edit', { 'id': entity.id }) }}">
                   <i class="icon wb-edit" aria-hidden="true"></i>
-              </a>
+                </a>
+              {% endif %}
               <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Estatus" onclick="saveInLocalStorage('chofer');" href="{{ path('chofer_consulta_id', { 'id': entity.id }) }}">
                   <i class="icon wb-stats-bars" aria-hidden="true"></i>
               </a>
@@ -103,9 +105,11 @@
 </table>
 </div>
             <div class="dt-panelfooter clearfix">
-                <a class="btn btn btn-success margin-top-10" href="{{ path('chofer_new') }}">
-                    {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Chofer
-                </a>
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CNTSV') %}
+                    <a class="btn btn btn-success margin-top-10" href="{{ path('chofer_new') }}">
+                        {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Chofer
+                    </a>
+                {% endif %}
                 <div class="dataTables_paginate paging_simple_numbers" id="exampleTableTools_paginate">
                     {{ pagerHtml|raw }}
                 </div>

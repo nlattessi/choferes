@@ -111,7 +111,6 @@ class ChoferService
             'id' => $chofer->getId(),
             'prestador' => $curso->getPrestador()->getNombre(),
             'chofer' => $chofer->getNombre() . ' ' . $chofer->getApellido(),
-            'matricula' => $chofer->getMatricula(),
             'dni' => $chofer->getDni(),
             'curso' => $curso->getTipocurso(),
             'sede' => $curso->getSede(),

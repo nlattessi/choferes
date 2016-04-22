@@ -68,16 +68,6 @@
               <td>{{ chofer.dni }}</td>
             </tr>
             <tr class="gradeA">
-              <td><b>Matricula</b></td>
-              <td>
-                {% if chofer.matricula %}
-                    {{ chofer.matricula }}
-                {% else %}
-                    <i>(no informada)</i>
-                {% endif %}
-              </td>
-            </tr>
-            <tr class="gradeA">
               <td><b>Estado</b></td>
               <td>
                 {% if status.certificado is defined and status.certificado %}Vigente{% else %}Expirado{% endif %}

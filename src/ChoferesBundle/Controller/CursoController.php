@@ -788,7 +788,6 @@ class CursoController extends Controller
             if ($fechaInicio > $fechaFin) {
                 $this->get('session')->getFlashBag()->add('error', 'ERROR! Fecha de inicio posterior a fecha fin. Por favor corregir.');
             } else {
-
                 $entity->setFechaInicio($fechaInicio);
                 $entity->setFechaFin($fechaFin);
 
@@ -800,7 +799,7 @@ class CursoController extends Controller
 
                 $em->persist($entity);
                 $em->flush();
-                if(strlen($entity->getComprobante()) > 0){
+                if (strlen($entity->getComprobante()) > 0) {
                     //comprobante seteado, hay que marcar como pagado todos los ChoferCurso
                     $this->actualizarCursoChofer($entity);
                 }
@@ -811,6 +810,12 @@ class CursoController extends Controller
             }
         } else {
             $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
+
+            $errors = $this->get('validator')->validate( $entity );
+
+            foreach( $errors as $error ) {
+                $this->get('session')->getFlashBag()->add('error', $error->getMessage());
+            }
         }
 
         return $this->render('ChoferesBundle:Curso:edit.html.twig', array(

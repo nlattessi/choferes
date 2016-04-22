@@ -36,7 +36,6 @@
 
                          {% if app.user.rol == 'ROLE_CNTSV' %}
                          <div class="row margin-top-30">
-                           {{ form_widget(form.anio, {'attr': {'class': 'form-control'}}) }}
                            {{ form_widget(form.codigo, {'attr': {'class': 'form-control'}}) }}
                          </div>
                            <div class="row margin-top-30">
@@ -77,7 +76,6 @@
     <script src="{{ asset('bundles/choferes/js/cursoForm.js') }}"></script>
 
     <script>
-      $('#choferesbundle_curso_anio').datepicker({format: "yyyy", autoclose: true, minViewMode: "years" });
       $('#choferesbundle_curso_fechaPago').datepicker({format: "dd/mm/yyyy", autoclose: true });
     </script>
 

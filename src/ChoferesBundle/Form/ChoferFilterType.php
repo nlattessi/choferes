@@ -16,7 +16,6 @@ class ChoferFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            #->add('id', 'filter_number_range')
             ->add('nombre', 'filter_text', [
                 'condition_pattern' => FilterOperands::STRING_BOTH,
             ])
@@ -29,13 +28,9 @@ class ChoferFilterType extends AbstractType
             ->add('cuilEmpresa', 'filter_text', [
                 'condition_pattern' => FilterOperands::STRING_BOTH,
             ])
-            ->add('matricula', 'filter_text', [
-                'condition_pattern' => FilterOperands::STRING_BOTH,
-            ])
             ->add('triCode', 'filter_text', [
                 'condition_pattern' => FilterOperands::STRING_BOTH,
             ])
-            #->add('tieneCursoBasico', 'filter_choice')
         ;
 
         $listener = function(FormEvent $event)

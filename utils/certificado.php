@@ -34,13 +34,13 @@ function crear_certificado($parametros) {
     // BLOQUE 1
     $htmlprev = <<<'EOD'
 El Prestador de Servicios de Formación Profesional para la Capacitación Básica y Complementaria Obligatoria de los Conductores de Vehículos Empleados
-en el Transporte de Mercancías Peligrosas por Carretera, <b>#PRESTADOR</b>, certifica que el/la <b>#CHOFER</b>, Matricula <b>#MATRICULA</b>, DNI <b>#DNI</b>,
+en el Transporte de Mercancías Peligrosas por Carretera, <b>#PRESTADOR</b>, certifica que el/la <b>#CHOFER</b>, DNI <b>#DNI</b>,
 ha participado y completado el curso de Capacitación <b>#CURSO</b> según Resolución S.T N° 110/1997 modificada por Resolución S.T. N° 65/2000 para
 los Conductores de los Vehículos antes mencionados.
 EOD;
 
-    $holders = ["#PRESTADOR", "#CHOFER", "#MATRICULA", "#DNI", "#CURSO"];
-    $variables = [utf8_decode($parametros['prestador']), utf8_decode($parametros['chofer']), utf8_decode($parametros['matricula']), utf8_decode($parametros['dni']), utf8_decode($parametros['curso'])];
+    $holders = ["#PRESTADOR", "#CHOFER", "#DNI", "#CURSO"];
+    $variables = [utf8_decode($parametros['prestador']), utf8_decode($parametros['chofer']), utf8_decode($parametros['dni']), utf8_decode($parametros['curso'])];
     $html = str_replace($holders, $variables, utf8_decode($htmlprev));
 
     $pdf->WriteHTML($html);

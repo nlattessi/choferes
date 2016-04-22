@@ -35,15 +35,6 @@
     </div>
 {% endblock %}
 
-{% block _choferesbundle_choferfiltertype_matricula_widget %}
-    <div class="col-sm-6 col-md-4">
-        <div class="">
-            <h4 class="example-title">Matricula</h4>
-            {{ block('form_widget_simple') }}
-        </div>
-    </div>
-{% endblock %}
-
 {% block form_errors %}
   {% spaceless %}
     {% if errors|length > 0 %}

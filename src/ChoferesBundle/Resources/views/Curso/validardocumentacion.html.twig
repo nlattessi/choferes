@@ -37,9 +37,9 @@
         <tbody>
           {% for entity in entities %}
             <tr class="gradeA">
-            <td>{{ entity.chofer.nombre }}</td>
-            <td>{{ entity.chofer.apellido }}</td>
-            <td>{{ entity.chofer.dni }}</td>
+            <td>{{ entity.nombre }}</td>
+            <td>{{ entity.apellido }}</td>
+            <td>{{ entity.dni }}</td>
             <td class="actions">
               <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-left">
                 <input type="checkbox" id="inputCheckbox" name="{{ entity.id }}" value="SI"{% if(entity.documentacion) %}checked{% endif %}>

@@ -185,16 +185,31 @@ class CursoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
-        $choferesCurso= $em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array(
-            'curso' => $entity
-        ));
+
+        $choferesCurso = $em->createQueryBuilder()
+            ->select(
+                'chofer.nombre', 'chofer.apellido', 'chofer.dni',
+                'choferCurso.id', 'choferCurso.documentacion'
+            )
+            ->from('ChoferesBundle:ChoferCurso', 'choferCurso')
+            ->leftJoin(
+                'ChoferesBundle:Chofer', 'chofer',
+                \Doctrine\ORM\Query\Expr\Join::WITH, 'chofer.id = choferCurso.chofer'
+            )
+            ->where('choferCurso.curso = :curso')
+            ->orderBy('chofer.nombre', 'ASC')
+            ->setParameter('curso', $entity)
+            ->getQuery()
+            ->getResult();
 
         if ($request->getMethod() == 'POST') {
 
             $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_VALIDADO));
             $em->persist($entity);
 
-            foreach($choferesCurso as $choferCurso){
+            foreach ($choferesCurso as $choferCursoData) {
+                $choferCurso= $em->getRepository('ChoferesBundle:ChoferCurso')
+                    ->find($choferCursoData['id']);
 
                 $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
                 $choferCurso->setDocumentacion("SI" == $request->get($choferCurso->getId()));
@@ -210,19 +225,18 @@ class CursoController extends Controller
                 return $this->redirect($this->generateUrl('curso_validados', []));
             }
 
-            return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', array(
+            return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', [
                 'titulo' => "Se registró el estado de la documentación",
                 'mensaje' => "El curso está ahora en estado VALIDADO",
                 'css_active' => 'curso',
-            ));
+            ]);
         }
 
-
-        return $this->render('ChoferesBundle:Curso:validardocumentacion.html.twig', array(
+        return $this->render('ChoferesBundle:Curso:validardocumentacion.html.twig', [
             'curso'=> $entity,
             'entities' => $choferesCurso,
             'css_active' => 'curso',
-        ));
+        ]);
     }
 
     public function cancelarCursoAction(Request $request, $id)

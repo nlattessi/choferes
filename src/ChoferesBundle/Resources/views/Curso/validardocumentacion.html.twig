@@ -42,8 +42,8 @@
             <td>{{ entity.dni }}</td>
             <td class="actions">
               <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-left">
-                <input type="checkbox" id="inputCheckbox" name="{{ entity.id }}" value="SI"{% if(entity.documentacion) %}checked{% endif %}>
-                <label for="inputCheckbox"></label>
+                <input type="checkbox" id="inputCheckbox{{ entity.id}}" name="{{ entity.id }}" value="SI"{% if(entity.documentacion) %}checked{% endif %}>
+                <label for="inputCheckbox{{ entity.id }}"></label>
               </div>
             </td>
           </tr>

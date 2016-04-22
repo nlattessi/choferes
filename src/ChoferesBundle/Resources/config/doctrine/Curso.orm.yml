@@ -55,6 +55,7 @@ ChoferesBundle\Entity\Curso:
             type: string
             nullable: true
             length: 45
+            unique: true
             options:
                 fixed: false
         fechaPago:

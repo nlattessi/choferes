@@ -61,15 +61,6 @@
         </tr>
         {% if app.user.rol == 'ROLE_CNTSV' %}
           <tr class="gradeA">
-            <td><b>Año</td>
-            <td><div class="input-group">
-              <span class="input-group-addon">
-                <i class="icon wb-calendar" aria-hidden="true"></i>
-              </span>
-              {{ form_widget(edit_form.anio, {'attr': {'class': 'form-control'}}) }}
-            </div></td>
-          </tr>
-          <tr class="gradeA">
             <td><b>Nro de TRI</td>
             <td>{{ form_widget(edit_form.codigo, {'attr': {'class': 'form-control'}}) }}</td>
           </tr>
@@ -147,8 +138,6 @@
       var t = "{{ var }}".split(/[- :]/);
       var d = new Date(t[0], t[1]-1, t[2], t[3], t[4]);
       $('#choferesbundle_curso_horaFin').timepicker().timepicker('setTime', new Date(d));
-
-      $('#choferesbundle_curso_anio').datepicker({format: "yyyy", autoclose: true, minViewMode: "years" });
 
       {% if entity.fechaPago %}
         {% set var = entity.fechaPago|date('d/m/Y') %}

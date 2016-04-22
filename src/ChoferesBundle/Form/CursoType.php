@@ -46,7 +46,6 @@ class CursoType extends AbstractType
                     'choices' => $this->usuarioService->obtenerPrestadoresActivos()
                 ])
                 ->add('codigo')
-                ->add('anio', 'text',array('label' => 'Año', 'required' => false))
                 ->add('comprobante')
                 ->add('observaciones')
                 ->add('fechaPago', 'text', array(

@@ -39,10 +39,11 @@ ChoferesBundle\Entity\ChoferCurso:
             cascade: {  }
             fetch: EAGER
             mappedBy: null
-            inversedBy: null
+            inversedBy: choferCursos
             joinColumns:
                 chofer_id:
                     referencedColumnName: id
+                    onDelete: cascade
             orphanRemoval: false
         curso:
             targetEntity: Curso

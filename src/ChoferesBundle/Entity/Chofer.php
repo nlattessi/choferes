@@ -2,6 +2,8 @@
 
 namespace ChoferesBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Chofer
  */
@@ -52,6 +54,13 @@ class Chofer
      */
     private $triCode;
 
+    private $choferCursos;
+
+
+    public function __construct()
+    {
+        $this->choferCursos = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -257,6 +266,8 @@ class Chofer
         $this->triCode = $triCode;
     }
 
-
-
+    public function getChoferCursos()
+    {
+        return $this->choferCursos;
+    }
 }

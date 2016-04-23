@@ -60,4 +60,8 @@ ChoferesBundle\Entity\Chofer:
             length: 18
             options:
                 fixed: false
+    oneToMany:
+        choferCursos:
+            targetEntity: ChoferCurso
+            mappedBy: chofer
     lifecycleCallbacks: {  }

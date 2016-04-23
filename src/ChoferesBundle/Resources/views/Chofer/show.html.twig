@@ -75,9 +75,48 @@
         </div>
     </div>
 
-    <!-- End Page -->
-    <script type="application/javascript">
-        getInLocalStorage('chofer')
-    </script>
+    {% if entity.choferCursos is not empty %}
+      <div class="panel">
+        <div class="panel-body">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Fecha de inicio</th>
+                  <th>Fecha de fin</th>
+                  <th>Prestador</th>
+                  <th>Nro de TRI</th>
+                  <th>Docente</th>
+                  <th>Sede</th>
+                  <th>Tipo</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for choferCurso in entity.choferCursos %}
+                <tr class="gradeA">
+                  <td><a href="{{ path('curso_show', {id: choferCurso.curso.id}) }}">{{ choferCurso.curso.id }}</a></td>
+                  <td>{{ choferCurso.curso.fechaInicio|date('d/m/Y H:i') }}</td>
+                  <td>{{ choferCurso.curso.fechaFin|date('d/m/Y H:i') }}</td>
+                  <td>{{ choferCurso.curso.prestador }}</td>
+                  <td>{{ choferCurso.curso.codigo }}</td>
+                  <td>{{ choferCurso.curso.docente }}</td>
+                  <td>{{ choferCurso.curso.sede }}</td>
+                  <td>{{ choferCurso.curso.tipocurso }}</td>
+                  <td>{{ choferCurso.curso.estado }}</td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+{% endblock %}
 
+{% block javascript %}
+<script>
+  getInLocalStorage('chofer');
+</script>
 {% endblock %}

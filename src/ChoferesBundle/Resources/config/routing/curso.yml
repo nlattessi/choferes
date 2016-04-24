@@ -88,3 +88,7 @@ curso_realizar:
 curso_documentacion:
     pattern: /{id}/revisar
     defaults: { _controller: "ChoferesBundle:Curso:revisarDocumentacion" }
+
+curso_carga_masiva_tri:
+    pattern: /carga_masiva_tri
+    defaults: { _controller: "ChoferesBundle:Curso:cargaMasivaTri" }

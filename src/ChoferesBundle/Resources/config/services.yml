@@ -16,3 +16,7 @@ services:
         class: ChoferesBundle\Servicios\BajaAdministrativaService
         arguments:
             entityManager: @doctrine.orm.entity_manager
+    choferes.servicios.curso:
+        class: ChoferesBundle\Servicios\CursoService
+        arguments:
+            entityManager: @doctrine.orm.entity_manager

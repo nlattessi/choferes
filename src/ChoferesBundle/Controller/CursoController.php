@@ -132,6 +132,8 @@ class CursoController extends Controller
     public function realizarCursoAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $choferService = $this->get('choferes.servicios.chofer');
+
         $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
         $choferesCurso= $em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array(
             'curso' => $entity
@@ -145,7 +147,11 @@ class CursoController extends Controller
                     $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
                     $em->persist($choferCurso);
 
-                    $this->checkAndUpdateTieneCursoBasico($em, $choferCurso);
+                    $choferService->updateTieneCursoBasico(
+                        $choferCurso->getChofer(),
+                        $choferCurso->getCurso(),
+                        $choferCurso
+                    );
                 }
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('success', 'Se actualizaron las notas.');
@@ -161,7 +167,11 @@ class CursoController extends Controller
                 $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
                 $em->persist($choferCurso);
 
-                $this->checkAndUpdateTieneCursoBasico($em, $choferCurso);
+                $choferService->updateTieneCursoBasico(
+                    $choferCurso->getChofer(),
+                    $choferCurso->getCurso(),
+                    $choferCurso
+                );
             }
 
             $em->flush();
@@ -184,6 +194,8 @@ class CursoController extends Controller
     public function revisarDocumentacionAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $choferService = $this->get('choferes.servicios.chofer');
+
         $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
 
         $choferesCurso = $em->createQueryBuilder()
@@ -215,7 +227,11 @@ class CursoController extends Controller
                 $choferCurso->setDocumentacion("SI" == $request->get($choferCurso->getId()));
                 $em->persist($choferCurso);
 
-                $this->checkAndUpdateTieneCursoBasico($em, $choferCurso);
+                $choferService->updateTieneCursoBasico(
+                    $choferCurso->getChofer(),
+                    $choferCurso->getCurso(),
+                    $choferCurso
+                );
             }
 
             $em->flush();
@@ -357,11 +373,12 @@ class CursoController extends Controller
     public function addchoferAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+        $choferService = $this->get('choferes.servicios.chofer');
 
         if ($request->getMethod() == 'POST') {
             $id =  $request->get('idCurso');
             $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(array('id' => $id));
-            $choferes = $this->obtenerChoferesPorCurso($curso);
+            $choferes = $choferService->obtenerChoferesPorCurso($curso);
             $choferesIds = $request->get('chofer');
             foreach ($choferesIds as $idChofer) {
                 $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($idChofer);
@@ -378,12 +395,12 @@ class CursoController extends Controller
                 }
             }
             $em->flush();
-            $choferes = $this->obtenerChoferesPorCurso($curso);
-        }else{
+            $choferes = $choferService->obtenerChoferesPorCurso($curso);
+        } else {
             $id =  $request->query->get('idCurso');
 
-            $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(array('id' => $id));
-            $choferes = $this->obtenerChoferesPorCurso($curso);
+            $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(['id' => $id]);
+            $choferes = $choferService->obtenerChoferesPorCurso($curso);
         }
 
         return $this->render('ChoferesBundle:Curso:addchofer.html.twig', array(
@@ -416,10 +433,6 @@ class CursoController extends Controller
         return $this->redirect($this->generateUrl('curso_addchofer', array('idCurso' => $idCurso)));
     }
 
-        /**
-    * Create filter form and process filter request.
-    *
-    */
     protected function resetearFiltro(){
         $request = $this->getRequest();
         $session = $request->getSession();
@@ -427,7 +440,6 @@ class CursoController extends Controller
         $session->remove('CursoControllerFilter');
 
     }
-
 
     protected function filter()
     {
@@ -441,13 +453,13 @@ class CursoController extends Controller
         $filterForm = $this->createForm(new CursoFilterType($usuarioService), null, ['user' => $usuario]);
         $em = $this->getDoctrine()->getManager();
 
-        if($usuario->getRol() == 'ROLE_PRESTADOR') {
+        if ($usuario->getRol() == 'ROLE_PRESTADOR') {
             //filtro solo lo que es de este usuario
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
             $queryBuilder = $em->getRepository('ChoferesBundle:Curso')->createQueryBuilder('d')
                 ->where('d.prestador = ?1')
                 ->setParameter(1, $prestador->getId());
-        }else{
+        } else {
             $queryBuilder = $em->getRepository('ChoferesBundle:Curso')->createQueryBuilder('d');
         }
         /*Fin filtro por prestador*/
@@ -756,12 +768,13 @@ class CursoController extends Controller
     public function updateAction(Request $request, $id)
     {
         $usuarioService =  $this->get('choferes.servicios.usuario');
+        $choferService = $this->get('choferes.servicios.chofer');
 
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
+        $curso = $em->getRepository('ChoferesBundle:Curso')->find($id);
 
-        if (!$entity) {
+        if (! $curso) {
             throw $this->createNotFoundException('Unable to find Curso entity.');
         }
 
@@ -770,25 +783,25 @@ class CursoController extends Controller
         if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
 
-            $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
+            $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy([
                 'prestador' => $prestador,
                 'activo' => true
-            ));
+            ]);
 
-            $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
+            $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy([
                 'prestador' => $prestador,
                 'activo' => true
-            ));
+            ]);
         } else {
             $docentes = null;
             $sedes = null;
         }
 
-        $editForm = $this->createForm(new CursoType($usuarioService), $entity, array(
+        $editForm = $this->createForm(new CursoType($usuarioService), $curso, [
             'user' => $this->getUser(),
             'docentes' => $docentes,
             'sedes' => $sedes
-        ));
+        ]);
 
         $editForm->bind($request);
 
@@ -800,64 +813,46 @@ class CursoController extends Controller
             $fechaFin = \DateTime::createFromFormat('d/m/Y H:i', $dtFin);
 
             if ($fechaInicio > $fechaFin) {
-                $this->get('session')->getFlashBag()->add('error', 'ERROR! Fecha de inicio posterior a fecha fin. Por favor corregir.');
+                $this->get('session')->getFlashBag()
+                    ->add('error', 'ERROR! Fecha de inicio posterior a fecha fin. Por favor corregir.');
             } else {
-                $entity->setFechaInicio($fechaInicio);
-                $entity->setFechaFin($fechaFin);
+                $curso->setFechaInicio($fechaInicio);
+                $curso->setFechaFin($fechaFin);
 
                 if ($editForm->has('fechaPago') && $editForm->get('fechaPago')->getData() !== null) {
                     $fechaPago = $editForm->get('fechaPago')->getData();
                     $dtFechaPago = \DateTime::createFromFormat('d/m/Y', $fechaPago);
-                    $entity->setFechaPago($dtFechaPago);
+                    $curso->setFechaPago($dtFechaPago);
                 }
 
-                $em->persist($entity);
+                $em->persist($curso);
                 $em->flush();
-                if (strlen($entity->getComprobante()) > 0) {
+                if (strlen($curso->getComprobante()) > 0) {
                     //comprobante seteado, hay que marcar como pagado todos los ChoferCurso
-                    $this->actualizarCursoChofer($entity);
+                    $choferService->actualizarCursoChofer($curso);
                 }
 
                 $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
-
-                return $this->redirect($this->generateUrl('curso_edit', array('id' => $id)));
+                return $this->redirect($this->generateUrl('curso_edit', ['id' => $id]));
             }
         } else {
             $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
 
-            $errors = $this->get('validator')->validate( $entity );
+            $errors = $this->get('validator')->validate( $curso );
 
             foreach( $errors as $error ) {
                 $this->get('session')->getFlashBag()->add('error', $error->getMessage());
             }
         }
 
-        return $this->render('ChoferesBundle:Curso:edit.html.twig', array(
-            'entity'      => $entity,
+        return $this->render('ChoferesBundle:Curso:edit.html.twig', [
+            'entity'      => $curso,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
             'css_active' => 'curso',
-        ));
+        ]);
     }
 
-    private function actualizarCursoChofer($curso)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $choferesCurso = $em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array('curso' => $curso));
-
-        foreach($choferesCurso as $choferCurso){
-            $choferCurso->setPagado(true);
-            $em->persist($choferCurso);
-
-            $this->checkAndUpdateTieneCursoBasico($em, $choferCurso);
-        }
-        $em->flush();
-    }
-
-    /**
-     * Deletes a Curso entity.
-     *
-     */
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
@@ -881,6 +876,22 @@ class CursoController extends Controller
         return $this->redirect($this->generateUrl('curso'));
     }
 
+    public function cargaMasivaTriAction(Request $request)
+    {
+        if ($request->getMethod() == 'POST') {
+            $cursoService = $this->get('choferes.servicios.curso');
+
+            $ids = $request->request->get('id');
+            $tris = $request->request->get('tri');
+
+            $cursos = $cursoService->cargaMasivaTri($ids, $tris);
+
+            $this->get('session')->getFlashBag()->add('success', 'Se cargaron ' . count($cursos) . ' cursos');
+            return $this->redirect($this->generateUrl('curso_carga_masiva_tri'));
+        }
+        return $this->render('ChoferesBundle:Curso:carga_masiva_tri.html.twig', []);
+    }
+
     /**
      * Creates a form to delete a Curso entity by id.
      *
@@ -895,39 +906,4 @@ class CursoController extends Controller
             ->getForm()
         ;
     }
-
-    private function obtenerChoferesPorCurso($curso)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $choferes = array();
-        $choferesCursos =$em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array('curso' => $curso));
-        foreach($choferesCursos as $choferCurso){
-            $choferes[]= $choferCurso->getChofer();
-        }
-
-        return $choferes;
-    }
-
-    private function checkAndUpdateTieneCursoBasico($em, $choferCurso)
-    {
-        $curso = $choferCurso->getCurso();
-
-        if ($curso->getTipoCurso()->getId() == 1) {
-
-            if ($choferCurso->isDocumentacion() == true) {
-
-                if ($choferCurso->getPagado() == true) {
-
-                    if ($choferCurso->getIsAprobado() == true) {
-
-                        $chofer = $choferCurso->getChofer();
-                        $chofer->setTieneCursoBasico(true);
-                        $em->persist($chofer);
-
-                    }
-                }
-            }
-        }
-    }
-
 }

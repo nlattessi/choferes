@@ -206,4 +206,47 @@ class ChoferService
 
         return false;
     }
+
+    public function updateTieneCursoBasico($chofer, $curso, $choferCurso)
+    {
+        if ($curso->getTipoCurso()->getId() == 1) {
+            if ($choferCurso->isDocumentacion() == true) {
+                if ($choferCurso->getPagado() == true) {
+                    if ($choferCurso->getIsAprobado() == true) {
+                        $chofer->setTieneCursoBasico(true);
+                        $this->em->persist($chofer);
+                        $this->em->flush();
+                    }
+                }
+            }
+        }
+    }
+
+    public function obtenerChoferesPorCurso($curso)
+    {
+        $choferes = [];
+        $choferesCursos = $this->em->getRepository('ChoferesBundle:ChoferCurso')->findBy(['curso' => $curso]);
+        foreach ($choferesCursos as $choferCurso) {
+            $choferes[] = $choferCurso->getChofer();
+        }
+
+        return $choferes;
+    }
+
+    public function actualizarCursoChofer($curso)
+    {
+        $choferesCurso = $this->em->getRepository('ChoferesBundle:ChoferCurso')->findBy(['curso' => $curso]);
+
+        foreach ($choferesCurso as $choferCurso) {
+            $choferCurso->setPagado(true);
+            $this->em->persist($choferCurso);
+
+            $this->updateTieneCursoBasico(
+                $choferCurso->getChofer(),
+                $choferCurso->getCurso(),
+                $choferCurso
+            );
+        }
+        $this->em->flush();
+    }
 }

@@ -1,0 +1,117 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+Carga masiva de TRI
+{% endblock %}
+
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block pageHeader %}
+<h1 class="page-title">Carga masiva de TRI</h1>
+<ol class="breadcrumb">
+  <li><a href="{{ path('home') }}">Inicio</a></li>
+  <li class="active">Cursos</li>
+</ol>
+{% endblock %}
+{% block page %}
+<div class="panel">
+  <div class="panel-body">
+    <form id="form" action="{{ path('curso_carga_masiva_tri') }}" method="POST">
+      <div class="row">
+        <div class="col-sm-5 col-md-5 margin-bottom-15">
+          <h4 class="example-titke">ID</h4>
+        </div>
+        <div class="col-sm-5 col-md-5 margin-bottom-15">
+          <h4 class="example-titke">Nro de TRI</h4>
+        </div>
+        <div class="col-sm-2 col-md-2 margin-bottom-15">
+          <a href="#" class="btn btn-sm btn-icon btn-pure btn-default add_field_button" data-toggle="tooltip" data-original-title="Agregar campo">
+            <i class="icon wb-plus-circle" aria-hidden="true"></i>
+          </a>
+        </div>
+      </div>
+      <div class="input_fields_wrapper">
+        <div class="row">
+          <div class="col-sm-5 col-md-5 margin-top-15">
+            <input type="text" class="form-control" name="id[]" onkeypress="onKeyPress(event);">
+          </div>
+          <div class="col-sm-5 col-md-5 margin-top-15">
+            <input type="text" class="form-control" name="tri[]" onkeypress="onKeyPress(event);">
+          </div>
+          <div class="col-sm-2 col-md-2 margin-top-15">
+            <a href="#" class="btn btn-sm btn-icon btn-pure btn-default remove_field" data-toggle="tooltip" data-original-title="Remover">
+              <i class="icon wb-trash" aria-hidden="true"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="dt-panelfooter clearfix">
+        <button type="submit" class="btn btn btn-success margin-top-30">Cargar</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  function addInputField(element) {
+    element.after('<div class="row">'
+      + '<div class="col-sm-5 col-md-5 margin-top-15">'
+      + '<input type="text" class="form-control" name="id[]" onkeypress="onKeyPress(event);">'
+      + '</div>'
+      + '<div class="col-sm-5 col-md-5 margin-top-15">'
+      + '<input type="text" class="form-control" name="tri[]" onkeypress="onKeyPress(event);">'
+      + '</div>'
+      + '<div class="col-sm-2 col-md-2 margin-top-15">'
+      + '<a href="#" class="btn btn-sm btn-icon btn-pure btn-default remove_field" data-toggle="tooltip" data-original-title="Remover">'
+      + '<i class="icon wb-trash" aria-hidden="true"></i>'
+      + '</a>'
+      + '</div>'
+      + '</div>'
+    );
+  };
+
+  function onKeyPress(e) {
+    if (e.keyCode === 13) {
+      var focused = $(document.activeElement);
+      var name = focused.attr('name');
+
+      if (name === 'id[]') {
+        var div = focused.closest('div');
+        div.next().find("input[name='tri[]']").focus();
+      }
+
+      if (name === 'tri[]') {
+        var row = focused.closest('.row');
+        addInputField(row);
+        row.next().find("input[name='id[]']").focus();
+      }
+    }
+  };
+
+  (function(window, document, $) {
+    var form = $('#form');
+    var wrapper = $('.input_fields_wrapper');
+
+    form.on('keypress', function(e) {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+        return false;
+      }
+    });
+
+    $('.add_field_button').click(function(e) {
+      e.preventDefault();
+      addInputField(wrapper.find('.row:last'));
+    });
+
+    wrapper.on('click', '.remove_field', function(e) {
+      e.preventDefault();
+      $(this).parent('div').parent('div').remove();
+    });
+  })(window, document, jQuery);
+</script>
+{% endblock %}

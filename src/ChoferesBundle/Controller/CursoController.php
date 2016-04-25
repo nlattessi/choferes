@@ -2,19 +2,17 @@
 
 namespace ChoferesBundle\Controller;
 
-use ChoferesBundle\Entity\Chofer;
-use ChoferesBundle\Entity\ChoferCurso;
-use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
-
+use ChoferesBundle\Entity\Chofer;
+use ChoferesBundle\Entity\ChoferCurso;
 use ChoferesBundle\Entity\Curso;
 use ChoferesBundle\Form\CursoType;
 use ChoferesBundle\Form\CursoFilterType;
+use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 
 /**
  * Curso controller.
@@ -876,6 +874,9 @@ class CursoController extends Controller
         return $this->redirect($this->generateUrl('curso'));
     }
 
+    /**
+    * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV')")
+    */
     public function cargaMasivaTriAction(Request $request)
     {
         if ($request->getMethod() == 'POST') {

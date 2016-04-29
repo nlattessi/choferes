@@ -1,5 +1,4 @@
 <?php
-
 namespace ChoferesBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +13,6 @@ use ChoferesBundle\Form\CursoType;
 use ChoferesBundle\Form\CursoFilterType;
 use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 
-/**
- * Curso controller.
- *
- */
 class CursoController extends Controller
 {
     const ESTADO_CURSO_DEFAULT = 1;
@@ -890,6 +885,7 @@ class CursoController extends Controller
             $this->get('session')->getFlashBag()->add('success', 'Se cargaron ' . count($cursos) . ' cursos');
             return $this->redirect($this->generateUrl('curso_carga_masiva_tri'));
         }
+
         return $this->render('ChoferesBundle:Curso:carga_masiva_tri.html.twig', []);
     }
 

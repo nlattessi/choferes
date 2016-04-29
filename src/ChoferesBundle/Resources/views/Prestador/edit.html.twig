@@ -57,12 +57,8 @@
 {% endblock %}
 
 {% block javascript %}
-
-  <script type="application/javascript">
-    getInLocalStorage('prestador')
-  </script>
-
-    <script src="{{ asset('bundles/choferes/js/inputmask.js') }}"></script>
-    <script src="{{ asset('bundles/choferes/js/jquery.inputmask.js') }}"></script>
-    <script src="{{ asset('bundles/choferes/js/cuilmask.js') }}" type="text/javascript"></script>
+<script>
+  getInLocalStorage('prestador')
+</script>
+<script src="{{ asset('bundles/choferes/assets/scripts/cuilmask.js') }}"></script>
 {% endblock %}

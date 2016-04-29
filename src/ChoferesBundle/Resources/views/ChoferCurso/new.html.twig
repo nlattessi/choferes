@@ -1,9 +1,5 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
 
-{% block javascript %}
-    <script src="{{ asset('bundles/choferes/js/autocompletar.js') }}"></script>
-{% endblock %}
-
 {% block title %}
 {{ parent() }} - {{ 'views.new.creation'|trans({'%entity%': 'ChoferCurso'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
@@ -31,4 +27,8 @@
         </a>
     </div>
 </div>
+{% endblock %}
+
+{% block javascript %}
+    <script src="{{ asset('bundles/choferes/assets/scripts/autocompletar.js') }}"></script>
 {% endblock %}

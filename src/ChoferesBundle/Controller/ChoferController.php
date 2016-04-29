@@ -388,7 +388,7 @@ class ChoferController extends Controller
         ));
     }
 
-    public function reporteCursoAction(Request $request){
+    public function reporteChoferesPorTipoCursoAction(Request $request){
         $em = $this->getDoctrine()->getManager();
         $rsm = new ResultSetMapping($em);
         $rsm->addScalarResult('nombre','nombre');
@@ -403,7 +403,7 @@ class ChoferController extends Controller
 
         $resultado = $query->getResult();
 
-        return $this->render('ChoferesBundle:Reporte:curso-por-tipo.html.twig', [
+        return $this->render('ChoferesBundle:Reporte:choferes-por-tipo-curso.html.twig', [
             'resultado' => $resultado,
             'css_active' => 'tipo',
         ]);

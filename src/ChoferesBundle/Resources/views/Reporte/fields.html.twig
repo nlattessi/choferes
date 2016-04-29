@@ -9,3 +9,36 @@
     </div>
   </div>
 {% endblock %}
+
+{% block _choferesbundle_reporte_cursos_por_tipo_tipoCurso_widget %}
+  <div class="col-sm-6 col-md-6 ">
+    <h4 class="example-title">Tipo de curso</h4>
+    <div class="form-group">
+      {{ block('choice_widget') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_reporte_cursos_por_tipo_fechaInicioDesde_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Fecha Inicio (desde)</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-calendar" aria-hidden="true"></i>
+      </span>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_reporte_cursos_por_tipo_fechaInicioHasta_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Fecha Inicio (hasta)</h4>
+    <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-calendar" aria-hidden="true"></i>
+      </span>
+      {{ block('form_widget_simple') }}
+    </div>
+  </div>
+{% endblock %}

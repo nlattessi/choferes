@@ -10,12 +10,13 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class ChoferService
 {
-    protected $em;
-    protected $kernelCacheDir;
-    protected $hashids;
-    protected $router;
-    protected $usuarioService;
-    static $idTipoCursoBasico = 1;
+    const ESTADO_CURSO_VALIDADO = 'Validado';
+
+    private $em;
+    private $kernelCacheDir;
+    private $hashids;
+    private $router;
+    private $usuarioService;
 
     public function __construct(EntityManager $entityManager, $kernelCacheDir, $hashids, $router, $usuarioService)
     {
@@ -28,6 +29,8 @@ class ChoferService
 
     public function getStatusPorDniChofer($dni)
     {
+        $estadoValidado = $this->em->getRepository('ChoferesBundle:EstadoCurso')->findByNombre(self::ESTADO_CURSO_VALIDADO);
+
         $query = $this->em->createQueryBuilder()
             ->select(
                 'chofer.id as choferId', 'chofer.nombre', 'chofer.apellido', 'chofer.dni', 'chofer.tieneCursoBasico as tieneCursoBasico',
@@ -44,8 +47,10 @@ class ChoferService
                 \Doctrine\ORM\Query\Expr\Join::WITH, 'choferCurso.curso = curso.id'
             )
             ->where('chofer.dni = :dni')
+            ->andWhere('curso.estado = :estadoValidado')
             ->orderBy('curso.fechaFin', 'DESC')
             ->setParameter('dni', $dni)
+            ->setParameter('estadoValidado', $estadoValidado)
             ->setMaxResults(1)
             ->getQuery();
 
@@ -247,6 +252,7 @@ class ChoferService
                 $choferCurso
             );
         }
+
         $this->em->flush();
     }
 }

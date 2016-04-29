@@ -1,0 +1,130 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+Reporte Cursos por tipo
+{% endblock %}
+
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block pageHeader %}
+<h1 class="page-title">Reporte Cursos por tipo</h1>
+<ol class="breadcrumb">
+  <li><a href="{{ path('home') }}">Inicio</a></li>
+  <li class="active">Reportes</li>
+</ol>
+{% endblock %}
+
+{% block page %}
+<div class="panel">
+  <div class="panel-body">
+    <h4 class="example-title">
+      Total de cursos del tipo <b>{{ tipoCurso }}</b> con fecha de inicio entre <b>{{ fechaInicioDesde }}</b> y <b>{{ fechaInicioHasta }}</b>: <b>{{ cursos|length }}</b> cursos.
+    </h4>
+  </div>
+</div>
+<div class="panel">
+  <div class="panel-body">
+    <table id="dataTable" class="display" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Fecha de inicio</th>
+          <th>Fecha de fin</th>
+          <th>Prestador</th>
+          <th>Nro de TRI</th>
+          <th>Estado</th>
+          <th>Sede</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th>Id</th>
+          <th>Fecha de inicio</th>
+          <th>Fecha de fin</th>
+          <th>Prestador</th>
+          <th>Nro de TRI</th>
+          <th>Estado</th>
+          <th>Sede</th>
+        </tr>
+      </tfoot>
+      <tbody>
+        {% for curso in cursos %}
+        <tr>
+          <td><a href="{{ path('curso_show', {'id': curso.id}) }}">{{ curso.id }}</a></td>
+          <td>{{ curso.fechaInicio|date("d/m/Y") }}</td>
+          <td>{{ curso.fechaFin|date("d/m/Y") }}</td>
+          <td>{{ curso.prestador }}</td>
+          <td>{{ curso.codigo }}</td>
+          <td>{{ curso.estado }}</td>
+          <td>{{ curso.sede }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+(function(window, document, $) {
+  // Setup - add a text input to each footer cell
+  $('#dataTable tfoot th').each(function() {
+    var title = $(this).text();
+    $(this).html('<input type="text" placeholder="' + title + '" />');
+  });
+
+  // DataTable
+  var table = $('#dataTable').DataTable({
+    responsive: true,
+    dom: 'Bfrtip',
+    buttons: [
+      {
+        extend: 'excel',
+        text: 'Exportar a Excel',
+        filename: 'Cursos_por_tipo_' + moment().format("D-M-Y")
+      }
+    ],
+    "language": {
+      "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst":    "Primero",
+        "sLast":     "Último",
+        "sNext":     "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+    }
+  });
+
+  // Apply the search
+  table.columns().every(function() {
+    var that = this;
+
+    $('input', this.footer()).on('keyup change', function() {
+      if (that.search() !== this.value) {
+        that
+          .search(this.value)
+          .draw();
+      }
+    });
+  });
+})(window, document, jQuery);
+</script>
+{% endblock %}

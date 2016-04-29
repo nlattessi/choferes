@@ -1,10 +1,7 @@
 <?php
-
 namespace ChoferesBundle\Servicios;
 
-
 use Doctrine\ORM\EntityManager;
-
 
 class CursoService
 {
@@ -26,6 +23,21 @@ class CursoService
         }
 
         return $updatedCursos;
+    }
+
+    public function getCursosPorTipoFilterByFechaInicio($tipoCurso, $fechaInicioDesde, $fechaInicioHasta)
+    {
+        $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaInicioDesde);
+        $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaInicioHasta);
+
+        $cursos = $this->em->getRepository('ChoferesBundle:Curso')->findCursosByTipoFilterByFechaInicio(
+            $tipoCurso,
+            $fechaDesde,
+            $fechaHasta
+        );
+
+        return $cursos;
+
     }
 
     private function updateCursoTri($cursoId, $tri)

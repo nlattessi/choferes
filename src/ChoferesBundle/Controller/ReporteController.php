@@ -1,13 +1,12 @@
 <?php
-
 namespace ChoferesBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use ChoferesBundle\Form\ReporteChoferesVigentesType;
-
+use ChoferesBundle\Form\ReporteCursosPorTipoType;
 
 class ReporteController extends Controller
 {
@@ -24,7 +23,9 @@ class ReporteController extends Controller
                 $choferesService =  $this->get('choferes.servicios.chofer');
                 $choferesVigentes = $choferesService->getChoferesVigentes($fechaForm);
 
-                if (!empty($choferesVigentes)) {
+                if (! empty($choferesVigentes)) {
+                    set_time_limit(240);
+
                     $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
 
                     $phpExcelObject->getProperties()->setCreator("CNTSV")
@@ -161,6 +162,44 @@ class ReporteController extends Controller
         return $this->render('ChoferesBundle:Reporte:choferes_vigentes.html.twig', [
             'form' => $form->createView(),
             'css_active' => 'reporte_vigente'
+        ]);
+    }
+
+    /**
+    * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV') or has_role('ROLE_CENT')")
+    */
+    public function cursosPorTipoAction(Request $request)
+    {
+        $form = $this->createForm(new ReporteCursosPorTipoType());
+
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $tipoCurso = $form->get('tipoCurso')->getData();
+                $fechaInicioDesde = $form->get('fechaInicioDesde')->getData();
+                $fechaInicioHasta = $form->get('fechaInicioHasta')->getData();
+
+                $cursoService =  $this->get('choferes.servicios.curso');
+                $cursos = $cursoService->getCursosPorTipoFilterByFechaInicio(
+                    $tipoCurso,
+                    $fechaInicioDesde,
+                    $fechaInicioHasta
+                );
+
+                return $this->render('ChoferesBundle:Reporte:cursos_por_tipo_result.html.twig', [
+                   'tipoCurso' => $tipoCurso,
+                   'fechaInicioDesde' => $fechaInicioDesde,
+                   'fechaInicioHasta' => $fechaInicioHasta,
+                   'cursos' => $cursos,
+                   'css_active' => 'reporte_cursos_por_tipo'
+                ]);
+            }
+        }
+
+        return $this->render('ChoferesBundle:Reporte:cursos_por_tipo.html.twig', [
+            'form' => $form->createView(),
+            'css_active' => 'reporte_cursos_por_tipo'
         ]);
     }
 }

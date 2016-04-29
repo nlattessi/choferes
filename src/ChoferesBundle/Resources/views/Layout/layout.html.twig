@@ -10,17 +10,14 @@
     <link rel="apple-touch-icon" href="{{ asset('bundles/choferes/assets/images/apple-touch-icon.png') }}">
     <link rel="shortcut icon" href="{{ asset('bundles/choferes/assets/images/favicon.ico') }}">
 
+    <!-- Stylesheets Packages -->
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/packages/DataTables/datatables.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/packages/loaders.css/loaders.min.css') }}">
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/bootstrap-extend.css') }}">
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/site.css') }}">
-    <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/css/loaders.min.css') }}">
-
-    <style>
-    .ball-spin-fade-loader > div {
-        background: #ED7102;
-    }
-    </style>
 
     <!-- Plugins -->
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/vendor/animsition/animsition.css') }}">
@@ -44,6 +41,17 @@
     <!-- Inline -->
     <link rel="stylesheet" href="{{ asset('bundles/choferes/assets/examples/css/pages/login-v3.css') }}">
 
+    <style>
+    .ball-spin-fade-loader > div {
+        background: #ED7102;
+    }
+    tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }
+    </style>
+
     <!--[if lt IE 9]>
     <script src="{{ asset('bundles/choferes/assets/vendor/html5shiv/html5shiv.min.js') }}"></script>
     <![endif]-->
@@ -56,7 +64,6 @@
     <!-- Scripts -->
     <script src="{{ asset('bundles/choferes/assets/vendor/modernizr/modernizr.min.js') }}"></script>
     <script src="{{ asset('bundles/choferes/assets/vendor/breakpoints/breakpoints.min.js') }}"></script>
-    <script src="{{ asset('bundles/choferes/js/functions.js') }}"></script>
     <script>
         Breakpoints();
     </script>
@@ -190,56 +197,49 @@
     </footer>
 
     <!-- Core  -->
-   <script src="{{ asset('bundles/choferes/assets/vendor/jquery/jquery.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/vendor/bootstrap/bootstrap.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/vendor/animsition/jquery.animsition.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/vendor/asscroll/jquery-asScroll.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/vendor/mousewheel/jquery.mousewheel.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/vendor/asscrollable/jquery.asScrollable.all.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/vendor/ashoverscroll/jquery-asHoverScroll.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/bootstrap/bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/animsition/jquery.animsition.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/asscroll/jquery-asScroll.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/mousewheel/jquery.mousewheel.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/asscrollable/jquery.asScrollable.all.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/ashoverscroll/jquery-asHoverScroll.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/switchery/switchery.min.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/intro-js/intro.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/slidepanel/jquery-slidePanel.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery.timepicker.min.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/core.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/site.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/sections/menu.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/sections/menubar.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/sections/gridmenu.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/sections/sidebar.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/asscrollable.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/animsition.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/slidepanel.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/switchery.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/datatables.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/examples/js/tables/datatable.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/examples/js/uikit/icon.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/js/components/jt-timepicker.js') }}"></script>
 
-    <!-- Plugins -->
-   <script src="{{ asset('bundles/choferes/assets/vendor/switchery/switchery.min.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/vendor/intro-js/intro.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/vendor/slidepanel/jquery-slidePanel.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/vendor/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+    <!-- Packages -->
+    <script src="{{ asset('bundles/choferes/assets/packages/bootstrap3-typeahead/bootstrap3-typeahead.min.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/packages/DataTables/datatables.min.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/packages/jquery.inputmask/inputmask.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/packages/jquery.inputmask/jquery.inputmask.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/packages/moment.js/moment.min.js') }}"></script>
 
-    <!-- Plugins For This Page -->
-   <script src="{{ asset('bundles/choferes/assets/vendor/datatables/jquery.dataTables.js') }}"></script>
+    <! -- Scripts -->
+    <script src="{{ asset('bundles/choferes/assets/scripts/confirmCancelarCurso.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/packages/loaders.css/loaders.css.js') }}"></script>
+    <script src="{{ asset('bundles/choferes/assets/scripts/functions.js') }}"></script>
 
-   <script src="{{ asset('bundles/choferes/assets/vendor/jt-timepicker/jquery.timepicker.min.js') }}"></script>
-
-
-    <!-- Scripts -->
-   <script src="{{ asset('bundles/choferes/assets/js/core.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/js/site.js') }}"></script>
-
-   <script src="{{ asset('bundles/choferes/assets/js/sections/menu.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/js/sections/menubar.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/js/sections/gridmenu.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/js/sections/sidebar.js') }}"></script>
-
-
-   <script src="{{ asset('bundles/choferes/assets/js/components/asscrollable.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/js/components/animsition.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/js/components/slidepanel.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/js/components/switchery.js') }}"></script>
-
-    <!-- Scripts For This Page -->
-   <script src="{{ asset('bundles/choferes/assets/js/components/datatables.js') }}"></script>
-
-   <script src="{{ asset('bundles/choferes/assets/examples/js/tables/datatable.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/examples/js/uikit/icon.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/assets/js/components/bootstrap-datepicker.js') }}"></script>
-
-   <script src="{{ asset('bundles/choferes/assets/js/components/jt-timepicker.js') }}"></script>
-
-   <script src="{{ asset('bundles/choferes/js/bootstrap3-typeahead.min.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/js/confirmCancelarCurso.js') }}"></script>
-   <script src="{{ asset('bundles/choferes/js/loaders.css.js') }}"></script>
-
-   {% block javascript %}
-   {% endblock %}
+    {% block javascript %}
+    {% endblock %}
 
 </body>
 </html>

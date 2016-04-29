@@ -1,6 +1,6 @@
 chofer_reporte_curso:
     pattern:  /choferxtipocurso
-    defaults: { _controller: "ChoferesBundle:Chofer:reporteCurso" }
+    defaults: { _controller: "ChoferesBundle:Chofer:reporteChoferesPorTipoCurso" }
 
 chofer_reporte_prestador:
     pattern:  /choferxprestador
@@ -9,3 +9,7 @@ chofer_reporte_prestador:
 reporte_choferes_vigentes:
     pattern:  /choferes_vigentes
     defaults: { _controller: "ChoferesBundle:Reporte:choferesVigentes" }
+
+reporte_cursos_por_tipo:
+    pattern:  /cursosPorTipo
+    defaults: { _controller: "ChoferesBundle:Reporte:cursosPorTipo" }

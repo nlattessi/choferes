@@ -1,5 +1,6 @@
 ChoferesBundle\Entity\Curso:
     type: entity
+    repositoryClass: ChoferesBundle\Entity\CursoRepository
     table: curso
     indexes:
         prestador_curso_idx:

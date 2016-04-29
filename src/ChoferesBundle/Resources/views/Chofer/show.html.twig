@@ -1,118 +1,111 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-{{ parent() }} - {{ 'views.show.show'|trans({'%entity%': 'Chofer'}, 'JordiLlonchCrudGeneratorBundle') }}
+  {{ parent() }} - {{ 'views.show.show'|trans({'%entity%': 'Chofer'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
 
 {% block menu %}
-{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+  {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
+
 {% block pageHeader %}
-    <h1 class="page-title">Ver Chofer</h1>
-    <ol class="breadcrumb">
-        <li><a href="{{ path('chofer') }}">Choferes</a></li>
-        <li class="active">Ver Chofer</li>
-    </ol>
+  <h1 class="page-title">Ver Chofer</h1>
+  <ol class="breadcrumb">
+    <li><a href="{{ path('chofer') }}">Choferes</a></li>
+    <li class="active">Ver Chofer</li>
+  </ol>
 {% endblock %}
+
 {% block page %}
-
-            <!-- Panel Table Add Row -->
-    <div class="panel">
-        <div class="panel-body">
-
-            <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
-
-                <tbody>
-                <tr class="gradeA">
-                    <td><b>ID</b></td>
-                    <td>{{ entity.id }}</td>
-                </tr>
-                <tr class="gradeA">
-                    <td><b>Usuario</b></td>
-                    <td>{{ entity.nombre }}</td>
-                </tr>
-                <tr class="gradeA">
-                    <td><b>Apellido</b></td>
-                    <td>{{ entity.apellido }}</td>
-                </tr>
-                <tr class="gradeA">
-                    <td><b>DNI</b></td>
-                    <td>{{ entity.dni }}</td>
-                </tr>
-                <tr class="gradeA">
-                    <td><b>CUIL</b></td>
-                    <td>{% if entity.cuil %}{{ entity.cuil[0:2] }}-{{ entity.cuil[2:8] }}-{{ entity.cuil[10:] }}{% endif %}</td>
-                </tr>
-                <tr class="gradeA">
-                    <td><b>CUIL empresa</b></td>
-                    <td>{{  entity.cuilEmpresa }}</td>
-                </tr>
-                <tr class="gradeA">
-                    <td><b>N° de TRI</b></td>
-                    <td>{{ entity.triCode }}</td>
-                </tr>
-                <tr class="gradeA">
-                    <td><b>Tiene curso básico</b></td>
-                    <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
-                </tr>
-
-                </tbody>
-            </table>
-            </div>
-
-
-            <div class="dt-panelfooter clearfix">
-                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CNTSV') %}
-                    <button type="button" onclick="location.href='{{ path('chofer_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
-                {% endif %}
-                <button type="button" onclick="location.href='{{ path('chofer_consulta_id', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Estado</button>
-                <a id="listado" href="{{ path('chofer') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
-            </div>
-
-
-
-        </div>
-    </div>
-
-    {% if entity.choferCursos is not empty %}
-      <div class="panel">
-        <div class="panel-body">
-          <div class="table-responsive">
-            <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Fecha de inicio</th>
-                  <th>Fecha de fin</th>
-                  <th>Prestador</th>
-                  <th>Nro de TRI</th>
-                  <th>Docente</th>
-                  <th>Sede</th>
-                  <th>Tipo</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-              {% for choferCurso in entity.choferCursos %}
-                <tr class="gradeA">
-                  <td><a href="{{ path('curso_show', {id: choferCurso.curso.id}) }}">{{ choferCurso.curso.id }}</a></td>
-                  <td>{{ choferCurso.curso.fechaInicio|date('d/m/Y H:i') }}</td>
-                  <td>{{ choferCurso.curso.fechaFin|date('d/m/Y H:i') }}</td>
-                  <td>{{ choferCurso.curso.prestador }}</td>
-                  <td>{{ choferCurso.curso.codigo }}</td>
-                  <td>{{ choferCurso.curso.docente }}</td>
-                  <td>{{ choferCurso.curso.sede }}</td>
-                  <td>{{ choferCurso.curso.tipocurso }}</td>
-                  <td>{{ choferCurso.curso.estado }}</td>
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
+  <div class="panel">
+    <div class="panel-body">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+          <tbody>
+            <tr class="gradeA">
+              <td><b>ID</b></td>
+              <td>{{ entity.id }}</td>
+            </tr>
+            <tr class="gradeA">
+              <td><b>Usuario</b></td>
+              <td>{{ entity.nombre }}</td>
+            </tr>
+            <tr class="gradeA">
+              <td><b>Apellido</b></td>
+              <td>{{ entity.apellido }}</td>
+            </tr>
+            <tr class="gradeA">
+              <td><b>DNI</b></td>
+              <td>{{ entity.dni }}</td>
+            </tr>
+            <tr class="gradeA">
+              <td><b>CUIL</b></td>
+              <td>{% if entity.cuil %}{{ entity.cuil[0:2] }}-{{ entity.cuil[2:8] }}-{{ entity.cuil[10:] }}{% endif %}</td>
+            </tr>
+            <tr class="gradeA">
+              <td><b>CUIL empresa</b></td>
+              <td>{{  entity.cuilEmpresa }}</td>
+            </tr>
+            <tr class="gradeA">
+              <td><b>N° de TRI</b></td>
+              <td>{{ entity.triCode }}</td>
+            </tr>
+            <tr class="gradeA">
+              <td><b>Tiene curso básico</b></td>
+              <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    {% endif %}
+      <div class="dt-panelfooter clearfix">
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CNTSV') %}
+          <button type="button" onclick="location.href='{{ path('chofer_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
+        {% endif %}
+        <button type="button" onclick="location.href='{{ path('chofer_consulta_id', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Estado</button>
+        <a id="listado" href="{{ path('chofer') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
+      </div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-body">
+      {% if entity.choferCursos is empty %}
+        <h4 class="panel-title">Al momento el chofer no ha sido asignado a ningún curso en el sistema.</h4>
+      {% else %}
+        <div class="table-responsive">
+          <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Fecha de inicio</th>
+                <th>Fecha de fin</th>
+                <th>Prestador</th>
+                <th>Nro de TRI</th>
+                <th>Docente</th>
+                <th>Sede</th>
+                <th>Tipo</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for choferCurso in entity.choferCursos %}
+              <tr class="gradeA">
+                <td><a href="{{ path('curso_show', {id: choferCurso.curso.id}) }}">{{ choferCurso.curso.id }}</a></td>
+                <td>{{ choferCurso.curso.fechaInicio|date('d/m/Y H:i') }}</td>
+                <td>{{ choferCurso.curso.fechaFin|date('d/m/Y H:i') }}</td>
+                <td>{{ choferCurso.curso.prestador }}</td>
+                <td>{{ choferCurso.curso.codigo }}</td>
+                <td>{{ choferCurso.curso.docente }}</td>
+                <td>{{ choferCurso.curso.sede }}</td>
+                <td>{{ choferCurso.curso.tipocurso }}</td>
+                <td>{{ choferCurso.curso.estado }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+    </div>
+  </div>
 {% endblock %}
 
 {% block javascript %}

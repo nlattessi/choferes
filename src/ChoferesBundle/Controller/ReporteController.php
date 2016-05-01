@@ -4,6 +4,7 @@ namespace ChoferesBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use ChoferesBundle\Form\ReporteChoferesVigentesType;
 use ChoferesBundle\Form\ReporteCursosPorTipoType;
@@ -24,8 +25,6 @@ class ReporteController extends Controller
                 $choferesVigentes = $choferesService->getChoferesVigentes($fechaForm);
 
                 if (! empty($choferesVigentes)) {
-                    set_time_limit(240);
-
                     $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
 
                     $phpExcelObject->getProperties()->setCreator("CNTSV")
@@ -131,32 +130,37 @@ class ReporteController extends Controller
 
                     // create the writer
                     $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
-
                     // create the response
-                    ob_start();
-                    $writer->save("php://output");
-                    $xlsData = ob_get_contents();
-                    ob_end_clean();
-                    $response =  [
-                        'result' => true,
-                        'name' => 'Choferes_Vigencia_' . date('d-m-Y') . '.xls',
-                        'file' => "data:application/vnd.ms-excel;base64,".base64_encode($xlsData)
-                    ];
+                    $response = $this->get('phpexcel')->createStreamedResponse($writer);
+                    // adding headers
+                    $dispositionHeader = $response->headers->makeDisposition(
+                        ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                        'Choferes_Vigencia_' . date('d-m-Y') . '.xls'
+                    );
+                    $response->headers->set('Set-Cookie', 'fileDownload=true; path=/');
+                    $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+                    $response->headers->set('Pragma', 'public');
+                    $response->headers->set('Cache-Control', 'maxage=1');
+                    $response->headers->set('Content-Disposition', $dispositionHeader);
 
+                    return $response;
                 } else {
-                    $response =  [
-                        'result' => false,
+                    $data =  [
+                        'result'  => false,
                         'message' => 'No se encontraron choferes vigentes'
                     ];
                 }
             } else {
-                $response =  [
-                    'result' => false,
+                $data =  [
+                    'result'  => false,
                     'message' => 'Se produjo un error... Intente de nuevo'
                 ];
             }
 
-            return new JsonResponse($response);
+            $response = new JsonResponse();
+            $response->setData($data);
+
+            return $response;
         }
 
         return $this->render('ChoferesBundle:Reporte:choferes_vigentes.html.twig', [

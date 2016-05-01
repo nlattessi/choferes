@@ -1,62 +1,45 @@
-function postForm($form, callback) {
-  /*
-   * Get all form values
-   */
-  var values = {};
-  $.each($form.serializeArray(), function(i, field) {
-    values[field.name] = field.value;
-  });
+function startSubmit($errorDiv, $reset, $submit, $loader) {
+  $errorDiv.empty();
+  $reset.prop("disabled", true);
+  $submit.prop("disabled", true);
+  $loader.show();
+}
 
-  /*
-   * Throw the form values to the server!
-   */
-  $.ajax({
-    type        : $form.attr( 'method' ),
-    url         : $form.attr( 'action' ),
-    data        : values,
-    success     : function(data) {
-      callback( data );
-    }
-  });
+function endSubmit($reset, $submit, $loader, $input) {
+  $loader.hide();
+  $reset.prop("disabled", false);
+  $submit.prop("disabled", false);
+  $input.val("");
 }
 
 (function(window, document, $) {
-    var $loader   = $('.loader-inner');
-    var $form     = $('.formReporteChoferesVigentes');
-    var $errorDiv = $('#errorMessage');
-    var $reset    = $('button[type="reset"]');
-    var $submit   = $('button[type="submit"]')
+  var $loader   = $('.loader-inner');
+  var $form     = $('.formReporteChoferesVigentes');
+  var $errorDiv = $('#errorMessage');
+  var $reset    = $('button[type="reset"]');
+  var $submit   = $('button[type="submit"]');
+  var $input    = $('.fechaVigencia');
 
-    $loader.hide();
-    $loader.loaders();
+  $loader.hide();
+  $loader.loaders();
 
-    $form.submit(function(e) {
-        e.preventDefault();
-
-        $errorDiv.empty();
-        $reset.prop("disabled", true);
-        $submit.prop("disabled", true);
-        $loader.show();
-
-        postForm( $(this), function(response) {
-            $loader.hide();
-            $reset.prop("disabled", false);
-            $submit.prop("disabled", false);
-
-            if (response.result) {
-                var $a = $("<a>");
-                $a.attr("href", response.file);
-                $("body").append($a);
-                $a.attr("download", response.name);
-                $a[0].click();
-                $a.remove();
-            } else {
-                $('<div/>', {
-                    'class': 'alert ng-isolate-scope alert-danger alert-dismissible',
-                    'html': '<div ><span class="ng-binding ng-scope">' + response.message + '</span></div>',
-                }).appendTo($errorDiv);
-            }
-        });
+  $form.submit(function(e) {
+    $.fileDownload($(this).prop('action'), {
+      successCallback: function(url) {
+        endSubmit($reset, $submit, $loader, $input);
+      },
+      failCallback: function(responseHtml, url, error) {
+        endSubmit($reset, $submit, $loader, $input);
+        var jsonResult = $.parseJSON(responseHtml.substring(responseHtml.indexOf("{"), responseHtml.lastIndexOf("}") + 1));
+        $('<div/>', {
+          'class': 'alert ng-isolate-scope alert-danger alert-dismissible',
+          'html': '<div ><span class="ng-binding ng-scope">' + jsonResult.message + '</span></div>',
+        }).appendTo($errorDiv);
+      },
+      httpMethod: "POST",
+      data: $(this).serialize()
     });
-
+    e.preventDefault();
+    startSubmit($errorDiv, $reset, $submit, $loader);
+  });
 })(window, document, jQuery);

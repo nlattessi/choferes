@@ -1,149 +1,217 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+{% form_theme comprobante_pago_form 'ChoferesBundle:Curso:fields.html.twig' %}
 
 {% block title %}
-    {{ parent() }} - {{ 'views.show.show'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
+{{ parent() }} - {{ 'views.show.show'|trans({'%entity%': 'Curso'}, 'JordiLlonchCrudGeneratorBundle') }}
 {% endblock %}
 
 {% block menu %}
-    {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
 {% endblock %}
 
 {% block pageHeader %}
-    <h1 class="page-title">Ver curso</h1>
-    <ol class="breadcrumb">
-        <li><a href="{{ path('curso') }}">Cursos</a></li>
-        <li class="active">Ver Curso</li>
-    </ol>
+<h1 class="page-title">Ver curso</h1>
+<ol class="breadcrumb">
+  <li><a href="{{ path('curso') }}">Cursos</a></li>
+  <li class="active">Ver Curso</li>
+</ol>
 {% endblock %}
 
 {% block page %}
+<div class="panel">
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+        <tbody>
+          <tr class="gradeA">
+            <td><b>ID</b></td>
+            <td>{{ curso.id }}</td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Fecha de inicio</b></td>
+            <td>{{ curso.fechaInicio|date('d/m/Y H:i') }}</td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Fecha de fin</b></td>
+            <td>{{ curso.fechaFin|date('d/m/Y H:i') }}</td>
+          </tr>
+          {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.rol != 'ROLE_PRESTADOR'%}
+            <tr class="gradeA">
+              <td><b>Prestador</b></td>
+              <td>{{ curso.prestador }}</td>
+            </tr>
+          {% endif %}
+          <tr class="gradeA">
+            <td><b>Nro de TRI</b></td>
+            <td>{{ curso.codigo }}</td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Docente</b></td>
+            <td>{{ curso.docente }}</td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Sede</b></td>
+            <td>{{ curso.sede }}</td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Tipo</b></td>
+            <td>{{ curso.tipocurso }}</td>
+          </tr>
+          <tr class="gradeA">
+            <td><b>Estado</b></td>
+            <td>{{ curso.estado }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="dt-panelfooter clearfix">
+      <a id="listado" href="{{ path('curso') }}" class="btn btn-outline btn-default margin-top-10">
+        Volver al listado
+      </a>
+      {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if app.user.rol == 'ROLE_CNTSV' %}
+          <button type="button" onclick="location.href='{{ path('curso_edit', { 'id': curso.id }) }}'" class="btn btn-success margin-top-10">
+            Editar
+          </button>
+          <a href="{{ path('curso_cancelar', { 'id': curso.id }) }}" class="btn btn-success margin-top-10 cancelarCurso">
+            Cancelar Curso
+          </a>
+        <!--Estado: Cargado-->
+        {% elseif app.user.rol == 'ROLE_PRESTADOR' and curso.estado.id == 1 and curso.fechaInicio|date('U') > "+4 days"|date('U') %}
+          <button type="button" onclick="location.href='{{ path('curso_edit', { 'id': curso.id }) }}'" class="btn btn-success margin-top-10">
+            Editar
+          </button>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
 
-
-<!-- Page -->
-        <!-- Panel Table Add Row -->
-        <div class="panel">
-            <div class="panel-body">
-
-                <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped"
-                       id="exampleAddRow">
-
-                    <tbody>
-                    <tr class="gradeA">
-                        <td><b>ID</b></td>
-                        <td>{{ entity.id }}</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td><b>Fecha de inicio</b></td>
-                        <td>{{ entity.fechaInicio|date('d/m/Y H:i') }}</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td><b>Fecha de fin</b></td>
-                        <td>{{ entity.fechaFin|date('d/m/Y H:i') }}</td>
-                    </tr>
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        {% if (app.user.rol != 'ROLE_PRESTADOR') %}
-                            <tr class="gradeA">
-                                <td><b>Prestador</b></td>
-                                <td>{{ entity.prestador }}</td>
-                            </tr>
-                        {% endif %}
-                    {% endif %}
-                    <tr class="gradeA">
-                        <td><b>Nro de TRI</b></td>
-                        <td>{{ entity.codigo }}</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td><b>Docente</b></td>
-                        <td>{{ entity.docente }}</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td><b>Sede</b></td>
-                        <td>{{ entity.sede }}</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td><b>Tipo</b></td>
-                        <td>{{ entity.tipocurso }}</td>
-                    </tr>
-                    <tr class="gradeA">
-                        <td><b>Estado</b></td>
-                        <td>{{ entity.estado }}</td>
-                    </tr>
-                    </tbody>
-                </table>
+<!-- Panel :: Comprobantes de Pago -->
+<div class="panel">
+  <div class="panel-heading">
+    <h3 class="panel-title">Comprobantes de Pago</b></h3>
+  </div>
+  <div class="panel-body">
+    {% if curso.comprobantesPago is empty %}
+      <h4 class="example-title">No hay comprobantes de pago cargados</h4>
+    {% else %}
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+          <thead>
+            <tr>
+              <th>Codigo</th>
+              <th>Monto</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for comprobantePago in curso.comprobantesPago %}
+            <tr class="gradeA">
+              <td>{{ comprobantePago.codigo }}</td>
+              <td>$ {{ comprobantePago.monto }}</td>
+              <td>
+                <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar" href="#">
+                  <i class="icon wb-edit" aria-hidden="true"></i>
+                </a>
+                <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Borrar" href="#">
+                  <i class="icon wb-trash" aria-hidden="true"></i>
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-sm-4 col-md-4">
+            <h4 class="example-title">Monto Total: <b>${{ curso.montoTotal }}</b></h3>
+          </div>
+          <div class="col-sm-4 col-md-4">
+            <h4 class="example-title">Monto Recaudado: <b>${{ curso.montoRecaudado }}</b></h3>
+          </div>
+        </div>
+      </div>
+      <div class="dt-panelfooter clearfix">
+        <button type="button" class="btn btn-success" id="showComprobantePagoForm">
+          Cargar comprobante
+        </button>
+        <div class="panel margin-top-20" id="comprobantePagoForm" style="display:none;">
+          <div class="panel-body">
+            <form action="#" method="post">
+              <div class="row">
+                {{ form_widget(comprobante_pago_form.codigo, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(comprobante_pago_form.monto, {'attr': {'class': 'form-control'}}) }}
+              </div>
+              <div class="row">
+                <div class="col-sm-6 col-md-4 margin-top-20">
+                  {{ form_widget(comprobante_pago_form.reset, {'attr': {'class': 'btn btn-outline btn-default'}}) }}
+                  <button type="submit" class="btn btn-success">Guardar</button>
                 </div>
+              </div>
+            {{ form_end(comprobante_pago_form) }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Panel :: Choferes asigandos -->
+<div class="panel">
+  <div class="panel-heading">
+    <h3 class="panel-title">Choferes asignados</b></h3>
+  </div>
+  <div class="panel-body">
+    {% if curso.choferCursos is empty %}
+      <h4 class="example-title">No hay choferes asignados</h4>
+    {% else %}
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Dni</th>
+              <th>Nota</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for choferCurso in curso.choferCursos %}
+            <tr class="gradeA">
+              <td>{{ choferCurso.chofer.nombre }}</td>
+              <td>{{ choferCurso.chofer.apellido }}</td>
+              <td>{{ choferCurso.chofer.dni }}</td>
+              <td>
+                {% if choferCurso.isAprobado %}Aprobado{% else %}Desaprobado{% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  function showForm($form) {
+    $form.slideToggle(300);
+  };
 
 
-                <div class="dt-panelfooter clearfix">
-                    <a      id="listado"
-                            href="{{ path('curso') }}"
-                            class="btn btn-outline btn-default margin-top-10">
-                        Volver al listado
-                    </a>
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                        {% if app.user.rol == 'ROLE_CNTSV' %}
-                            <button type="button"
-                                    onclick="location.href='{{ path('curso_edit', { 'id': entity.id }) }}'"
-                                    class="btn btn-success margin-top-10">Editar
-                            </button>
-                            <a
-                                    href="{{ path('curso_cancelar', { 'id': entity.id }) }}"
-                                    class="btn btn-success margin-top-10 cancelarCurso">
-                                Cancelar Curso
-                            </a>
-                        {% elseif app.user.rol == 'ROLE_PRESTADOR' and entity.estado.id == 1 and entity.fechaInicio|date('U') > "+4 days"|date('U') %} <!--Estado: Cargado-->
-                            <button type="button"
-                                    onclick="location.href='{{ path('curso_edit', { 'id': entity.id }) }}'"
-                                    class="btn btn-success margin-top-10">Editar
-                            </button>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            </div>
+  getInLocalStorage('curso');
 
-            </div>
+  (function(window, document, $) {
 
-            {% if choferesCurso is not empty %}
-            <div class="panel">
-              <div class="panel-body">
-                <!-- Estados: Confirmado, Por validar, Cancelado, Validado y con Falla de validacion -->
+    $("#showComprobantePagoForm").click(function() {
+      showForm($("#comprobantePagoForm"));
+    });
 
-                    <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Apellido</th>
-                            <th>Dni</th>
-                            <th>Nota</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for choferCurso in choferesCurso %}
-                            <tr class="gradeA">
-                                <td>{{ choferCurso.chofer.nombre }}</td>
-                                <td>{{ choferCurso.chofer.apellido }}</td>
-                                <td>{{ choferCurso.chofer.dni }}</td>
-                                <td>
-                                  {% if choferCurso.isAprobado %}Aprobado{% else %}Desaprobado{% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    </div>
+  })(window, document, jQuery);
 
-                  </div>
-                </div>
-                {% endif %}
-
-
-
-
-
-    <script type="application/javascript">
-        getInLocalStorage('curso')
-    </script>
-    <!-- End Page -->
-
-    {% endblock %}
+</script>
+{% endblock %}

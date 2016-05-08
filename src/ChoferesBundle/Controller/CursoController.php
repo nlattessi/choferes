@@ -11,6 +11,7 @@ use ChoferesBundle\Entity\ChoferCurso;
 use ChoferesBundle\Entity\Curso;
 use ChoferesBundle\Form\CursoType;
 use ChoferesBundle\Form\CursoFilterType;
+use ChoferesBundle\Form\ComprobantePagoType;
 use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 
 class CursoController extends Controller
@@ -678,28 +679,22 @@ class CursoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
+        $curso = $em->getRepository('ChoferesBundle:Curso')->find($id);
 
-        if (!$entity) {
+        if (! $curso) {
             throw $this->createNotFoundException('Unable to find Curso entity.');
-        }
-
-        if ($entity->getEstado()->getId() >= 2) { // Estados: Confirmado, Por validar, Cancelado, Validado y con Falla de validacion
-            $choferesCurso= $em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array(
-                'curso' => $entity
-            ));
-        } else {
-            $choferesCurso = null;
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
-        return $this->render('ChoferesBundle:Curso:show.html.twig', array(
-            'entity'      => $entity,
-            'choferesCurso' => $choferesCurso,
+        $comprobantePagoForm = $this->createForm(new ComprobantePagoType());
+
+        return $this->render('ChoferesBundle:Curso:show.html.twig', [
+            'curso'       => $curso,
             'delete_form' => $deleteForm->createView(),
-            'css_active' => 'curso',
-        ));
+            'comprobante_pago_form' => $comprobantePagoForm->createView(),
+            'css_active'  => 'curso',
+        ]);
     }
 
     /**

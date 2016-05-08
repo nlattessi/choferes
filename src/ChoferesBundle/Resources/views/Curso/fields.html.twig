@@ -121,3 +121,17 @@
     </div>
   </div>
 {% endblock %}
+
+{% block _choferesbundle_comprobantepago_codigo_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Código</h4>
+    {{ block('form_widget_simple') }}
+  </div>
+{% endblock %}
+
+{% block _choferesbundle_comprobantepago_monto_widget %}
+  <div class="col-sm-6 col-md-6">
+    <h4 class="example-title">Monto</h4>
+    {{ block('form_widget_simple') }}
+  </div>
+{% endblock %}

@@ -9,11 +9,11 @@
 {% endblock %}
 
 {% block pageHeader %}
-    <h1 class="page-title">Cargar Notas</h1>
-    <ol class="breadcrumb">
-        <li><a href="{{ path('curso') }}">Cursos</a></li>
-        <li class="active">Cargar Notas</li>
-    </ol>
+<h1 class="page-title">Cargar Notas</h1>
+<ol class="breadcrumb">
+  <li><a href="{{ path('curso') }}">Cursos</a></li>
+  <li class="active">Cargar Notas</li>
+</ol>
 {% endblock %}
 
 {% block page %}
@@ -31,15 +31,15 @@
           </tr>
         </thead>
         <tbody>
-          {% for entity in entities %}
+          {% for choferCurso in curso.choferCursos %}
             <tr class="gradeA">
-              <td>{{ entity.chofer.nombre }}</td>
-              <td>{{ entity.chofer.apellido }}</td>
-              <td>{{ entity.chofer.dni }}</td>
+              <td>{{ choferCurso.chofer.nombre }}</td>
+              <td>{{ choferCurso.chofer.apellido }}</td>
+              <td>{{ choferCurso.chofer.dni }}</td>
               <td class="actions">
                 <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-left">
-                  <input type="checkbox" id="inputCheckbox{{ entity.id }}" name="{{ entity.id }}" value="SI"{% if(entity.isAprobado) %}checked{% endif %}>
-                  <label for="inputCheckbox{{ entity.id }}"></label>
+                  <input type="checkbox" id="inputCheckbox{{ choferCurso.id }}" name="{{ choferCurso.id }}" value="SI"{% if choferCurso.isAprobado %}checked{% endif %}>
+                  <label for="inputCheckbox{{ choferCurso.id }}"></label>
                 </div>
               </td>
             </tr>

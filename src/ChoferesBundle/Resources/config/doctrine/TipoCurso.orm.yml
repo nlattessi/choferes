@@ -1,6 +1,9 @@
 ChoferesBundle\Entity\TipoCurso:
     type: entity
     table: tipo_curso
+    indexes:
+        canon_idx:
+            columns: [ canon_id ]
     id:
         id:
             type: integer
@@ -17,4 +20,15 @@ ChoferesBundle\Entity\TipoCurso:
             length: 45
             options:
                 fixed: false
+    manyToOne:
+        canon:
+            targetEntity: Canon
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                canon_id:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

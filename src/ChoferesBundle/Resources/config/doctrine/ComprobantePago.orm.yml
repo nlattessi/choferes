@@ -1,0 +1,34 @@
+ChoferesBundle\Entity\ComprobantePago:
+    type: entity
+    table: comprobante_pago
+    indexes:
+        curso_idx:
+            columns: [ curso_id ]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        monto:
+            type: decimal
+            precision: 10
+            scale: 2
+            options:
+                default: 0
+        codigo:
+            type: string
+            length: 45
+    manyToOne:
+        curso:
+            targetEntity: Curso
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: comprobantesPago
+            joinColumns:
+                curso_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

@@ -50,7 +50,7 @@ ChoferesBundle\Entity\ChoferCurso:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: choferCursos
             joinColumns:
                 curso_id:
                     referencedColumnName: id

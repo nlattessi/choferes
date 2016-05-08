@@ -17,6 +17,10 @@ class TipoCurso
      */
     private $nombre;
 
+    /**
+    * @var \ChoferesBundle\Entity\Canon
+    */
+    private $canon;
 
     /**
      * Get id
@@ -52,8 +56,31 @@ class TipoCurso
         return $this->nombre;
     }
 
+    /**
+    * Set Canon
+    *
+    * @param Canon $canon
+    *
+    * @return TipoCurso
+    */
+    public function setCanon(Canon $canon = null)
+    {
+        $this->canon = $canon;
+
+        return $this;
+    }
+
+    /**
+    * Get Canon
+    *
+    * @return Canon
+    */
+    public function getCanon()
+    {
+        return $this->canon;
+    }
+
     public function __toString(){
         return $this->nombre;
     }
 }
-

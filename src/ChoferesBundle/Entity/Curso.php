@@ -2,6 +2,10 @@
 
 namespace ChoferesBundle\Entity;
 
+
+use Doctrine\Common\Collections\ArrayCollection;
+
+
 /**
  * Curso
  */
@@ -72,17 +76,37 @@ class Curso
      */
     private $fechaPago;
 
-
     /**
      * @var string
      */
     private $observaciones;
 
+    /**
+     * @var ComprobantePago
+     */
+    private $comprobantesPago;
+
+    /**
+     * @var string
+     */
+    private $montoTotal;
+
+    /**
+     * @var string
+     */
+    private $montoRecaudado;
+
+    /**
+     * @var ArrayCollection
+     */
+    private $choferCursos;
+
     public function __construct()
     {
         $this->setFechaCreacion(new \DateTime());
+        $this->comprobantesPago = new ArrayCollection();
+        $this->choferCursos = new ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -398,5 +422,71 @@ class Curso
         $this->observaciones = $observaciones;
     }
 
+    /**
+     * Get comprobantesPago
+     *
+     * @return ArrayCollection
+     */
+    public function getComprobantesPago()
+    {
+        return $this->comprobantesPago;
+    }
 
+    /**
+     * Set montoTotal
+     *
+     * @param string $montoTotal
+     *
+     * @return Curso
+     */
+    public function setMontoTotal($montoTotal)
+    {
+        $this->montoTotal = $montoTotal;
+
+        return $this;
+    }
+
+    /**
+     * Get montoTotal
+     *
+     * @return string
+     */
+    public function getMontoTotal()
+    {
+        return $this->montoTotal;
+    }
+
+    /**
+     * Set montoRecaudado
+     *
+     * @param string $montoRecaudado
+     *
+     * @return Curso
+     */
+    public function setMontoRecaudado($montoRecaudado)
+    {
+        $this->montoRecaudado = $montoRecaudado;
+
+        return $this;
+    }
+
+    /**
+     * Get montoRecaudado
+     *
+     * @return string
+     */
+    public function getMontoRecaudado()
+    {
+        return $this->montoRecaudado;
+    }
+
+    /**
+     * Get choferCursos
+     *
+     * @return ArrayCollection
+     */
+    public function getChoferCursos()
+    {
+        return $this->choferCursos;
+    }
 }

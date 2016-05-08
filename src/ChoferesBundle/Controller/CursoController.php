@@ -126,17 +126,17 @@ class CursoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $choferService = $this->get('choferes.servicios.chofer');
+        $pagoService = $this->get('choferes.servicios.pago');
 
-        $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
-        $choferesCurso= $em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array(
-            'curso' => $entity
-        ));
+        $curso = $em->getRepository('ChoferesBundle:Curso')->find($id);
 
         if ($request->getMethod() == 'POST') {
 
-            if ($entity->getEstado()->getId() == self::ESTADO_CURSO_VALIDADO) {
-                foreach($choferesCurso as $choferCurso){
-                    $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
+            $pagoService->setCursoMontoTotal($curso);
+
+            if ($curso->getEstado()->getId() == self::ESTADO_CURSO_VALIDADO) {
+                foreach ($curso->getChoferCursos() as $choferCurso) {
+                    $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
                     $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
                     $em->persist($choferCurso);
 
@@ -151,12 +151,11 @@ class CursoController extends Controller
                 return $this->redirect($this->generateUrl('curso_validados', []));
             }
 
-            $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_PORVALIDAR));
-            $em->persist($entity);
+            $curso->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_PORVALIDAR));
+            $em->persist($curso);
 
-            foreach($choferesCurso as $choferCurso){
-
-                $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
+            foreach ($curso->getChoferCursos() as $choferCurso) {
+                $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
                 $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
                 $em->persist($choferCurso);
 
@@ -169,19 +168,17 @@ class CursoController extends Controller
 
             $em->flush();
 
-            return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', array(
+            return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', [
                 'titulo' => "Las notas fueron cargadas con éxito",
                 'mensaje' => "El curso está ahora pendiente de validación por la CNSVT",
                 'css_active' => 'curso'
-            ));
+            ]);
         }
 
-
-        return $this->render('ChoferesBundle:Curso:cargarnotas.html.twig', array(
-            'curso'=> $entity,
-            'entities' => $choferesCurso,
+        return $this->render('ChoferesBundle:Curso:cargarnotas.html.twig', [
+            'curso'=> $curso,
             'css_active' => 'curso',
-        ));
+        ]);
     }
 
     public function revisarDocumentacionAction(Request $request, $id)

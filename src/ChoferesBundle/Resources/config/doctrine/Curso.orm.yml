@@ -69,6 +69,18 @@ ChoferesBundle\Entity\Curso:
             length: 500
             options:
                 fixed: false
+        montoTotal:
+            type: decimal
+            precision: 10
+            scale: 2
+            options:
+                default: 0
+        montoRecaudado:
+            type: decimal
+            precision: 10
+            scale: 2
+            options:
+                default: 0
     manyToOne:
         docente:
             targetEntity: Docente
@@ -120,4 +132,11 @@ ChoferesBundle\Entity\Curso:
                 tipoCurso_id:
                     referencedColumnName: id
             orphanRemoval: false
+    oneToMany:
+        comprobantesPago:
+            targetEntity: ComprobantePago
+            mappedBy: curso
+        choferCursos:
+            targetEntity: ChoferCurso
+            mappedBy: curso
     lifecycleCallbacks: {  }

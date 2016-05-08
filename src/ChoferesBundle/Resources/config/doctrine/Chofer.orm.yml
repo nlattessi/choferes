@@ -1,6 +1,11 @@
 ChoferesBundle\Entity\Chofer:
     type: entity
     table: chofer
+    indexes:
+        apellido_idx:
+            columns: [ apellido ]
+        dni_idx:
+            columns: [ dni ]
     id:
         id:
             type: integer

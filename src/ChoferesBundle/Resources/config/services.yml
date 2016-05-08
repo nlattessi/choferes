@@ -20,3 +20,7 @@ services:
         class: ChoferesBundle\Servicios\CursoService
         arguments:
             entityManager: @doctrine.orm.entity_manager
+    choferes.servicios.pago:
+        class: ChoferesBundle\Servicios\PagoService
+        arguments:
+            entityManager: @doctrine.orm.entity_manager

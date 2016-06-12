@@ -101,7 +101,7 @@
           <thead>
             <tr>
               <th>Codigo</th>
-              <th>Monto</th>
+              <th>Monto ($)</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -139,10 +139,10 @@
         </button>
         <div class="panel margin-top-20" id="comprobantePagoForm" style="display:none;">
           <div class="panel-body">
-            <form action="#" method="post">
+            <form action="{{ path('curso_create_comprobante_pago', { 'id': curso.id }) }}" method="post">
               <div class="row">
                 {{ form_widget(comprobante_pago_form.codigo, {'attr': {'class': 'form-control'}}) }}
-                {{ form_widget(comprobante_pago_form.monto, {'attr': {'class': 'form-control'}}) }}
+                {{ form_widget(comprobante_pago_form.monto, {'attr': {'class': 'form-control', 'placeholder': 'XXXX.YY'}}) }}
               </div>
               <div class="row">
                 <div class="col-sm-6 col-md-4 margin-top-20">

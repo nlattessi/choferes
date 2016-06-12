@@ -5,14 +5,24 @@ namespace ChoferesBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class ComprobantePagoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('monto')
-            ->add('codigo')
+            ->add('monto', 'text', [
+                'constraints' => [
+                    new Assert\Regex(['pattern' => '/^[0-9]+(\.[0-9]{1,2})?$/', 'message' => 'Monto sólo con caracteres numericos y cáracter ","']),
+                ],
+                'error_bubbling' => true,
+                'invalid_message' => 'En Monto sólo debe ingresar numeros',
+                'required' => true,
+            ])
+            ->add('codigo', 'text', [
+                'required' => true,
+            ])
             ->add('reset', 'reset', ['label' => 'Limpiar '])
         ;
     }

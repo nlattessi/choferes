@@ -92,3 +92,8 @@ curso_documentacion:
 curso_carga_masiva_tri:
     pattern: /carga_masiva_tri
     defaults: { _controller: "ChoferesBundle:Curso:cargaMasivaTri" }
+
+curso_create_comprobante_pago:
+    pattern:  /{id}/create_comprobante_pago
+    defaults: { _controller: "ChoferesBundle:ComprobantePago:create" }
+    requirements: { _method: post }

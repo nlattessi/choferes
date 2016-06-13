@@ -111,10 +111,13 @@
               <td>{{ comprobantePago.codigo }}</td>
               <td>$ {{ comprobantePago.monto }}</td>
               <td>
-                <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar" href="#">
+                <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar" href="{{ path('curso_comprobantepago_edit', { 'idCurso': curso.id, 'idComprobantePago': comprobantePago.id }) }}">
                   <i class="icon wb-edit" aria-hidden="true"></i>
                 </a>
-                <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Borrar" href="#">
+  
+                <button type="button" data-toggle="modal" data-target="#myModal" data-id-curso="{{ curso.id }}" data-id-comprobante-pago="{{ comprobantePago.id }}" data-codigo="{{ comprobantePago.codigo }}" data-monto="{{ comprobantePago.monto }}">Launch modal</button>
+
+                <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row deleteComprobantePago" data-toggle="tooltip" data-original-title="Borrar" href="{{ path('curso_comprobantepago_delete', { 'idCurso': curso.id, 'idComprobantePago': comprobantePago.id }) }}">
                   <i class="icon wb-trash" aria-hidden="true"></i>
                 </a>
               </td>
@@ -126,20 +129,21 @@
       <div class="panel-footer">
         <div class="row">
           <div class="col-sm-4 col-md-4">
-            <h4 class="example-title">Monto Total: <b>${{ curso.montoTotal }}</b></h3>
+            <h4 class="example-title">Monto Total: <b>${{ curso.montoTotal }}</b></h4>
           </div>
           <div class="col-sm-4 col-md-4">
-            <h4 class="example-title">Monto Recaudado: <b>${{ curso.montoRecaudado }}</b></h3>
+            <h4 class="example-title">Monto Recaudado: <b>${{ curso.montoRecaudado }}</b></h4>
           </div>
         </div>
       </div>
+    {% endif %}
       <div class="dt-panelfooter clearfix">
         <button type="button" class="btn btn-success" id="showComprobantePagoForm">
           Cargar comprobante
         </button>
         <div class="panel margin-top-20" id="comprobantePagoForm" style="display:none;">
           <div class="panel-body">
-            <form action="{{ path('curso_create_comprobante_pago', { 'id': curso.id }) }}" method="post">
+            <form action="{{ path('curso_comprobantepago_create', { 'id': curso.id }) }}" method="post">
               <div class="row">
                 {{ form_widget(comprobante_pago_form.codigo, {'attr': {'class': 'form-control'}}) }}
                 {{ form_widget(comprobante_pago_form.monto, {'attr': {'class': 'form-control', 'placeholder': 'XXXX.YY'}}) }}
@@ -154,7 +158,6 @@
           </div>
         </div>
       </div>
-    {% endif %}
   </div>
 </div>
 
@@ -194,6 +197,35 @@
     {% endif %}
   </div>
 </div>
+
+<!-- Modal :: Editar comprobante pago -->
+<div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form id="edit-form" action="{{ path('curso_comprobantepago_edit', { 'idCurso': 'curso.id', 'idComprobantePago': 'comprobantePago.id' }) }}">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Editar Comprobante</h4>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Código</label>
+            <input type="text" class="form-control" id="edit-comprobante-codigo">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Monto ($)</label>
+            <input type="text" class="form-control" id="edit-comprobante-monto">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-success" id="edit-button-save">Guardar cambios</button>
+      </div>
+    </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 {% endblock %}
 
 {% block javascript %}
@@ -202,13 +234,68 @@
     $form.slideToggle(300);
   };
 
-
   getInLocalStorage('curso');
 
   (function(window, document, $) {
 
     $("#showComprobantePagoForm").click(function() {
       showForm($("#comprobantePagoForm"));
+    });
+
+    // $('#myModal').on('show.bs.modal', function (event) {
+    //   var button = $(event.relatedTarget) // Button that triggered the modal
+    //   var idCurso = button.data('id-curso') // Extract info from data-* attributes
+    //   var idComprobantePago = button.data('id-comprobante-pago') // Extract info from data-* attributes
+    //   var codigo = button.data('codigo') // Extract info from data-* attributes
+    //   var monto = button.data('monto') // Extract info from data-* attributes
+
+    //   console.log(idCurso);
+    //   console.log(idComprobantePago);
+    //   console.log(codigo);
+    //   console.log(monto);
+
+    //   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    //   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    //   var modal = $(this)
+    //   modal.find('#edit-comprobante-codigo').val(codigo);
+    //   modal.find('#edit-comprobante-monto').val(monto);
+    //   //modal.find('.modal-title').text('New message to ' + recipient)
+    //   //modal.find('.modal-body input').val(recipient)
+    // });
+
+    // $('#edit-form').on('submit', function(e) {
+    //   e.stopPropagation();
+    //   e.preventDefault();
+    //   $form = $(this);
+    //   console.log($form.attr('action'));
+    // });
+
+    // $("#edit-button-save").on("click", function(e) {
+    //   e.stopPropagation();
+    //   e.preventDefault();
+
+    //   $form = $(this);
+    //   console.log($form.attr('action'));
+
+    //   // var modal = $(this);
+    //   // console.log(modal);
+    // });
+
+    // $(".editComprobantePago").on("click",function(e) {
+    //   e.stopPropagation();
+    //   e.preventDefault();
+    // });
+
+     $(".deleteComprobantePago").on("click",function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var $confirm = confirm('¿Se encuentra seguro de borrar este comprobante?');
+      if ($confirm) {
+        var $href = this.href;
+        var $form = $('<form action="' + $href + '" method="post" id="deleteComprobantePago"></form>');
+        $("body").append($form);
+        $("#deleteComprobantePago").submit();
+      }
     });
 
   })(window, document, jQuery);

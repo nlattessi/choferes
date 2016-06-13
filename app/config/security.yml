@@ -32,6 +32,7 @@ security:
 
         - { path: ^/chofer, roles: [ROLE_ADMIN, ROLE_CNTSV, ROLE_PRESTADOR] }
         - { path: ^/chofercurso, roles: [ROLE_ADMIN] }
+        - { path: ^/comprobantepago, roles: [ROLE_ADMIN, ROLE_CNTSV] }
         - { path: ^/curso, roles: [ROLE_ADMIN, ROLE_PRESTADOR, ROLE_CNTSV] }
         - { path: ^/docente, roles: [ROLE_ADMIN, ROLE_PRESTADOR, ROLE_CNTSV] }
         - { path: ^/estadocurso, roles: [ROLE_ADMIN] }

@@ -1,0 +1,54 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+  {{ parent() }} -  Editar Comprobante de Pago
+{% endblock %}
+
+{% block menu %}
+  {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block pageHeader %}
+  <h1 class="page-title">Editar Comprobante de Pago</h1>
+  <ol class="breadcrumb">
+    <li><a href="{{ path('curso') }}">Cursos</a></li>
+    <li><a href="#">IdCurso</a></li>
+    <li><a href="#">Comprobantes</a></li>
+    <li><a href="#">IdComprobantePago</a></li>
+    <li class="active">Editar</li>
+  </ol>
+{% endblock %}
+
+{% block page %}
+<div class="panel">
+  <div class="panel-body">
+    <form action="{{ path('curso_comprobantepago_update', { 'idCurso': curso.id, 'idComprobantePago': comprobantePago.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+    <div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
+      <tbody>
+        <tr class="gradeA">
+          <td><b>Código</td>
+          <td>{{ form_widget(edit_form.codigo, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+        <tr class="gradeA">
+          <td><b>Monto</td>
+          <td>{{ form_widget(edit_form.monto, {'attr': {'class': 'form-control'}}) }}</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="dt-panelfooter clearfix">
+      <button type="submit" class="btn btn btn-success margin-top-10">Guardar</button>
+      <a id="listado" href="{{ path('curso_show', { 'id': curso.id }) }}" class="btn btn-outline btn-default margin-top-10">Volver al curso</a>
+    </div>
+    {{ form_widget(edit_form._token) }}
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script type="application/javascript">
+  getInLocalStorage('docente')
+</script>
+{% endblock %}

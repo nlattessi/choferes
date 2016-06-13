@@ -68,6 +68,7 @@ class ComprobantePagoController extends Controller
             'curso'           => $curso,
             'comprobantePago' => $comprobantePago,
             'edit_form'       => $editForm->createView(),
+            'css_active'      => 'curso',
         ]);
     }
 
@@ -94,36 +95,23 @@ class ComprobantePagoController extends Controller
             
             $this->get('session')->getFlashBag()->add('success', 'Comprobante de Pago actualizado.');
 
-            
-
+            return $this->redirect($this->generateUrl('curso_show', ['id' => $idCurso]));
         } else {
-            foreach ($comprobantePagoForm->getErrors() as $error) {
-                $this->get('session')->getFlashBag()->add(
-                        'error',
-                        'Comprobante Pago :: ' . $error->getMessage()
-                    );
+            foreach ($editForm->getErrors() as $error) {
+                $this->get('session')->getFlashBag()->add('error', $error->getMessage());
             }
 
             $errors = $this->get('validator')->validate($comprobantePago);
             foreach($errors as $error) {
-                $this->get('session')->getFlashBag()->add('error', 'Comprobante Pago ::: ' . $error->getMessage());
+                $this->get('session')->getFlashBag()->add('error', $error->getMessage());
             }
         }
-
-        // if ($editForm->isValid()) {
-        //     $em->persist($entity);
-        //     $em->flush();
-        //     $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
-
-        //     return $this->redirect($this->generateUrl('docente_edit', array('id' => $id)));
-        // } else {
-        //     $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
-        // }
 
         return $this->render('ChoferesBundle:ComprobantePago:edit.html.twig', [
             'curso'           => $curso,
             'comprobantePago' => $comprobantePago,
             'edit_form'       => $editForm->createView(),
+            'css_active'      => 'curso',
         ]);
     }
 

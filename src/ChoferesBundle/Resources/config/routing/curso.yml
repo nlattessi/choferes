@@ -104,7 +104,7 @@ curso_comprobantepago_edit:
 
 curso_comprobantepago_update:
     pattern:  /{idCurso}/comprobantepago/{idComprobantePago}/update
-    defaults: { _controller: "ChoferesBundle:Docente:update" }
+    defaults: { _controller: "ChoferesBundle:ComprobantePago:update" }
     requirements: { _method: post|put }
 
 curso_comprobantepago_delete:

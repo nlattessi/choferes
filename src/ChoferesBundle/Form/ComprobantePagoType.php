@@ -14,7 +14,7 @@ class ComprobantePagoType extends AbstractType
         $builder
             ->add('monto', 'text', [
                 'constraints' => [
-                    new Assert\Regex(['pattern' => '/^[0-9]+(\.[0-9]{1,2})?$/', 'message' => 'Monto sólo con caracteres numericos y cáracter ","']),
+                    new Assert\Regex(['pattern' => '/^[0-9]+(\.[0-9]{1,2})?$/', 'message' => 'Ingresar el monto sólo con caracteres numéricos y centavos separados con el cáracter "."']),
                 ],
                 'error_bubbling' => true,
                 'invalid_message' => 'En Monto sólo debe ingresar numeros',

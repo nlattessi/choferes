@@ -12,9 +12,9 @@
   <h1 class="page-title">Editar Comprobante de Pago</h1>
   <ol class="breadcrumb">
     <li><a href="{{ path('curso') }}">Cursos</a></li>
-    <li><a href="#">IdCurso</a></li>
-    <li><a href="#">Comprobantes</a></li>
-    <li><a href="#">IdComprobantePago</a></li>
+    <li><a href="{{ path('curso_show', { 'id': curso.id }) }}">{{ curso.id }}</a></li>
+    <li>Comprobantes</li>
+    <li>{{ comprobantePago.id }}</li>
     <li class="active">Editar</li>
   </ol>
 {% endblock %}
@@ -31,7 +31,7 @@
           <td>{{ form_widget(edit_form.codigo, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
         <tr class="gradeA">
-          <td><b>Monto</td>
+          <td><b>Monto ($)</td>
           <td>{{ form_widget(edit_form.monto, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
       </tbody>

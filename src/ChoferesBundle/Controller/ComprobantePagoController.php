@@ -26,8 +26,11 @@ class ComprobantePagoController extends Controller
 
         if ($comprobantePagoForm->isValid()) {
             $comprobantePago->setCurso($curso);
+
+            $curso->incrementarMontoRecaudado($comprobantePago->getMonto());
             
             $em->persist($comprobantePago);
+            $em->persist($curso);
             $em->flush();    
             
             $this->get('session')->getFlashBag()->add('success', 'Comprobante de pago cargado.');
@@ -86,11 +89,17 @@ class ComprobantePagoController extends Controller
             throw $this->createNotFoundException('Unable to find ComprobantePago entity.');
         }
 
+        $montoAnterior = $comprobantePago->getMonto();
+
         $editForm = $this->createForm(new ComprobantePagoType(), $comprobantePago);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
+            $curso->disminuirMontoRecaudado($montoAnterior);
+            $curso->incrementarMontoRecaudado($comprobantePago->getMonto());
+
             $em->persist($comprobantePago);
+            $em->persist($curso);
             $em->flush();    
             
             $this->get('session')->getFlashBag()->add('success', 'Comprobante de Pago actualizado.');
@@ -118,13 +127,21 @@ class ComprobantePagoController extends Controller
     public function deleteAction(Request $request, $idCurso, $idComprobantePago)
     {
         $em = $this->getDoctrine()->getManager();
-        $comprobantePago = $em->getRepository('ChoferesBundle:ComprobantePago')->find($idComprobantePago);
 
+        $curso = $em->getRepository('ChoferesBundle:Curso')->find($idCurso);
+        if (! $curso) {
+            throw $this->createNotFoundException('Unable to find Curso entity.');
+        }
+
+        $comprobantePago = $em->getRepository('ChoferesBundle:ComprobantePago')->find($idComprobantePago);
         if (! $comprobantePago) {
             throw $this->createNotFoundException('Unable to find ComprobantePago entity.');
         }
 
+        $curso->disminuirMontoRecaudado($comprobantePago->getMonto());
+
         $em->remove($comprobantePago);
+        $em->persist($curso);
         $em->flush();
 
         $this->get('session')->getFlashBag()->add('success', 'Comprobante eliminado satisfactoriamente.');

@@ -489,4 +489,18 @@ class Curso
     {
         return $this->choferCursos;
     }
+
+    public function incrementarMontoRecaudado($valor)
+    {
+        $this->montoRecaudado = $this->montoRecaudado + $valor;
+
+        return $this;
+    }
+
+    public function disminuirMontoRecaudado($valor)
+    {
+        $this->montoRecaudado = $this->montoRecaudado - $valor;
+
+        return $this;
+    }
 }

@@ -13,3 +13,8 @@ reporte_choferes_vigentes:
 reporte_cursos_por_tipo:
     pattern:  /cursosPorTipo
     defaults: { _controller: "ChoferesBundle:Reporte:cursosPorTipo" }
+
+reporte_cursos_por_tipo_excel:
+    pattern:  /cursosPorTipo/excel
+    defaults: { _controller: "ChoferesBundle:Reporte:cursosPorTipoExcel" }
+    requirements: { _method: post }

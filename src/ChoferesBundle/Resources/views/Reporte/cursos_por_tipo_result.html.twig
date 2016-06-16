@@ -17,6 +17,8 @@ Reporte Cursos por tipo
 {% endblock %}
 
 {% block page %}
+<div id="errorMessage"></div>
+{#
 <div class="panel">
   <div class="panel-body">
     <h4 class="example-title">
@@ -65,66 +67,183 @@ Reporte Cursos por tipo
     </table>
   </div>
 </div>
+#}
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Reporte para cursos del tipo <b>{{ tipoCurso }}</b> con fecha de inicio entre <b>{{ fechaInicioDesde }}</b> y <b>{{ fechaInicioHasta }}</b></h3>
+  </div>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-body">
+  {% if (cursos|length) > 0 %}
+  <div class="row">
+    <div class="col-md-3"><p>Cursos:</p></div>
+    <div class="col-md-3"><h5><strong>{{ cursos|length }}</strong> cursos.</h5></div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"><p>Monto total a recaudar ($):</p></div>
+    <div class="col-md-3"><h5><strong>{{ montoTotal }}</strong> $</h5></div>
+  </div>
+  <div class="row">
+    <div class="col-md-3"><p>Monto total recaudado ($):</p></div>
+    <div class="col-md-3"><h5><strong>{{ montoRecaudado }}</strong> $</h5></div>
+  </div>
+  </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-sm-2 col-md-2 margin-top-20">
+          <button id="exportar-excel" class="btn btn-primary" data-href="{{ path('reporte_cursos_por_tipo_excel') }}" data-from="{{ fechaInicioDesde }}" data-to="{{ fechaInicioHasta }}" data-type="{{ tipoCurso }}">
+          Exportar a Excel
+        </button>
+        </div>
+        <div class="col-sm-1 col-md-1 margin-top-30">
+          <div class="loader-inner ball-spin-fade-loader"></div>  
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <h3 class="example-title">No hay cursos que cumplan los criterios ingresados.</h3>
+    </div>
+  {% endif %}
+</div>
+
+{% if (cursos|length) > 0 %}
+  <div class="panel panel-primary">
+    <div class="panel-body">
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Fecha de inicio</th>
+            <th>Fecha de fin</th>
+            <th>Prestador</th>
+            <th>Nro de TRI</th>
+            <th>Estado</th>
+            <th>Sede</th>
+            <th>Monto a recaudar ($)</th>
+            <th>Monto recaudado ($)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for curso in cursos %}
+          <tr class="gradeA">
+            <td><a href="{{ path('curso_show', {'id': curso.id}) }}">{{ curso.id }}</a></td>
+            <td>{{ curso.fechaInicio|date("d/m/Y") }}</td>
+            <td>{{ curso.fechaFin|date("d/m/Y") }}</td>
+            <td>{{ curso.prestador }}</td>
+            <td>{{ curso.codigo }}</td>
+            <td>{{ curso.estado }}</td>
+            <td>{{ curso.sede }}</td>
+            <td>{{ curso.montoTotal }} $</td>
+            <td>{{ curso.montoRecaudado }} $</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endif %}
 {% endblock %}
 
 {% block javascript %}
 <script>
 (function(window, document, $) {
-  // Setup - add a text input to each footer cell
-  $('#dataTable tfoot th').each(function() {
-    var title = $(this).text();
-    $(this).html('<input type="text" placeholder="' + title + '" />');
+  var $loader           = $('.loader-inner');
+  var $errorDiv         = $('#errorMessage');
+  var $exportarExcelBtn = $('#exportar-excel');
+  $loader.hide();
+  $loader.loaders();
+  
+  $exportarExcelBtn.on("click",function(e) {
+    var $form = $('<form></form>');
+    $form.append('<input type="text" name="from" value="' + $(this).data('from') + '" />');
+    $form.append('<input type="text" name="to" value="' + $(this).data('to') + '" />');
+    $form.append('<input type="text" name="type" value="' + $(this).data('type') + '" />');
+
+    $.fileDownload($(this).data('href'), {
+      prepareCallback: function(url) {
+        $errorDiv.empty();
+        $exportarExcelBtn.prop("disabled", true);
+        $loader.show();
+      },
+      successCallback: function(url) {
+        $loader.hide();
+        $exportarExcelBtn.prop("disabled", false);
+      },
+      failCallback: function(responseHtml, url, error) {
+        $loader.hide();
+        $exportarExcelBtn.prop("disabled", false);
+        var jsonResult = $.parseJSON(responseHtml.substring(responseHtml.indexOf("{"), responseHtml.lastIndexOf("}") + 1));
+        $('<div/>', {
+          'class': 'alert ng-isolate-scope alert-danger alert-dismissible',
+          'html': '<div ><span class="ng-binding ng-scope">' + jsonResult.message + '</span></div>',
+        }).appendTo($errorDiv);
+      },
+      httpMethod: "POST",
+      data: $form.serialize()
+    });
+
+    return false;
   });
+
+
+  // Setup - add a text input to each footer cell
+  // $('#dataTable tfoot th').each(function() {
+  //   var title = $(this).text();
+  //   $(this).html('<input type="text" placeholder="' + title + '" />');
+  // });
 
   // DataTable
-  var table = $('#dataTable').DataTable({
-    responsive: true,
-    dom: 'Bfrtip',
-    buttons: [
-      {
-        extend: 'excel',
-        text: 'Exportar a Excel',
-        filename: 'Cursos_por_tipo_' + moment().format("D-M-Y")
-      }
-    ],
-    "language": {
-      "sProcessing":     "Procesando...",
-      "sLengthMenu":     "Mostrar _MENU_ registros",
-      "sZeroRecords":    "No se encontraron resultados",
-      "sEmptyTable":     "Ningún dato disponible en esta tabla",
-      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-      "sInfoPostFix":    "",
-      "sSearch":         "Buscar:",
-      "sUrl":            "",
-      "sInfoThousands":  ",",
-      "sLoadingRecords": "Cargando...",
-      "oPaginate": {
-        "sFirst":    "Primero",
-        "sLast":     "Último",
-        "sNext":     "Siguiente",
-        "sPrevious": "Anterior"
-      },
-      "oAria": {
-        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-      }
-    }
-  });
+  // var table = $('#dataTable').DataTable({
+  //   responsive: true,
+  //   dom: 'Bfrtip',
+  //   buttons: [
+  //     {
+  //       extend: 'excel',
+  //       text: 'Exportar a Excel',
+  //       filename: 'Cursos_por_tipo_' + moment().format("D-M-Y")
+  //     }
+  //   ],
+  //   "language": {
+  //     "sProcessing":     "Procesando...",
+  //     "sLengthMenu":     "Mostrar _MENU_ registros",
+  //     "sZeroRecords":    "No se encontraron resultados",
+  //     "sEmptyTable":     "Ningún dato disponible en esta tabla",
+  //     "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+  //     "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
+  //     "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+  //     "sInfoPostFix":    "",
+  //     "sSearch":         "Buscar:",
+  //     "sUrl":            "",
+  //     "sInfoThousands":  ",",
+  //     "sLoadingRecords": "Cargando...",
+  //     "oPaginate": {
+  //       "sFirst":    "Primero",
+  //       "sLast":     "Último",
+  //       "sNext":     "Siguiente",
+  //       "sPrevious": "Anterior"
+  //     },
+  //     "oAria": {
+  //       "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+  //       "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+  //     }
+  //   }
+  // });
 
   // Apply the search
-  table.columns().every(function() {
-    var that = this;
+  // table.columns().every(function() {
+  //   var that = this;
 
-    $('input', this.footer()).on('keyup change', function() {
-      if (that.search() !== this.value) {
-        that
-          .search(this.value)
-          .draw();
-      }
-    });
-  });
+  //   $('input', this.footer()).on('keyup change', function() {
+  //     if (that.search() !== this.value) {
+  //       that
+  //         .search(this.value)
+  //         .draw();
+  //     }
+  //   });
+  // });
 })(window, document, jQuery);
 </script>
 {% endblock %}

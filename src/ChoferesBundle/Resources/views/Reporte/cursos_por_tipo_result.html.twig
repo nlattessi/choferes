@@ -71,11 +71,14 @@ Reporte Cursos por tipo
 
 <div class="panel panel-primary">
   <div class="panel-heading">
-    <h3 class="panel-title">Reporte para cursos del tipo <b>{{ tipoCurso }}</b> con fecha de inicio entre <b>{{ fechaInicioDesde }}</b> y <b>{{ fechaInicioHasta }}</b></h3>
+    <h3 class="panel-title">Reporte para cursos del tipo <b>{#{{ tipoCurso }}#}</b> con fecha de inicio entre <b>{{ fechaInicioDesde }}</b> y <b>{{ fechaInicioHasta }}</b></h3>
   </div>
 </div>
 
 <div class="panel panel-primary">
+<div class="panel-heading">
+      Cursos
+    </div>
   <div class="panel-body">
   {% if (cursos|length) > 0 %}
   <div class="row">
@@ -94,7 +97,7 @@ Reporte Cursos por tipo
     <div class="panel-footer">
       <div class="row">
         <div class="col-sm-2 col-md-2 margin-top-20">
-          <button id="exportar-excel" class="btn btn-primary" data-href="{{ path('reporte_cursos_por_tipo_excel') }}" data-from="{{ fechaInicioDesde }}" data-to="{{ fechaInicioHasta }}" data-type="{{ tipoCurso }}">
+          <button id="exportar-excel" class="btn btn-primary" data-href="{{ path('reporte_cursos_por_tipo_excel') }}" data-from="{{ fechaInicioDesde }}" data-to="{{ fechaInicioHasta }}" data-type="{# {{ tipoCurso }} #}">
           Exportar a Excel
         </button>
         </div>
@@ -111,10 +114,51 @@ Reporte Cursos por tipo
 
 {% if (cursos|length) > 0 %}
   <div class="panel panel-primary">
+  <div class="panel-heading">
+      Cursos
+    </div>
     <div class="panel-body">
       <table class="table table-bordered table-hover table-striped">
         <thead>
           <tr>
+            <th>Tipo de curso</th>
+            <th>Cantidad de cursos</th>
+            <th>Cantidad de alumnos</th>
+            <th>Monto total a recaudar ($):</th>
+            <th>Monto total recaudado ($):</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="gradeA">
+            <td>Básico</td>
+            <td>{{ cursosBasicos|length }}</td>
+            <td>0</td>
+            <td>{{ montoTotalBasicos}} $</td>
+            <td>{{ montoRecaudadoBasicos}} $</td>
+          </tr>
+          <tr class="gradeA">
+            <td>Complementario</td>
+            <td>{{ cursosComplementarios|length }}</td>
+            <td>0</td>
+            <td>{{ montoTotalComplementarios}} $</td>
+            <td>{{ montoRecaudadoComplementarios}} $</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endif %}
+
+{% if (cursos|length) > 0 %}
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      Cursos
+    </div>
+    <div class="panel-body">
+      <table class="table table-bordered table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Tipo de curso</th>
             <th>Id</th>
             <th>Fecha de inicio</th>
             <th>Fecha de fin</th>
@@ -129,6 +173,7 @@ Reporte Cursos por tipo
         <tbody>
           {% for curso in cursos %}
           <tr class="gradeA">
+            <td>{{ curso.tipocurso }}</td>
             <td><a href="{{ path('curso_show', {'id': curso.id}) }}">{{ curso.id }}</a></td>
             <td>{{ curso.fechaInicio|date("d/m/Y") }}</td>
             <td>{{ curso.fechaFin|date("d/m/Y") }}</td>

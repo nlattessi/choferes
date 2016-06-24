@@ -37,7 +37,19 @@ class CursoService
         );
 
         return $cursos;
+    }
 
+    public function getCursosFilterByFechaInicio($fechaInicioDesde, $fechaInicioHasta)
+    {
+        $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaInicioDesde);
+        $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaInicioHasta);
+
+        $cursos = $this->em->getRepository('ChoferesBundle:Curso')->findCursosFilterByFechaInicio(
+            $fechaDesde,
+            $fechaHasta
+        );
+
+        return $cursos;
     }
 
     private function updateCursoTri($cursoId, $tri)

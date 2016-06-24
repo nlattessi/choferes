@@ -512,4 +512,9 @@ class Curso
 
         return false;
     }
+
+    public function esTipo($tipo)
+    {
+        return $this->getTipoCurso()->getNombre() === $tipo;
+    }
 }

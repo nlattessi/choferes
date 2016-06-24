@@ -99,27 +99,48 @@ class ReporteController extends Controller
             $form->bind($request);
 
             if ($form->isValid()) {
-                $tipoCurso = $form->get('tipoCurso')->getData();
+                //$tipoCurso = $form->get('tipoCurso')->getData();
                 $fechaInicioDesde = $form->get('fechaInicioDesde')->getData();
                 $fechaInicioHasta = $form->get('fechaInicioHasta')->getData();
 
                 $cursoService =  $this->get('choferes.servicios.curso');
-                $cursos = $cursoService->getCursosPorTipoFilterByFechaInicio(
-                    $tipoCurso,
+                //$cursos = $cursoService->getCursosPorTipoFilterByFechaInicio(
+                $cursos = $cursoService->getCursosFilterByFechaInicio(
+                    // $tipoCurso,
                     $fechaInicioDesde,
                     $fechaInicioHasta
                 );
 
+                $cursosBasicos = array_filter($cursos, function($curso) {
+                    return $curso->esTipo('Basico');
+                });
+
+                $cursosComplementarios = array_filter($cursos, function($curso) {
+                    return $curso->esTipo('Complementario');
+                });
+
                 $montoTotal = $this->getMontoTotalCursos($cursos);
                 $montoRecaudado = $this->getMontoRecaudadoCursos($cursos);
 
+                $montoTotalBasicos = $this->getMontoTotalCursos($cursosBasicos);
+                $montoRecaudadoBasicos = $this->getMontoRecaudadoCursos($cursosBasicos);
+
+                $montoTotalComplementarios = $this->getMontoTotalCursos($cursosComplementarios);
+                $montoRecaudadoComplementarios = $this->getMontoRecaudadoCursos($cursosComplementarios);
+
                 return $this->render('ChoferesBundle:Reporte:cursos_por_tipo_result.html.twig', [
-                   'tipoCurso' => $tipoCurso,
+                   // 'tipoCurso' => $tipoCurso,
                    'fechaInicioDesde' => $fechaInicioDesde,
                    'fechaInicioHasta' => $fechaInicioHasta,
                    'cursos' => $cursos,
                    'montoTotal' => $montoTotal,
                    'montoRecaudado' => $montoRecaudado,
+                   'cursosBasicos' => $cursosBasicos,
+                   'cursosComplementarios' => $cursosComplementarios,
+                   'montoTotalBasicos' => $montoTotalBasicos,
+                   'montoRecaudadoBasicos' => $montoRecaudadoBasicos,
+                   'montoTotalComplementarios' => $montoTotalComplementarios,
+                   'montoRecaudadoComplementarios' => $montoRecaudadoComplementarios,
                    'css_active' => 'reporte_cursos_por_tipo',
                 ]);
             }

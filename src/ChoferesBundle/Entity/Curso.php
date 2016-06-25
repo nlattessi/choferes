@@ -82,7 +82,7 @@ class Curso
     private $observaciones;
 
     /**
-     * @var ComprobantePago
+     * @var ArrayCollection
      */
     private $comprobantesPago;
 
@@ -430,6 +430,10 @@ class Curso
     public function getComprobantesPago()
     {
         return $this->comprobantesPago;
+    }
+
+    public function addComprobantePago($comprobante){
+        $this->comprobantesPago->add($comprobante);
     }
 
     /**

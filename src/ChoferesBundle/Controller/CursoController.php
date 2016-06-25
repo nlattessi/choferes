@@ -1,6 +1,7 @@
 <?php
 namespace ChoferesBundle\Controller;
 
+use ChoferesBundle\Entity\ComprobantePago;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -22,6 +23,7 @@ class CursoController extends Controller
     const ESTADO_CURSO_CANCELADO = 4;
     const ESTADO_CURSO_VALIDADO = 5;
     const ESTADO_CURSO_FALLAVALIDACION = 6;
+    const ESTADO_CURSO_PORPAGAR = 7;
 
     /**
      * Lists all Curso entities.
@@ -152,19 +154,22 @@ class CursoController extends Controller
                 return $this->redirect($this->generateUrl('curso_validados', []));
             }
 
-            $curso->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_PORVALIDAR));
+            $curso->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_PORPAGAR));
             $em->persist($curso);
 
-            foreach ($curso->getChoferCursos() as $choferCurso) {
-                $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
-                $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
-                $em->persist($choferCurso);
+            /*
+             * Marco curso como aprobado si corresponde y lo pongo en estado PORPAGAR
+             * */
 
+            foreach ($curso->getChoferCursos() as $choferCurso) {
+                /*$choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
                 $choferService->updateTieneCursoBasico(
                     $choferCurso->getChofer(),
                     $choferCurso->getCurso(),
                     $choferCurso
-                );
+                );*/
+                $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
+                $em->persist($choferCurso);
             }
 
             $em->flush();
@@ -180,6 +185,18 @@ class CursoController extends Controller
             'curso'=> $curso,
             'css_active' => 'curso',
         ]);
+    }
+    public function indexCursosPorPagarAction()
+    {
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_PORPAGAR);
+
+        return $this->render('ChoferesBundle:Curso:index.html.twig', array(
+            'entities' => $entities,
+            'pagerHtml' => $pagerHtml,
+            'filterForm' => $filterForm->createView(),
+            'validar' => true,
+            'css_active' => 'curso_porpagar',
+        ));
     }
 
     public function revisarDocumentacionAction(Request $request, $id)
@@ -693,6 +710,7 @@ class CursoController extends Controller
             'curso'       => $curso,
             'delete_form' => $deleteForm->createView(),
             'comprobante_pago_form' => $comprobantePagoForm->createView(),
+            'feature_modulo_pago'=> true,
             'css_active'  => 'curso',
         ]);
     }

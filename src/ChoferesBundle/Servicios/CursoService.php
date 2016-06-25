@@ -1,6 +1,8 @@
 <?php
 namespace ChoferesBundle\Servicios;
 
+use ChoferesBundle\Controller\CursoController;
+use ChoferesBundle\Entity\Curso;
 use Doctrine\ORM\EntityManager;
 
 class CursoService
@@ -49,6 +51,25 @@ class CursoService
             $this->em->persist($curso);
         }
 
+        $this->em->flush();
+
+        return $curso;
+    }
+/*
+ * Podría extenderse para manejar todos los cambios de estado en un solo lugar
+ * */
+    public function actualizarEstado(Curso $curso){
+
+        if($curso->getMontoRecaudado() < $curso->getMontoTotal()){
+            //volver a estado POR_PAGAR
+
+             $curso->setEstado($this->em->getRepository('ChoferesBundle:EstadoCurso')->find( CursoController::ESTADO_CURSO_PORPAGAR));
+        }else{
+            //pasar a por Verificar
+            $curso->setEstado($this->em->getRepository('ChoferesBundle:EstadoCurso')->find( CursoController::ESTADO_CURSO_PORVALIDAR));
+        }
+
+        $this->em->persist($curso);
         $this->em->flush();
 
         return $curso;

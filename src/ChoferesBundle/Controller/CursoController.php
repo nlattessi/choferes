@@ -9,7 +9,6 @@ use Pagerfanta\Adapter\DoctrineORMAdapter;
 use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Entity\ChoferCurso;
 use ChoferesBundle\Entity\Curso;
-use ChoferesBundle\Entity\CursoRepository;
 use ChoferesBundle\Form\CursoType;
 use ChoferesBundle\Form\CursoFilterType;
 use ChoferesBundle\Form\ComprobantePagoType;
@@ -17,6 +16,13 @@ use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
 
 class CursoController extends Controller
 {
+    const ESTADO_CURSO_DEFAULT = 1;
+    const ESTADO_CURSO_CONFIRMADO = 2;
+    const ESTADO_CURSO_PORVALIDAR = 3;
+    const ESTADO_CURSO_CANCELADO = 4;
+    const ESTADO_CURSO_VALIDADO = 5;
+    const ESTADO_CURSO_FALLAVALIDACION = 6;
+
     /**
      * Lists all Curso entities.
      *
@@ -90,7 +96,7 @@ class CursoController extends Controller
             ->andWhere('d.fechaInicio > :fechaHoy')
             ->andWhere('d.estado = :estado')
             ->setParameter('fechaHoy', new \DateTime(''), \Doctrine\DBAL\Types\Type::DATETIME)
-            ->setParameter('estado', $em->getRepository('ChoferesBundle:EstadoCurso')->find(CursoRepository::ESTADO_CURSO_DEFAULT));
+            ->setParameter('estado', $em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT));
 
         list($entities, $pagerHtml) = $this->paginator($queryBuilder);
 
@@ -107,7 +113,7 @@ class CursoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
-        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(CursoRepository::ESTADO_CURSO_CONFIRMADO) );
+        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_CONFIRMADO) );
 
         $em->persist($entity);
         $em->flush();
@@ -129,7 +135,7 @@ class CursoController extends Controller
 
             $pagoService->setCursoMontoTotal($curso);
 
-            if ($curso->getEstado()->getId() == CursoRepository::ESTADO_CURSO_VALIDADO) {
+            if ($curso->getEstado()->getId() == self::ESTADO_CURSO_VALIDADO) {
                 foreach ($curso->getChoferCursos() as $choferCurso) {
                     $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
                     $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
@@ -146,7 +152,7 @@ class CursoController extends Controller
                 return $this->redirect($this->generateUrl('curso_validados', []));
             }
 
-            $curso->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(CursoRepository::ESTADO_CURSO_PORVALIDAR));
+            $curso->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_PORVALIDAR));
             $em->persist($curso);
 
             foreach ($curso->getChoferCursos() as $choferCurso) {
@@ -201,7 +207,7 @@ class CursoController extends Controller
 
         if ($request->getMethod() == 'POST') {
 
-            $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(CursoRepository::ESTADO_CURSO_VALIDADO));
+            $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_VALIDADO));
             $em->persist($entity);
 
             foreach ($choferesCurso as $choferCursoData) {
@@ -221,7 +227,7 @@ class CursoController extends Controller
 
             $em->flush();
 
-            if ($entity->getEstado()->getId() == CursoRepository::ESTADO_CURSO_VALIDADO) {
+            if ($entity->getEstado()->getId() == self::ESTADO_CURSO_VALIDADO) {
                 $this->get('session')->getFlashBag()->add('success', 'Se actualizó el estado de la documentación.');
                 return $this->redirect($this->generateUrl('curso_validados', []));
             }
@@ -244,7 +250,7 @@ class CursoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
-        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(CursoRepository::ESTADO_CURSO_CANCELADO) );
+        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_CANCELADO) );
 
         $em->persist($entity);
         $em->flush();
@@ -258,7 +264,7 @@ class CursoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
-        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(CursoRepository::ESTADO_CURSO_VALIDADO) );
+        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_VALIDADO) );
 
         $em->persist($entity);
         $em->flush();
@@ -269,7 +275,7 @@ class CursoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
-        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(CursoRepository::ESTADO_CURSO_FALLAVALIDACION));
+        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_FALLAVALIDACION));
 
         $em->persist($entity);
         $em->flush();
@@ -292,7 +298,7 @@ class CursoController extends Controller
 
     public function indexCursosConfirmadosAction()
     {
-        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(CursoRepository::ESTADO_CURSO_CONFIRMADO);
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_CONFIRMADO);
 
         return $this->render('ChoferesBundle:Curso:index.html.twig', array(
             'entities' => $entities,
@@ -305,7 +311,7 @@ class CursoController extends Controller
 
     public function indexCursosPorValidarAction()
     {
-        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(CursoRepository::ESTADO_CURSO_PORVALIDAR);
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_PORVALIDAR);
 
         return $this->render('ChoferesBundle:Curso:index.html.twig', array(
             'entities' => $entities,
@@ -318,7 +324,7 @@ class CursoController extends Controller
 
     public function indexCursosValidadosAction()
     {
-        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(CursoRepository::ESTADO_CURSO_VALIDADO);
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_VALIDADO);
 
         return $this->render('ChoferesBundle:Curso:index.html.twig', array(
             'entities' => $entities,
@@ -331,7 +337,7 @@ class CursoController extends Controller
 
     public function indexCursosCanceladosAction()
     {
-        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(CursoRepository::ESTADO_CURSO_CANCELADO);
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_CANCELADO);
 
         return $this->render('ChoferesBundle:Curso:index.html.twig', array(
             'entities' => $entities,
@@ -344,7 +350,7 @@ class CursoController extends Controller
 
     public function indexCursosFallaValidacionAction()
     {
-        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(CursoRepository::ESTADO_CURSO_FALLAVALIDACION);
+        list($entities, $pagerHtml, $filterForm) = $this->getCursosPorEstado(self::ESTADO_CURSO_FALLAVALIDACION);
 
         return $this->render('ChoferesBundle:Curso:index.html.twig', array(
             'entities' => $entities,
@@ -596,7 +602,7 @@ class CursoController extends Controller
                     $entity->setPrestador($prestador);
                 }
 
-                $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(CursoRepository::ESTADO_CURSO_DEFAULT) );
+                $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT) );
 
                 $entity->setFechaInicio($fechaInicio);
                 $entity->setFechaFin($fechaFin);

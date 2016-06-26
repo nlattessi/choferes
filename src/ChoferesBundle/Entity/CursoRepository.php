@@ -1,17 +1,11 @@
 <?php
 namespace ChoferesBundle\Entity;
 
+use ChoferesBundle\Controller\CursoController,
 use Doctrine\ORM\EntityRepository;
 
 class CursoRepository extends EntityRepository
 {
-    const ESTADO_CURSO_DEFAULT = 1;
-    const ESTADO_CURSO_CONFIRMADO = 2;
-    const ESTADO_CURSO_PORVALIDAR = 3;
-    const ESTADO_CURSO_CANCELADO = 4;
-    const ESTADO_CURSO_VALIDADO = 5;
-    const ESTADO_CURSO_FALLAVALIDACION = 6;
-
     public function findCursosByTipoFilterByFechaInicio($tipo, $from, $to)
     {
         $em = $this->getEntityManager();
@@ -46,7 +40,7 @@ class CursoRepository extends EntityRepository
         $query = $em->createQuery($dql);
         $query->setParameter('from', $from);
         $query->setParameter('to', $to);
-        // $query->setParameter('estadoCancelado', self::ESTADO_CURSO_CANCELADO);
+        // $query->setParameter('estadoCancelado', CursoController::ESTADO_CURSO_CANCELADO);
 
         $cursos = $query->getResult();
 

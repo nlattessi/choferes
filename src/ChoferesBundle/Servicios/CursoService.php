@@ -25,10 +25,15 @@ class CursoService
         return $updatedCursos;
     }
 
+    public function getTiposCurso()
+    {
+        return $this->em->getRepository('ChoferesBundle:TipoCurso')->findAll();
+    }
+
     public function getCursosPorTipoFilterByFechaInicio($tipoCurso, $fechaInicioDesde, $fechaInicioHasta)
     {
-        $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaInicioDesde);
-        $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaInicioHasta);
+        $fechaDesde = \DateTimeUtils::createDateTime($fechaInicioDesde);
+        $fechaHasta = \DateTimeUtils::createDateTime($fechaInicioHasta);
 
         $cursos = $this->em->getRepository('ChoferesBundle:Curso')->findCursosByTipoFilterByFechaInicio(
             $tipoCurso,
@@ -41,8 +46,8 @@ class CursoService
 
     public function getCursosFilterByFechaInicio($fechaInicioDesde, $fechaInicioHasta)
     {
-        $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaInicioDesde);
-        $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaInicioHasta);
+        $fechaDesde = \DateTimeUtils::createDateTime($fechaInicioDesde);
+        $fechaHasta = \DateTimeUtils::createDateTime($fechaInicioHasta);
 
         $cursos = $this->em->getRepository('ChoferesBundle:Curso')->findCursosFilterByFechaInicio(
             $fechaDesde,
@@ -50,6 +55,46 @@ class CursoService
         );
 
         return $cursos;
+    }
+
+    public function getCursosPorTipo($cursos, $tipo)
+    {
+        return array_filter($cursos, function($curso) use ($tipo) {
+            return $curso->getTipocurso() === $tipo;
+        });
+    }
+
+     public function getMontoTotalCursos($cursos)
+    {
+        return array_reduce(
+            $cursos,
+            function($count, $curso) {
+                return $count + $curso->getMontoTotal();
+            },
+            0.0
+        );
+    }
+
+    public function getMontoRecaudadoCursos($cursos)
+    {
+        return array_reduce(
+            $cursos,
+            function($count, $curso) {
+                return $count + $curso->getMontoRecaudado();
+            },
+            0.0
+        );
+    }
+
+    public function getTotalAlumnos($cursos)
+    {
+        return array_reduce(
+            $cursos,
+            function($count, $curso) {
+                return $count + $curso->getChoferCursos()->count();
+            },
+            0
+        );
     }
 
     private function updateCursoTri($cursoId, $tri)

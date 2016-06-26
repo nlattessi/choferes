@@ -99,48 +99,47 @@ class ReporteController extends Controller
             $form->bind($request);
 
             if ($form->isValid()) {
-                //$tipoCurso = $form->get('tipoCurso')->getData();
+                $cursoService =  $this->get('choferes.servicios.curso');
+
                 $fechaInicioDesde = $form->get('fechaInicioDesde')->getData();
                 $fechaInicioHasta = $form->get('fechaInicioHasta')->getData();
 
-                $cursoService =  $this->get('choferes.servicios.curso');
-                //$cursos = $cursoService->getCursosPorTipoFilterByFechaInicio(
                 $cursos = $cursoService->getCursosFilterByFechaInicio(
-                    // $tipoCurso,
                     $fechaInicioDesde,
                     $fechaInicioHasta
                 );
 
-                $cursosBasicos = array_filter($cursos, function($curso) {
-                    return $curso->esTipo('Basico');
-                });
+                // Por tipo de curso
+                $tiposCurso = $cursoService->getTiposCurso();
+                $dataPorTipoCurso = [];
+                foreach ($tiposCurso as $tipoCurso) {
+                    $cursosPorTipo = $cursoService->getCursosPorTipo($cursos, $tipoCurso);
+                    $data = [
+                        'tipo' => $tipoCurso->getNombre(),
+                        'cantCursos' => count($cursosPorTipo),
+                        'cantAlumnos' => $cursoService->getTotalAlumnos($cursosPorTipo),
+                        'montoTotal' => $cursoService->getMontoTotalCursos($cursosPorTipo),
+                        'montoRecaudado' => $cursoService->getMontoRecaudadoCursos($cursosPorTipo),
+                    ];
+                    $dataPorTipoCurso[] = $data;
+                }
 
-                $cursosComplementarios = array_filter($cursos, function($curso) {
-                    return $curso->esTipo('Complementario');
-                });
-
-                $montoTotal = $this->getMontoTotalCursos($cursos);
-                $montoRecaudado = $this->getMontoRecaudadoCursos($cursos);
-
-                $montoTotalBasicos = $this->getMontoTotalCursos($cursosBasicos);
-                $montoRecaudadoBasicos = $this->getMontoRecaudadoCursos($cursosBasicos);
-
-                $montoTotalComplementarios = $this->getMontoTotalCursos($cursosComplementarios);
-                $montoRecaudadoComplementarios = $this->getMontoRecaudadoCursos($cursosComplementarios);
+                // Total de cursos
+                $totalAlumnos = $this->getTotalFromArray($dataPorTipoCurso, 'cantAlumnos');
+                $montoTotal = $this->getTotalFromArray($dataPorTipoCurso, 'montoTotal');
+                $montoRecaudado = $this->getTotalFromArray($dataPorTipoCurso, 'montoRecaudado');
 
                 return $this->render('ChoferesBundle:Reporte:cursos_por_tipo_result.html.twig', [
-                   // 'tipoCurso' => $tipoCurso,
                    'fechaInicioDesde' => $fechaInicioDesde,
                    'fechaInicioHasta' => $fechaInicioHasta,
+
                    'cursos' => $cursos,
                    'montoTotal' => $montoTotal,
                    'montoRecaudado' => $montoRecaudado,
-                   'cursosBasicos' => $cursosBasicos,
-                   'cursosComplementarios' => $cursosComplementarios,
-                   'montoTotalBasicos' => $montoTotalBasicos,
-                   'montoRecaudadoBasicos' => $montoRecaudadoBasicos,
-                   'montoTotalComplementarios' => $montoTotalComplementarios,
-                   'montoRecaudadoComplementarios' => $montoRecaudadoComplementarios,
+                   'totalAlumnos' => $totalAlumnos,
+
+                   'dataPorTipoCurso' => $dataPorTipoCurso,
+
                    'css_active' => 'reporte_cursos_por_tipo',
                 ]);
             }
@@ -160,18 +159,12 @@ class ReporteController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         if ($request->isMethod('POST')) {
+            $cursoService =  $this->get('choferes.servicios.curso');
+
             $to = $request->request->get('to');
             $from = $request->request->get('from');
-            $type = $request->request->get('type');
 
-            $tipoCurso = $em->getRepository('ChoferesBundle:TipoCurso')->findByNombre($type);
-            if (! $tipoCurso) {
-                throw $this->createNotFoundException('Unable to find TipoCurso entity.');
-            }
-
-            $cursoService =  $this->get('choferes.servicios.curso');
-            $cursos = $cursoService->getCursosPorTipoFilterByFechaInicio(
-                $tipoCurso,
+            $cursos = $cursoService->getCursosFilterByFechaInicio(
                 $from,
                 $to
             );
@@ -188,6 +181,7 @@ class ReporteController extends Controller
 
                 $arrayData = [
                     [
+                        'Tipo de curso',
                         'Curso id',
                         'Fecha de inicio',
                         'Fecha de fin',
@@ -202,6 +196,7 @@ class ReporteController extends Controller
 
                 foreach ($cursos as $curso) {
                     $arrayData[] = [
+                        $curso->getTipoCurso()->getNombre(),
                         $curso->getId(),
                         $curso->getFechaInicio()->format('d-m-Y'),
                         $curso->getFechaFin()->format('d-m-Y'),
@@ -233,25 +228,10 @@ class ReporteController extends Controller
         return $response;
     }
 
-    private function getMontoTotalCursos($cursos)
+    private function getTotalFromArray($array, $field)
     {
-        return array_reduce(
-            $cursos,
-            function($res, $a) {
-                return $res + $a->getMontoTotal();
-            },
-            0.0
-        );
-    }
-
-    private function getMontoRecaudadoCursos($cursos)
-    {
-        return array_reduce(
-            $cursos,
-            function($res, $a) {
-                return $res + $a->getMontoRecaudado();
-            },
-            0.0
-        );
+        return array_reduce($array, function($count, $item) use ($field) {
+            return $count + $item[$field];
+        }, 0.0);
     }
 }

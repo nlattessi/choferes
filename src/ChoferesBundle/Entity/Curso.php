@@ -89,12 +89,12 @@ class Curso
     /**
      * @var string
      */
-    private $montoTotal;
+    private $montoTotal = '0.0';
 
     /**
      * @var string
      */
-    private $montoRecaudado;
+    private $montoRecaudado = '0.0';
 
     /**
      * @var ArrayCollection
@@ -511,10 +511,5 @@ class Curso
         }
 
         return false;
-    }
-
-    public function esTipo($tipo)
-    {
-        return $this->getTipoCurso()->getNombre() === $tipo;
     }
 }

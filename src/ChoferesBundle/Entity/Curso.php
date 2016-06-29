@@ -507,4 +507,5 @@ class Curso
 
         return $this;
     }
+
 }

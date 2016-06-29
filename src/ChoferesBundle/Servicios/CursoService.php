@@ -8,10 +8,12 @@ use Doctrine\ORM\EntityManager;
 class CursoService
 {
     private $em;
+    private $pagoService;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, $pagoService)
     {
         $this->em = $em;
+        $this->pagoService = $pagoService;
     }
 
     public function cargaMasivaTri($ids, $tris)
@@ -60,6 +62,8 @@ class CursoService
  * */
     public function actualizarEstado(Curso $curso){
 
+        $curso = $this->pagoService->setCursoMontoTotal($curso);
+        $curso = $this->pagoService->setCursoMontoRecaudado($curso);
         if($curso->getMontoRecaudado() < $curso->getMontoTotal()){
             //volver a estado POR_PAGAR
 
@@ -74,4 +78,6 @@ class CursoService
 
         return $curso;
     }
+
+
 }

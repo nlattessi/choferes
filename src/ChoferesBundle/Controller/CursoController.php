@@ -403,6 +403,8 @@ class CursoController extends Controller
                 }
             }
             $em->flush();
+            $cursoService = $this->get('choferes.servicios.curso');
+            $cursoService->actualizarEstado($curso);
             $choferes = $choferService->obtenerChoferesPorCurso($curso);
         } else {
             $id =  $request->query->get('idCurso');
@@ -437,6 +439,8 @@ class CursoController extends Controller
 
         $em->remove($entity);
         $em->flush();
+        $cursoService = $this->get('choferes.servicios.curso');
+        $cursoService->actualizarEstado($curso);
 
         return $this->redirect($this->generateUrl('curso_addchofer', array('idCurso' => $idCurso)));
     }

@@ -508,4 +508,8 @@ class Curso
         return $this;
     }
 
+    public function estaPago(){
+        return $this->montoRecaudado > $this->montoTotal;
+    }
+
 }

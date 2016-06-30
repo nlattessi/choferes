@@ -139,7 +139,7 @@ class CursoController extends Controller
 
             if ($curso->getEstado()->getId() == self::ESTADO_CURSO_VALIDADO) {
                 foreach ($curso->getChoferCursos() as $choferCurso) {
-                    $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
+
                     $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
                     $em->persist($choferCurso);
 
@@ -162,12 +162,6 @@ class CursoController extends Controller
              * */
 
             foreach ($curso->getChoferCursos() as $choferCurso) {
-                /*$choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
-                $choferService->updateTieneCursoBasico(
-                    $choferCurso->getChofer(),
-                    $choferCurso->getCurso(),
-                    $choferCurso
-                );*/
                 $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
                 $em->persist($choferCurso);
             }
@@ -231,7 +225,6 @@ class CursoController extends Controller
                 $choferCurso= $em->getRepository('ChoferesBundle:ChoferCurso')
                     ->find($choferCursoData['id']);
 
-                $choferCurso->setPagado(strlen($entity->getComprobante()) > 0);
                 $choferCurso->setDocumentacion("SI" == $request->get($choferCurso->getId()));
                 $em->persist($choferCurso);
 
@@ -276,7 +269,7 @@ class CursoController extends Controller
 
         return $this->indexCursosPrecargadosAction();
     }
-
+/*
     public function validarCursoChoferAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
@@ -286,7 +279,7 @@ class CursoController extends Controller
         $em->persist($entity);
         $em->flush();
         return $this->indexCursosConfirmarAction();
-    }
+    }*/
 
     public function invalidarCursoChoferAction(Request $request, $id)
     {
@@ -394,8 +387,6 @@ class CursoController extends Controller
                   $choferCurso = new ChoferCurso();
                   $choferCurso->setChofer($chofer);
                   $choferCurso->setCurso($curso);
-                  //Si el curso tiene comprobante de pago marco el choferCurso como pagado
-                  $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
 
                   $em->persist($choferCurso);
                 } else {

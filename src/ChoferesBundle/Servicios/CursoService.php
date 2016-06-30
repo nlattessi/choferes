@@ -68,9 +68,19 @@ class CursoService
             //volver a estado POR_PAGAR
 
              $curso->setEstado($this->em->getRepository('ChoferesBundle:EstadoCurso')->find( CursoController::ESTADO_CURSO_PORPAGAR));
+            //actualizar estado de la relación choferCurso
+            foreach ($curso->getChoferCursos() as $choferCurso) {
+                $choferCurso->setPagado(false);
+                $this->em->persist($choferCurso);
+            }
         }else{
             //pasar a por Verificar
             $curso->setEstado($this->em->getRepository('ChoferesBundle:EstadoCurso')->find( CursoController::ESTADO_CURSO_PORVALIDAR));
+            //actualizar estado de la relación choferCurso
+            foreach ($curso->getChoferCursos() as $choferCurso) {
+                $choferCurso->setPagado(true);
+                $this->em->persist($choferCurso);
+            }
         }
 
         $this->em->persist($curso);

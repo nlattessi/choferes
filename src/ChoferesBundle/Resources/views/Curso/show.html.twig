@@ -69,6 +69,10 @@
             <td><b>Monto recaudado ($)</b></td>
             <td>{{ curso.montoRecaudado }} $</td>
           </tr>
+          <tr class="gradeA">
+            <td><b>Fecha de pago</b></td>
+            <td>{% if curso.fechaPago %}{{ curso.fechaPago|date('d/m/Y') }}{% endif %}</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -96,7 +100,6 @@
 </div>
 
 <!-- Panel :: Comprobantes de Pago -->
-{% if feature_modulo_pago %}
 <div class="panel">
   <div class="panel-heading">
     <h3 class="panel-title">Comprobantes de Pago</b></h3>
@@ -166,7 +169,6 @@
       </div>
   </div>
 </div>
-{% endif %}
 
 <!-- Panel :: Choferes asigandos -->
 <div class="panel">

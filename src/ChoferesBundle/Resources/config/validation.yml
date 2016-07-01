@@ -1,8 +1,8 @@
-ChoferesBundle\Entity\Curso:
-  constraints:
-        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
-            fields: comprobante
-            message: 'Este nro. de comprobante ya ha sido utilizado. Por favor, ingrese otro.'
+# ChoferesBundle\Entity\Curso:
+#   constraints:
+#         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+#             fields: comprobante
+#             message: 'Este nro. de comprobante ya ha sido utilizado. Por favor, ingrese otro.'
 
 ChoferesBundle\Entity\ComprobantePago:
   constraints:

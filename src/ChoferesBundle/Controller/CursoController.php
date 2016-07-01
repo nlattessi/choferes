@@ -73,7 +73,6 @@ class CursoController extends Controller
 
         $queryBuilder
           ->andWhere('d.fechaInicio > :fechaHoy')
-
           ->setParameter('fechaHoy', new \DateTime(''), \Doctrine\DBAL\Types\Type::DATETIME);
 
         list($entities, $pagerHtml) = $this->paginator($queryBuilder);
@@ -137,42 +136,44 @@ class CursoController extends Controller
 
             $pagoService->setCursoMontoTotal($curso);
 
-            if ($curso->getEstado()->getId() == self::ESTADO_CURSO_VALIDADO) {
-                foreach ($curso->getChoferCursos() as $choferCurso) {
+            if ($curso->getEstado()->getId() == self::ESTADO_CURSO_CONFIRMADO) {
 
+                /* *
+                 * Marco curso como aprobado si corresponde y lo pongo en estado PORPAGAR
+                 * */
+                $curso->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_PORPAGAR));
+                $em->persist($curso);
+
+                foreach ($curso->getChoferCursos() as $choferCurso) {
                     $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
                     $em->persist($choferCurso);
-
-                    $choferService->updateTieneCursoBasico(
-                        $choferCurso->getChofer(),
-                        $choferCurso->getCurso(),
-                        $choferCurso
-                    );
                 }
+
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Se actualizaron las notas.');
-                return $this->redirect($this->generateUrl('curso_validados', []));
+
+                return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', [
+                    'titulo' => "Las notas fueron cargadas con éxito",
+                    'mensaje' => "El curso está ahora pendiente de cargar los pagos y de ser validado por la CNSVT",
+                    'css_active' => 'curso'
+                ]);
             }
 
-            $curso->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_PORPAGAR));
-            $em->persist($curso);
-
-            /*
-             * Marco curso como aprobado si corresponde y lo pongo en estado PORPAGAR
-             * */
-
             foreach ($curso->getChoferCursos() as $choferCurso) {
+
                 $choferCurso->setIsAprobado("SI" == $request->get($choferCurso->getId()));
                 $em->persist($choferCurso);
+
+                $choferService->updateTieneCursoBasico(
+                    $choferCurso->getChofer(),
+                    $choferCurso->getCurso(),
+                    $choferCurso
+                );
             }
 
             $em->flush();
 
-            return $this->render('ChoferesBundle:Curso:confirmacion.html.twig', [
-                'titulo' => "Las notas fueron cargadas con éxito",
-                'mensaje' => "El curso está ahora pendiente de validación por la CNSVT",
-                'css_active' => 'curso'
-            ]);
+            $this->get('session')->getFlashBag()->add('success', 'Se actualizaron las notas.');
+            return $this->redirect($this->generateUrl('curso_validados', []));
         }
 
         return $this->render('ChoferesBundle:Curso:cargarnotas.html.twig', [
@@ -705,7 +706,6 @@ class CursoController extends Controller
             'curso'       => $curso,
             'delete_form' => $deleteForm->createView(),
             'comprobante_pago_form' => $comprobantePagoForm->createView(),
-            'feature_modulo_pago'=> true,
             'css_active'  => 'curso',
         ]);
     }
@@ -825,10 +825,10 @@ class CursoController extends Controller
 
                 $em->persist($curso);
                 $em->flush();
-                if (strlen($curso->getComprobante()) > 0) {
-                    //comprobante seteado, hay que marcar como pagado todos los ChoferCurso
-                    $choferService->actualizarCursoChofer($curso);
-                }
+                // if (strlen($curso->getComprobante()) > 0) {
+                //     //comprobante seteado, hay que marcar como pagado todos los ChoferCurso
+                //     $choferService->actualizarCursoChofer($curso);
+                // }
 
                 $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
                 return $this->redirect($this->generateUrl('curso_edit', ['id' => $id]));

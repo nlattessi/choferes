@@ -44,7 +44,7 @@ class Curso
     /**
      * @var string
      */
-    private $comprobante;
+    // private $comprobante;
 
     /**
      * @var \ChoferesBundle\Entity\Docente
@@ -233,18 +233,17 @@ class Curso
      */
     public function getComprobante()
     {
-        return $this->comprobante;
+        //return $this->comprobante;
+        return $this->getComprobantesPago()->last()->getCodigo();
     }
 
     /**
      * @param string $comprobante
      */
-    public function setComprobante($comprobante)
-    {
-        $this->comprobante = $comprobante;
-    }
-
-
+    // public function setComprobante($comprobante)
+    // {
+    //     $this->comprobante = $comprobante;
+    // }
 
     /**
      * Set docente

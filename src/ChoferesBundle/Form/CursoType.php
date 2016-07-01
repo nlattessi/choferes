@@ -27,7 +27,6 @@ class CursoType extends AbstractType
     {
         $usuario = $options['user'];
 
-
         $builder
             ->add('fechaInicio', 'text', array('mapped' => false))
             ->add('horaInicio', 'text', array('mapped' => false))
@@ -46,12 +45,12 @@ class CursoType extends AbstractType
                     'choices' => $this->usuarioService->obtenerPrestadoresActivos()
                 ])
                 ->add('codigo')
-                ->add('comprobante')
-                ->add('observaciones')
-                ->add('fechaPago', 'text', array(
-                    'required' => false,
-                    'mapped' => false
-                ));
+                // ->add('comprobante')
+                ->add('observaciones');
+                // ->add('fechaPago', 'text', array(
+                //     'required' => false,
+                //     'mapped' => false
+                // ));
 
             $formModifier = function(FormInterface $form, Prestador $prestador = null) {
                 $docentes = null === $prestador ? array() : $this->usuarioService->obtenerDocentesPorPrestador($prestador);

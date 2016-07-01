@@ -29,6 +29,7 @@ class ComprobantePagoController extends Controller
             $comprobantePago->setCurso($curso);
 
             $curso->incrementarMontoRecaudado($comprobantePago->getMonto());
+            $curso->setFechaPago(\DateTimeUtils::createDateTimeNow());
             
             $em->persist($comprobantePago);
             $em->persist($curso);
@@ -99,6 +100,7 @@ class ComprobantePagoController extends Controller
         if ($editForm->isValid()) {
             $curso->disminuirMontoRecaudado($montoAnterior);
             $curso->incrementarMontoRecaudado($comprobantePago->getMonto());
+            $curso->setFechaPago(\DateTimeUtils::createDateTimeNow());
 
             $em->persist($comprobantePago);
             $em->persist($curso);
@@ -120,7 +122,6 @@ class ComprobantePagoController extends Controller
                 $this->get('session')->getFlashBag()->add('error', $error->getMessage());
             }
         }
-
 
         return $this->render('ChoferesBundle:ComprobantePago:edit.html.twig', [
             'curso'           => $curso,
@@ -146,6 +147,11 @@ class ComprobantePagoController extends Controller
 
         $curso->disminuirMontoRecaudado($comprobantePago->getMonto());
 
+        $curso->getComprobantesPago()->removeElement($comprobantePago);
+        if ($curso->getComprobantesPago()->isEmpty()) {
+            $curso->setFechaPago(null);
+        }
+
         $em->remove($comprobantePago);
         $em->persist($curso);
         $em->flush();
@@ -157,8 +163,8 @@ class ComprobantePagoController extends Controller
         return $this->redirect($this->generateUrl('curso_show', ['id' => $idCurso]));
     }
 
-    private function actualizarEstadoCurso(Curso $curso){
-
+    private function actualizarEstadoCurso(Curso $curso)
+    {
         $cursoService = $this->get('choferes.servicios.curso');
         $cursoService->actualizarEstado($curso);
     }

@@ -7,7 +7,6 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: es
-    feature_modulo_pago: true
 
 framework:
     #esi:             ~
@@ -40,8 +39,6 @@ twig:
             - LexikFormFilterBundle:Form:form_div_layout.html.twig
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-    globals:
-        feature_modulo_pago: '%feature_modulo_pago%'
 
 # Assetic Configuration
 assetic:

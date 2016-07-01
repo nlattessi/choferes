@@ -38,10 +38,6 @@
                          <div class="row margin-top-30">
                            {{ form_widget(form.codigo, {'attr': {'class': 'form-control'}}) }}
                          </div>
-                           <div class="row margin-top-30">
-                           {{ form_widget(form.comprobante, {'attr': {'class': 'form-control'}}) }}
-                           {{ form_widget(form.fechaPago, {'attr': {'class': 'form-control'}}) }}
-                         </div>
                          <div class="row margin-top-30">
                            {{ form_widget(form.observaciones, {'attr': {'class': 'form-control'}}) }}
                            {{ form_widget(form.prestador, {'attr': {'class': 'form-control'}}) }}
@@ -74,10 +70,6 @@
 
 {% block javascript %}
     <script src="{{ asset('bundles/choferes/assets/scripts/cursoForm.js') }}"></script>
-
-    <script>
-      $('#choferesbundle_curso_fechaPago').datepicker({format: "dd/mm/yyyy", autoclose: true });
-    </script>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
       {% if app.user.rol == 'ROLE_PRESTADOR' %}

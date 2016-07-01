@@ -6,4 +6,9 @@ class DateTimeUtils
     {
         return \DateTime::createFromFormat('d/m/Y', $fecha);
     }
+
+    public static function createDateTimeNow()
+    {
+        return new \DateTime();
+    }
 }

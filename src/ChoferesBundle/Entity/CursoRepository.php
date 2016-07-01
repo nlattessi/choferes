@@ -1,7 +1,7 @@
 <?php
 namespace ChoferesBundle\Entity;
 
-use ChoferesBundle\Controller\CursoController,
+use ChoferesBundle\Controller\CursoController;
 use Doctrine\ORM\EntityRepository;
 
 class CursoRepository extends EntityRepository

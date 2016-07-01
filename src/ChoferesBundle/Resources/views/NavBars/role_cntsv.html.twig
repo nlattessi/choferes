@@ -10,6 +10,7 @@ css_active == 'curso_porvalidar' or
 css_active == 'curso_validados' or
 css_active == 'curso_fallavalidacion' or
 css_active == 'curso_cancelados' or
+css_active == 'curso_porpagar' or
 css_active == 'curso_todos' %} active open{% endif %}{% endif %}">
     <a href="javascript:void(0)" data-slug="layout">
         <i class="site-menu-icon wb-library" aria-hidden="true"></i>
@@ -29,34 +30,40 @@ css_active == 'curso_todos' %} active open{% endif %}{% endif %}">
                 <span class="site-menu-title">2-Confirmados</span>
             </a>
         </li>
+        <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'curso_porpagar' %}  active is-shown{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('curso_porpagar') }}" data-slug="layout-menu-expended">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">3-Falta pagar</span>
+            </a>
+        </li>
         <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'curso_porvalidar' %}  active is-shown{% endif %}{% endif %}">
             <a class="animsition-link" href="{{ path('curso_porvalidar') }}" data-slug="layout-menu-expended">
                 <i class="site-menu-icon " aria-hidden="true"></i>
-                <span class="site-menu-title">3-Por validar</span>
+                <span class="site-menu-title">4-Por validar</span>
             </a>
         </li>
         <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'curso_validados' %}  active is-shown{% endif %}{% endif %}">
             <a class="animsition-link" href="{{ path('curso_validados') }}" data-slug="layout-menu-expended">
                 <i class="site-menu-icon " aria-hidden="true"></i>
-                <span class="site-menu-title">4-Validados</span>
+                <span class="site-menu-title">5-Validados</span>
             </a>
         </li>
         <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'curso_fallavalidacion' %}  active is-shown{% endif %}{% endif %}">
             <a class="animsition-link" href="{{ path('curso_fallavalidacion') }}" data-slug="layout-menu-expended">
                 <i class="site-menu-icon " aria-hidden="true"></i>
-                <span class="site-menu-title">5-Con fallas de validacion</span>
+                <span class="site-menu-title">6-Con fallas de validacion</span>
             </a>
         </li>
         <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'curso_cancelados' %}  active is-shown{% endif %}{% endif %}">
             <a class="animsition-link" href="{{ path('curso_cancelados') }}" data-slug="layout-menu-expended">
                 <i class="site-menu-icon " aria-hidden="true"></i>
-                <span class="site-menu-title">6-Cancelados</span>
+                <span class="site-menu-title">7-Cancelados</span>
             </a>
         </li>
         <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'curso_todos' %}  active is-shown{% endif %}{% endif %}">
             <a class="animsition-link" href="{{ path('curso') }}" data-slug="layout-menu-expended">
                 <i class="site-menu-icon " aria-hidden="true"></i>
-                <span class="site-menu-title">7-Todos</span>
+                <span class="site-menu-title">8-Todos</span>
             </a>
         </li>
     </ul>

@@ -26,5 +26,19 @@ class PagoService
 
         $this->em->persist($curso);
         $this->em->flush();
+
+        return $curso;
+    }
+
+    public function setCursoMontoRecaudado($curso){
+        $monto = 0;
+        foreach($curso->getComprobantesPago() as $comprobante){
+            $monto += $comprobante->getMonto();
+        }
+        $curso->setMontoRecaudado($monto);
+        $this->em->persist($curso);
+        $this->em->flush();
+
+        return $curso;
     }
 }

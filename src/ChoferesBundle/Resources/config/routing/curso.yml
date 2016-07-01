@@ -49,6 +49,10 @@ curso_precargados:
     pattern: /precargados
     defaults: { _controller: "ChoferesBundle:Curso:indexCursosPrecargados" }
 
+curso_porpagar:
+    pattern: /porpagar
+    defaults: { _controller: "ChoferesBundle:Curso:indexCursosPorPagar" }
+
 curso_paraconfirmar:
     pattern: /paraconfirmar
     defaults: { _controller: "ChoferesBundle:Curso:indexCursosConfirmar" }

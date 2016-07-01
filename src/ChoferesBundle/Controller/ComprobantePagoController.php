@@ -3,6 +3,7 @@
 namespace ChoferesBundle\Controller;
 
 use ChoferesBundle\Entity\ComprobantePago;
+use ChoferesBundle\Entity\Curso;
 use ChoferesBundle\Form\ComprobantePagoType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,6 +48,7 @@ class ComprobantePagoController extends Controller
                 $this->get('session')->getFlashBag()->add('error', 'Comprobante Pago ::: ' . $error->getMessage());
             }
         }
+        $curso  = $this->actualizarEstadoCurso($curso);
 
         return $this->redirect($this->generateUrl('curso_show', ['id' => $id]));
     }
@@ -104,6 +106,9 @@ class ComprobantePagoController extends Controller
             
             $this->get('session')->getFlashBag()->add('success', 'Comprobante de Pago actualizado.');
 
+            $curso = $this->actualizarEstadoCurso($curso);
+
+
             return $this->redirect($this->generateUrl('curso_show', ['id' => $idCurso]));
         } else {
             foreach ($editForm->getErrors() as $error) {
@@ -115,6 +120,7 @@ class ComprobantePagoController extends Controller
                 $this->get('session')->getFlashBag()->add('error', $error->getMessage());
             }
         }
+
 
         return $this->render('ChoferesBundle:ComprobantePago:edit.html.twig', [
             'curso'           => $curso,
@@ -146,6 +152,14 @@ class ComprobantePagoController extends Controller
 
         $this->get('session')->getFlashBag()->add('success', 'Comprobante eliminado satisfactoriamente.');
 
+        $this->actualizarEstadoCurso($curso);
+
         return $this->redirect($this->generateUrl('curso_show', ['id' => $idCurso]));
+    }
+
+    private function actualizarEstadoCurso(Curso $curso){
+
+        $cursoService = $this->get('choferes.servicios.curso');
+        $cursoService->actualizarEstado($curso);
     }
 }

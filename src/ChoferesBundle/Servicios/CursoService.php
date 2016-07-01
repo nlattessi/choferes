@@ -1,15 +1,19 @@
 <?php
 namespace ChoferesBundle\Servicios;
 
+use ChoferesBundle\Controller\CursoController;
+use ChoferesBundle\Entity\Curso;
 use Doctrine\ORM\EntityManager;
 
 class CursoService
 {
     private $em;
+    private $pagoService;
 
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, $pagoService)
     {
         $this->em = $em;
+        $this->pagoService = $pagoService;
     }
 
     public function cargaMasivaTri($ids, $tris)
@@ -110,4 +114,37 @@ class CursoService
 
         return $curso;
     }
+/*
+ * Podría extenderse para manejar todos los cambios de estado en un solo lugar
+ * */
+    public function actualizarEstado(Curso $curso){
+
+        $curso = $this->pagoService->setCursoMontoTotal($curso);
+        $curso = $this->pagoService->setCursoMontoRecaudado($curso);
+        if($curso->getMontoRecaudado() < $curso->getMontoTotal()){
+            //volver a estado POR_PAGAR
+
+             $curso->setEstado($this->em->getRepository('ChoferesBundle:EstadoCurso')->find( CursoController::ESTADO_CURSO_PORPAGAR));
+            //actualizar estado de la relación choferCurso
+            foreach ($curso->getChoferCursos() as $choferCurso) {
+                $choferCurso->setPagado(false);
+                $this->em->persist($choferCurso);
+            }
+        }else{
+            //pasar a por Verificar
+            $curso->setEstado($this->em->getRepository('ChoferesBundle:EstadoCurso')->find( CursoController::ESTADO_CURSO_PORVALIDAR));
+            //actualizar estado de la relación choferCurso
+            foreach ($curso->getChoferCursos() as $choferCurso) {
+                $choferCurso->setPagado(true);
+                $this->em->persist($choferCurso);
+            }
+        }
+
+        $this->em->persist($curso);
+        $this->em->flush();
+
+        return $curso;
+    }
+
+
 }

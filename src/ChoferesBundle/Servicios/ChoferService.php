@@ -160,7 +160,8 @@ class ChoferService
             ->select(
                 'chofer.id as choferId', 'chofer.nombre', 'chofer.apellido', 'chofer.dni',
                 'curso.id as cursoId', 'curso.fechaFin as fechaFin',
-                'chofer.tieneCursoBasico', 'choferCurso.isAprobado', 'choferCurso.pagado', 'choferCurso.documentacion'
+                'chofer.tieneCursoBasico', 'choferCurso.isAprobado', 'choferCurso.pagado', 'choferCurso.documentacion',
+                "DATE_ADD (curso.fechaFin, 12, 'MONTH') as fechaDeVigencia"
             )
             ->from('ChoferesBundle:Chofer', 'chofer')
             ->leftJoin(
@@ -182,17 +183,7 @@ class ChoferService
 
         $result = $query->getResult();
 
-        if (isset($result)) {
-            foreach ($result as $chofer) {
-                $fechaFin = $chofer['fechaFin']->format('Y-m-d H:i:s');
-                $fechaVigencia = new \DateTime("+1 year $fechaFin");
-
-                $chofer['fechaVigencia'] = $fechaVigencia;
-                $choferesVigentes[] = $chofer;
-            }
-        }
-
-        return $choferesVigentes;
+        return $result;
     }
 
     public function isChoferFromPrestador($chofer, $userPrestador, $cursoId)

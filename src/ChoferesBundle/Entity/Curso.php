@@ -89,12 +89,12 @@ class Curso
     /**
      * @var string
      */
-    private $montoTotal;
+    private $montoTotal = '0.0';
 
     /**
      * @var string
      */
-    private $montoRecaudado;
+    private $montoRecaudado = '0.0';
 
     /**
      * @var ArrayCollection
@@ -453,11 +453,11 @@ class Curso
     /**
      * Get montoTotal
      *
-     * @return string
+     * @return float
      */
     public function getMontoTotal()
     {
-        return $this->montoTotal;
+        return floatval($this->montoTotal);
     }
 
     /**
@@ -477,11 +477,11 @@ class Curso
     /**
      * Get montoRecaudado
      *
-     * @return string
+     * @return float
      */
     public function getMontoRecaudado()
     {
-        return $this->montoRecaudado;
+        return floatval($this->montoRecaudado);
     }
 
     /**
@@ -508,8 +508,12 @@ class Curso
         return $this;
     }
 
-    public function estaPago(){
-        return $this->montoRecaudado > $this->montoTotal;
-    }
+    public function estaPago()
+    {
+        if (($this->getMontoTotal() <= 0) || ($this->getMontoRecaudado() >= $this->getMontoTotal())) {
+            return true;
+        }
 
+        return false;
+    }
 }

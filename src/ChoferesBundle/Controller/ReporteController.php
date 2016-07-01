@@ -25,125 +25,44 @@ class ReporteController extends Controller
                 $choferesVigentes = $choferesService->getChoferesVigentes($fechaForm);
 
                 if (! empty($choferesVigentes)) {
-                    $phpExcelObject = $this->get('phpexcel')->createPHPExcelObject();
-
-                    $phpExcelObject->getProperties()->setCreator("CNTSV")
-                        ->setLastModifiedBy("CNTSV")
-                        ->setTitle("Choferes_Vigencia")
-                        ->setSubject(date('d-m-Y'))
-                        ->setDescription("Listado de choferes vigentes.")
-                        ->setKeywords("office 2005 openxml php")
-                        ->setCategory("reporte");
-
-                    $phpExcelObject->getDefaultStyle()->getFont()->setName('Arial');
-                    $phpExcelObject->getDefaultStyle()->getFont()->setSize(10);
-
-                    $phpExcelObject->setActiveSheetIndex(0);
-                    $phpExcelObject->getActiveSheet()->setTitle('Choferes');
-
-                    $phpExcelObject->getActiveSheet()
-                        ->setCellValue('A1', 'Chofer id')
-                        ->setCellValue('B1', 'Nombre')
-                        ->setCellValue('C1', 'Apellido')
-                        ->setCellValue('D1', 'DNI')
-                        ->setCellValue('E1', 'Curso id')
-                        ->setCellValue('F1', 'Curso Fecha Fin')
-                        ->setCellValue('G1', 'Vigente Hasta');
-
-                    $styleArray = [
-                        'font' => [
-                            'bold' => true,
-                            'color' => ['argb' => 'FFFFFFFF']
-                        ],
-                        'alignment' => [
-                            'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                            'vertical' => \PHPExcel_Style_Alignment::VERTICAL_CENTER
-                        ],
-                        'borders' => [
-                            'allborders' => [
-                                'style' => \PHPExcel_Style_Border::BORDER_THIN,
-                                'color' => ['argb' => '00000000']
-                            ],
-                        ],
-                        'fill' => [
-                            'type' => \PHPExcel_Style_Fill::FILL_SOLID,
-                            'startcolor' => [
-                                'argb' => '00000000'
-                            ],
-                        ]
+                    $excelService =  $this->get('choferes.servicios.excel');
+                    
+                    $properties = [
+                        'creator' => 'CNTSV',
+                        'lastModifiedBy' => 'CNTSV',
+                        'title' => 'Choferes_Vigencia',
+                        'description' => 'Listado de choferes vigentes.',
                     ];
 
-                    $phpExcelObject->getActiveSheet()->getStyle('A1:G1')
-                        ->applyFromArray($styleArray);
-
-                    $phpExcelObject->getActiveSheet()
-                        ->getColumnDimension('A')
-                        ->setWidth(10);
-                    $phpExcelObject->getActiveSheet()
-                        ->getColumnDimension('B')
-                        ->setWidth(30);
-                    $phpExcelObject->getActiveSheet()
-                        ->getColumnDimension('C')
-                        ->setWidth(30);
-                    $phpExcelObject->getActiveSheet()
-                        ->getColumnDimension('D')
-                        ->setWidth(10);
-                    $phpExcelObject->getActiveSheet()
-                        ->getColumnDimension('E')
-                        ->setWidth(10);
-                    $phpExcelObject->getActiveSheet()
-                        ->getColumnDimension('F')
-                        ->setWidth(20);
-                    $phpExcelObject->getActiveSheet()
-                        ->getColumnDimension('G')
-                        ->setWidth(20);
-
-                    $row = 2;
+                    $arrayData = [
+                        [
+                            'Chofer id',
+                            'Nombre',
+                            'Apellido',
+                            'DNI',
+                            'Curso id',
+                            'Curso Fecha Fin',
+                            'Vigente Hasta',
+                        ],
+                    ];
+                    
                     foreach ($choferesVigentes as $chofer) {
-                        $phpExcelObject->getActiveSheet()
-                            ->setCellValue('A'.$row, $chofer['choferId'])
-                            ->setCellValue('B'.$row, $chofer['nombre'])
-                            ->setCellValue('C'.$row, $chofer['apellido'])
-                            ->setCellValue('D'.$row, $chofer['dni'])
-                            ->setCellValue('E'.$row, $chofer['cursoId'])
-                            ->setCellValue('F'.$row, $chofer['fechaFin']->format('d-m-Y H:i:s'))
-                            ->setCellValue('G'.$row, $chofer['fechaVigencia']->format('d-m-Y H:i:s'));
-
-                        $row++;
+                        $arrayData[] = [
+                            $chofer['choferId'],
+                            $chofer['nombre'],
+                            $chofer['apellido'],
+                            $chofer['dni'],
+                            $chofer['cursoId'],
+                            $chofer['fechaFin']->format('d-m-Y H:i:s'),
+                            $chofer['fechaDeVigencia'],
+                        ];
                     }
 
-                    $styleArray = [
-                        'alignment' => [
-                            'horizontal' => \PHPExcel_Style_Alignment::HORIZONTAL_CENTER,
-                            'vertical' => \PHPExcel_Style_Alignment::VERTICAL_CENTER
-                        ],
-                        'borders' => [
-                            'allborders' => [
-                                'style' => \PHPExcel_Style_Border::BORDER_THIN,
-                                'color' => ['argb' => '00000000']
-                            ],
-                        ]
-                    ];
-
-                    $phpExcelObject->getActiveSheet()->getStyle('A2:G' . ($row - 1))
-                        ->applyFromArray($styleArray);
-
-                    // create the writer
-                    $writer = $this->get('phpexcel')->createWriter($phpExcelObject, 'Excel5');
-                    // create the response
-                    $response = $this->get('phpexcel')->createStreamedResponse($writer);
-                    // adding headers
-                    $dispositionHeader = $response->headers->makeDisposition(
-                        ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                        'Choferes_Vigencia_' . date('d-m-Y') . '.xls'
+                    return $excelService->getCSVExcelResponse(
+                        $properties,
+                        $arrayData,
+                        'Choferes_Vigencia_'
                     );
-                    $response->headers->set('Set-Cookie', 'fileDownload=true; path=/');
-                    $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
-                    $response->headers->set('Pragma', 'public');
-                    $response->headers->set('Cache-Control', 'maxage=1');
-                    $response->headers->set('Content-Disposition', $dispositionHeader);
-
-                    return $response;
                 } else {
                     $data =  [
                         'result'  => false,
@@ -180,23 +99,48 @@ class ReporteController extends Controller
             $form->bind($request);
 
             if ($form->isValid()) {
-                $tipoCurso = $form->get('tipoCurso')->getData();
+                $cursoService =  $this->get('choferes.servicios.curso');
+
                 $fechaInicioDesde = $form->get('fechaInicioDesde')->getData();
                 $fechaInicioHasta = $form->get('fechaInicioHasta')->getData();
 
-                $cursoService =  $this->get('choferes.servicios.curso');
-                $cursos = $cursoService->getCursosPorTipoFilterByFechaInicio(
-                    $tipoCurso,
+                $cursos = $cursoService->getCursosFilterByFechaInicio(
                     $fechaInicioDesde,
                     $fechaInicioHasta
                 );
 
+                // Por tipo de curso
+                $tiposCurso = $cursoService->getTiposCurso();
+                $dataPorTipoCurso = [];
+                foreach ($tiposCurso as $tipoCurso) {
+                    $cursosPorTipo = $cursoService->getCursosPorTipo($cursos, $tipoCurso);
+                    $data = [
+                        'tipo' => $tipoCurso->getNombre(),
+                        'cantCursos' => count($cursosPorTipo),
+                        'cantAlumnos' => $cursoService->getTotalAlumnos($cursosPorTipo),
+                        'montoTotal' => $cursoService->getMontoTotalCursos($cursosPorTipo),
+                        'montoRecaudado' => $cursoService->getMontoRecaudadoCursos($cursosPorTipo),
+                    ];
+                    $dataPorTipoCurso[] = $data;
+                }
+
+                // Total de cursos
+                $totalAlumnos = $this->getTotalFromArray($dataPorTipoCurso, 'cantAlumnos');
+                $montoTotal = $this->getTotalFromArray($dataPorTipoCurso, 'montoTotal');
+                $montoRecaudado = $this->getTotalFromArray($dataPorTipoCurso, 'montoRecaudado');
+
                 return $this->render('ChoferesBundle:Reporte:cursos_por_tipo_result.html.twig', [
-                   'tipoCurso' => $tipoCurso,
                    'fechaInicioDesde' => $fechaInicioDesde,
                    'fechaInicioHasta' => $fechaInicioHasta,
+
                    'cursos' => $cursos,
-                   'css_active' => 'reporte_cursos_por_tipo'
+                   'montoTotal' => $montoTotal,
+                   'montoRecaudado' => $montoRecaudado,
+                   'totalAlumnos' => $totalAlumnos,
+
+                   'dataPorTipoCurso' => $dataPorTipoCurso,
+
+                   'css_active' => 'reporte_cursos_por_tipo',
                 ]);
             }
         }
@@ -205,5 +149,89 @@ class ReporteController extends Controller
             'form' => $form->createView(),
             'css_active' => 'reporte_cursos_por_tipo'
         ]);
+    }
+
+    /**
+    * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV') or has_role('ROLE_CENT')")
+    */
+    public function cursosPorTipoExcelAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->isMethod('POST')) {
+            $cursoService =  $this->get('choferes.servicios.curso');
+
+            $to = $request->request->get('to');
+            $from = $request->request->get('from');
+
+            $cursos = $cursoService->getCursosFilterByFechaInicio(
+                $from,
+                $to
+            );
+
+            if (! empty($cursos)) {
+                $excelService =  $this->get('choferes.servicios.excel');
+
+                $properties = [
+                    'creator' => 'CNTSV',
+                    'lastModifiedBy' => 'CNTSV',
+                    'title' => 'Cursos_por_tipo',
+                    'description' => 'Cursos por tipo.'
+                ];
+
+                $arrayData = [
+                    [
+                        'Tipo de curso',
+                        'Curso id',
+                        'Fecha de inicio',
+                        'Fecha de fin',
+                        'Prestador',
+                        'Nro de TRI',
+                        'Estado',
+                        'Sede',
+                        'Monto a recaudar ($)',
+                        'Monto recaudado ($)',
+                    ],
+                ];
+
+                foreach ($cursos as $curso) {
+                    $arrayData[] = [
+                        $curso->getTipoCurso()->getNombre(),
+                        $curso->getId(),
+                        $curso->getFechaInicio()->format('d-m-Y'),
+                        $curso->getFechaFin()->format('d-m-Y'),
+                        $curso->getPrestador(),
+                        $curso->getCodigo(),
+                        $curso->getEstado(),
+                        $curso->getSede(),
+                        ($curso->getMontoTotal()) ? $curso->getMontoTotal() : '0',
+                        ($curso->getMontoRecaudado()) ? $curso->getMontoRecaudado() : '0',
+                    ];
+                }
+
+                return $excelService->getCSVExcelResponse(
+                    $properties,
+                    $arrayData,
+                    'Cursos_por_tipo_'
+                );
+            }
+        }
+        
+        $data =  [
+            'result'  => false,
+            'message' => 'No se encontraron cursos'
+        ];
+
+        $response = new JsonResponse();
+        $response->setData($data);
+
+        return $response;
+    }
+
+    private function getTotalFromArray($array, $field)
+    {
+        return array_reduce($array, function($count, $item) use ($field) {
+            return $count + $item[$field];
+        }, 0.0);
     }
 }

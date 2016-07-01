@@ -35,10 +35,10 @@
               </div>
 
               <div class="row">
-                {{ form_widget(filterForm.fechaInicio, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+                {{ form_widget(filterForm.fechaInicio, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true', 'data-date-language': 'es'}}) }}
               </div>
               <div class="row">
-                {{ form_widget(filterForm.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+                {{ form_widget(filterForm.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true', 'data-date-language': 'es'}}) }}
               </div>
               {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                   {% if (app.user.rol == 'ROLE_CNTSV') %}

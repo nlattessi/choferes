@@ -139,4 +139,5 @@ ChoferesBundle\Entity\Curso:
         choferCursos:
             targetEntity: ChoferCurso
             mappedBy: curso
+            fetch: EXTRA_LAZY
     lifecycleCallbacks: {  }

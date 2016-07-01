@@ -25,3 +25,8 @@ services:
         class: ChoferesBundle\Servicios\PagoService
         arguments:
             entityManager: @doctrine.orm.entity_manager
+    choferes.servicios.excel:
+        class: ChoferesBundle\Servicios\ExcelService
+        arguments:
+            phpexcel: @phpexcel
+

@@ -285,7 +285,7 @@ class CursoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('ChoferesBundle:Curso')->find($id);
-        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_FALLAVALIDACION) );
+        $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_FALLAVALIDACION));
 
         $em->persist($entity);
         $em->flush();

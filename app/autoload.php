@@ -14,6 +14,7 @@ $classMap = array(
     'FPDF' => __DIR__.'/../utils/fpdf/fpdf.php',
     'PdfHtml' => __DIR__.'/../utils/PdfHtml.php',
     'QR' => __DIR__.'/../utils/qr.php',
+    'DateTimeUtils' => __DIR__.'/../utils/DateTimeUtils.php',
 );
 $loader->addClassMap($classMap);
 

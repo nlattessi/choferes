@@ -142,6 +142,17 @@ class CursoService
         return $curso;
     }
 
+    public function areCursosFechaCreacionGreaterThan($cursos, $fecha)
+    {
+        foreach ($cursos as $curso) {
+            if ($curso->getFechaCreacion() < $fecha) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private function updateCursoTri($cursoId, $tri)
     {
         $curso = $this->em->getRepository('ChoferesBundle:Curso')->find($cursoId);

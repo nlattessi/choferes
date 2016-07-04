@@ -95,6 +95,10 @@ class ReporteController extends Controller
     {
         $form = $this->createForm(new ReporteCursosPorTipoType());
 
+        $fechaModuloPago = \DateTimeUtils::createDateTime(
+            $this->container->getParameter('fecha_modulo_pago')
+        );
+
         if ($request->isMethod('POST')) {
             $form->bind($request);
 
@@ -121,6 +125,7 @@ class ReporteController extends Controller
                         'montoTotal' => $cursoService->getMontoTotalCursos($cursosPorTipo),
                         'montoRecaudado' => $cursoService->getMontoRecaudadoCursos($cursosPorTipo),
                     ];
+
                     $dataPorTipoCurso[] = $data;
                 }
 
@@ -129,16 +134,22 @@ class ReporteController extends Controller
                 $montoTotal = $this->getTotalFromArray($dataPorTipoCurso, 'montoTotal');
                 $montoRecaudado = $this->getTotalFromArray($dataPorTipoCurso, 'montoRecaudado');
 
+                // Mostrar montos de acuerdo a la 'fecha creacion' de los cursos
+                $mostrarMontos = $cursoService->areCursosFechaCreacionGreaterThan($cursos, $fechaModuloPago);
+
                 return $this->render('ChoferesBundle:Reporte:cursos_por_tipo_result.html.twig', [
                    'fechaInicioDesde' => $fechaInicioDesde,
                    'fechaInicioHasta' => $fechaInicioHasta,
 
                    'cursos' => $cursos,
-                   'montoTotal' => $montoTotal,
-                   'montoRecaudado' => $montoRecaudado,
                    'totalAlumnos' => $totalAlumnos,
 
+                   'montoTotal' => $montoTotal,
+                   'montoRecaudado' => $montoRecaudado,
+
                    'dataPorTipoCurso' => $dataPorTipoCurso,
+
+                   'mostrarMontos' => $mostrarMontos,
 
                    'css_active' => 'reporte_cursos_por_tipo',
                 ]);
@@ -147,7 +158,8 @@ class ReporteController extends Controller
 
         return $this->render('ChoferesBundle:Reporte:cursos_por_tipo.html.twig', [
             'form' => $form->createView(),
-            'css_active' => 'reporte_cursos_por_tipo'
+            'fechaModuloPago' => $fechaModuloPago->format('d/m/Y'),
+            'css_active' => 'reporte_cursos_por_tipo',
         ]);
     }
 

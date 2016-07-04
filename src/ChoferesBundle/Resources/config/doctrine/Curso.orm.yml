@@ -52,13 +52,13 @@ ChoferesBundle\Entity\Curso:
             length: 45
             options:
                 fixed: false
-        # comprobante:
-        #     type: string
-        #     nullable: true
-        #     length: 45
-        #     unique: true
-        #     options:
-        #         fixed: false
+        comprobante:
+            type: string
+            nullable: true
+            length: 45
+            unique: true
+            options:
+                fixed: false
         fechaPago:
             type: date
             nullable: true
@@ -81,6 +81,12 @@ ChoferesBundle\Entity\Curso:
             scale: 2
             options:
                 default: 0
+        usaModuloPago:
+            type: boolean
+            nullable: false
+            options:
+                default: false
+            column: usa_modulo_pago
     manyToOne:
         docente:
             targetEntity: Docente

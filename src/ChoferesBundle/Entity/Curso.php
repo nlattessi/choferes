@@ -44,7 +44,7 @@ class Curso
     /**
      * @var string
      */
-    // private $comprobante;
+    private $comprobante;
 
     /**
      * @var \ChoferesBundle\Entity\Docente
@@ -100,6 +100,11 @@ class Curso
      * @var ArrayCollection
      */
     private $choferCursos;
+
+    /**
+     * @var boolean
+     */
+    private $usaModuloPago = false;
 
     public function __construct()
     {
@@ -233,17 +238,20 @@ class Curso
      */
     public function getComprobante()
     {
-        //return $this->comprobante;
-        return $this->getComprobantesPago()->last()->getCodigo();
+        if ($this->usaModuloPago) {
+            return $this->getComprobantesPago()->last()->getCodigo();
+        }
+
+        return $this->comprobante;
     }
 
     /**
      * @param string $comprobante
      */
-    // public function setComprobante($comprobante)
-    // {
-    //     $this->comprobante = $comprobante;
-    // }
+    public function setComprobante($comprobante)
+    {
+        $this->comprobante = $comprobante;
+    }
 
     /**
      * Set docente
@@ -514,5 +522,29 @@ class Curso
         }
 
         return false;
+    }
+
+    /**
+     * Get montoRecaudado
+     *
+     * @return Curso
+     */
+    public function getUsaModuloPago()
+    {
+        return $this->usaModuloPago;
+    }
+
+    /**
+     * Set usaModuloPago
+     *
+     * @param boolean $usaModuloPago
+     *
+     * @return Curso
+     */
+    public function setUsaModuloPago($usaModuloPago)
+    {
+        $this->usaModuloPago = $usaModuloPago;
+
+        return $this;
     }
 }

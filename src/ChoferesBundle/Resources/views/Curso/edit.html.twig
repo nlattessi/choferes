@@ -64,6 +64,21 @@
             <td><b>Nro de TRI</td>
             <td>{{ form_widget(edit_form.codigo, {'attr': {'class': 'form-control'}}) }}</td>
           </tr>
+          {% if not entity.usaModuloPago %}
+            <tr class="gradeA">
+              <td><b>Comprobante</td>
+              <td>{{ form_widget(edit_form.comprobante, {'attr': {'class': 'form-control'}}) }}</td>
+            </tr>
+            <tr class="gradeA">
+              <td><b>Fecha de pago</td>
+              <td><div class="input-group">
+                <span class="input-group-addon">
+                  <i class="icon wb-calendar" aria-hidden="true"></i>
+                </span>
+                {{ form_widget(edit_form.fechaPago, {'attr': {'class': 'form-control'}}) }}
+              </div></td>
+            </tr>
+          {% endif %}
           <tr class="gradeA">
             <td><b>Observaciones</td>
             <td>{{ form_widget(edit_form.observaciones, {'attr': {'class': 'form-control'}}) }}</td>
@@ -125,6 +140,13 @@
       var t = "{{ var }}".split(/[- :]/);
       var d = new Date(t[0], t[1]-1, t[2], t[3], t[4]);
       $('#choferesbundle_curso_horaFin').timepicker().timepicker('setTime', new Date(d));
+
+      {% if entity.fechaPago %}
+        {% set var = entity.fechaPago|date('d/m/Y') %}
+        $('#choferesbundle_curso_fechaPago').val('{{ var }}');
+      {% endif %}
+      $('#choferesbundle_curso_fechaPago').datepicker({format: "dd/mm/yyyy", autoclose: true});
+
     </script>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}

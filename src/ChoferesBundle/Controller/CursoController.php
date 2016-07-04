@@ -626,6 +626,8 @@ class CursoController extends Controller
                     $entity->setFechaPago($dtFechaPago);
                 }
 
+                $entity->setUsaModuloPago(true);
+
                 $em->persist($entity);
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('success', 'flash.create.success');

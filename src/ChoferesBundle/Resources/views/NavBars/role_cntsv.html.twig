@@ -101,7 +101,7 @@ css_active == 'curso_todos' %} active open{% endif %}{% endif %}">
     </a>
 </li>
 
-<li class="site-menu-item has-sub {% if css_active is defined %}{% if css_active == 'reporte_vigente' %} active open{% endif %}{% endif %}">
+<li class="site-menu-item has-sub {% if css_active is defined %}{% if css_active == 'reporte_vigente' or css_active == 'reporte_cursos_por_tipo' %} active open{% endif %}{% endif %}">
     <a href="javascript:void(0)" data-slug="layout">
         <i class="site-menu-icon wb-library" aria-hidden="true"></i>
         <span class="site-menu-title">Reportes</span>
@@ -112,6 +112,12 @@ css_active == 'curso_todos' %} active open{% endif %}{% endif %}">
             <a class="animsition-link" href="{{ path('reporte_choferes_vigentes') }}" data-slug="layout-menu-collapsed">
                 <i class="site-menu-icon " aria-hidden="true"></i>
                 <span class="site-menu-title">#Reporte Choferes vigentes</span>
+            </a>
+        </li>
+        <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'reporte_cursos_por_tipo' %} active{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('reporte_cursos_por_tipo') }}" data-slug="layout-menu-collapsed">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">#Reporte Cursos por tipo</span>
             </a>
         </li>
     </ul>

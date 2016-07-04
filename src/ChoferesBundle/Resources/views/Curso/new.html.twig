@@ -18,7 +18,6 @@
 {% endblock %}
 
 {% block page %}
-
       <div class="panel">
             <div class="panel-heading">
               <h3 class="panel-title">Todos los campos son obligatorios</h3>
@@ -59,7 +58,8 @@
                            </div>
                          </div> <!-- row-->
 
-                         {{ form_end(form) }}
+                         {{ form_widget(form._token) }}
+                          </form>
 
                         </div><!-- panel-->
                         </div><!-- panel body-->

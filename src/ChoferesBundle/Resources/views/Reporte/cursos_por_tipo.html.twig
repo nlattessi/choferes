@@ -22,8 +22,16 @@ Reporte Cursos por tipo
   <div class="panel-body container-fluid">
     <form action="{{ path('reporte_cursos_por_tipo') }}" method="POST">
       <div class="row">
-        {# {{ form_widget(form.tipoCurso, {'attr': {'class': 'form-control'} }) }} #}
+        <h4 class="example-title">
+          Recordar que la información sobre montos solo está disponible para cursos creados a partir del {{ fechaModuloPago }}.
+        </h4>
       </div>
+      <div class="row">
+        <h4 class="example-title">
+          Cualquier reporte que incluya cursos creados antes de la fecha no presentará información sobre montos.
+        </h4>
+      </div>
+      <hr>
       <div class="row">
         {{ form_widget(form.fechaInicioDesde, {'attr': {'class': 'fechaVigencia form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true', 'data-date-language': 'es'}}) }}
         {{ form_widget(form.fechaInicioHasta, {'attr': {'class': 'fechaVigencia form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true', 'data-date-language': 'es'}}) }}

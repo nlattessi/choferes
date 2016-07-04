@@ -42,11 +42,11 @@ Reporte Cursos por tipo
     </div>
     <div class="row">
       <div class="col-md-3"><p>Monto total a recaudar ($):</p></div>
-      <div class="col-md-3"><h5><strong>{{ montoTotal }}</strong> $</h5></div>
+      <div class="col-md-3"><h5><strong>{% if mostrarMontos %}{{ montoTotal }}</strong> ${% else %}*</strong>{% endif %}</h5></div>
     </div>
     <div class="row">
       <div class="col-md-3"><p>Monto total recaudado ($):</p></div>
-      <div class="col-md-3"><h5><strong>{{ montoRecaudado }}</strong> $</h5></div>
+      <div class="col-md-3"><h5><strong>{% if mostrarMontos %}{{ montoRecaudado }}</strong> ${% else %}*</strong>{% endif %}</h5></div>
     </div>
   </div>
   {% else %}
@@ -78,8 +78,8 @@ Reporte Cursos por tipo
               <td>{{ tipoCurso.tipo }}</td>
               <td>{{ tipoCurso.cantCursos }}</td>
               <td>{{ tipoCurso.cantAlumnos }}</td>
-              <td>{{ tipoCurso.montoTotal }} $</td>
-              <td>{{ tipoCurso.montoRecaudado }} $</td>
+              <td>{% if mostrarMontos %}{{ tipoCurso.montoTotal }} ${% else %}*{% endif %}</td>
+              <td>{% if mostrarMontos %}{{ tipoCurso.montoRecaudado }} ${% else %}*{% endif %}</td>
             </tr>
           {% endfor %}
         </tbody>
@@ -133,8 +133,8 @@ Reporte Cursos por tipo
             <td>{{ curso.codigo }}</td>
             <td>{{ curso.estado }}</td>
             <td>{{ curso.sede }}</td>
-            <td>{{ curso.montoTotal }} $</td>
-            <td>{{ curso.montoRecaudado }} $</td>
+            <td>{% if mostrarMontos %}{{ curso.montoTotal }} ${% else %}*{% endif %}</td>
+            <td>{% if mostrarMontos %}{{ curso.montoRecaudado }} ${% else %}*{% endif %}</td>
           </tr>
           {% endfor %}
         </tbody>

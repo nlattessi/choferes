@@ -2,6 +2,7 @@
 
 namespace ChoferesBundle\Form;
 
+use ChoferesBundle\Servicios\UsuarioService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -13,8 +14,14 @@ use Lexik\Bundle\FormFilterBundle\Filter\FilterOperands;
 
 class SedeFilterType extends AbstractType
 {
+    public function __construct(UsuarioService $usuarioService)
+    {
+        $this->usuarioService = $usuarioService;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $usuario = $options['user'];
         $builder
             // ->add('id', 'filter_number_range')
             ->add('nombre', 'filter_text', [
@@ -33,6 +40,24 @@ class SedeFilterType extends AbstractType
                 'condition_pattern' => FilterOperands::STRING_BOTH,
             ])
         ;
+        if ($usuario->getRol() == 'ROLE_CNTSV') {
+            $builder
+                ->add('codigo', 'filter_text', [
+                    'condition_pattern' => FilterOperands::STRING_BOTH,
+                ])
+                // ->add('comprobante', 'filter_text')
+                ->add('prestador', 'filter_entity', [
+                    'class' => 'ChoferesBundle:Prestador',
+                    'choices' => $this->usuarioService->obtenerPrestadoresActivos()
+                ])
+                // ->add('docente', 'filter_entity', [
+                //     'class' => 'ChoferesBundle:Docente'
+                // ])
+                // ->add('sede', 'filter_entity', [
+                //     'class' => 'ChoferesBundle:Sede'
+                // ])
+            ;
+        }
 
         $listener = function(FormEvent $event)
         {
@@ -51,6 +76,12 @@ class SedeFilterType extends AbstractType
             $event->getForm()->addError(new FormError('Ninguna sede cumple con los parámetros de búsqueda'));
         };
         $builder->addEventListener(FormEvents::POST_BIND, $listener);
+    }
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'user' => null,
+        ));
     }
 
     public function getName()

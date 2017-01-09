@@ -45,12 +45,13 @@ class SedeController extends Controller
     {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $filterForm = $this->createForm(new SedeFilterType());
-        $em = $this->getDoctrine()->getManager();
-
         /*Inicio filtro por prestador*/
         $usuario = $this->getUser();
         $usuarioService =  $this->get('choferes.servicios.usuario');
+        $filterForm = $this->createForm(new SedeFilterType($usuarioService), null, ['user' => $usuario]);
+        $em = $this->getDoctrine()->getManager();
+
+
 
         if ($usuario->getRol() == 'ROLE_PRESTADOR') {
             //filtro solo lo que es de este usuario
@@ -86,7 +87,7 @@ class SedeController extends Controller
             // Get filter from session
             if ($session->has('SedeControllerFilter')) {
                 $filterData = $session->get('SedeControllerFilter');
-                $filterForm = $this->createForm(new SedeFilterType(), $filterData);
+                $filterForm = $this->createForm(new SedeFilterType($usuarioService), null, ['user' => $usuario]);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
             }
         }
@@ -133,14 +134,18 @@ class SedeController extends Controller
     public function createAction(Request $request)
     {
         $entity  = new Sede();
-        $form = $this->createForm(new SedeType(), $entity);
+        $usuario = $this->getUser();
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+
+        $form = $this->createForm(new SedeType($usuarioService),$entity, array(
+            'user' => $this->getUser()
+        ));
         $form->bind($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $usuario = $this->getUser();
-            $usuarioService =  $this->get('choferes.servicios.usuario');
+
             if ($usuario->getRol() == 'ROLE_PRESTADOR') {
                 $prestador = $usuarioService->obtenerPrestadorPorUsuario($usuario);
                 $entity->setPrestador($prestador);
@@ -167,7 +172,10 @@ class SedeController extends Controller
     public function newAction()
     {
         $entity = new Sede();
-        $form   = $this->createForm(new SedeType(), $entity);
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+        $form   = $this->createForm(new SedeType($usuarioService),$entity, array(
+            'user' => $this->getUser()
+        ));
 
         return $this->render('ChoferesBundle:Sede:new.html.twig', array(
             'entity' => $entity,
@@ -212,8 +220,10 @@ class SedeController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Sede entity.');
         }
-
-        $editForm = $this->createForm(new SedeType(), $entity);
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+        $editForm = $this->createForm(new SedeType($usuarioService),$entity, array(
+            'user' => $this->getUser()
+        ));
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ChoferesBundle:Sede:edit.html.twig', array(
@@ -239,7 +249,10 @@ class SedeController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new SedeType(), $entity);
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+        $editForm = $this->createForm(new SedeType($usuarioService),$entity, array(
+            'user' => $this->getUser()
+        ));
         $editForm->bind($request);
 
         if ($editForm->isValid()) {

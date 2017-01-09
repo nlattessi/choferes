@@ -43,6 +43,15 @@
     </div>
 {% endblock %}
 
+{% block _choferesbundle_sedefiltertype_prestador_widget %}
+    <div class="col-sm-6 col-md-4">
+        <h4 class="example-title">Prestador</h4>
+        <div class="form-group">
+            {{ block('choice_widget') }}
+        </div>
+    </div>
+{% endblock %}
+
 {% block form_errors %}
   {% spaceless %}
     {% if errors|length > 0 %}

@@ -43,6 +43,9 @@
                 </div>
                 <div class="row">
                     {{ form_widget(filterForm.telefono, {'attr': {'class': 'form-control'}}) }}
+                    {% if (app.user.rol == 'ROLE_CNTSV') %}
+                        {{ form_widget(filterForm.prestador, {'attr': {'class': 'form-control'}}) }}
+                    {% endif %}
                 </div>
                 {{ form_row(filterForm._token) }}
                 <div class="row">

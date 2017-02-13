@@ -68,11 +68,13 @@ class SedeController extends Controller
         }
         /*Fin filtro por prestador*/
 
-        $session->remove('SedeControllerFilter');
 
+        // Reset filter
+        //$session->remove('SedeControllerFilter');
 
         // Filter action
         if ($request->get('filter_action') == 'filter') {
+
             // Bind values from the request
             $filterForm->bind($request);
 
@@ -83,11 +85,15 @@ class SedeController extends Controller
                 $filterData = $filterForm->getData();
                 $session->set('SedeControllerFilter', $filterData);
             }
+        }else if ($request->get('filter_action') == 'reset') {
+            $session->remove('SedeControllerFilter');
         } else {
             // Get filter from session
             if ($session->has('SedeControllerFilter')) {
+
                 $filterData = $session->get('SedeControllerFilter');
                 $filterForm = $this->createForm(new SedeFilterType($usuarioService), null, ['user' => $usuario]);
+                $filterForm->setData($filterData);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
             }
         }

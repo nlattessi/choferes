@@ -48,7 +48,7 @@ class ChoferService
             )
             ->where('chofer.dni = :dni')
             ->andWhere('curso.estado = :estadoValidado')
-            ->orderBy('curso.fechaFin', 'DESC')
+            ->orderBy('curso.fechaCreacion', 'DESC')
             ->setParameter('dni', $dni)
             ->setParameter('estadoValidado', $estadoValidado)
             ->setMaxResults(1)
@@ -176,7 +176,7 @@ class ChoferService
             ->andWhere('choferCurso.pagado = TRUE')
             ->andWhere('choferCurso.documentacion = 1')
             ->andWhere('curso.fechaFin > :fechaVigencia')
-            ->orderBy('curso.fechaFin', 'DESC')
+            ->orderBy('curso.fechaCreacion', 'DESC')
             ->setParameter('fechaVigencia', $fechaVigente)
             ->getQuery();
 

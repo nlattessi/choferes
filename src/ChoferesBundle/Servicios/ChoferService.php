@@ -196,8 +196,6 @@ class ChoferService
     public function getChoferesVigentesCNRT($fechaDesdeForm, $fechaHastaForm)
     {
         $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaDesdeForm);
-        $fechaVigente = $fechaDesde->sub(new \DateInterval('P1Y'));
-
         $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaHastaForm);
 
         $query = $this->em->createQueryBuilder()
@@ -217,16 +215,22 @@ class ChoferService
             ->andWhere('choferCurso.documentacion = TRUE')
             ->andWhere('curso.fechaFin > :fechaVigencia')
             ->orderBy('curso.fechaCreacion', 'DESC')
-            ->setParameter('fechaVigencia', $fechaVigente)
-            ->setMaxResults(5)
+            ->setParameter('fechaVigencia', $fechaDesde)
             ->getQuery();
 
         $result = $query->getResult();
 
         if (isset($result)) {
+
+            $result = array_filter($result, function ($chofer) use ($fechaHasta) {
+                $fechaFin = $chofer['fechaFin']->format('d-m-Y H:i:s');
+                $fechaVigencia = new \DateTime("+1 year $fechaFin");
+                return ($fechaVigencia < $fechaHasta);
+            });
+
             foreach ($result as &$chofer) {
                 $fechaFin = $chofer['fechaFin']->format('d-m-Y H:i:s');
-                unset($chofer['fechaFin']);
+                $chofer['fechaFin'] = $fechaFin;
 
                 $fechaVigencia = new \DateTime("+1 year $fechaFin");
                 $chofer['fechaVigencia'] = $fechaVigencia->format('d-m-Y H:i:s');

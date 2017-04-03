@@ -270,6 +270,7 @@ class ReporteController extends Controller
                 'DNI',
                 //'Curso id',
                 //'Curso Fecha Fin',
+                'Vigente Desde',
                 'Vigente Hasta',
             ]);
             $csv->insertAll($choferesVigentes);

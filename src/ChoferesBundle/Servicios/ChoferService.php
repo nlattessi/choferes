@@ -175,19 +175,12 @@ class ChoferService
             ->andWhere('curso.fechaFin > :fechaVigencia')
             ->orderBy('curso.fechaCreacion', 'DESC')
             ->setParameter('fechaVigencia', $fechaVigente)
-            ->setMaxResults(5)
             ->getQuery();
 
         $result = $query->getResult();
 
         if (isset($result)) {
-            foreach ($result as &$chofer) {
-                $fechaFin = $chofer['fechaFin']->format('d-m-Y H:i:s');
-                $chofer['fechaFin'] = $fechaFin;
-
-                $fechaVigencia = new \DateTime("+1 year $fechaFin");
-                $chofer['fechaVigencia'] = $fechaVigencia->format('d-m-Y H:i:s');
-            }
+            $this->adaptDates($result);
         }
 
         return $result;
@@ -228,13 +221,7 @@ class ChoferService
                 return ($fechaVigencia < $fechaHasta);
             });
 
-            foreach ($result as &$chofer) {
-                $fechaFin = $chofer['fechaFin']->format('d-m-Y H:i:s');
-                $chofer['fechaFin'] = $fechaFin;
-
-                $fechaVigencia = new \DateTime("+1 year $fechaFin");
-                $chofer['fechaVigencia'] = $fechaVigencia->format('d-m-Y H:i:s');
-            }
+            $this->adaptDates($result);
         }
 
         return $result;
@@ -299,5 +286,16 @@ class ChoferService
         }
 
         $this->em->flush();
+    }
+
+    private function adaptDates(&$choferes)
+    {
+        foreach ($choferes as &$chofer) {
+            $fechaFin = $chofer['fechaFin']->format('d-m-Y H:i:s');
+            $chofer['fechaFin'] = $fechaFin;
+
+            $fechaVigencia = new \DateTime("+1 year $fechaFin");
+            $chofer['fechaVigencia'] = $fechaVigencia->format('d-m-Y H:i:s');
+        }
     }
 }

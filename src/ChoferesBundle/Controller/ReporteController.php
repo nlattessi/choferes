@@ -28,7 +28,16 @@ class ReporteController extends Controller
                 $choferesVigentes = $choferesService->getChoferesVigentes($fechaForm);
 
                 if (! empty($choferesVigentes)) {
-                    return $this->createCNTSVReport($choferesVigentes);
+                    // return $this->createCNTSVReport($choferesVigentes);
+                    return $this->createReporteResponse($choferesVigentes, [
+                        'Chofer id',
+                        'Nombre',
+                        'Apellido',
+                        'DNI',
+                        'Curso id',
+                        'Curso Fecha Fin',
+                        'Vigente Hasta'
+                    ]);
                 }
                 else {
                     $data =  [
@@ -70,7 +79,11 @@ class ReporteController extends Controller
                 $choferesVigentes = $choferesService->getChoferesVigentesCNRT($fechaDesde, $fechaHasta);
 
                 if (! empty($choferesVigentes)) {
-                    return $this->createCNRTReport($choferesVigentes);
+                    return $this->createReporteResponse($choferesVigentes, [
+                        'DNI',
+                        'Vigente Desde',
+                        'Vigente Hasta',
+                    ]);
                 }
                 else {
                     $data =  [
@@ -259,23 +272,19 @@ class ReporteController extends Controller
         return $response;
     }
 
-    private function createCNRTReport($choferesVigentes)
+    private function createReporteResponse($choferesVigentes, $headers)
     {
-        $response = new StreamedResponse(function() use($choferesVigentes) {
+        $response = new StreamedResponse(function () use ($choferesVigentes, $headers) {
             $csv = Writer::createFromFileObject(new \SplTempFileObject());
-            $csv->insertOne([
-                //'Chofer id',
-                //'Nombre',
-                //'Apellido',
-                'DNI',
-                //'Curso id',
-                //'Curso Fecha Fin',
-                'Vigente Desde',
-                'Vigente Hasta',
-            ]);
+            $csv->insertOne($headers);
             $csv->insertAll($choferesVigentes);
-            $csv->output('Choferes_Vigencia_' . date('d-m-Y') . '.csv');
+            $csv->output('Reporte_Choferes_Vigencia_' . date('d-m-Y') . '.csv');
         });
+
+        $response->headers->set('Set-Cookie', 'fileDownload=true; path=/');
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
 
         return $response;
     }

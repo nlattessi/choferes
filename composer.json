@@ -8,7 +8,7 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "symfony/symfony": "2.8.*",
+        "symfony/symfony": "2.5.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "~1.2",
         "twig/extensions": "~1.0",
@@ -18,13 +18,12 @@
         "sensio/distribution-bundle": "~3.0",
         "sensio/framework-extra-bundle": "~3.0",
         "incenteev/composer-parameter-handler": "~2.0",
-        "jordillonch/crud-generator": "dev-master",
-        "xsolve-pl/xsolve-bootstrap-crud-bundle": "dev-master",
+		    "jordillonch/crud-generator": "dev-master",
+		    "xsolve-pl/xsolve-bootstrap-crud-bundle": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "gregwar/captcha-bundle": "dev-master",
         "cayetanosoriano/hashids-bundle": "dev-master",
-        "liuggio/excelbundle": "^2.0",
-        "league/csv": "^8.0"
+        "liuggio/excelbundle": "^2.0"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

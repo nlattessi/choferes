@@ -3,7 +3,7 @@
 namespace ChoferesBundle\Servicios;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query\Expr\Join;
+
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -40,11 +40,11 @@ class ChoferService
             ->from('ChoferesBundle:Chofer', 'chofer')
             ->leftJoin(
                 'ChoferesBundle:ChoferCurso', 'choferCurso',
-                Join::WITH, 'choferCurso.chofer = chofer.id'
+                \Doctrine\ORM\Query\Expr\Join::WITH, 'choferCurso.chofer = chofer.id'
             )
             ->leftJoin(
                 'ChoferesBundle:Curso', 'curso',
-                Join::WITH, 'choferCurso.curso = curso.id'
+                \Doctrine\ORM\Query\Expr\Join::WITH, 'choferCurso.curso = curso.id'
             )
             ->where('chofer.dni = :dni')
             ->andWhere('curso.estado = :estadoValidado')
@@ -151,27 +151,30 @@ class ChoferService
 
     public function getChoferesVigentes($fechaForm)
     {
+        $choferesVigentes = [];
+
         $fecha = \DateTime::createFromFormat('d/m/Y', $fechaForm);
         $fechaVigente = $fecha->sub(new \DateInterval('P1Y'));
 
         $query = $this->em->createQueryBuilder()
             ->select(
                 'chofer.id as choferId', 'chofer.nombre', 'chofer.apellido', 'chofer.dni',
-                'curso.id as cursoId', 'curso.fechaFin as fechaFin'
+                'curso.id as cursoId', 'curso.fechaFin as fechaFin',
+                'chofer.tieneCursoBasico', 'choferCurso.isAprobado', 'choferCurso.pagado', 'choferCurso.documentacion'
             )
             ->from('ChoferesBundle:Chofer', 'chofer')
-            ->innerJoin(
+            ->leftJoin(
                 'ChoferesBundle:ChoferCurso', 'choferCurso',
-                Join::WITH, 'choferCurso.chofer = chofer.id'
+                \Doctrine\ORM\Query\Expr\Join::WITH, 'choferCurso.chofer = chofer.id'
             )
-            ->innerJoin(
+            ->leftJoin(
                 'ChoferesBundle:Curso', 'curso',
-                Join::WITH, 'choferCurso.curso = curso.id'
+                \Doctrine\ORM\Query\Expr\Join::WITH, 'choferCurso.curso = curso.id'
             )
             ->where('chofer.tieneCursoBasico = TRUE')
             ->andWhere('choferCurso.isAprobado = TRUE')
             ->andWhere('choferCurso.pagado = TRUE')
-            ->andWhere('choferCurso.documentacion = TRUE')
+            ->andWhere('choferCurso.documentacion = 1')
             ->andWhere('curso.fechaFin > :fechaVigencia')
             ->orderBy('curso.fechaCreacion', 'DESC')
             ->setParameter('fechaVigencia', $fechaVigente)
@@ -180,51 +183,16 @@ class ChoferService
         $result = $query->getResult();
 
         if (isset($result)) {
-            $this->adaptDates($result);
-        }
-
-        return $result;
-    }
-
-    public function getChoferesVigentesCNRT($fechaDesdeForm, $fechaHastaForm)
-    {
-        $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaDesdeForm);
-        $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaHastaForm);
-
-        $query = $this->em->createQueryBuilder()
-            ->select('chofer.dni', 'curso.fechaFin as fechaFin')
-            ->from('ChoferesBundle:Chofer', 'chofer')
-            ->innerJoin(
-                'ChoferesBundle:ChoferCurso', 'choferCurso',
-                Join::WITH, 'choferCurso.chofer = chofer.id'
-            )
-            ->innerJoin(
-                'ChoferesBundle:Curso', 'curso',
-                Join::WITH, 'choferCurso.curso = curso.id'
-            )
-            ->where('chofer.tieneCursoBasico = TRUE')
-            ->andWhere('choferCurso.isAprobado = TRUE')
-            ->andWhere('choferCurso.pagado = TRUE')
-            ->andWhere('choferCurso.documentacion = TRUE')
-            ->andWhere('curso.fechaFin > :fechaVigencia')
-            ->orderBy('curso.fechaCreacion', 'DESC')
-            ->setParameter('fechaVigencia', $fechaDesde)
-            ->getQuery();
-
-        $result = $query->getResult();
-
-        if (isset($result)) {
-
-            $result = array_filter($result, function ($chofer) use ($fechaHasta) {
-                $fechaFin = $chofer['fechaFin']->format('d-m-Y H:i:s');
+            foreach ($result as $chofer) {
+                $fechaFin = $chofer['fechaFin']->format('Y-m-d H:i:s');
                 $fechaVigencia = new \DateTime("+1 year $fechaFin");
-                return ($fechaVigencia < $fechaHasta);
-            });
 
-            $this->adaptDates($result);
+                $chofer['fechaVigencia'] = $fechaVigencia;
+                $choferesVigentes[] = $chofer;
+            }
         }
 
-        return $result;
+        return $choferesVigentes;
     }
 
     public function isChoferFromPrestador($chofer, $userPrestador, $cursoId)
@@ -286,16 +254,5 @@ class ChoferService
         }
 
         $this->em->flush();
-    }
-
-    private function adaptDates(&$choferes)
-    {
-        foreach ($choferes as &$chofer) {
-            $fechaFin = $chofer['fechaFin']->format('d-m-Y H:i:s');
-            $chofer['fechaFin'] = $fechaFin;
-
-            $fechaVigencia = new \DateTime("+1 year $fechaFin");
-            $chofer['fechaVigencia'] = $fechaVigencia->format('d-m-Y H:i:s');
-        }
     }
 }

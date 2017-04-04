@@ -10,10 +10,6 @@ reporte_choferes_vigentes:
     pattern:  /choferes_vigentes
     defaults: { _controller: "ChoferesBundle:Reporte:choferesVigentes" }
 
-reporte_choferes_vigentes_cnrt:
-    pattern:  /choferes_vigentes_cnrt
-    defaults: { _controller: "ChoferesBundle:Reporte:choferesVigentesCNRT" }
-
 reporte_cursos_por_tipo:
     pattern:  /cursosPorTipo
     defaults: { _controller: "ChoferesBundle:Reporte:cursosPorTipo" }

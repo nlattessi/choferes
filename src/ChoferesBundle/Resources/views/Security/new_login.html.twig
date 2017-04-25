@@ -78,6 +78,10 @@
               <input type="password" class="form-control empty" name="_password">
               <label class="floating-label">Password</label>
             </div>
+            <div class="form-group form-material floating">
+              <input type="checkbox" id="remember_me" name="_remember_me" checked class="form-control empty">
+              <label class="floating-label">Mantener la sesión iniciada</label>
+            </div>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 

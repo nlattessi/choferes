@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use ChoferesBundle\Form\ReporteChoferesVigentesType;
 use ChoferesBundle\Form\ReporteChoferesVigentesCNRTType;
+use ChoferesBundle\Form\ReporteChoferesVigentesCNTSVType;
 use ChoferesBundle\Form\ReporteCursosPorTipoType;
 use League\Csv\Writer;
 
@@ -60,6 +61,57 @@ class ReporteController extends Controller
         }
 
         return $this->render('ChoferesBundle:Reporte:choferes_vigentes.html.twig', [
+            'form' => $form->createView(),
+            'css_active' => 'reporte_vigente'
+        ]);
+    }
+
+    public function choferesVigentesCNTSVAction(Request $request)
+    {
+        $form = $this->createForm(new ReporteChoferesVigentesCNTSVType());
+
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $fechaDesde = $form->get('fechaDesde')->getData();
+                $fechaHasta = $form->get('fechaHasta')->getData();
+                $choferesService =  $this->get('choferes.servicios.chofer');
+                $choferesVigentes = $choferesService->getChoferesVigentesCNTSV($fechaDesde, $fechaHasta);
+
+                if (! empty($choferesVigentes)) {
+                    return $this->createReporteResponse($choferesVigentes, [
+                        'Chofer id',
+                        'Nombre',
+                        'Apellido',
+                        'DNI',
+                        'Curso id',
+                        'Curso Fecha Fin',
+                        'Vigente Desde',
+                        'Vigente Hasta'
+                    ]);
+                }
+                else {
+                    $data =  [
+                        'result'  => false,
+                        'message' => 'No se encontraron choferes vigentes'
+                    ];
+                }
+            }
+            else {
+                $data =  [
+                    'result'  => false,
+                    'message' => 'Se produjo un error... Intente de nuevo'
+                ];
+            }
+
+            $response = new JsonResponse();
+            $response->setData($data);
+
+            return $response;
+        }
+
+        return $this->render('ChoferesBundle:Reporte:choferes_vigentes_cntsv.html.twig', [
             'form' => $form->createView(),
             'css_active' => 'reporte_vigente'
         ]);

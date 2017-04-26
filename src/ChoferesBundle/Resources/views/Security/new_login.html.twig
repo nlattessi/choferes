@@ -51,8 +51,6 @@
   <!--[if lt IE 8]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-
-
   <!-- Page -->
   <div class="page animsition vertical-align text-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
     <div class="page-content vertical-align-middle">
@@ -60,9 +58,10 @@
         <div class="panel-body">
           <div class="brand">
             <img class="brand-img" src="{{ asset('bundles/choferes/assets/images/logo-full.png') }}" alt="cntsv logo">
-
           </div>
+
           <form method="post" action="{{ path('login_check') }}">
+
             {% if error %}
               <div class="toast toast-just-text toast-danger">
                 <div class="toast-message">
@@ -70,13 +69,22 @@
                 </div>
               </div>
             {% endif %}
+
             <div class="form-group form-material floating">
               <input type="email" class="form-control empty" name="_username" value="{{ last_username }}" oninvalid="InvalidMsg(this);">
               <label class="floating-label">Email</label>
             </div>
+
             <div class="form-group form-material floating">
               <input type="password" class="form-control empty" name="_password">
               <label class="floating-label">Password</label>
+            </div>
+
+            <div class="col-sm-12 col-md-12 margin-top-30 margin-bottom-30">
+              <div class="checkbox-custom checkbox-inline checkbox-primary checkbox-lg pull-left">
+                <input type="checkbox" id="remember_me" name="_remember_me" checked>
+                <label for="remember_me" class="floating-label">Mantener la sesión iniciada</label>
+              </div>
             </div>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -84,6 +92,7 @@
             <button type="submit" class="btn btn-success btn-block btn-lg margin-top-40">Iniciar sesión</button>
 
           </form>
+
           {#<a href="{{ path('choferes_descargar_certificados') }}"><button type="button" class="btn btn-outline btn-default btn-sm margin-top-20">Descargar certificados</button></a>#}
 
         </div>
@@ -92,12 +101,10 @@
       <footer class="page-copyright page-copyright-inverse">
         <p>Este es un producto de <a href="http://www.hera-digital.com"><img class="hera-brand-img" src="{{ asset('bundles/choferes/assets/images/hera-logo.png') }}" alt="hera logo"></a></p>
         <p>© 2015. Todos los derechos reservados.</p>
-
       </footer>
     </div>
   </div>
   <!-- End Page -->
-
 
   <!-- Core  -->
   <script src="{{ asset('bundles/choferes/assets/vendor/jquery/jquery.js') }}"></script>
@@ -125,8 +132,6 @@
   <script src="{{ asset('bundles/choferes/assets/js/sections/menubar.js') }}"></script>
   <script src="{{ asset('bundles/choferes/assets/js/sections/gridmenu.js') }}"></script>
   <script src="{{ asset('bundles/choferes/assets/js/sections/sidebar.js') }}"></script>
-
-
 
   <script src="{{ asset('bundles/choferes/assets/js/components/asscrollable.js') }}"></script>
   <script src="{{ asset('bundles/choferes/assets/js/components/animsition.js') }}"></script>

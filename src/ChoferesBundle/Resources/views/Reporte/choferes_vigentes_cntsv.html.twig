@@ -1,0 +1,47 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+{% form_theme form 'ChoferesBundle:Reporte:fields.html.twig' %}
+
+{% block title %}
+Reportes
+{% endblock %}
+
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block pageHeader %}
+<h1 class="page-title">Choferes vigentes según fechas ingresadas</h1>
+<ol class="breadcrumb">
+  <li><a href="{{ path('home') }}">Inicio</a></li>
+  <li class="active">Reportes</li>
+</ol>
+{% endblock %}
+
+{% block page %}
+<div id="errorMessage"></div>
+<div class="panel">
+  <div class="panel-body container-fluid">
+    <form action="{{ path('reporte_choferes_vigentes_cntsv') }}" method="post" {{ form_enctype(form) }} class="formReporteChoferesVigentes">
+      <div class="row">
+        {{ form_widget(form.fechaDesde, {'attr': {'class': 'fechaVigencia form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+      </div>
+      <div class="row">
+        {{ form_widget(form.fechaHasta, {'attr': {'class': 'fechaVigencia form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+      </div>
+      <div class="row">
+        <div class="col-sm-3 col-md-3 margin-top-20">
+          {{ form_widget(form.reset, {'attr': {'class': 'btn btn-outline btn-default'}}) }}
+          <button type="submit" class="btn btn-success">Generar</button>
+        </div>
+        <div class="col-sm-1 col-md-1 margin-top-40">
+          <div class="loader-inner ball-spin-fade-loader"></div>
+        </div>
+      </div>
+    {{ form_end(form) }}
+  </div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{{ asset('bundles/choferes/assets/scripts/formReporteChoferesVigentes.js') }}"></script>
+{% endblock %}

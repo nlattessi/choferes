@@ -233,10 +233,7 @@ class ChoferService
         $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaHastaForm);
 
         $query = $this->em->createQueryBuilder()
-            ->select(
-                'chofer.id as choferId', 'chofer.nombre', 'chofer.apellido', 'chofer.dni',
-                'curso.id as cursoId', 'curso.fechaFin as fechaFin'
-            )
+            ->select('chofer.dni', 'curso.fechaFin as fechaFin')
             ->from('ChoferesBundle:Chofer', 'chofer')
             ->innerJoin(
                 'ChoferesBundle:ChoferCurso', 'choferCurso',

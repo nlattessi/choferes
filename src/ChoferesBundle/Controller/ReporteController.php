@@ -81,14 +81,9 @@ class ReporteController extends Controller
 
                 if (! empty($choferesVigentes)) {
                     return $this->createReporteResponse($choferesVigentes, [
-                        'Chofer id',
-                        'Nombre',
-                        'Apellido',
                         'DNI',
-                        'Curso id',
-                        'Curso Fecha Fin',
                         'Vigente Desde',
-                        'Vigente Hasta'
+                        'Vigente Hasta',
                     ]);
                 }
                 else {

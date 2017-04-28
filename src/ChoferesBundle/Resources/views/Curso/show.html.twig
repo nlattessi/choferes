@@ -112,6 +112,7 @@
                     <table class="table table-bordered table-hover table-striped" id="exampleAddRow">
                         <thead>
                         <tr>
+                            <th>Número</th>
                             <th>Nombre</th>
                             <th>Apellido</th>
                             <th>Dni</th>
@@ -121,6 +122,7 @@
                         <tbody>
                         {% for choferCurso in choferesCurso %}
                             <tr class="gradeA">
+                                <td>{{ loop.index }}</td>
                                 <td>{{ choferCurso.chofer.nombre }}</td>
                                 <td>{{ choferCurso.chofer.apellido }}</td>
                                 <td>{{ choferCurso.chofer.dni }}</td>

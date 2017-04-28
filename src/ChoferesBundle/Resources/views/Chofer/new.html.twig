@@ -31,11 +31,11 @@
       </div>
       <div class="row">
         {{ form_widget(form.dni, {'attr': {'class': 'form-control'}}) }}
-        {{ form_widget(form.cuil, {'attr': {'class': 'form-control'}}) }}
+        {# {{ form_widget(form.cuil, {'attr': {'class': 'form-control'}}) }} #}
       </div>
-      <div class="row">
+      {# <div class="row">
         {{ form_widget(form.cuilEmpresa, {'attr': {'class': 'form-control'}}) }}
-      </div>
+      </div> #}
       <div class="row">
         {{ form_widget(form.triCode, {'attr': {'class': 'form-control'}}) }}
       </div>
@@ -54,6 +54,7 @@
 </div>
 {% endblock %}
 
-{% block javascript %}
+{# {% block javascript %}
   <script src="{{ asset('bundles/choferes/assets/scripts/cuilmask.js') }}"></script>
 {% endblock %}
+ #}

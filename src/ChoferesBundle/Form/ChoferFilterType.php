@@ -25,9 +25,9 @@ class ChoferFilterType extends AbstractType
             ->add('dni', 'filter_text', [
                 'condition_pattern' => FilterOperands::STRING_BOTH,
             ])
-            ->add('cuilEmpresa', 'filter_text', [
-                'condition_pattern' => FilterOperands::STRING_BOTH,
-            ])
+            // ->add('cuilEmpresa', 'filter_text', [
+            //     'condition_pattern' => FilterOperands::STRING_BOTH,
+            // ])
             ->add('triCode', 'filter_text', [
                 'condition_pattern' => FilterOperands::STRING_BOTH,
             ])

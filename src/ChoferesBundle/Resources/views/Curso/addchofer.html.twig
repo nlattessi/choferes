@@ -74,6 +74,7 @@
         <table class="table table-bordered table-hover table-striped margin-top-30" id="exampleAddRow">
           <thead>
             <tr>
+              <td>Número</td>
               <td>Nombre</td>
               <td>Apellido</td>
               <td>Dni</td>
@@ -84,6 +85,7 @@
           <tbody>
             {% for entity in entities %}
             <tr class="gradeA">
+              <td>{{ loop.index }}</td>
               <td>{{ entity.nombre }}</td>
               <td>{{ entity.apellido }}</td>
               <td>{{ entity.dni }}</td>

@@ -35,16 +35,16 @@
           <td><b>DNI</td>
           <td>{{ form_widget(edit_form.dni, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
-        <tr class="gradeA">
+        {# <tr class="gradeA">
           <td><b>CUIL</td>
           <td>{{ form_widget(edit_form.cuil, {'attr': {'class': 'form-control'}}) }}</td>
-        </tr>
-        <tr class="gradeA">
+        </tr> #}
+        {# <tr class="gradeA">
           <td><b>CUIL empresa</td>
           <td>{{ form_widget(edit_form.cuilEmpresa, {'attr': {'class': 'form-control'}}) }}</td>
-        </tr>
+        </tr> #}
         <tr class="gradeA">
-          <td><b>N° de TRI</td>
+          <td><b>N° de Expediente</td>
           <td>{{ form_widget(edit_form.triCode, {'attr': {'class': 'form-control'}}) }}</td>
         </tr>
         <tr class="gradeA">
@@ -73,5 +73,5 @@
 <script type="application/javascript">
   getInLocalStorage('chofer')
 </script>
-<script src="{{ asset('bundles/choferes/assets/scripts/cuilmask.js') }}"></script>
+{# <script src="{{ asset('bundles/choferes/assets/scripts/cuilmask.js') }}"></script> #}
 {% endblock %}

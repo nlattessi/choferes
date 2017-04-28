@@ -39,7 +39,7 @@
                 </div>
                 <div class="row">
                   {{ form_widget(filterForm.dni, {'attr': {'class': 'form-control'}}) }}
-                  {{ form_widget(filterForm.cuilEmpresa, {'attr': {'class': 'form-control'}}) }}
+                  {# {{ form_widget(filterForm.cuilEmpresa, {'attr': {'class': 'form-control'}}) }} #}
                 </div>
                 {{ form_row(filterForm._token) }}
                 <div class="row">
@@ -66,8 +66,8 @@
             <th>Id</th>
             <th>Nombre</th>
             <th>Apellido</th>
-            <th>Cuil</th>
-            <th>Cuilempresa</th>
+            {# <th>Cuil</th> #}
+            {# <th>Cuilempresa</th> #}
             <th>Tiene curso básico</th>
             <th>{{ 'views.index.actions'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</th>
         </tr>
@@ -78,8 +78,8 @@
             <td><a onclick="saveInLocalStorage('chofer');" href="{{ path('chofer_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.nombre }}</td>
             <td>{{ entity.apellido }}</td>
-            <td>{% if entity.cuil %}{{ entity.cuil[0:2] }}-{{ entity.cuil[2:8] }}-{{ entity.cuil[10:] }}{% endif %}</td>
-            <td>{{ entity.cuilEmpresa }}</td>
+            {# <td>{% if entity.cuil %}{{ entity.cuil[0:2] }}-{{ entity.cuil[2:8] }}-{{ entity.cuil[10:] }}{% endif %}</td> #}
+            {# <td>{{ entity.cuilEmpresa }}</td> #}
             <td>{% if entity.tieneCursoBasico %}Si{% else %}No{% endif %}</td>
             <td class="actions">
               <a class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver" onclick="saveInLocalStorage('chofer');" href="{{ path('chofer_show', { 'id': entity.id }) }}">

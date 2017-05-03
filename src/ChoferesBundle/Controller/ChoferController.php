@@ -286,6 +286,51 @@ class ChoferController extends Controller
         ;
     }
 
+    public function descargarCertificadosAction($hash)
+    {
+        $chofer = null;
+        $status = null;
+        $errors = [];
+
+        $hashids = $this->get('hashids');
+        $decodeHash = $hashids->decode($hash);
+
+        if (empty($decodeHash)) {
+            $errors[] = new FormError('El QR ingresado no corresponde a ningún chofer registrado');
+        }
+        else {
+            $choferId = $decodeHash[0];
+
+            $em = $this->getDoctrine()->getManager();
+            $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($choferId);
+            $choferService = $this->get('choferes.servicios.chofer');
+            $status = $choferService->getStatusPorDniChofer($chofer->getDni());
+            if ($status['certificado']) {
+                $user = $this->getUser();
+                if ($user->getRol()->getNombre() === 'ROLE_PRESTADOR') {
+                    if (! $choferService->isChoferFromPrestador($chofer, $user, $status['cursoId'])) {
+                      $canPrint = false;
+                    }
+                }
+            }
+            else {
+                if ($chofer->getTieneCursoBasico()) {
+                    $status['message'] = 'No tiene el curso complementario o la vigencia del mismo ya expiro.';
+                }
+                else {
+                    $status['message'] = 'No tiene el curso basico.';
+                }
+            }
+        }
+
+        return $this->render('ChoferesBundle:Chofer:descargar-certificados-estatus.html.twig', [
+            'status' => $status,
+            'chofer' => $chofer,
+            'css_active' => 'chofer_consulta',
+            'errors' => $errors,
+        ]);
+    }
+
     public function consultaAction(Request $request, $id = null)
     {
         $status = null;

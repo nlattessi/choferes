@@ -123,13 +123,18 @@ class ReporteController extends Controller
                 $fechaDesde = $form->get('fechaDesde')->getData();
                 $fechaHasta = $form->get('fechaHasta')->getData();
                 $choferesService =  $this->get('choferes.servicios.chofer');
-                $choferesVigentes = $choferesService->getChoferesVigentesCNRT($fechaDesde, $fechaHasta);
+                // $choferesVigentes = $choferesService->getChoferesVigentesCNRT($fechaDesde, $fechaHasta);
+                $choferesVigentes = $choferesService->getChoferesVigentesCNRT2($fechaDesde, $fechaHasta);
 
                 if (! empty($choferesVigentes)) {
+                    // return $this->createReporteResponse($choferesVigentes, [
+                    //     'DNI',
+                    //     'Vigente Desde',
+                    //     'Vigente Hasta',
+                    // ]);
                     return $this->createReporteResponse($choferesVigentes, [
                         'DNI',
-                        'Vigente Desde',
-                        'Vigente Hasta',
+                        'Fecha Vencimiento Certificado',
                     ]);
                 }
                 else {

@@ -305,15 +305,7 @@ class ChoferController extends Controller
             $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($choferId);
             $choferService = $this->get('choferes.servicios.chofer');
             $status = $choferService->getStatusPorDniChofer($chofer->getDni());
-            if ($status['certificado']) {
-                $user = $this->getUser();
-                if ($user->getRol()->getNombre() === 'ROLE_PRESTADOR') {
-                    if (! $choferService->isChoferFromPrestador($chofer, $user, $status['cursoId'])) {
-                      $canPrint = false;
-                    }
-                }
-            }
-            else {
+            if (! $status['certificado']) {
                 if ($chofer->getTieneCursoBasico()) {
                     $status['message'] = 'No tiene el curso complementario o la vigencia del mismo ya expiro.';
                 }

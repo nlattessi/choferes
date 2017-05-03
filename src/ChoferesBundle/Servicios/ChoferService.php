@@ -227,6 +227,47 @@ class ChoferService
         return $result;
     }
 
+    public function getChoferesVigentesCNRT2($fechaDesdeForm, $fechaHastaForm)
+    {
+        $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaDesdeForm);
+        $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaHastaForm);
+
+        $query = $this->em->createQueryBuilder()
+            ->select('chofer.dni', 'curso.fechaFin as fechaFin')
+            ->from('ChoferesBundle:Chofer', 'chofer')
+            ->innerJoin(
+                'ChoferesBundle:ChoferCurso', 'choferCurso',
+                Join::WITH, 'choferCurso.chofer = chofer.id'
+            )
+            ->innerJoin(
+                'ChoferesBundle:Curso', 'curso',
+                Join::WITH, 'choferCurso.curso = curso.id'
+            )
+            ->where('chofer.tieneCursoBasico = TRUE')
+            ->andWhere('choferCurso.isAprobado = TRUE')
+            ->andWhere('choferCurso.pagado = TRUE')
+            ->andWhere('choferCurso.documentacion = TRUE')
+            ->andWhere('curso.fechaInicio <= :fechaDesde')
+            ->andWhere('curso.fechaFin >= :fechaHasta')
+            ->orderBy('curso.fechaCreacion', 'DESC')
+            ->setParameter('fechaDesde', $fechaDesde)
+            ->setParameter('fechaHasta', $fechaDesde)
+            ->getQuery();
+
+        $result = $query->getResult();
+
+        if (isset($result)) {
+            foreach ($result as & $chofer) {
+                $fechaFin = $chofer['fechaFin']->format('d-m-Y H:i:s');
+                unset($chofer['fechaFin']);
+                $fechaVencimientoCertificado = new \DateTime("+1 year $fechaFin");
+                $chofer['fechaVencimientoCertificado'] = $fechaVencimientoCertificado->format('d-m-Y H:i:s');
+            }
+        }
+
+        return $result;
+    }
+
     public function getChoferesVigentesCNTSV($fechaDesdeForm, $fechaHastaForm)
     {
         $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaDesdeForm);

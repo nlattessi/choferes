@@ -97,7 +97,7 @@ class CursoController extends Controller
             ->setParameter('fechaHoy', new \DateTime(''), \Doctrine\DBAL\Types\Type::DATETIME)
             ->setParameter('estado', $em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT));
 
-        list($entities, $pagerHtml) = $this->paginator($queryBuilder);
+        list($entities, $pagerHtml) = $this->paginator($queryBuilder, 'curso_paraconfirmar');
 
         return $this->render('ChoferesBundle:Curso:index.html.twig', array(
             'entities' => $entities,
@@ -487,6 +487,14 @@ class CursoController extends Controller
                     }
                 }
 
+                if (array_key_exists('prestador',$filterData)) {
+                    $entity = $filterData['prestador'];
+                    if($entity) {
+                        $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                        $filterData['prestador'] = $entity;
+                    }
+                }
+
                 if (array_key_exists('sede',$filterData)) {
                     $entity = $filterData['sede'];
                     if($entity) {
@@ -523,7 +531,7 @@ class CursoController extends Controller
     * Get results from paginator and get paginator view.
     *
     */
-    protected function paginator($queryBuilder)
+    protected function paginator($queryBuilder, $route = null)
     {
         // Paginator
         $adapter = new DoctrineORMAdapter($queryBuilder);
@@ -534,9 +542,10 @@ class CursoController extends Controller
 
         // Paginator - route generator
         $me = $this;
-        $routeGenerator = function($page) use ($me )
+        $routeGenerator = function($page) use ($me, $route )
         {
-            return $me->generateUrl($me->getRequest()->get('_route'), array('page' => $page));
+            $route =  $route == null ? $me->getRequest()->get('_route') : $route;
+            return $me->generateUrl($route, array('page' => $page));
         };
 
         // Paginator - view

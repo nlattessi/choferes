@@ -149,44 +149,7 @@ class ChoferService
         return $response;
     }
 
-    public function getChoferesVigentes($fechaForm)
-    {
-        $fecha = \DateTime::createFromFormat('d/m/Y', $fechaForm);
-        $fechaVigente = $fecha->sub(new \DateInterval('P1Y'));
-
-        $query = $this->em->createQueryBuilder()
-            ->select(
-                'chofer.id as choferId', 'chofer.nombre', 'chofer.apellido', 'chofer.dni',
-                'curso.id as cursoId', 'curso.fechaFin as fechaFin'
-            )
-            ->from('ChoferesBundle:Chofer', 'chofer')
-            ->innerJoin(
-                'ChoferesBundle:ChoferCurso', 'choferCurso',
-                Join::WITH, 'choferCurso.chofer = chofer.id'
-            )
-            ->innerJoin(
-                'ChoferesBundle:Curso', 'curso',
-                Join::WITH, 'choferCurso.curso = curso.id'
-            )
-            ->where('chofer.tieneCursoBasico = TRUE')
-            ->andWhere('choferCurso.isAprobado = TRUE')
-            ->andWhere('choferCurso.pagado = TRUE')
-            ->andWhere('choferCurso.documentacion = TRUE')
-            ->andWhere('curso.fechaFin > :fechaVigencia')
-            ->orderBy('curso.fechaCreacion', 'DESC')
-            ->setParameter('fechaVigencia', $fechaVigente)
-            ->getQuery();
-
-        $result = $query->getResult();
-
-        if (isset($result)) {
-            $this->adaptDates($result);
-        }
-
-        return $result;
-    }
-
-    public function getChoferesVigentesCNRT($fechaDesdeForm, $fechaHastaForm)
+    public function getChoferesVigentes($fechaDesdeForm, $fechaHastaForm)
     {
         $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaDesdeForm);
         $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaHastaForm);
@@ -206,52 +169,11 @@ class ChoferService
             ->andWhere('choferCurso.isAprobado = TRUE')
             ->andWhere('choferCurso.pagado = TRUE')
             ->andWhere('choferCurso.documentacion = TRUE')
-            ->andWhere('curso.fechaFin > :fechaVigencia')
+            ->andWhere('curso.fechaInicio >= :fechaDesde')
+            ->andWhere('curso.fechaFin <= :fechaHasta')
             ->orderBy('curso.fechaCreacion', 'DESC')
-            ->setParameter('fechaVigencia', $fechaDesde)
-            ->getQuery();
-
-        $result = $query->getResult();
-
-        if (isset($result)) {
-
-            $result = array_filter($result, function ($chofer) use ($fechaHasta) {
-                $fechaFin = $chofer['fechaFin']->format('d-m-Y H:i:s');
-                $fechaVigencia = new \DateTime("+1 year $fechaFin");
-                return ($fechaVigencia < $fechaHasta);
-            });
-
-            $this->adaptDates($result);
-        }
-
-        return $result;
-    }
-
-    public function getChoferesVigentesCNRT2($fechaDesdeForm, $fechaHastaForm)
-    {
-        $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaDesdeForm);
-        $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaHastaForm);
-
-        $query = $this->em->createQueryBuilder()
-            ->select('chofer.dni', 'curso.fechaFin as fechaFin')
-            ->from('ChoferesBundle:Chofer', 'chofer')
-            ->innerJoin(
-                'ChoferesBundle:ChoferCurso', 'choferCurso',
-                Join::WITH, 'choferCurso.chofer = chofer.id'
-            )
-            ->innerJoin(
-                'ChoferesBundle:Curso', 'curso',
-                Join::WITH, 'choferCurso.curso = curso.id'
-            )
-            ->where('chofer.tieneCursoBasico = TRUE')
-            ->andWhere('choferCurso.isAprobado = TRUE')
-            ->andWhere('choferCurso.pagado = TRUE')
-            ->andWhere('choferCurso.documentacion = TRUE')
-            ->andWhere('curso.fechaInicio <= :fechaDesde')
-            ->andWhere('curso.fechaFin >= :fechaHasta')
-            ->orderBy('curso.fechaCreacion', 'DESC')
-            ->setParameter('fechaDesde', $fechaDesde)
-            ->setParameter('fechaHasta', $fechaDesde)
+            ->setParameter('fechaDesde', $fechaDesde->format('Y-m-d'))
+            ->setParameter('fechaHasta', $fechaHasta->format('Y-m-d'))
             ->getQuery();
 
         $result = $query->getResult();
@@ -263,47 +185,6 @@ class ChoferService
                 $fechaVencimientoCertificado = new \DateTime("+1 year $fechaFin");
                 $chofer['fechaVencimientoCertificado'] = $fechaVencimientoCertificado->format('d-m-Y H:i:s');
             }
-        }
-
-        return $result;
-    }
-
-    public function getChoferesVigentesCNTSV($fechaDesdeForm, $fechaHastaForm)
-    {
-        $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaDesdeForm);
-        $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaHastaForm);
-
-        $query = $this->em->createQueryBuilder()
-            ->select('chofer.dni', 'curso.fechaFin as fechaFin')
-            ->from('ChoferesBundle:Chofer', 'chofer')
-            ->innerJoin(
-                'ChoferesBundle:ChoferCurso', 'choferCurso',
-                Join::WITH, 'choferCurso.chofer = chofer.id'
-            )
-            ->innerJoin(
-                'ChoferesBundle:Curso', 'curso',
-                Join::WITH, 'choferCurso.curso = curso.id'
-            )
-            ->where('chofer.tieneCursoBasico = TRUE')
-            ->andWhere('choferCurso.isAprobado = TRUE')
-            ->andWhere('choferCurso.pagado = TRUE')
-            ->andWhere('choferCurso.documentacion = TRUE')
-            ->andWhere('curso.fechaFin > :fechaVigencia')
-            ->orderBy('curso.fechaCreacion', 'DESC')
-            ->setParameter('fechaVigencia', $fechaDesde)
-            ->getQuery();
-
-        $result = $query->getResult();
-
-        if (isset($result)) {
-
-            $result = array_filter($result, function ($chofer) use ($fechaHasta) {
-                $fechaFin = $chofer['fechaFin']->format('d-m-Y H:i:s');
-                $fechaVigencia = new \DateTime("+1 year $fechaFin");
-                return ($fechaVigencia < $fechaHasta);
-            });
-
-            $this->adaptDates($result);
         }
 
         return $result;

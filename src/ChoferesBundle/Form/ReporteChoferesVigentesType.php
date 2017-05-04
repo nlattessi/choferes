@@ -12,7 +12,8 @@ class ReporteChoferesVigentesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fechaVigencia', 'text', ['mapped' => false, 'required' => true])
+            ->add('fechaDesde', 'text', ['mapped' => false, 'required' => true])
+            ->add('fechaHasta', 'text', ['mapped' => false, 'required' => true])
             ->add('reset', 'reset', ['label' => 'Limpiar '])
         ;
     }

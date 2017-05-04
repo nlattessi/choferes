@@ -487,6 +487,14 @@ class CursoController extends Controller
                     }
                 }
 
+                if (array_key_exists('prestador',$filterData)) {
+                    $entity = $filterData['prestador'];
+                    if($entity) {
+                        $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                        $filterData['prestador'] = $entity;
+                    }
+                }
+
                 if (array_key_exists('sede',$filterData)) {
                     $entity = $filterData['sede'];
                     if($entity) {

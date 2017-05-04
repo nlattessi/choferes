@@ -92,6 +92,15 @@ class SedeController extends Controller
             if ($session->has('SedeControllerFilter')) {
 
                 $filterData = $session->get('SedeControllerFilter');
+
+                if (array_key_exists('prestador',$filterData)) {
+                    $entity = $filterData['prestador'];
+                    if($entity) {
+                        $entity = $this->getDoctrine()->getEntityManager()->merge($entity);
+                        $filterData['prestador'] = $entity;
+                    }
+                }
+
                 $filterForm = $this->createForm(new SedeFilterType($usuarioService), null, ['user' => $usuario]);
                 $filterForm->setData($filterData);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);

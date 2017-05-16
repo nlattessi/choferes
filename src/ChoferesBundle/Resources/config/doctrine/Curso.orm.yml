@@ -40,6 +40,10 @@ ChoferesBundle\Entity\Curso:
             type: datetime
             nullable: false
             column: fecha_creacion
+        fechaValidacion:
+            type: datetime
+            nullable: true
+            column: fecha_validacion
         codigo:
             type: string
             nullable: true

@@ -159,7 +159,7 @@ class PdfHtml extends FPDF
 
         // IMAGENES
         $pdf->Image(__DIR__ . '/escudo_nacion.png', 235, 8, 0, 30);
-        $pdf->Image(__DIR__ . '/logo_cntsv.png', 105, 8, 0, 30);
+        $pdf->Image(__DIR__ . '/logo_full2.png', 73, 8, 0, 30);
 
         $pdf->Ln(15);
 

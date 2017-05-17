@@ -46,6 +46,30 @@
   </div>
 {% endblock %}
 
+{% block _choferesbundle_cursofiltertype_fechaValidacion_left_date_widget %}
+    <div class="col-sm-6 col-md-4">
+        <h4 class="example-title">Fecha validación (desde)</h4>
+        <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-calendar" aria-hidden="true"></i>
+      </span>
+            {{ block('form_widget_simple') }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _choferesbundle_cursofiltertype_fechaValidacion_right_date_widget %}
+    <div class="col-sm-6 col-md-4">
+        <h4 class="example-title">Fecha validación (hasta)</h4>
+        <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-calendar" aria-hidden="true"></i>
+      </span>
+            {{ block('form_widget_simple') }}
+        </div>
+    </div>
+{% endblock %}
+
 {% block _choferesbundle_cursofiltertype_codigo_widget %}
   <div class="col-sm-6 col-md-4">
     <div class="">

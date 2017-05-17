@@ -42,6 +42,9 @@
               </div>
               {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                   {% if (app.user.rol == 'ROLE_CNTSV') %}
+                      <div class="row">
+                          {{ form_widget(filterForm.fechaValidacion, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+                      </div>
                     <div class="row">
                       {{ form_widget(filterForm.prestador, {'attr': {'class': 'form-control'}}) }}
                       {{ form_widget(filterForm.codigo, {'attr': {'class': 'form-control'}}) }}
@@ -82,6 +85,7 @@
             <th>Fecha de fin</th>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                    <th>Fecha de validación</th>
                     <th>Prestador</th>
                 {% endif %}
             {% endif %}
@@ -100,6 +104,7 @@
             <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('d/m/Y H:i') }}{% endif %}</td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
+                    <td>{% if entity.fechaValidacion %}{{ entity.fechaValidacion|date('d/m/Y H:i') }}{% endif %}</td>
                     <td>{{ entity.prestador }}</td>
                 {% endif %}
             {% endif %}

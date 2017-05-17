@@ -80,6 +80,17 @@ class CursoFilterType extends AbstractType
                     'class' => 'ChoferesBundle:Prestador',
                     'choices' => $this->usuarioService->obtenerPrestadoresActivos()
                 ])
+                ->add('fechaValidacion', 'filter_date_range', array(
+                    'left_date_options' => array(
+                        'widget' => 'single_text',
+                        'format' => 'dd/M/yyyy'
+                    ),
+                    'right_date_options' => array(
+                        'widget' => 'single_text',
+                        'format' => 'dd/M/yyyy'
+                    ),
+                    'label' => 'Fecha de Validación',
+                ))
                 // ->add('docente', 'filter_entity', [
                 //     'class' => 'ChoferesBundle:Docente'
                 // ])

@@ -210,6 +210,8 @@ class CursoController extends Controller
         if ($request->getMethod() == 'POST') {
 
             $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_VALIDADO));
+            //Se agrega la fecha de validación
+            $entity->setFechaValidacion( new \DateTime(''));
             $em->persist($entity);
 
             foreach ($choferesCurso as $choferCursoData) {

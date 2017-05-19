@@ -44,6 +44,10 @@
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                         {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                             <tr class="gradeA">
+                                <td><b>Fecha de validacion</b></td>
+                                <td>{{ entity.fechaValidacion|date('d/m/Y') }}</td>
+                            </tr>
+                            <tr class="gradeA">
                                 <td><b>Prestador</b></td>
                                 <td>{{ entity.prestador }}</td>
                             </tr>

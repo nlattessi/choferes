@@ -104,7 +104,7 @@
             <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('d/m/Y H:i') }}{% endif %}</td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
-                    <td>{% if entity.fechaValidacion %}{{ entity.fechaValidacion|date('d/m/Y H:i') }}{% endif %}</td>
+                    <td>{% if entity.fechaValidacion %}{{ entity.fechaValidacion|date('d/m/Y') }}{% endif %}</td>
                     <td>{{ entity.prestador }}</td>
                 {% endif %}
             {% endif %}

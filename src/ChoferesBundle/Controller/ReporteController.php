@@ -25,7 +25,8 @@ class ReporteController extends Controller
                 $fechaDesde = $form->get('fechaDesde')->getData();
                 $fechaHasta = $form->get('fechaHasta')->getData();
                 $choferesService =  $this->get('choferes.servicios.chofer');
-                $choferesVigentes = $choferesService->getChoferesVigentes($fechaDesde, $fechaHasta);
+                // $choferesVigentes = $choferesService->getChoferesVigentes($fechaDesde, $fechaHasta);
+                $choferesVigentes = $choferesService->getChoferesVigentesPorFechaValidacion($fechaDesde, $fechaHasta);
 
                 if (! empty($choferesVigentes)) {
                     return $this->createReporteResponse($choferesVigentes, [

@@ -829,6 +829,12 @@ class CursoController extends Controller
                     $curso->setFechaPago($dtFechaPago);
                 }
 
+                if ($editForm->has('fechaValidacion') && $editForm->get('fechaValidacion')->getData() !== null) {
+                    $fechaValidacion = $editForm->get('fechaValidacion')->getData();
+                    $dtFechaValidacion = \DateTime::createFromFormat('d/m/Y', $fechaValidacion);
+                    $curso->setFechaValidacion($dtFechaValidacion);
+                }
+
                 $em->persist($curso);
                 $em->flush();
                 if (strlen($curso->getComprobante()) > 0) {

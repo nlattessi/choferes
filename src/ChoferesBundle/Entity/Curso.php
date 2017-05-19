@@ -28,7 +28,7 @@ class Curso
     private $fechaCreacion;
 
     /**
-     * @var \DateTime
+     * @var \Date
      */
     private $fechaValidacion;
 
@@ -404,7 +404,7 @@ class Curso
     }
 
     /**
-     * @return \DateTime
+     * @return \Date
      */
     public function getFechaValidacion()
     {
@@ -412,10 +412,12 @@ class Curso
     }
 
     /**
-     * @param \DateTime $fechaValidacion
+     * @param \Date $fechaValidacion
      */
     public function setFechaValidacion($fechaValidacion)
     {
         $this->fechaValidacion = $fechaValidacion;
+
+        return $this;
     }
 }

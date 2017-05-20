@@ -14,7 +14,7 @@ use League\Csv\Writer;
 
 class ReporteController extends Controller
 {
-    public function choferesVigentesAction(Request $request)
+    public function choferesVigentesPorFechaCursoAction(Request $request)
     {
         $form = $this->createForm(new ReporteChoferesVigentesType());
 
@@ -25,7 +25,51 @@ class ReporteController extends Controller
                 $fechaDesde = $form->get('fechaDesde')->getData();
                 $fechaHasta = $form->get('fechaHasta')->getData();
                 $choferesService =  $this->get('choferes.servicios.chofer');
-                // $choferesVigentes = $choferesService->getChoferesVigentes($fechaDesde, $fechaHasta);
+                $choferesVigentes = $choferesService->getChoferesVigentesPorFechaCurso($fechaDesde, $fechaHasta);
+
+                if (! empty($choferesVigentes)) {
+                    return $this->createReporteResponse($choferesVigentes, [
+                        'DNI',
+                        'Fecha Vencimiento Certificado',
+                    ]);
+                }
+                else {
+                    $data =  [
+                        'result'  => false,
+                        'message' => 'No se encontraron choferes vigentes'
+                    ];
+                }
+            }
+            else {
+                $data =  [
+                    'result'  => false,
+                    'message' => 'Se produjo un error... Intente de nuevo'
+                ];
+            }
+
+            $response = new JsonResponse();
+            $response->setData($data);
+
+            return $response;
+        }
+
+        return $this->render('ChoferesBundle:Reporte:choferes_vigentes_por_fecha_curso.html.twig', [
+            'form' => $form->createView(),
+            'css_active' => 'choferes_vigentes_por_fecha_curso'
+        ]);
+    }
+
+    public function choferesVigentesPorFechaValidacionAction(Request $request)
+    {
+        $form = $this->createForm(new ReporteChoferesVigentesType());
+
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $fechaDesde = $form->get('fechaDesde')->getData();
+                $fechaHasta = $form->get('fechaHasta')->getData();
+                $choferesService =  $this->get('choferes.servicios.chofer');
                 $choferesVigentes = $choferesService->getChoferesVigentesPorFechaValidacion($fechaDesde, $fechaHasta);
 
                 if (! empty($choferesVigentes)) {
@@ -54,9 +98,9 @@ class ReporteController extends Controller
             return $response;
         }
 
-        return $this->render('ChoferesBundle:Reporte:choferes_vigentes.html.twig', [
+        return $this->render('ChoferesBundle:Reporte:choferes_vigentes_por_fecha_validacion.html.twig', [
             'form' => $form->createView(),
-            'css_active' => 'reporte_vigente'
+            'css_active' => 'choferes_vigentes_por_fecha_validacion'
         ]);
     }
 

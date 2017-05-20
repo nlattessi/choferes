@@ -45,7 +45,7 @@
                         {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                             <tr class="gradeA">
                                 <td><b>Fecha de validacion</b></td>
-                                <td>{{ entity.fechaValidacion|date('d/m/Y') }}</td>
+                                <td>{% if entity.fechaValidacion %}{{ entity.fechaValidacion|date('d/m/Y') }}{% endif %}</td>
                             </tr>
                             <tr class="gradeA">
                                 <td><b>Prestador</b></td>
@@ -72,6 +72,10 @@
                     <tr class="gradeA">
                         <td><b>Estado</b></td>
                         <td>{{ entity.estado }}</td>
+                    </tr>
+                    <tr class="gradeA">
+                        <td><b>Observaciones</b></td>
+                        <td>{{ entity.observaciones }}</td>
                     </tr>
                     </tbody>
                 </table>

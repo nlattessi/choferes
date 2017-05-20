@@ -149,7 +149,7 @@ class ChoferService
         return $response;
     }
 
-    public function getChoferesVigentes($fechaDesdeForm, $fechaHastaForm)
+    public function getChoferesVigentesPorFechaCurso($fechaDesdeForm, $fechaHastaForm)
     {
         $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaDesdeForm);
         $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaHastaForm);

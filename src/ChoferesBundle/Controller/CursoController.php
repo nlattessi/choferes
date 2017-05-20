@@ -210,6 +210,8 @@ class CursoController extends Controller
         if ($request->getMethod() == 'POST') {
 
             $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_VALIDADO));
+            //Se agrega la fecha de validación
+            $entity->setFechaValidacion( new \DateTime(''));
             $em->persist($entity);
 
             foreach ($choferesCurso as $choferCursoData) {
@@ -825,6 +827,12 @@ class CursoController extends Controller
                     $fechaPago = $editForm->get('fechaPago')->getData();
                     $dtFechaPago = \DateTime::createFromFormat('d/m/Y', $fechaPago);
                     $curso->setFechaPago($dtFechaPago);
+                }
+
+                if ($editForm->has('fechaValidacion') && $editForm->get('fechaValidacion')->getData() !== null) {
+                    $fechaValidacion = $editForm->get('fechaValidacion')->getData();
+                    $dtFechaValidacion = \DateTime::createFromFormat('d/m/Y', $fechaValidacion);
+                    $curso->setFechaValidacion($dtFechaValidacion);
                 }
 
                 $em->persist($curso);

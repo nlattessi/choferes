@@ -61,6 +61,15 @@
         </tr>
         {% if app.user.rol == 'ROLE_CNTSV' %}
           <tr class="gradeA">
+            <td><b>Fecha de validacion</td>
+            <td><div class="input-group">
+              <span class="input-group-addon">
+                <i class="icon wb-calendar" aria-hidden="true"></i>
+              </span>
+              {{ form_widget(edit_form.fechaValidacion, {'attr': {'class': 'form-control'}}) }}
+            </div></td>
+          </tr>
+          <tr class="gradeA">
             <td><b>N° de Expediente</td>
             <td>{{ form_widget(edit_form.codigo, {'attr': {'class': 'form-control'}}) }}</td>
           </tr>
@@ -144,6 +153,12 @@
         $('#choferesbundle_curso_fechaPago').val('{{ var }}');
       {% endif %}
       $('#choferesbundle_curso_fechaPago').datepicker({format: "dd/mm/yyyy", autoclose: true});
+
+      {% if entity.fechaValidacion %}
+        {% set var = entity.fechaValidacion|date('d/m/Y') %}
+        $('#choferesbundle_curso_fechaValidacion').val('{{ var }}');
+      {% endif %}
+      $('#choferesbundle_curso_fechaValidacion').datepicker({format: "dd/mm/yyyy", autoclose: true});
     </script>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}

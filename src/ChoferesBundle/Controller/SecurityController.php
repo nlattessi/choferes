@@ -22,12 +22,12 @@ class SecurityController extends Controller
         //print 'nombre ' . $session->getName();
         // get the login error if there is one
         if ($request->attributes->has(SecurityContextInterface::AUTHENTICATION_ERROR)) {
-
+        // print 'sin security ontext';
             $error = $request->attributes->get(
                 SecurityContextInterface::AUTHENTICATION_ERROR
             );
         } elseif (null !== $session && $session->has(SecurityContextInterface::AUTHENTICATION_ERROR)) {
-
+            // print 'error en sesion';
             $error = $session->get(SecurityContextInterface::AUTHENTICATION_ERROR);
             $session->remove(SecurityContextInterface::AUTHENTICATION_ERROR);
         } else {
@@ -36,7 +36,7 @@ class SecurityController extends Controller
 
         // last username entered by the user
         $lastUsername = (null === $session) ? '' : $session->get(SecurityContextInterface::LAST_USERNAME);
-
+        // print 'nombre ' .$lastUsername;
         return $this->render(
             'ChoferesBundle:Security:new_login.html.twig',
             array(

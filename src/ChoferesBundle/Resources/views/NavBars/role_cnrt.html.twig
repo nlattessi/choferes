@@ -10,17 +10,25 @@
         <span class="site-menu-title">Consulta Chofer</span>
     </a>
 </li>
-<li class="site-menu-item has-sub {% if css_active is defined %}{% if css_active == 'reporte_vigente' %} active open{% endif %}{% endif %}">
+<li class="site-menu-item has-sub {% if css_active is defined %}{% if css_active == 'choferes_vigentes_por_fecha_curso' or css_active == 'choferes_vigentes_por_fecha_validacion' %} active open{% endif %}{% endif %}">
     <a href="javascript:void(0)" data-slug="layout">
         <i class="site-menu-icon wb-library" aria-hidden="true"></i>
         <span class="site-menu-title">Reportes</span>
         <span class="site-menu-arrow"></span>
     </a>
     <ul class="site-menu-sub">
-        <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'reporte_vigente' %} active{% endif %}{% endif %}">
-            <a class="animsition-link" href="{{ path('reporte_choferes_vigentes') }}" data-slug="layout-menu-collapsed">
+        <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'choferes_vigentes_por_fecha_curso' %} active{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('reporte_choferes_vigentes_por_fecha_curso') }}" data-slug="layout-menu-collapsed">
                 <i class="site-menu-icon " aria-hidden="true"></i>
-                <span class="site-menu-title">#Reporte Choferes vigentes</span>
+                <span class="site-menu-title">(1)Choferes vigentes por fecha de curso</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="site-menu-sub">
+        <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'choferes_vigentes_por_fecha_validacion' %} active{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('reporte_choferes_vigentes_por_fecha_validacion') }}" data-slug="layout-menu-collapsed">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">(2)Choferes vigentes por fecha de validación</span>
             </a>
         </li>
     </ul>

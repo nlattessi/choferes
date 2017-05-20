@@ -28,6 +28,11 @@ class Curso
     private $fechaCreacion;
 
     /**
+     * @var \Date
+     */
+    private $fechaValidacion;
+
+    /**
      * @var string
      */
     private $codigo;
@@ -398,5 +403,21 @@ class Curso
         $this->observaciones = $observaciones;
     }
 
+    /**
+     * @return \Date
+     */
+    public function getFechaValidacion()
+    {
+        return $this->fechaValidacion;
+    }
 
+    /**
+     * @param \Date $fechaValidacion
+     */
+    public function setFechaValidacion($fechaValidacion)
+    {
+        $this->fechaValidacion = $fechaValidacion;
+
+        return $this;
+    }
 }

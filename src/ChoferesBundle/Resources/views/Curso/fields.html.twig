@@ -95,6 +95,18 @@
   </div>
 {% endblock %}
 
+{% block _choferesbundle_curso_fechaValidacion_widget %}
+    <div class="col-sm-6 col-md-6">
+        <h4 class="example-title">Fecha de validación</h4>
+        <div class="input-group">
+      <span class="input-group-addon">
+        <i class="icon wb-calendar" aria-hidden="true"></i>
+      </span>
+            {{ block('form_widget_simple') }}
+        </div>
+    </div>
+{% endblock %}
+
 {% block _choferesbundle_curso_prestador_widget %}
   <div class="col-sm-6 col-md-6 ">
     <h4 class="example-title">Prestador</h4>

@@ -33,6 +33,7 @@ class CursoType extends AbstractType
             ->add('horaInicio', 'text', array('mapped' => false))
             ->add('fechaFin', 'text', array('mapped' => false))
             ->add('horaFin', 'text', array('mapped' => false))
+            ->add('fechaValidacion', 'text', array('mapped' => false))
             ->add('tipocurso')
             ->add('reset', 'reset', ['label' => 'Limpiar '])
         ;

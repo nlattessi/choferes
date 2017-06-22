@@ -577,10 +577,11 @@ class CursoController extends Controller
         if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
 
-            $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
-                'prestador' => $prestador,
-                'activo' => true
-            ));
+            $docentes = $em->getRepository('ChoferesBundle:Docente')
+                ->findBy(array('prestador' => $prestador,
+                    'activo' => true),
+                    array('apellido' => 'ASC',
+                        'nombre' => 'ASC'));
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
                 'prestador' => $prestador,
@@ -656,10 +657,11 @@ class CursoController extends Controller
         if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
 
-            $docentes = $em->getRepository('ChoferesBundle:Docente')->findBy(array(
-                'prestador' => $prestador,
-                'activo' => true
-            ));
+            $docentes = $em->getRepository('ChoferesBundle:Docente')
+                ->findBy(array('prestador' => $prestador,
+                    'activo' => true),
+                    array('apellido' => 'ASC',
+                        'nombre' => 'ASC'));
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
                 'prestador' => $prestador,

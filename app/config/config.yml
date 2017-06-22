@@ -57,6 +57,8 @@ assetic:
 doctrine:
     dbal:
         driver:   "%database_driver%"
+        options:
+            1002: "SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))"
         host:     "%database_host%"
         port:     "%database_port%"
         dbname:   "%database_name%"

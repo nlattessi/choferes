@@ -578,10 +578,10 @@ class CursoController extends Controller
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
 
             $docentes = $em->getRepository('ChoferesBundle:Docente')
-                ->findBy(array('prestador' => $prestador,
-                    'activo' => true),
-                    array('apellido' => 'ASC',
-                        'nombre' => 'ASC'));
+                ->findBy(
+                    ['prestador' => $prestador, 'activo' => true],
+                    ['apellido' => 'ASC', 'nombre' => 'ASC']
+                );
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
                 'prestador' => $prestador,
@@ -658,10 +658,10 @@ class CursoController extends Controller
             $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
 
             $docentes = $em->getRepository('ChoferesBundle:Docente')
-                ->findBy(array('prestador' => $prestador,
-                    'activo' => true),
-                    array('apellido' => 'ASC',
-                        'nombre' => 'ASC'));
+                ->findBy(
+                    ['prestador' => $prestador, 'activo' => true],
+                    ['apellido' => 'ASC', 'nombre' => 'ASC']
+                );
 
             $sedes = $em->getRepository('ChoferesBundle:Sede')->findBy(array(
                 'prestador' => $prestador,

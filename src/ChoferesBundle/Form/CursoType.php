@@ -55,14 +55,14 @@ class CursoType extends AbstractType
                 ));
 
             $formModifier = function(FormInterface $form, Prestador $prestador = null) {
-                $docentes = null === $prestador ? array() : $this->usuarioService->obtenerDocentesPorPrestador($prestador);
-                $sedes = null === $prestador ? array() : $this->usuarioService->obtenerSedesPorPrestador($prestador);
+                $docentes = ($prestador === null) ? array() : $this->usuarioService->obtenerDocentesPorPrestador($prestador);
+                $sedes = ($prestador === null) ? array() : $this->usuarioService->obtenerSedesPorPrestador($prestador);
 
                 $form->add('docente', 'entity', array(
                     'class' => 'ChoferesBundle:Docente',
                     'empty_value' => '',
                     'required' => false,
-                    'choices' =>$docentes
+                    'choices' => $docentes
                 ));
 
                 $form->add('sede', 'entity', array(

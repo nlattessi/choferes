@@ -37,13 +37,15 @@ class UsuarioService
     {
         if ($prestador) {
             $docentes = $this->em->getRepository('ChoferesBundle:Docente')
-                ->findBy(array('prestador' => $prestador,
-                    'activo' => true),
-                    array('apellido' => 'ASC',
-                        'nombre' => 'ASC'));
-        } else {
-          $docentes = null;
+                ->findBy(
+                    ['prestador' => $prestador, 'activo' => true],
+                    ['apellido' => 'ASC', 'nombre' => 'ASC']
+                );
         }
+        else {
+            $docentes = null;
+        }
+
         return $docentes;
     }
 

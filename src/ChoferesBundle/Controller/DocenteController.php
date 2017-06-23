@@ -61,11 +61,15 @@ class DocenteController extends Controller
                 ->where('d.prestador = ?1')
                 ->andWhere('d.activo = ?2')
                 ->setParameter(1, $prestador->getId())
-                ->setParameter(2, true);
+                ->setParameter(2, true)
+                ->orderBy('d.apellido', 'ASC')
+                ->addOrderBy('d.nombre', 'ASC');
         } else {
             $queryBuilder = $em->getRepository('ChoferesBundle:Docente')->createQueryBuilder('d')
                 ->andWhere('d.activo = ?1')
-                ->setParameter(1, true);
+                ->setParameter(1, true)
+                ->orderBy('d.apellido', 'ASC')
+                ->addOrderBy('d.nombre', 'ASC');
         }
         /*Fin filtro por prestador*/
 

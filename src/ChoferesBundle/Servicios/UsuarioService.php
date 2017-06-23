@@ -36,10 +36,16 @@ class UsuarioService
     public function obtenerDocentesPorPrestador($prestador)
     {
         if ($prestador) {
-            $docentes = $this->em->getRepository('ChoferesBundle:Docente')->findBy(array('prestador' => $prestador, 'activo' => true));
-        } else {
-          $docentes = null;
+            $docentes = $this->em->getRepository('ChoferesBundle:Docente')
+                ->findBy(
+                    ['prestador' => $prestador, 'activo' => true],
+                    ['apellido' => 'ASC', 'nombre' => 'ASC']
+                );
         }
+        else {
+            $docentes = null;
+        }
+
         return $docentes;
     }
 

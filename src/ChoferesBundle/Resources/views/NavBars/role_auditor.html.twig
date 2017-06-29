@@ -1,0 +1,57 @@
+<li class="site-menu-item {% if css_active is defined %}{% if css_active == 'home' %} active open{% endif %}{% endif %}">
+  <a href="{{ path('home') }}">
+    <i class="site-menu-icon wb-dashboard" aria-hidden="true"></i>
+    <span class="site-menu-title">Home</span>
+  </a>
+</li>
+<li class="site-menu-item has-sub{% if css_active is defined %}{% if css_active == 'curso'%}  active{% endif %}{% if css_active == 'curso_new' or css_active == 'curso_anteriores' or css_active == 'curso_precargados' %} active open{% endif %}{% endif %}">
+    <a href="javascript:void(0)" data-slug="layout">
+        <i class="site-menu-icon wb-library" aria-hidden="true"></i>
+        <span class="site-menu-title">Cursos</span>
+        <span class="site-menu-arrow"></span>
+    </a>
+    <ul class="site-menu-sub">
+        <li class="site-menu-item{% if css_active is defined %}{% if css_active == 'curso_new' %} active is-shown{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('curso_new') }}" data-slug="layout-menu-collapsed">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">Crear Curso</span>
+            </a>
+        </li>
+        <li class="site-menu-item{% if css_active is defined %}{% if css_active == 'curso_anteriores' %} active is-shown{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('curso_anteriores') }}" data-slug="layout-menu-expended">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">Cursos Anteriores</span>
+            </a>
+        </li>
+        <li class="site-menu-item{% if css_active is defined %}{% if css_active == 'curso_precargados' %} active is-shown{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('curso_precargados') }}" data-slug="layout-menu-expended">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">Cursos Precargados</span>
+            </a>
+        </li>
+    </ul>
+</li>
+<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'sede' %} active{% endif %}{% endif %}">
+    <a href="{{ path('sede') }}" data-slug="dashboard">
+        <i class="site-menu-icon wb-flag" aria-hidden="true"></i>
+        <span class="site-menu-title">Sedes</span>
+    </a>
+</li>
+<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'docente' %} active{% endif %}{% endif %}">
+    <a href="{{ path('docente') }}" data-slug="dashboard">
+        <i class="site-menu-icon wb-users" aria-hidden="true"></i>
+        <span class="site-menu-title">Docentes</span>
+    </a>
+</li>
+<li class="site-menu-item {% if css_active is defined %}{% if css_active == 'chofer' %} active{% endif %}{% endif %}">
+    <a href="{{ path('chofer') }}" data-slug="dashboard">
+        <i class="site-menu-icon wb-user" aria-hidden="true"></i>
+        <span class="site-menu-title">Choferes</span>
+    </a>
+</li>
+<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'chofer_consulta' %} active{% endif %}{% endif %}">
+    <a href="{{ path('chofer_consulta') }}" data-slug="dashboard">
+        <i class="site-menu-icon wb-user-add" aria-hidden="true"></i>
+        <span class="site-menu-title">Consulta chofer</span>
+    </a>
+</li>

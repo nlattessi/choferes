@@ -14,4 +14,7 @@
     {% if app.user.rol == 'ROLE_CENT' %}
         {{ include('ChoferesBundle:NavBars:role_cent.html.twig') }}
     {% endif %}
+    {% if app.user.rol == 'ROLE_AUDITOR' %}
+        {{ include('ChoferesBundle:NavBars:role_auditor.html.twig') }}
+    {% endif %}
 {% endif %}

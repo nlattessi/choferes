@@ -1,0 +1,3 @@
+auditoria:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:Auditoria:index" }

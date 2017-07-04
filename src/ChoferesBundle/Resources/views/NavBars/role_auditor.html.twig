@@ -1,30 +1,12 @@
 <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'home' %} active open{% endif %}{% endif %}">
   <a href="{{ path('home') }}">
     <i class="site-menu-icon wb-dashboard" aria-hidden="true"></i>
-    <span class="site-menu-title">Inicio</span>
+    <span class="site-menu-title">Home</span>
   </a>
 </li>
-<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'auditoria' %} active{% endif %}{% endif %}">
+<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'chofer_consulta' %} active{% endif %}{% endif %}">
     <a href="{{ path('auditoria') }}" data-slug="dashboard">
         <i class="site-menu-icon" aria-hidden="true"></i>
-        <span class="site-menu-title">Auditorias</span>
-    </a>
-</li>
-<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'auditoria_activas' %} active{% endif %}{% endif %}">
-    <a href="{{ path('auditoria_activas') }}" data-slug="dashboard">
-        <i class="site-menu-icon" aria-hidden="true"></i>
-        <span class="site-menu-title">Auditorias Activas</span>
-    </a>
-</li>
-<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'auditoria_intermedio' %} active{% endif %}{% endif %}">
-    <a href="{{ path('auditoria_intermedio') }}" data-slug="dashboard">
-        <i class="site-menu-icon" aria-hidden="true"></i>
-        <span class="site-menu-title">Auditorias Intermedio</span>
-    </a>
-</li>
-<li class="site-menu-item{% if css_active is defined %}{% if css_active == 'auditoria_terminadas' %} active{% endif %}{% endif %}">
-    <a href="{{ path('auditoria_terminadas') }}" data-slug="dashboard">
-        <i class="site-menu-icon" aria-hidden="true"></i>
-        <span class="site-menu-title">Auditorias Terminadas</span>
+        <span class="site-menu-title">Seleccionar cursos</span>
     </a>
 </li>

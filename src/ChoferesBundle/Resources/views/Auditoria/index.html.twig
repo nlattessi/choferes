@@ -1,7 +1,7 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-    Choferes
+    Auditorias
 {% endblock %}
 
 {% block menu %}
@@ -9,14 +9,36 @@
 {% endblock %}
 
 {% block pageHeader %}
-    <h1 class="page-title">Auditoria</h1>
+    <h1 class="page-title">{{ pagetitle }}</h1>
+
     <ol class="breadcrumb">
-      <li><a href="{{ path('home') }}">Inicio</a></li>
-      <li class="active">Auditoria</li>
+        <li><a href="{{ path('auditoria') }}">Inicio</a></li>
+        <li class="active">Auditorias</li>
     </ol>
 {% endblock %}
 
 
 {% block page %}
-<div>TEST</div>
+    <div class="panel">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for auditoria in auditorias %}
+                            <tr class="gradeA">
+                                <td><a href="{{ path('auditoria_show', { 'id': auditoria.id }) }}">{{ auditoria.id }}</a></td>
+                                <td>{{ auditoria.estado.nombre }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 {% endblock %}

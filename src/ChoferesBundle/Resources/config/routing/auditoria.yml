@@ -1,3 +1,19 @@
 auditoria:
     pattern:  /
     defaults: { _controller: "ChoferesBundle:Auditoria:index" }
+
+auditoria_activas:
+    pattern:  /activas
+    defaults: { _controller: "ChoferesBundle:Auditoria:indexAuditoriasActivas" }
+
+auditoria_intermedio:
+    pattern:  /intermedio
+    defaults: { _controller: "ChoferesBundle:Auditoria:indexAuditoriasIntermedio" }
+
+auditoria_terminadas:
+    pattern:  /terminadas
+    defaults: { _controller: "ChoferesBundle:Auditoria:indexAuditoriasTerminadas" }
+
+auditoria_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:Auditoria:show" }

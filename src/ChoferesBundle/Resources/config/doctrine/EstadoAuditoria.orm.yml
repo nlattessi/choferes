@@ -18,3 +18,7 @@ ChoferesBundle\Entity\EstadoAuditoria:
             options:
                 fixed: false
     lifecycleCallbacks: {  }
+    oneToMany:
+        auditorias:
+            targetEntity: Auditoria
+            mappedBy: estado

@@ -2,6 +2,8 @@
 
 namespace ChoferesBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Auditoria
  */
@@ -13,14 +15,19 @@ class Auditoria
     private $id;
 
     /**
-     * @var \ChoferesBundle\Entity\Curso
+     * @var \ChoferesBundle\Entity\CursoAuditoria
      */
-    private $curso;
+    private $cursos;
 
     /**
      * @var \ChoferesBundle\Entity\EstadoAuditoria
      */
     private $estado;
+
+    public function __construct()
+    {
+        $this->cursos = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -33,19 +40,11 @@ class Auditoria
     }
 
     /**
-     * @return \ChoferesBundle\Entity\Curso
+     * @return \ChoferesBundle\Entity\CursoAuditoria
      */
-    public function getCurso()
+    public function getCursos()
     {
-        return $this->curso;
-    }
-
-    /**
-     * @param \ChoferesBundle\Entity\Curso $curso
-     */
-    public function setCurso($curso)
-    {
-        $this->curso = $curso;
+        return $this->cursos;
     }
 
     /**

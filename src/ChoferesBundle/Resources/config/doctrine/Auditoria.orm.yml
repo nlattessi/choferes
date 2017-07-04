@@ -2,9 +2,6 @@ ChoferesBundle\Entity\Auditoria:
     type: entity
     table: auditoria
     indexes:
-        prestador_curso_idx:
-            columns:
-                - curso_id
         estado_curso_idx:
             columns:
                 - estado_id
@@ -23,19 +20,13 @@ ChoferesBundle\Entity\Auditoria:
             cascade: {  }
             fetch: LAZY
             mappedBy: null
-            inversedBy: null
+            inversedBy: auditorias
             joinColumns:
                 estado_id:
                     referencedColumnName: id
             orphanRemoval: false
-        curso:
-            targetEntity: Curso
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                curso_id:
-                    referencedColumnName: id
-            orphanRemoval: false
+    oneToMany:
+        cursos:
+            targetEntity: CursoAuditoria
+            mappedBy: auditoria
     lifecycleCallbacks: {  }

@@ -2,11 +2,17 @@
 
 namespace ChoferesBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * EstadoAuditoria
  */
 class EstadoAuditoria
 {
+    const ID_ACTIVA = 1;
+    const ID_INTERMEDIO = 2;
+    const ID_TERMINADA = 3;
+
     /**
      * @var integer
      */
@@ -16,6 +22,13 @@ class EstadoAuditoria
      * @var string
      */
     private $nombre;
+
+    private $auditorias;
+
+    public function __construct()
+    {
+        $this->auditorias = new ArrayCollection();
+    }
 
     /**
      * Get id

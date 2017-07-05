@@ -26,3 +26,15 @@ auditoria_create:
     pattern:  /create
     defaults: { _controller: "ChoferesBundle:Auditoria:create" }
     requirements: { _method: post }
+
+auditoria_crear:
+    pattern:  /crear
+    defaults: { _controller: "ChoferesBundle:Auditoria:crear" }
+
+auditoria_quitar:
+    pattern:  /quitar
+    defaults: { _controller: "ChoferesBundle:Auditoria:quitar" }
+
+auditoria_confirmar:
+    pattern:  /confirmar
+    defaults: { _controller: "ChoferesBundle:Auditoria:confirmarCursos" }

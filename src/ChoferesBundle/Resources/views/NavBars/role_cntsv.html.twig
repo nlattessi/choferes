@@ -117,3 +117,15 @@ css_active == 'curso_todos' %} active open{% endif %}{% endif %}">
         </li>
     </ul>
 </li>
+<li class="site-menu-item {% if css_active is defined %}{% if css_active == 'chofer_consulta' %} active{% endif %}{% endif %}">
+    <a href="{{ path('auditoria_new') }}" data-slug="dashboard">
+        <i class="site-menu-icon wb-user-add" aria-hidden="true"></i>
+        <span class="site-menu-title">Auditorías</span>
+    </a>
+</li>
+<li class="site-menu-item {% if css_active is defined %}{% if css_active == 'chofer_consulta' %} active{% endif %}{% endif %}">
+    <a href="{{ path('auditoria_confirmar') }}" data-slug="dashboard">
+        <i class="site-menu-icon wb-user-add" aria-hidden="true"></i>
+        <span class="site-menu-title">Confirmar Auditorías</span>
+    </a>
+</li>

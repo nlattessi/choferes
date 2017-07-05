@@ -98,6 +98,7 @@ class AuditoriaController extends Controller
         $repo = $this->getDoctrine()->getRepository('ChoferesBundle:Curso');
         $query = $repo->createQueryBuilder('c')
                 ->where('c.estado = :estadoConfirmado')
+                ->andWhere('c.auditoria is NULL')
                 ->setParameter('estadoConfirmado', EstadoCurso::ID_CONFIRMADO)
                 ->getQuery();
         $cursos = collect($query->getResult());
@@ -130,5 +131,69 @@ class AuditoriaController extends Controller
     public function createAction()
     {
 
+    }
+
+    public function crearAction()
+    {
+        $cursos = $this->getRequest()->get("cursos");
+        $em = $this->getDoctrine()->getManager();
+
+        foreach ($cursos as $curso) {
+            $auditoria = new Auditoria();
+            $auditoriaEstado = $em->getRepository('ChoferesBundle:EstadoAuditoria')->find(EstadoAuditoria::ID_BORRADOR);
+            $auditoria->setEstado($auditoriaEstado);
+            $cursoEntity = $em->getRepository('ChoferesBundle:Curso')->find($curso);
+            $auditoria->setCurso($cursoEntity);
+            $em->persist($auditoria);
+            $em->flush();
+        }
+
+        return $this->redirect('confirmar');
+
+    }
+
+    public function confirmarCursosAction()
+    {
+        $repo = $this->getDoctrine()->getRepository('ChoferesBundle:Curso');
+        $query = $repo->createQueryBuilder('c')
+            ->leftJoin(
+            'ChoferesBundle:Auditoria', 'auditoria',
+            \Doctrine\ORM\Query\Expr\Join::WITH, 'auditoria.curso = c.id')
+            ->leftJoin(
+                'ChoferesBundle:EstadoAuditoria', 'ea',
+                \Doctrine\ORM\Query\Expr\Join::WITH, 'ea.id = auditoria.estado')
+            ->where('ea.id = :estado')
+            ->setParameter('estado', EstadoAuditoria::ID_BORRADOR)
+            ->getQuery();
+
+        $cursos = collect($query->getResult());
+        return $this->render('ChoferesBundle:Auditoria:confirmar.html.twig', [
+            'cursos' => $cursos,
+            'css_active'  => 'auditoria_confirmar',
+        ]);
+    }
+
+    public function quitarAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $cursoId = $this->getRequest()->get("id");
+
+        $repository = $this->getDoctrine()->getRepository('ChoferesBundle:Auditoria');
+
+        $query = $repository->createQueryBuilder('a')
+            ->where('a.curso = :curso')
+            ->setParameter('curso', $cursoId)
+            ->getQuery();
+
+        $results = $query->getResult();
+        foreach ($results as $result) {
+            if($result instanceof Auditoria) {
+
+                $em->remove($result);
+                $em->flush();
+            }
+        }
+
+        return $this->redirect('confirmar');
     }
 }

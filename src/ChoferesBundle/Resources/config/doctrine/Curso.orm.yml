@@ -114,6 +114,16 @@ ChoferesBundle\Entity\Curso:
                 sede_id:
                     referencedColumnName: id
             orphanRemoval: false
+        auditoria:
+            targetEntity: Auditoria
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                auditoria_id:
+                    referencedColumnName: id
+            orphanRemoval: false
         tipocurso:
             targetEntity: TipoCurso
             cascade: {  }

@@ -1,0 +1,55 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Crear Auditoria
+{% endblock %}
+
+{% block menu %}
+    {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block pageHeader %}
+    <h1 class="page-title">Crear Auditoria</h1>
+
+    <ol class="breadcrumb">
+        <li><a href="{{ path('home') }}">Inicio</a></li>
+        <li class="active">Crear Auditoria</li>
+    </ol>
+{% endblock %}
+
+{% block page %}
+    <div class="panel">
+        <div class="panel-body">
+
+            <h4>Total Prestadores: {{ prestadoresCursos|length }}</h4>
+            <ol>
+            {% for prestadorCursos in prestadoresCursos %}
+                <li>Prestador: {{ prestadorCursos.prestador.nombre }} --- Total cursos elegidos: {{ prestadorCursos.cursos|length }}</li>
+            {% endfor %}
+            </ol>
+
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Curso Id</th>
+                            <th>Estado</th>
+                            <th>Prestador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prestadorCursos in prestadoresCursos %}
+                            {% for curso in prestadorCursos.cursos %}
+                                <tr class="gradeA">
+                                    <td>{{ curso.id}}</td>
+                                    <td>{{ curso.estado.nombre }}</td>
+                                    <td>{{ prestadorCursos.prestador.nombre }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

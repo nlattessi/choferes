@@ -7,6 +7,13 @@ namespace ChoferesBundle\Entity;
  */
 class EstadoCurso
 {
+    const ID_CARGADO = 1;
+    const ID_CONFIRMADO = 2;
+    const ID_POR_VALIDAR = 3;
+    const ID_CANCELADO = 4;
+    const ID_VALIDADO = 5;
+    const ID_FALLA_VALIDACION = 6;
+
     /**
      * @var integer
      */

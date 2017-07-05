@@ -2,6 +2,8 @@
 
 namespace ChoferesBundle\Controller;
 
+use Doctrine\ORM\Query\Expr\Join;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -11,6 +13,7 @@ use Pagerfanta\View\TwitterBootstrapView;
 
 use ChoferesBundle\Entity\Auditoria;
 use ChoferesBundle\Entity\EstadoAuditoria;
+use ChoferesBundle\Entity\EstadoCurso;
 
 
 /**
@@ -82,5 +85,72 @@ class AuditoriaController extends Controller
             'auditoria'  => $auditoria,
             'css_active' => 'auditoria',
         ]);
+    }
+
+    public function newAction()
+    {
+        $prestadoresCursos = [];
+
+        $repository = $this->getDoctrine()->getRepository('ChoferesBundle:Curso');
+
+        $prestadoresEntities = $this->getDoctrine()->getRepository('ChoferesBundle:Prestador')->findAll();
+        foreach ($prestadoresEntities as $prestador) {
+
+            $yaAuditados = $repository->createQueryBuilder('c')
+                ->innerJoin('ChoferesBundle:CursoAuditoria', 'ca', Join::WITH, 'ca.curso = c.id')
+                ->where('c.estado = :estadoConfirmado')
+                ->andWhere('c.prestador = :prestador')
+                ->andWhere('c.prestador = :prestador')
+                ->setParameter('estadoConfirmado', EstadoCurso::ID_CONFIRMADO)
+                ->setParameter('prestador', $prestador->getId())
+                ->getQuery()
+                ->getResult();
+
+            print_r($yaAuditados[0]->getId());die;
+
+            $total = $repository->createQueryBuilder('c')
+                ->select('COUNT(c.id)')
+                ->where('c.estado = :estadoConfirmado')
+                ->andWhere('c.prestador = :prestador')
+                ->setParameter('estadoConfirmado', EstadoCurso::ID_CONFIRMADO)
+                ->setParameter('prestador', $prestador->getId())
+                ->getQuery()
+                ->getSingleScalarResult();
+
+            $max = (int)($total * 0.2); // 20%
+
+            $query = $repository->createQueryBuilder('c')
+                ->where('c.estado = :estadoConfirmado')
+                ->andWhere('c.prestador = :prestador')
+                ->orderBy('RAND()')
+                ->setParameter('estadoConfirmado', EstadoCurso::ID_CONFIRMADO)
+                ->setParameter('prestador', $prestador->getId())
+                ->setMaxResults($max)
+                ->getQuery();
+
+            $prestadoresCursos[] = [
+                'prestador' => $prestador,
+                'cursos' => $query->getResult(),
+            ];
+        }
+
+        // $query = $repository->createQueryBuilder('c')
+        //     ->where('c.estado = :estadoConfirmado')
+        //     ->orderBy('RAND()')
+        //     ->setParameter('estadoConfirmado', EstadoCurso::ID_CONFIRMADO)
+        //     ->setMaxResults(10)
+        //     ->getQuery();
+
+        // $cursos = $query->getResult();
+
+        return $this->render('ChoferesBundle:Auditoria:new.html.twig', [
+            'prestadoresCursos' => $prestadoresCursos,
+            'css_active'  => 'auditoria_new',
+        ]);
+    }
+
+    public function createAction()
+    {
+
     }
 }

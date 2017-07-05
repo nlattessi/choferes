@@ -21,13 +21,6 @@
     <div class="panel">
         <div class="panel-body">
 
-            <h4>Total Prestadores: {{ prestadoresCursos|length }}</h4>
-            <ol>
-            {% for prestadorCursos in prestadoresCursos %}
-                <li>Prestador: {{ prestadorCursos.prestador.nombre }} --- Total cursos elegidos: {{ prestadorCursos.cursos|length }}</li>
-            {% endfor %}
-            </ol>
-
             <div class="table-responsive">
                 <table class="table table-bordered table-hover table-striped">
                     <thead>
@@ -38,18 +31,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for prestadorCursos in prestadoresCursos %}
-                            {% for curso in prestadorCursos.cursos %}
-                                <tr class="gradeA">
-                                    <td>{{ curso.id}}</td>
-                                    <td>{{ curso.estado.nombre }}</td>
-                                    <td>{{ prestadorCursos.prestador.nombre }}</td>
-                                </tr>
-                            {% endfor %}
+                        {% for curso in cursos %}
+                            <tr class="gradeA">
+                                <td>{{ curso.id}}</td>
+                                <td>{{ curso.estado.nombre }}</td>
+                                <td>{{ curso.prestador.nombre }}</td>
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 {% endblock %}

@@ -89,62 +89,40 @@ class AuditoriaController extends Controller
 
     public function newAction()
     {
-        $prestadoresCursos = [];
+        $repo = $this->getDoctrine()->getRepository('ChoferesBundle:Prestador');
+        $query = $repo->createQueryBuilder('p')
+            ->where('p.activo = true')
+            ->getQuery();
+        $prestadores = collect($query->getResult());
 
-        $repository = $this->getDoctrine()->getRepository('ChoferesBundle:Curso');
-
-        $prestadoresEntities = $this->getDoctrine()->getRepository('ChoferesBundle:Prestador')->findAll();
-        foreach ($prestadoresEntities as $prestador) {
-
-            $yaAuditados = $repository->createQueryBuilder('c')
-                ->innerJoin('ChoferesBundle:CursoAuditoria', 'ca', Join::WITH, 'ca.curso = c.id')
+        $repo = $this->getDoctrine()->getRepository('ChoferesBundle:Curso');
+        $query = $repo->createQueryBuilder('c')
                 ->where('c.estado = :estadoConfirmado')
-                ->andWhere('c.prestador = :prestador')
-                ->andWhere('c.prestador = :prestador')
                 ->setParameter('estadoConfirmado', EstadoCurso::ID_CONFIRMADO)
-                ->setParameter('prestador', $prestador->getId())
-                ->getQuery()
-                ->getResult();
-
-            print_r($yaAuditados[0]->getId());die;
-
-            $total = $repository->createQueryBuilder('c')
-                ->select('COUNT(c.id)')
-                ->where('c.estado = :estadoConfirmado')
-                ->andWhere('c.prestador = :prestador')
-                ->setParameter('estadoConfirmado', EstadoCurso::ID_CONFIRMADO)
-                ->setParameter('prestador', $prestador->getId())
-                ->getQuery()
-                ->getSingleScalarResult();
-
-            $max = (int)($total * 0.2); // 20%
-
-            $query = $repository->createQueryBuilder('c')
-                ->where('c.estado = :estadoConfirmado')
-                ->andWhere('c.prestador = :prestador')
-                ->orderBy('RAND()')
-                ->setParameter('estadoConfirmado', EstadoCurso::ID_CONFIRMADO)
-                ->setParameter('prestador', $prestador->getId())
-                ->setMaxResults($max)
                 ->getQuery();
+        $cursos = collect($query->getResult());
 
-            $prestadoresCursos[] = [
-                'prestador' => $prestador,
-                'cursos' => $query->getResult(),
-            ];
-        }
+        $minimoCursoPorPrestador = $prestadores->map(function ($prestador) use ($cursos) {
+           return $cursos->filter(function ($curso) use ($prestador) {
+                return $curso->getPrestador() === $prestador;
+            })->shuffle()->first();
+        })->filter();
 
-        // $query = $repository->createQueryBuilder('c')
-        //     ->where('c.estado = :estadoConfirmado')
-        //     ->orderBy('RAND()')
-        //     ->setParameter('estadoConfirmado', EstadoCurso::ID_CONFIRMADO)
-        //     ->setMaxResults(10)
-        //     ->getQuery();
+        $cursosRandom = $cursos->reject(function ($curso) use ($minimoCursoPorPrestador) {
+            return $minimoCursoPorPrestador->contains(function ($cursoElegido) use ($curso) {
+                return $curso === $cursoElegido;
+            });
+        })->shuffle();
 
-        // $cursos = $query->getResult();
+        $max = (int)(($cursosRandom->count() - $minimoCursoPorPrestador->count()) * 0.2); // 20%
+
+        $cursos = $cursosRandom->take($max)
+            ->sortBy(function ($curso) {
+                return $curso->getPrestador()->getNombre();
+            });
 
         return $this->render('ChoferesBundle:Auditoria:new.html.twig', [
-            'prestadoresCursos' => $prestadoresCursos,
+            'cursos' => $cursos,
             'css_active'  => 'auditoria_new',
         ]);
     }

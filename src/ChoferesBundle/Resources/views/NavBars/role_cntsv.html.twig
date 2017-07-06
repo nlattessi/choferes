@@ -117,15 +117,27 @@ css_active == 'curso_todos' %} active open{% endif %}{% endif %}">
         </li>
     </ul>
 </li>
-<li class="site-menu-item {% if css_active is defined %}{% if css_active == 'chofer_consulta' %} active{% endif %}{% endif %}">
-    <a href="{{ path('auditoria_new') }}" data-slug="dashboard">
-        <i class="site-menu-icon wb-user-add" aria-hidden="true"></i>
-        <span class="site-menu-title">Auditorías</span>
+
+<li class="site-menu-item has-sub {% if css_active is defined %}{% if css_active == 'auditoria_enviadas' or css_active == 'auditoria_new' %} active open{% endif %}{% endif %}">
+    <a href="javascript:void(0)" data-slug="layout">
+        <i class="site-menu-icon wb-library" aria-hidden="true"></i>
+        <span class="site-menu-title">Auditorias</span>
+        <span class="site-menu-arrow"></span>
     </a>
-</li>
-<li class="site-menu-item {% if css_active is defined %}{% if css_active == 'chofer_consulta' %} active{% endif %}{% endif %}">
-    <a href="{{ path('auditoria_confirmar') }}" data-slug="dashboard">
-        <i class="site-menu-icon wb-user-add" aria-hidden="true"></i>
-        <span class="site-menu-title">Confirmar Auditorías</span>
-    </a>
+    <ul class="site-menu-sub">
+        <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'auditoria_enviadas' %} active{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('auditoria_enviadas') }}" data-slug="layout-menu-collapsed">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">Auditorias Enviadas</span>
+            </a>
+        </li>
+    </ul>
+    <ul class="site-menu-sub">
+        <li class="site-menu-item {% if css_active is defined %}{% if css_active == 'auditoria_new' %} active{% endif %}{% endif %}">
+            <a class="animsition-link" href="{{ path('auditoria_new') }}" data-slug="layout-menu-collapsed">
+                <i class="site-menu-icon " aria-hidden="true"></i>
+                <span class="site-menu-title">Crear Auditorías</span>
+            </a>
+        </li>
+    </ul>
 </li>

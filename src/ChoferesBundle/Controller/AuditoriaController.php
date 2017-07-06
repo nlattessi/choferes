@@ -49,6 +49,18 @@ class AuditoriaController extends Controller
         ]);
     }
 
+    public function indexAuditoriasEnviadasAction()
+    {
+        $auditorias = $this->getDoctrine()->getRepository('ChoferesBundle:Auditoria')
+            ->findByEstado(EstadoAuditoria::ID_ENVIADA);
+
+        return $this->render('ChoferesBundle:Auditoria:index.html.twig', [
+            'auditorias' => $auditorias,
+            'pagetitle' => 'Auditorias Enviadas',
+            'css_active' => 'auditoria_enviadas',
+        ]);
+    }
+
     public function indexAuditoriasIntermedioAction()
     {
         $auditorias = $this->getDoctrine()->getRepository('ChoferesBundle:Auditoria')
@@ -117,20 +129,50 @@ class AuditoriaController extends Controller
 
         $max = (int)(($cursosRandom->count() - $minimoCursoPorPrestador->count()) * 0.2); // 20%
 
-        $cursos = $cursosRandom->take($max)
+        $cursosRandom = $cursosRandom->take($max)
             ->sortBy(function ($curso) {
                 return $curso->getPrestador()->getNombre();
             });
 
+        $typeaheadCursos = $cursos->map(function ($curso) {
+            return [
+                'id' => $curso->getId(),
+                'query' => $curso->getId(),
+                'name' => 'cursoId ' . $curso->getId(),
+                'prestador' => $curso->getPrestador()->getNombre(),
+            ];
+        });
+
         return $this->render('ChoferesBundle:Auditoria:new.html.twig', [
-            'cursos' => $cursos,
+            'cursos' => $typeaheadCursos,
+            'cursosRandom' => $cursosRandom,
             'css_active'  => 'auditoria_new',
         ]);
     }
 
     public function createAction()
     {
+        $cursos = collect($this->getRequest()->get("cursos", []));
+        $em = $this->getDoctrine()->getManager();
 
+        $auditoriaEstadoEnviada = $em->getRepository('ChoferesBundle:EstadoAuditoria')->find(EstadoAuditoria::ID_ENVIADA);
+
+        // dump($auditoriaEstadoEnviada);die;
+
+        $cursos->each(function ($cursoId) use ($em, $auditoriaEstadoEnviada) {
+            $curso = $em->getRepository('ChoferesBundle:Curso')->find((int) $cursoId);
+
+            $auditoria = new Auditoria();
+            $auditoria->setEstado($auditoriaEstadoEnviada);
+            $auditoria->setCurso($curso);
+
+            $em->persist($auditoria);
+            $em->flush();
+        });
+
+        return $this->redirect(
+            $this->generateUrl('auditoria_enviadas')
+        );
     }
 
     public function crearAction()

@@ -13,6 +13,7 @@ class EstadoAuditoria
     const ID_INTERMEDIO = 2;
     const ID_TERMINADA = 3;
     const ID_BORRADOR = 4;
+    const ID_ENVIADA = 5;
 
     /**
      * @var integer

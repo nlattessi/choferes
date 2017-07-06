@@ -2,6 +2,10 @@ auditoria:
     pattern:  /
     defaults: { _controller: "ChoferesBundle:Auditoria:index" }
 
+auditoria_enviadas:
+    pattern:  /enviadas
+    defaults: { _controller: "ChoferesBundle:Auditoria:indexAuditoriasEnviadas" }
+
 auditoria_activas:
     pattern:  /activas
     defaults: { _controller: "ChoferesBundle:Auditoria:indexAuditoriasActivas" }

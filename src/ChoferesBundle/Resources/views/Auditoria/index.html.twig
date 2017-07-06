@@ -24,7 +24,7 @@
                 <table class="table table-bordered table-hover table-striped">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>Auditoria Id</th>
                             <th>Curso Id</th>
                             <th>Estado</th>
                         </tr>
@@ -34,7 +34,7 @@
                             <tr class="gradeA">
                                 <td><a href="{{ path('auditoria_show', { 'id': auditoria.id }) }}">{{ auditoria.id }}</a></td>
                                 <td>{{ auditoria.curso.id }}</td>
-                                <td>{{ auditoria.estado.nombre }}</td>
+                                <td>{{ auditoria.estado.nombre|capitalize }}</td>
                             </tr>
                         {% endfor %}
                     </tbody>

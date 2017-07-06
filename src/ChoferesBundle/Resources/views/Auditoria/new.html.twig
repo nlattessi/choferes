@@ -1,7 +1,7 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
 
 {% block title %}
-    {{ parent() }} - Crear Auditoria
+    {{ parent() }} - Crear Auditorias
 {% endblock %}
 
 {% block menu %}
@@ -9,45 +9,108 @@
 {% endblock %}
 
 {% block pageHeader %}
-    <h1 class="page-title">Crear Auditoria</h1>
+    <h1 class="page-title">Crear Auditorias</h1>
 
     <ol class="breadcrumb">
         <li><a href="{{ path('home') }}">Inicio</a></li>
-        <li class="active">Crear Auditorias (en estado borrador)</li>
+        <li class="active">Crear Auditorias</li>
     </ol>
 {% endblock %}
 
 {% block page %}
+
+    <div class="panel">
+        <div class="panel-heading">
+            <h4 class="panel-title">Buscar curso</h4>
+        </div>
+
+        <div class="panel-body container-fluid">
+            <div class="row ">
+                <div class="col-sm-6 col-md-6 ">
+                    {# <h4 class="example-title">Escriba para buscar un curso existente.</h4> #}
+                    <input id="typeahead" type="text" class="form-control" data-provide="typeahead" autocomplete="off" placeholder="escriba para buscar un curso existente">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="panel">
         <div class="panel-body">
 
             <div class="table-responsive">
-                <form action="{{ path('auditoria_crear') }}" method="post" >
+                <form action="{{ path('auditoria_create') }}" method="POST" >
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
                             <tr>
                                 <th>Curso Id</th>
-                                <th>Estado</th>
                                 <th>Prestador</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
-
-                            {% for curso in cursos %}
-                                    <tr class="gradeA">
-                                        <td>{{ curso.id}} <input name="cursos[]" value="{{curso.id}}" style="display: none"> </td>
-                                        <td>{{ curso.estado.nombre }}</td>
-                                        <td>{{ curso.prestador.nombre }}</td>
-                                    </tr>
-
-                                {% endfor %}
+                        <tbody id="cursosCandidatos">
+                            {% for curso in cursosRandom %}
+                                <tr class="gradeA">
+                                    <input type="hidden" class="curso" name="cursos[]" value="{{ curso.id }}"/>
+                                    <td>{{ curso.id}}</td>
+                                    <td>{{ curso.prestador.nombre }}</td>
+                                    <td class="actions">
+                                        <button class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row noAgregar" data-toggle="tooltip" data-original-title="Borrar"><i class="icon wb-trash " aria-hidden="true"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
-                    <button type="submit" class="btn btn">Crear</button>
+                    <button type="submit" class="btn btn">Crear auditorias</button>
                 </form>
 
             </div>
 
         </div>
     </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        (function(window, document, $) {
+
+            $('#typeahead').typeahead({
+                source: {{ cursos|raw }},
+                updater: function (item) {
+                    var exists = false;
+
+                    $("input[name^=curso]").each(function() {
+                        if (parseInt($(this).val()) === item.id) {
+                            exists = true;
+                            return false;
+                        }
+                    });
+
+                    if (! exists) {
+
+                        $('#cursosCandidatos').append(
+                            '<tr class="gradeA">'
+                            + '<input type="hidden" class="curso" name="curso[]" value="' + item.id + '"/>'
+                            + '<td>' + item.id + '</td>'
+                            + '<td>' + item.prestador + '</td>'
+                            + '<td class="actions">'
+                            +   '<button class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row noAgregar" data-toggle="tooltip" data-original-title="Borrar"><i class="icon wb-trash " aria-hidden="true"></i></a>'
+                            + '</td>'
+                            + '</tr>'
+                        );
+
+                        $(".noAgregar").click(function() {
+                            $(this).parent().parent().remove();
+                        });
+                    }
+
+                    return '';
+                }
+            });
+
+            $(".noAgregar").click(function(){
+                $(this).parent().parent().remove();
+            });
+
+    })(window, document, jQuery);
+    </script>
 {% endblock %}

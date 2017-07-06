@@ -1,0 +1,42 @@
+ChoferesBundle\Entity\Auditoria:
+    type: entity
+    table: auditoria
+    indexes:
+        estado_curso_idx:
+            columns:
+                - estado_id
+    id:
+        id:
+            type: integer
+            nullable: false
+            options:
+                unsigned: false
+            id: true
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        estado:
+            targetEntity: EstadoAuditoria
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: auditorias
+            joinColumns:
+                estado_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        curso:
+            targetEntity: Curso
+            cascade: {}
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                curso_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    # oneToMany:
+    #     cursos:
+    #         targetEntity: CursoAuditoria
+    #         mappedBy: auditoria
+    lifecycleCallbacks: {  }

@@ -1,0 +1,60 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+    {{ parent() }} - Confirmar Auditoria
+{% endblock %}
+
+{% block menu %}
+    {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block pageHeader %}
+    <h1 class="page-title">Confirmar Auditoria</h1>
+
+    <ol class="breadcrumb">
+        <li><a href="{{ path('home') }}">Inicio</a></li>
+        <li class="active">Confirmar Auditorias</li>
+    </ol>
+{% endblock %}
+
+{% block page %}
+    <div class="panel">
+        <div class="panel-body">
+
+            <div class="table-responsive">
+                <form action="{{ path('auditoria_confirmar') }}" method="post" >
+                    <table class="table table-bordered table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th>Curso Id</th>
+                                <th>Estado</th>
+                                <th>Prestador</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {% for curso in cursos %}
+                                    <tr class="gradeA">
+                                        <td>{{ curso.id}} <input name="cursos[]" value="{{curso.id}}" style="display: none"> </td>
+                                        <td>{{ curso.estado.nombre }}</td>
+                                        <td>{{ curso.prestador.nombre }}</td>
+                                        <td>
+                                            <a  class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row cancelarCurso" data-toggle="tooltip" data-original-title="Cancelar"
+                                                href="{{ path('auditoria_quitar', { 'id': curso.id }) }}">
+                                                <i class="icon wb-close red-400" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                    <button type="submit" class="btn btn">Confirmar</button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

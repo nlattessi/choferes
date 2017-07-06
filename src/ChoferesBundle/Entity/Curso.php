@@ -68,6 +68,11 @@ class Curso
     private $sede;
 
     /**
+     * @var \ChoferesBundle\Entity\Auditoria
+     */
+    private $auditoria;
+
+    /**
      * @var \ChoferesBundle\Entity\TipoCurso
      */
     private $tipocurso;
@@ -321,6 +326,22 @@ class Curso
     public function getSede()
     {
         return $this->sede;
+    }
+
+    /**
+     * @return \ChoferesBundle\Entity\Auditoria
+     */
+    public function getAuditoria()
+    {
+        return $this->auditoria;
+    }
+
+    /**
+     * @param \ChoferesBundle\Entity\Auditoria $auditoria
+     */
+    public function setAuditoria($auditoria)
+    {
+        $this->auditoria = $auditoria;
     }
 
     /**

@@ -1,0 +1,45 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+    Auditorias
+{% endblock %}
+
+{% block menu %}
+    {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block pageHeader %}
+    <h1 class="page-title">{{ pagetitle }}</h1>
+
+    <ol class="breadcrumb">
+        <li><a href="{{ path('auditoria') }}">Inicio</a></li>
+        <li class="active">Auditorias</li>
+    </ol>
+{% endblock %}
+
+{% block page %}
+    <div class="panel">
+        <div class="panel-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Auditoria Id</th>
+                            <th>Curso Id</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for auditoria in auditorias %}
+                            <tr class="gradeA">
+                                <td><a href="{{ path('auditoria_show', { 'id': auditoria.id }) }}">{{ auditoria.id }}</a></td>
+                                <td>{{ auditoria.curso.id }}</td>
+                                <td>{{ auditoria.estado.nombre|capitalize }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

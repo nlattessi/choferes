@@ -1,0 +1,43 @@
+ChoferesBundle\Entity\CursoAuditoria:
+  type: entity
+  table: curso_auditoria
+  indexes:
+    curso_auditoria_idx:
+      columns:
+        - curso_id
+    # auditoria_curso_idx:
+    #   columns:
+    #     - auditoria_id
+  id:
+    id:
+      type: integer
+      nullable: false
+      options:
+        unsigned: false
+      id: true
+      generator:
+        strategy: IDENTITY
+  manyToOne:
+    curso:
+      targetEntity: Curso
+      cascade: {}
+      fetch: EAGER
+      mappedBy: null
+      inversedBy: null
+      joinColumns:
+        curso_id:
+          referencedColumnName: id
+          onDelete: cascade
+      orphanRemoval: false
+    # auditoria:
+    #   targetEntity: Auditoria
+    #   cascade: {}
+    #   fetch: EAGER
+    #   mappedBy: null
+    #   inversedBy: cursos
+    #   joinColumns:
+    #     auditoria_id:
+    #       referencedColumnName: id
+    #       onDelete: cascade
+    #   orphanRemoval: false
+  lifecycleCallbacks: {}

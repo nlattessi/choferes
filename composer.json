@@ -24,7 +24,10 @@
         "gregwar/captcha-bundle": "dev-master",
         "cayetanosoriano/hashids-bundle": "dev-master",
         "liuggio/excelbundle": "^2.0",
-        "league/csv": "^8.0"
+        "league/csv": "^8.0",
+        "beberlei/DoctrineExtensions": "^1.0",
+        "tightenco/collect": "^5.4",
+        "symfony/var-dumper": "^3.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

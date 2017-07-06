@@ -42,6 +42,10 @@ choferes_chofer:
     resource: "@ChoferesBundle/Resources/config/routing/chofer.yml"
     prefix:   /chofer
 
+choferes_auditoria:
+    resource: "@ChoferesBundle/Resources/config/routing/auditoria.yml"
+    prefix:   /auditoria
+
 login:
     path:     /login
     defaults: { _controller: ChoferesBundle:Security:login }

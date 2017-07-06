@@ -1,0 +1,44 @@
+auditoria:
+    pattern:  /
+    defaults: { _controller: "ChoferesBundle:Auditoria:index" }
+
+auditoria_enviadas:
+    pattern:  /enviadas
+    defaults: { _controller: "ChoferesBundle:Auditoria:indexAuditoriasEnviadas" }
+
+auditoria_activas:
+    pattern:  /activas
+    defaults: { _controller: "ChoferesBundle:Auditoria:indexAuditoriasActivas" }
+
+auditoria_intermedio:
+    pattern:  /intermedio
+    defaults: { _controller: "ChoferesBundle:Auditoria:indexAuditoriasIntermedio" }
+
+auditoria_terminadas:
+    pattern:  /terminadas
+    defaults: { _controller: "ChoferesBundle:Auditoria:indexAuditoriasTerminadas" }
+
+auditoria_show:
+    pattern:  /{id}/show
+    defaults: { _controller: "ChoferesBundle:Auditoria:show" }
+
+auditoria_new:
+    pattern:  /new
+    defaults: { _controller: "ChoferesBundle:Auditoria:new" }
+
+auditoria_create:
+    pattern:  /create
+    defaults: { _controller: "ChoferesBundle:Auditoria:create" }
+    requirements: { _method: post }
+
+auditoria_crear:
+    pattern:  /crear
+    defaults: { _controller: "ChoferesBundle:Auditoria:crear" }
+
+auditoria_quitar:
+    pattern:  /quitar
+    defaults: { _controller: "ChoferesBundle:Auditoria:quitar" }
+
+auditoria_confirmar:
+    pattern:  /confirmar
+    defaults: { _controller: "ChoferesBundle:Auditoria:confirmarCursos" }

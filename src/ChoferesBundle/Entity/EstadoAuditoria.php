@@ -2,17 +2,18 @@
 
 namespace ChoferesBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
- * EstadoCurso
+ * EstadoAuditoria
  */
-class EstadoCurso
+class EstadoAuditoria
 {
-    const ID_CARGADO = 1;
-    const ID_CONFIRMADO = 2;
-    const ID_POR_VALIDAR = 3;
-    const ID_CANCELADO = 4;
-    const ID_VALIDADO = 5;
-    const ID_FALLA_VALIDACION = 6;
+    const ID_ACTIVA = 1;
+    const ID_INTERMEDIO = 2;
+    const ID_TERMINADA = 3;
+    const ID_BORRADOR = 4;
+    const ID_ENVIADA = 5;
 
     /**
      * @var integer
@@ -24,6 +25,12 @@ class EstadoCurso
      */
     private $nombre;
 
+    private $auditorias;
+
+    public function __construct()
+    {
+        $this->auditorias = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -40,7 +47,7 @@ class EstadoCurso
      *
      * @param string $nombre
      *
-     * @return EstadoCurso
+     * @return Rol
      */
     public function setNombre($nombre)
     {

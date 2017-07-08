@@ -231,6 +231,36 @@ class ChoferService
         return $result;
     }
 
+    public function getTotalChoferesVigentesPorFechaValidacion($fechaDesde, $fechaHasta)
+    {
+        $fechaDesde = \DateTime::createFromFormat('d/m/Y', $fechaDesde);
+        $fechaHasta = \DateTime::createFromFormat('d/m/Y', $fechaHasta);
+
+        $query = $this->em->createQueryBuilder()
+            ->select('COUNT(chofer.id)')
+            ->from('ChoferesBundle:Chofer', 'chofer')
+            ->innerJoin(
+                'ChoferesBundle:ChoferCurso', 'choferCurso',
+                Join::WITH, 'choferCurso.chofer = chofer.id'
+            )
+            ->innerJoin(
+                'ChoferesBundle:Curso', 'curso',
+                Join::WITH, 'choferCurso.curso = curso.id'
+            )
+            ->where('chofer.tieneCursoBasico = TRUE')
+            ->andWhere('choferCurso.isAprobado = TRUE')
+            ->andWhere('choferCurso.pagado = TRUE')
+            ->andWhere('choferCurso.documentacion = TRUE')
+            ->andWhere('curso.fechaValidacion >= :fechaDesde')
+            ->andWhere('curso.fechaValidacion <= :fechaHasta')
+            ->orderBy('curso.fechaValidacion', 'DESC')
+            ->setParameter('fechaDesde', $fechaDesde->format('Y-m-d'))
+            ->setParameter('fechaHasta', $fechaHasta->format('Y-m-d'))
+            ->getQuery();
+
+        return $query->getSingleScalarResult();
+    }
+
     public function isChoferFromPrestador($chofer, $userPrestador, $cursoId)
     {
         $curso = $this->em->getRepository('ChoferesBundle:Curso')->find($cursoId);

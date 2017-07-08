@@ -2,20 +2,15 @@
 
 namespace ChoferesBundle\Controller;
 
-use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
-use Pagerfanta\Pagerfanta;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
-
-use Symfony\Component\HttpFoundation\Response;
-
-
 use ChoferesBundle\Entity\ChoferCurso;
 use ChoferesBundle\Form\ChoferCursoType;
 use ChoferesBundle\Form\ChoferCursoFilterType;
-use Symfony\Component\Validator\Constraints\Null;
+use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
+use Pagerfanta\Pagerfanta;
+use Pagerfanta\Adapter\DoctrineORMAdapter;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * ChoferCurso controller.

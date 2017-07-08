@@ -14,6 +14,10 @@ reporte_choferes_vigentes_por_fecha_curso:
     pattern:  /choferes_vigentes_por_fecha_curso
     defaults: { _controller: "ChoferesBundle:Reporte:choferesVigentesPorFechaCurso" }
 
+reporte_total_choferes_vigentes_por_fecha_curso:
+    pattern:  /total_choferes_vigentes_por_fecha_curso
+    defaults: { _controller: "ChoferesBundle:Reporte:totalChoferesVigentesPorFechaCurso" }
+
 reporte_cursos_por_tipo:
     pattern:  /cursosPorTipo
     defaults: { _controller: "ChoferesBundle:Reporte:cursosPorTipo" }

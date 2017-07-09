@@ -10,9 +10,17 @@ reporte_choferes_vigentes_por_fecha_validacion:
     pattern:  /choferes_vigentes_por_fecha_validacion
     defaults: { _controller: "ChoferesBundle:Reporte:choferesVigentesPorFechaValidacion" }
 
+reporte_total_choferes_vigentes_por_fecha_validacion:
+    pattern:  /total_choferes_vigentes_por_fecha_validacion
+    defaults: { _controller: "ChoferesBundle:Reporte:totalChoferesVigentesPorFechaValidacion" }
+
 reporte_choferes_vigentes_por_fecha_curso:
     pattern:  /choferes_vigentes_por_fecha_curso
     defaults: { _controller: "ChoferesBundle:Reporte:choferesVigentesPorFechaCurso" }
+
+reporte_total_choferes_vigentes_por_fecha_curso:
+    pattern:  /total_choferes_vigentes_por_fecha_curso
+    defaults: { _controller: "ChoferesBundle:Reporte:totalChoferesVigentesPorFechaCurso" }
 
 reporte_cursos_por_tipo:
     pattern:  /cursosPorTipo

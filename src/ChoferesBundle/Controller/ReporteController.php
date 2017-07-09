@@ -59,6 +59,45 @@ class ReporteController extends Controller
         ]);
     }
 
+    public function totalChoferesVigentesPorFechaCursoAction(Request $request)
+    {
+        $response = new JsonResponse();
+
+        $fechaDesde = $request->query->get('fecha_desde', null);
+        $fechaHasta = $request->query->get('fecha_hasta', null);
+
+        if ($fechaDesde === null) {
+            $data =  [
+                'result'  => false,
+                'message' => 'Falta parametro fecha_desde',
+            ];
+
+            $response->setData($data);
+            return $response;
+        }
+
+        if ($fechaHasta === null) {
+            $data =  [
+                'result'  => false,
+                'message' => 'Falta parametro fecha_hasta',
+            ];
+
+            $response->setData($data);
+            return $response;
+        }
+
+        $choferesService =  $this->get('choferes.servicios.chofer');
+        $totalChoferesVigentes = $choferesService->getTotalChoferesVigentesPorFechaCurso($fechaDesde, $fechaHasta);
+
+        $data =  [
+            'result'  => true,
+            'total' => $totalChoferesVigentes,
+        ];
+
+        $response->setData($data);
+        return $response;
+    }
+
     public function choferesVigentesPorFechaValidacionAction(Request $request)
     {
         $form = $this->createForm(new ReporteChoferesVigentesType());
@@ -102,6 +141,46 @@ class ReporteController extends Controller
             'form' => $form->createView(),
             'css_active' => 'choferes_vigentes_por_fecha_validacion'
         ]);
+    }
+
+    public function totalChoferesVigentesPorFechaValidacionAction(Request $request)
+    {
+        $response = new JsonResponse();
+
+        $fechaDesde = $request->query->get('fecha_desde', null);
+        $fechaHasta = $request->query->get('fecha_hasta', null);
+
+        if ($fechaDesde === null) {
+            $data =  [
+                'result'  => false,
+                'message' => 'Falta parametro fecha_desde',
+            ];
+
+            $response->setData($data);
+            return $response;
+        }
+
+        if ($fechaHasta === null) {
+            $data =  [
+                'result'  => false,
+                'message' => 'Falta parametro fecha_hasta',
+            ];
+
+            $response->setData($data);
+            return $response;
+        }
+
+        $choferesService =  $this->get('choferes.servicios.chofer');
+        $totalChoferesVigentes = $choferesService->getTotalChoferesVigentesPorFechaValidacion($fechaDesde, $fechaHasta);
+
+        $data =  [
+            'result'  => true,
+            'total' => $totalChoferesVigentes,
+        ];
+
+        $response->setData($data);
+        return $response;
+
     }
 
     /**

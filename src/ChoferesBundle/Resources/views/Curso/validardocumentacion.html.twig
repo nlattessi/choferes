@@ -28,6 +28,7 @@
       <table class="table table-bordered table-hover table-striped " id="exampleAddRow">
         <thead>
           <tr>
+            <td>#</td>
             <td>Nombre</td>
             <td>Apellido</td>
             <td>Dni</td>
@@ -37,6 +38,7 @@
         <tbody>
           {% for entity in entities %}
             <tr class="gradeA">
+            <td>{{ loop.index }}</td>
             <td>{{ entity.nombre }}</td>
             <td>{{ entity.apellido }}</td>
             <td>{{ entity.dni }}</td>
@@ -50,6 +52,11 @@
           {% endfor %}
         </tbody>
       </table>
+      </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 margin-top-10">
+          <p><b>Total choferes:</b> {{ entities|length }}</p>
+        </div>
       </div>
       <div class="row">
         <div class="col-sm-12 col-md-12 margin-top-20">

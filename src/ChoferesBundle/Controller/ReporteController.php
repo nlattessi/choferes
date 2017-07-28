@@ -2,6 +2,8 @@
 
 namespace ChoferesBundle\Controller;
 
+use ChoferesBundle\Form\CursoFilterType;
+use ChoferesBundle\Form\CursoType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -236,5 +238,130 @@ class ReporteController extends Controller
         $response->headers->set('Cache-Control', 'maxage=1');
 
         return $response;
+    }
+
+    public function cursoFiltroAction(Request $request){
+
+        //hago un tipo nuevo o reuso el del curso
+        //$form = $this->createForm(new ReporteFiltroCursoType());
+        $usuario = $this->getUser();
+        $usuarioService =  $this->get('choferes.servicios.usuario');
+
+        $form = $this->createForm(new CursoFilterType($usuarioService), null, ['user' => $usuario]);
+        if ($request->isMethod('POST')) {
+
+            $em = $this->getDoctrine()->getManager();
+            $queryBuilder = $em->createQueryBuilder()
+                ->select('c.id',	'c.fechaInicio',	'c.fechaFin',
+                    'c.fechaCreacion',	'c.codigo',	'c.anio','c.comprobante','c.fechaPago','c.observaciones','c.fechaValidacion','t.nombre')
+                ->from('ChoferesBundle:Curso', 'c')
+            ->join('c.tipocurso', 't');
+            //{"choferesbundle_cursofiltertype":{"id":"","fechaInicio":{"left_date":"20\/07\/2017","right_date":""},
+            //"fechaFin":{"left_date":"","right_date":""},"fechaValidacion":{"left_date":"","right_date":""},
+            //"prestador":"","codigo":"","tipocurso":"","estado":"","_token":"6CaUf8mkf9p_laADRbxjuT5KfY_yB2_kHt05_3zd2lQ"},"filter_action":"filter"}
+        //    print json_encode($_POST['choferesbundle_cursofiltertype']["fechaInicio"]['left_date']);
+          //  print $_POST["fechaInicio"];
+            $elPost = $_POST['choferesbundle_cursofiltertype'];
+            if(!empty($elPost["fechaInicio"]['left_date'])){
+                $fecha = \DateTime::createFromFormat('d/m/Y', $elPost["fechaInicio"]['left_date']);
+                $queryBuilder->andWhere('c.fechaInicio >= :fechaIniD')
+                    ->setParameter('fechaIniD', $fecha);
+            }
+            if(!empty($elPost["fechaInicio"]['right_date'])){
+                $fecha = \DateTime::createFromFormat('d/m/Y', $elPost["fechaInicio"]['right_date']);
+                $queryBuilder->andWhere('c.fechaInicio <= :fechaIniH')
+                    ->setParameter('fechaIniH', $fecha);
+            }
+            if(!empty($elPost["fechaFin"]['left_date'])){
+                $fecha = \DateTime::createFromFormat('d/m/Y', $elPost["fechaFin"]['left_date']);
+                $queryBuilder->andWhere('c.fechaFin >= :fechaFinD')
+                    ->setParameter('fechaFinD', $fecha);
+            }
+            if(!empty($elPost["fechaFin"]['right_date'])){
+                $fecha = \DateTime::createFromFormat('d/m/Y', $elPost["fechaFin"]['right_date']);
+                $queryBuilder->andWhere('c.fechaFin <= :fechaFinH')
+                    ->setParameter('fechaFinH', $fecha);
+            }
+            if(!empty($elPost["fechaValidacion"]['left_date'])){
+                $fecha = \DateTime::createFromFormat('d/m/Y', $elPost["fechaValidacion"]['left_date']);
+                $queryBuilder->andWhere('c.fechaValidacion >= :fechaValD')
+                    ->setParameter('fechaValD', $fecha);
+            }
+            if(!empty($elPost["fechaValidacion"]['right_date'])){
+                $fecha = \DateTime::createFromFormat('d/m/Y', $elPost["fechaValidacion"]['right_date']);
+                $queryBuilder->andWhere('c.fechaValidacion <= :fechaValH')
+                    ->setParameter('fechaValH', $fecha);
+            }
+            if(!empty($elPost["prestador"])){
+                $queryBuilder->andWhere('c.prestador = :prestador')
+                    ->setParameter('prestador', $elPost["prestador"]);
+            }
+            if(!empty($elPost["codigo"])){
+                $queryBuilder->andWhere('c.codigo = :codigo')
+                    ->setParameter('codigo', $elPost["codigo"]);
+            }
+            if(!empty($elPost["tipocurso"])){
+                $queryBuilder->andWhere('c.tipocurso = :tipocurso')
+                    ->setParameter('tipocurso', $elPost["tipocurso"]);
+            }
+            if(!empty($elPost["estado"])){
+                $queryBuilder->andWhere('c.estado = :estado')
+                    ->setParameter('estado', $elPost["estado"]);
+            }
+
+
+            $query = $queryBuilder->getQuery();
+           /* print json_encode($query->getSql());
+            print json_encode($query->getParameters());
+            exit;*/
+            $result = $query->getResult();
+            if (isset($result)) {
+                foreach ($result as & $curso) {
+                    if($curso['fechaInicio']){
+                        $fechaInicio = $curso['fechaInicio']->format('d-m-Y H:i:s');
+                        $curso['fechaInicio'] = $fechaInicio;
+                    }
+
+                    if($curso['fechaFin']){
+                        $fechaFin = $curso['fechaFin']->format('d-m-Y H:i:s');
+                        $curso['fechaFin'] = $fechaFin;
+                    }
+                    if($curso['fechaValidacion']){
+                        $fechaValidacion = $curso['fechaValidacion']->format('d-m-Y H:i:s');
+                        $curso['fechaValidacion'] = $fechaValidacion;
+                    }
+
+                    if($curso['fechaCreacion']){
+                        $fechaCreacion = $curso['fechaCreacion']->format('d-m-Y H:i:s');
+                        $curso['fechaCreacion'] = $fechaCreacion;
+                    }
+
+                    if($curso['fechaPago']){
+                        $fechaPago = $curso['fechaPago']->format('d-m-Y H:i:s');
+                        $curso['fechaPago'] = $fechaPago;
+                    }
+
+                }
+            }
+
+
+            /*
+            return $this->createReporteResponse($result, [
+                'id',	'docente_id' ,	'estado','prestador','sede','fecha_inicio',	'fecha_fin',
+            'fecha_creacion',	'codigo',	'año','comprobante','fecha_pago','observaciones','tipoCurso' ,'fecha_validacion'
+            ]);*/
+            return $this->createReporteResponse($result, [
+                'id',	'fecha_inicio',	'fecha_fin',
+                'fecha_creacion',	'codigo',	'año','comprobante','fecha_pago','observaciones','fecha_validacion','Tipo'
+            ]);
+              //  print json_encode($form->getData());
+
+
+        }
+
+        return $this->render('ChoferesBundle:Reporte:curso_filtro.html.twig', [
+            'form' => $form->createView(),
+            'css_active' => 'reporte_curso_filtro'
+        ]);
     }
 }

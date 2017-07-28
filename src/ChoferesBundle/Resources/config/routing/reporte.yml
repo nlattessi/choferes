@@ -25,3 +25,7 @@ reporte_total_choferes_vigentes_por_fecha_curso:
 reporte_cursos_por_tipo:
     pattern:  /cursosPorTipo
     defaults: { _controller: "ChoferesBundle:Reporte:cursosPorTipo" }
+
+reporte_cursos_filtro:
+    pattern:  /cursoFiltro
+    defaults: { _controller: "ChoferesBundle:Reporte:cursoFiltro" }

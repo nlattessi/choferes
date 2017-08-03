@@ -56,6 +56,21 @@ class Chofer
 
     private $choferCursos;
 
+    /**
+     * @var boolean
+     */
+    private $estaActivo = true;
+
+    /**
+     * @var \DateTime
+     */
+    private $fechaBorrado;
+
+    /**
+     * @var \ChoferesBundle\Entity\Usuario
+     */
+    private $usuarioQueBorro;
+
 
     public function __construct()
     {
@@ -269,5 +284,41 @@ class Chofer
     public function getChoferCursos()
     {
         return $this->choferCursos;
+    }
+
+    public function setEstaActivo($estaActivo)
+    {
+        $this->estaActivo = $estaActivo;
+
+        return $this;
+    }
+
+    public function getEstaActivo()
+    {
+        return $this->estaActivo;
+    }
+
+    public function setFechaBorrado(\DateTime $fechaBorrado = null)
+    {
+        $this->fechaBorrado = $fechaBorrado;
+
+        return $this;
+    }
+
+    public function getFechaBorrado()
+    {
+        return $this->fechaBorrado;
+    }
+
+    public function setUsuarioQueBorro(\ChoferesBundle\Entity\Usuario $usuarioQueBorro = null)
+    {
+        $this->usuarioQueBorro = $usuarioQueBorro;
+
+        return $this;
+    }
+
+    public function getUsuarioQueBorro()
+    {
+        return $this->usuarioQueBorro;
     }
 }

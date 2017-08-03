@@ -50,7 +50,9 @@ class ChoferController extends Controller
         $session = $request->getSession();
         $filterForm = $this->createForm(new ChoferFilterType());
         $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->getRepository('ChoferesBundle:Chofer')->createQueryBuilder('e');
+        $queryBuilder = $em->getRepository('ChoferesBundle:Chofer')
+            ->createQueryBuilder('e')
+            ->andWhere('e.estaActivo = TRUE');
 
         // Reset filter
         $session->remove('ChoferControllerFilter');
@@ -125,7 +127,7 @@ class ChoferController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $duplicate = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $entity->getDni()]);
+            $duplicate = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $entity->getDni(), 'estaActivo' => TRUE]);
             if ($duplicate) {
                 $this->get('session')->getFlashBag()->add('error', 'Ya se encuentra registrado un chofer con el DNI ingresado.');
             } else {
@@ -248,6 +250,29 @@ class ChoferController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('ChoferesBundle:Chofer')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Chofer entity.');
+        }
+
+        $deleteForm = $this->createDeleteForm($id);
+
+        return $this->render('ChoferesBundle:Chofer:delete.html.twig', [
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+            'css_active' => 'chofer',
+        ]);
+    }
+
+    /**
+     * Deletes a Chofer entity.
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV')")
+     */
+    public function destroyAction(Request $request, $id)
+    {
         $form = $this->createDeleteForm($id);
         $form->bind($request);
 
@@ -259,11 +284,16 @@ class ChoferController extends Controller
                 throw $this->createNotFoundException('Unable to find Chofer entity.');
             }
 
-            $em->remove($entity);
+            $entity->setEstaActivo(false);
+            $entity->setFechaBorrado(new \DateTime());
+            $entity->setUsuarioQueBorro($this->getUser());
+
+            $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'flash.delete.success');
+
+            $this->get('session')->getFlashBag()->add('success', 'Chofer DNI:' . $entity->getDni() . ' borrado correctamente');
         } else {
-            $this->get('session')->getFlashBag()->add('error', 'flash.delete.error');
+            $this->get('session')->getFlashBag()->add('error', 'Error borrando Chofer ID:' . $entity->getDni());
         }
 
         return $this->redirect($this->generateUrl('chofer'));
@@ -282,6 +312,7 @@ class ChoferController extends Controller
     {
         return $this->createFormBuilder(array('id' => $id))
             ->add('id', 'hidden')
+            ->setAction($this->generateUrl('chofer_destroy', ['id' => $id]))
             ->getForm()
         ;
     }
@@ -384,7 +415,7 @@ class ChoferController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $dni = $form->get('dni')->getData();
-            $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
+            $chofer = $em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni, 'estaActivo' => TRUE]);
             if ($chofer) {
                 $choferService = $this->get('choferes.servicios.chofer');
                 $status = $choferService->getStatusPorDniChofer($dni);
@@ -432,10 +463,11 @@ class ChoferController extends Controller
         $rsm->addScalarResult('cantidad','cantidad');
 
         $query = $em->createNativeQuery('select tipo_curso.nombre as nombre, count(chofer_curso.id) as cantidad
-                                    from curso , chofer_curso, tipo_curso
+                                    from curso , chofer_curso, tipo_curso, chofer
                                     where curso.id = chofer_curso.curso_id
                                     and curso.tipoCurso_id = tipo_curso.id
                                     and month(curso.fecha_inicio) = month(now())
+                                    and chofer.esta_activo = TRUE
                                     group by curso.tipoCurso_id',$rsm);
 
         $resultado = $query->getResult();

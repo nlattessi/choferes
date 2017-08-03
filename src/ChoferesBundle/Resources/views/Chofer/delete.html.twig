@@ -1,0 +1,31 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+
+{% block title %}
+{{ parent() }} -  {{ 'views.edit.edit'|trans({'%entity%': 'Chofer'}, 'JordiLlonchCrudGeneratorBundle') }}
+{% endblock %}
+
+{% block menu %}
+{{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block pageHeader %}
+    <h1 class="page-title">Borrar Chofer</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('chofer') }}">Choferes</a></li>
+        <li class="active">Borrar Chofer</li>
+    </ol>
+{% endblock %}
+
+{% block page %}
+<div class="panel">
+  <div class="panel-body">
+    <div class="dt-panelfooter clearfix">
+      {{ form_start(delete_form) }}
+      <h4>Está seguro de borrar el chofer id: {{ entity.id }} - dni: {{ entity.dni }}?</h1>
+          <input type="submit" class="btn btn btn-danger margin-top-10" value="Borrar" />
+          <a href="{{ path('chofer_show', { 'id': entity.id }) }}" class="btn btn-outline btn-default margin-top-10">Volver</a>
+      {{ form_end(delete_form) }}
+    </div>
+  </div>
+</div>
+{% endblock %}

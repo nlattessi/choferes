@@ -56,6 +56,7 @@ class ChoferCursoController extends Controller
             )
             ->where('LOWER(c.nombre) LIKE LOWER(:query) OR LOWER(c.apellido) LIKE LOWER(:query) OR c.dni LIKE :query')
             ->andWhere('cu.id <> :idcurso OR cu.id IS NULL')
+            ->andWhere('c.estaActivo = TRUE')
             ->setParameter('query', '%'.$request->query->get('query').'%')
             ->setParameter('idcurso', $request->query->get('idcurso'))
             ->distinct()

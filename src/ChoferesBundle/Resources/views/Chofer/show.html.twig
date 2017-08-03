@@ -61,6 +61,9 @@
         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CNTSV') %}
           <button type="button" onclick="location.href='{{ path('chofer_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
         {% endif %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CNTSV') %}
+          <button type="button" onclick="location.href='{{ path('chofer_delete', { 'id': entity.id }) }}'" class="btn btn-link margin-top-10 pull-right">Borrar</button>
+        {% endif %}
         <button type="button" onclick="location.href='{{ path('chofer_consulta_id', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Estado</button>
         <a id="listado" href="{{ path('chofer') }}" class="btn btn-outline btn-default margin-top-10">Volver al listado</a>
       </div>

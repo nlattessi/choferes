@@ -132,6 +132,10 @@ class CursoController extends Controller
             'curso' => $entity
         ));
 
+        $choferesCurso = array_filter($choferesCurso, function ($choferCurso) {
+            return ($choferCurso->getChofer()->getEstaActivo() === TRUE);
+        });
+
         if ($request->getMethod() == 'POST') {
 
             if ($entity->getEstado()->getId() == self::ESTADO_CURSO_VALIDADO) {
@@ -202,6 +206,7 @@ class CursoController extends Controller
                 \Doctrine\ORM\Query\Expr\Join::WITH, 'chofer.id = choferCurso.chofer'
             )
             ->where('choferCurso.curso = :curso')
+            ->andWhere('chofer.estaActivo = TRUE')
             ->orderBy('chofer.nombre', 'ASC')
             ->setParameter('curso', $entity)
             ->getQuery()
@@ -704,6 +709,10 @@ class CursoController extends Controller
             $choferesCurso= $em->getRepository('ChoferesBundle:ChoferCurso')->findBy(array(
                 'curso' => $entity
             ));
+
+            $choferesCurso = array_filter($choferesCurso, function ($choferCurso) {
+                return ($choferCurso->getChofer()->getEstaActivo() === TRUE);
+            });
         } else {
             $choferesCurso = null;
         }

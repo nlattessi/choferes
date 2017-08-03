@@ -48,6 +48,7 @@ class ChoferService
             )
             ->where('chofer.dni = :dni')
             ->andWhere('curso.estado = :estadoValidado')
+            ->andWhere('chofer.estaActivo = TRUE')
             ->orderBy('curso.fechaFin', 'DESC')
             ->setParameter('dni', $dni)
             ->setParameter('estadoValidado', $estadoValidado)
@@ -88,7 +89,7 @@ class ChoferService
 
     public function descargarCertificado($dni)
     {
-        $chofer = $this->em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni]);
+        $chofer = $this->em->getRepository('ChoferesBundle:Chofer')->findOneBy(['dni' => $dni, 'estaActivo' => TRUE]);
 
         if(!$chofer){
             //no Existe el chofer
@@ -171,6 +172,7 @@ class ChoferService
             ->andWhere('choferCurso.documentacion = TRUE')
             ->andWhere('curso.fechaInicio >= :fechaDesde')
             ->andWhere('curso.fechaFin <= :fechaHasta')
+            ->andWhere('chofer.estaActivo = TRUE')
             ->orderBy('curso.fechaCreacion', 'DESC')
             ->setParameter('fechaDesde', $fechaDesde->format('Y-m-d'))
             ->setParameter('fechaHasta', $fechaHasta->format('Y-m-d'))
@@ -212,6 +214,7 @@ class ChoferService
             ->andWhere('choferCurso.documentacion = TRUE')
             ->andWhere('curso.fechaInicio >= :fechaDesde')
             ->andWhere('curso.fechaFin <= :fechaHasta')
+            ->andWhere('chofer.estaActivo = TRUE')
             ->orderBy('curso.fechaCreacion', 'DESC')
             ->setParameter('fechaDesde', $fechaDesde->format('Y-m-d'))
             ->setParameter('fechaHasta', $fechaHasta->format('Y-m-d'))
@@ -242,6 +245,7 @@ class ChoferService
             ->andWhere('choferCurso.documentacion = TRUE')
             ->andWhere('curso.fechaValidacion >= :fechaDesde')
             ->andWhere('curso.fechaValidacion <= :fechaHasta')
+            ->andWhere('chofer.estaActivo = TRUE')
             ->orderBy('curso.fechaValidacion', 'DESC')
             ->setParameter('fechaDesde', $fechaDesde->format('Y-m-d'))
             ->setParameter('fechaHasta', $fechaHasta->format('Y-m-d'))
@@ -283,6 +287,7 @@ class ChoferService
             ->andWhere('choferCurso.documentacion = TRUE')
             ->andWhere('curso.fechaValidacion >= :fechaDesde')
             ->andWhere('curso.fechaValidacion <= :fechaHasta')
+            ->andWhere('chofer.estaActivo = TRUE')
             ->orderBy('curso.fechaValidacion', 'DESC')
             ->setParameter('fechaDesde', $fechaDesde->format('Y-m-d'))
             ->setParameter('fechaHasta', $fechaHasta->format('Y-m-d'))

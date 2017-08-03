@@ -60,8 +60,29 @@ ChoferesBundle\Entity\Chofer:
             length: 18
             options:
                 fixed: false
+        estaActivo:
+            type: boolean
+            nullable: false
+            options:
+                default: true
+            column: esta_activo
+        fechaBorrado:
+            type: datetime
+            nullable: true
+            column: fecha_borrado
     oneToMany:
         choferCursos:
             targetEntity: ChoferCurso
             mappedBy: chofer
+    manyToOne:
+        usuarioQueBorro:
+            targetEntity: Usuario
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                id_usuario_que_borro:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

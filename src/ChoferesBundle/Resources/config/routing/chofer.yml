@@ -27,6 +27,10 @@ chofer_update:
 chofer_delete:
     pattern:  /{id}/delete
     defaults: { _controller: "ChoferesBundle:Chofer:delete" }
+
+chofer_destroy:
+    pattern:  /{id}/destroy
+    defaults: { _controller: "ChoferesBundle:Chofer:destroy" }
     requirements: { _method: post|delete }
 
 chofer_reporte_curso:

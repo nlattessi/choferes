@@ -1,5 +1,4 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
-
 {% form_theme form 'ChoferesBundle:Curso:fieldsFilter.html.twig' %}
 
 {% block title %}
@@ -11,7 +10,7 @@
 {% endblock %}
 
 {% block pageHeader %}
-    <h1 class="page-title">Filtrado de cursos para tomar como reporte</h1>
+    <h1 class="page-title">Reporte de cursos según filtros</h1>
     <ol class="breadcrumb">
         <li><a href="{{ path('home') }}">Inicio</a></li>
         <li class="active">Reportes</li>
@@ -23,6 +22,7 @@
     <div class="panel">
         <div class="panel-body container-fluid">
             <form action="{{ path('reporte_cursos_filtro') }}" method="post" {{ form_enctype(form) }} id="elForm" >
+
                 <div class="row">
                     {{ form_widget(form.id, {'attr': {'class': 'form-control'}}) }}
                 </div>
@@ -30,9 +30,11 @@
                 <div class="row">
                     {{ form_widget(form.fechaInicio, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
                 </div>
+
                 <div class="row">
                     {{ form_widget(form.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
                 </div>
+
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {% if (app.user.rol == 'ROLE_CNTSV') %}
                         <div class="row">
@@ -50,20 +52,21 @@
                         </div>
                     {% endif %}
                 {% endif %}
+
                 <div class="row">
                     {{ form_widget(form.tipocurso, {'attr': {'class': 'form-control'}}) }}
                     {{ form_widget(form.estado, {'attr': {'class': 'form-control'}}) }}
                 </div>
 
-
                 <div class="row">
-                    <div class="col-sm-6 col-md-4 margin-top-20">
-                        <button type="submit" class="btn btn btn-success" name="filter_action" value="filter">{{ 'views.index.filter'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
-                        <button type="submit" class="btn btn-outline btn-default" name="filter_action" value="reset">{{ 'views.index.reset'|trans({}, 'JordiLlonchCrudGeneratorBundle') }}</button>
+                    <div class="col-sm-4 col-md-4 margin-top-10">
+                        {{ form_widget(form.reset, {'attr': {'class': 'btn btn-outline btn-default'}}) }}
+                        <button type="submit" class="btn btn-success">Generar</button>
+                        {# <button class="btn btn-link" id="obtenerTotalChoferesBtn">Obtener total choferes</button> #}
                     </div>
-                </div>
-                <div class="col-sm-1 col-md-1 margin-top-40">
+                    <div class="col-sm-1 col-md-1 margin-top-40">
                         <div class="loader-inner ball-spin-fade-loader"></div>
+                    </div>
                 </div>
 
                 {{ form_end(form) }}
@@ -72,70 +75,99 @@
 {% endblock %}
 
 {% block javascript %}
-    <script src="{{ asset('bundles/choferes/assets/scripts/formReporteChoferesVigentes.js') }}"></script>
-
     <script>
-        function endSubmit($loader, $reset, $submit)
-        {
-            $loader.hide();
-            $reset.prop("disabled", false);
-            $submit.prop("disabled", false);
+        function startSubmit($errorDiv, $reset, $submit, $loader) {
+          $errorDiv.empty();
+          $reset.prop("disabled", true);
+          $submit.prop("disabled", true);
+          $loader.show();
         }
 
-        function appendAlert($errorDiv, type, message)
-        {
-            $('<div/>', {
-                'class': 'alert ng-isolate-scope alert-' + type + ' alert-dismissible',
-                'html': '<div ><span class="ng-binding ng-scope">' + message + '</span></div>',
-            }).appendTo($errorDiv);
+        function endSubmit($reset, $submit, $loader, $input) {
+          $loader.hide();
+          $reset.prop("disabled", false);
+          $submit.prop("disabled", false);
+          $input.val("");
         }
 
-        $('#obtenerTotalChoferesBtn').click(function (event) {
+        (function(window, document, $) {
+          var $loader   = $('.loader-inner');
+          var $form     = $('#elForm');
+          var $errorDiv = $('#errorMessage');
+          var $reset    = $('button[type="reset"]');
+          var $submit   = $('button[type="submit"]');
+          var $input    = $('.fechaVigencia');
 
-            event.preventDefault();
+          $loader.hide();
+          $loader.loaders();
 
-            var $loader   = $('.loader-inner');
-            var $form     = $('#elForm');
-            var $errorDiv = $('#errorMessage');
-            var $reset    = $('button[type="reset"]');
-            var $submit   = $('button[type="submit"]');
-            var $input    = $('.fechaVigencia')
+          $form.submit(function(e) {
+            $.fileDownload($(this).prop('action'), {
+              successCallback: function(url) {
+                endSubmit($reset, $submit, $loader, $input);
+              },
+              failCallback: function(responseHtml, url, error) {
+                endSubmit($reset, $submit, $loader, $input);
+                var jsonResult = $.parseJSON(responseHtml.substring(responseHtml.indexOf("{"), responseHtml.lastIndexOf("}") + 1));
+                $('<div/>', {
+                  'class': 'alert ng-isolate-scope alert-danger alert-dismissible',
+                  'html': '<div ><span class="ng-binding ng-scope">' + jsonResult.message + '</span></div>',
+                }).appendTo($errorDiv);
+              },
+              httpMethod: "POST",
+              data: $(this).serialize()
+            });
+            e.preventDefault();
+            startSubmit($errorDiv, $reset, $submit, $loader);
+          });
+        })(window, document, jQuery);
 
-            $errorDiv.empty();
-            $reset.prop("disabled", true);
-            $submit.prop("disabled", true);
-            $loader.show();
+        // $('#obtenerTotalChoferesBtn').click(function (event) {
 
-            var fechaDesde = $('#choferesbundle_reporte_choferes_vigente_fechaDesde').val();
-            var fechaHasta = $('#choferesbundle_reporte_choferes_vigente_fechaHasta').val();
+        //     event.preventDefault();
 
-            if (stringIsEmpty(fechaDesde)) {
-                endSubmit($loader, $reset, $submit);
-                appendAlert($errorDiv, 'warning', 'No se eligió <b>Fecha Desde</b>');
-                return;
-            }
+        //     var $loader   = $('.loader-inner');
+        //     var $form     = $('#elForm');
+        //     var $errorDiv = $('#errorMessage');
+        //     var $reset    = $('button[type="reset"]');
+        //     var $submit   = $('button[type="submit"]');
+        //     var $input    = $('.fechaVigencia')
 
-            if (stringIsEmpty(fechaHasta)) {
-                endSubmit($loader, $reset, $submit);
-                appendAlert($errorDiv, 'warning', 'No se eligió <b>Fecha Hasta</b>');
-                return;
-            }
+        //     $errorDiv.empty();
+        //     $reset.prop("disabled", true);
+        //     $submit.prop("disabled", true);
+        //     $loader.show();
 
-            axios.get('{{ path('reporte_total_choferes_vigentes_por_fecha_curso') }}', {
-                params: {
-                    fecha_desde: fechaDesde,
-                    fecha_hasta: fechaHasta
-                }
-            })
-                    .then(function (response) {
-                        endSubmit($loader, $reset, $submit);
-                        appendAlert($errorDiv, 'success', 'El total de choferes es: <b>' + response.data.total+ '</b>');
-                    })
-                    .catch(function (error) {
-                        console.log('Error:' + error);
-                        endSubmit($loader, $reset, $submit);
-                        appendAlert($errorDiv, 'danger', 'Se produjo un error...');
-                    });
-        });
+        //     var fechaDesde = $('#choferesbundle_reporte_choferes_vigente_fechaDesde').val();
+        //     var fechaHasta = $('#choferesbundle_reporte_choferes_vigente_fechaHasta').val();
+
+        //     if (stringIsEmpty(fechaDesde)) {
+        //         endSubmit($loader, $reset, $submit);
+        //         appendAlert($errorDiv, 'warning', 'No se eligió <b>Fecha Desde</b>');
+        //         return;
+        //     }
+
+        //     if (stringIsEmpty(fechaHasta)) {
+        //         endSubmit($loader, $reset, $submit);
+        //         appendAlert($errorDiv, 'warning', 'No se eligió <b>Fecha Hasta</b>');
+        //         return;
+        //     }
+
+        //     axios.get('{{ path('reporte_total_choferes_vigentes_por_fecha_curso') }}', {
+        //         params: {
+        //             fecha_desde: fechaDesde,
+        //             fecha_hasta: fechaHasta
+        //         }
+        //     })
+        //             .then(function (response) {
+        //                 endSubmit($loader, $reset, $submit);
+        //                 appendAlert($errorDiv, 'success', 'El total de choferes es: <b>' + response.data.total+ '</b>');
+        //             })
+        //             .catch(function (error) {
+        //                 console.log('Error:' + error);
+        //                 endSubmit($loader, $reset, $submit);
+        //                 appendAlert($errorDiv, 'danger', 'Se produjo un error...');
+        //             });
+        // });
     </script>
 {% endblock %}

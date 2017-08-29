@@ -29,3 +29,7 @@ reporte_cursos_por_tipo:
 reporte_cursos_filtro:
     pattern:  /cursoFiltro
     defaults: { _controller: "ChoferesBundle:Reporte:cursoFiltro" }
+
+reporte_cursos_auditoria_por_fecha_curso:
+    pattern:  /cursos_auditoria_por_fecha_curso
+    defaults: { _controller: "ChoferesBundle:Reporte:cursosAuditoriaPorFechaCurso" }

@@ -7,6 +7,7 @@ use Doctrine\ORM\Query\Expr\Join;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Carbon\Carbon;
 
 class ChoferService
 {
@@ -355,6 +356,59 @@ class ChoferService
         }
 
         $this->em->flush();
+    }
+
+    public function getCursosAuditoriaPorFechaCurso($fechaDesdeForm, $fechaHastaForm)
+    {
+        $fechaDesde = Carbon::createFromFormat('d/m/Y', $fechaDesdeForm);
+        $fechaHasta = Carbon::createFromFormat('d/m/Y', $fechaHastaForm)->addDay();
+
+        $query = $this->em->createQueryBuilder()
+            ->select(
+                'P.nombre as prestador',
+                'TC.nombre as curso_tipo',
+                'C.id as curso_numero',
+                'C.fechaInicio as fecha_curso',
+                'S.direccion as lugar_direccion',
+                'S.provincia AS lugar_provincia',
+                'S.ciudad AS lugar_ciudad',
+                'D.nombre AS docente_nombre',
+                'D.apellido as docente_apellido'
+            )
+            ->from('ChoferesBundle:Curso', 'C')
+            ->innerJoin(
+                'ChoferesBundle:Prestador', 'P',
+                Join::WITH, 'C.prestador = P.id'
+            )
+            ->innerJoin(
+                'ChoferesBundle:Docente', 'D',
+                Join::WITH, 'C.docente = D.id'
+            )
+            ->innerJoin(
+                'ChoferesBundle:Sede', 'S',
+                Join::WITH, 'C.sede = S.id'
+            )
+            ->innerJoin(
+                'ChoferesBundle:TipoCurso', 'TC',
+                Join::WITH, 'C.tipocurso = TC.id'
+            )
+            ->where('C.fechaInicio >= :fechaDesde')
+            ->andWhere('C.fechaInicio < :fechaHasta')
+            ->orderBy('C.id', 'ASC')
+            ->setParameter('fechaDesde', $fechaDesde->format('Y-m-d'))
+            ->setParameter('fechaHasta', $fechaHasta->format('Y-m-d'))
+            ->getQuery();
+
+        $result = $query->getResult();
+
+        if (isset($result)) {
+            return collect($result)->map(function ($curso) {
+                $curso['fecha_curso'] = $curso['fecha_curso']->format('d-m-Y H:i:s');
+                return $curso;
+            })->all();
+        }
+
+        return $result;
     }
 
     private function adaptDates(&$choferes)

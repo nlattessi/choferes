@@ -1,0 +1,113 @@
+{% extends 'ChoferesBundle:Layout:layout.html.twig' %}
+{% form_theme form 'ChoferesBundle:Reporte:fields.html.twig' %}
+
+{% block title %}
+    Reportes
+{% endblock %}
+
+{% block menu %}
+    {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
+{% endblock %}
+
+{% block pageHeader %}
+    <h1 class="page-title">Cursos para Auditoria según fechas de inicio y fin (de curso) ingresadas</h1>
+    <ol class="breadcrumb">
+        <li><a href="{{ path('home') }}">Inicio</a></li>
+        <li class="active">Reportes</li>
+    </ol>
+{% endblock %}
+
+{% block page %}
+    <div id="errorMessage"></div>
+    <div class="panel">
+        <div class="panel-body container-fluid">
+            <form action="{{ path('reporte_cursos_auditoria_por_fecha_curso') }}" method="post" {{ form_enctype(form) }} class="formReporteChoferesVigentes">
+                <div class="row">
+                    {{ form_widget(form.fechaDesde, {'attr': {'class': 'fechaVigencia form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+                </div>
+                <div class="row">
+                    {{ form_widget(form.fechaHasta, {'attr': {'class': 'fechaVigencia form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 col-md-4 margin-top-10">
+                        {{ form_widget(form.reset, {'attr': {'class': 'btn btn-outline btn-default'}}) }}
+                        <button type="submit" class="btn btn-success">Generar</button>
+                        {# <button class="btn btn-link" id="obtenerTotalChoferesBtn">Obtener total choferes</button> #}
+                    </div>
+                    <div class="col-sm-1 col-md-1 margin-top-40">
+                        <div class="loader-inner ball-spin-fade-loader"></div>
+                    </div>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+{% endblock %}
+
+{# {% block javascript %}
+    <script src="{{ asset('bundles/choferes/assets/scripts/formReporteChoferesVigentes.js') }}"></script>
+
+    <script>
+        function endSubmit($loader, $reset, $submit)
+        {
+            $loader.hide();
+            $reset.prop("disabled", false);
+            $submit.prop("disabled", false);
+        }
+
+        function appendAlert($errorDiv, type, message)
+        {
+            $('<div/>', {
+                'class': 'alert ng-isolate-scope alert-' + type + ' alert-dismissible',
+                'html': '<div ><span class="ng-binding ng-scope">' + message + '</span></div>',
+            }).appendTo($errorDiv);
+        }
+
+        // $('#obtenerTotalChoferesBtn').click(function (event) {
+
+        //     event.preventDefault();
+
+        //     var $loader   = $('.loader-inner');
+        //     var $form     = $('.formReporteChoferesVigentes');
+        //     var $errorDiv = $('#errorMessage');
+        //     var $reset    = $('button[type="reset"]');
+        //     var $submit   = $('button[type="submit"]');
+        //     var $input    = $('.fechaVigencia')
+
+        //     $errorDiv.empty();
+        //     $reset.prop("disabled", true);
+        //     $submit.prop("disabled", true);
+        //     $loader.show();
+
+        //     var fechaDesde = $('#choferesbundle_reporte_choferes_vigente_fechaDesde').val();
+        //     var fechaHasta = $('#choferesbundle_reporte_choferes_vigente_fechaHasta').val();
+
+        //     if (stringIsEmpty(fechaDesde)) {
+        //         endSubmit($loader, $reset, $submit);
+        //         appendAlert($errorDiv, 'warning', 'No se eligió <b>Fecha Desde</b>');
+        //         return;
+        //     }
+
+        //     if (stringIsEmpty(fechaHasta)) {
+        //         endSubmit($loader, $reset, $submit);
+        //         appendAlert($errorDiv, 'warning', 'No se eligió <b>Fecha Hasta</b>');
+        //         return;
+        //     }
+
+        //     axios.get('{{ path('reporte_total_choferes_vigentes_por_fecha_curso') }}', {
+        //         params: {
+        //             fecha_desde: fechaDesde,
+        //             fecha_hasta: fechaHasta
+        //         }
+        //     })
+        //     .then(function (response) {
+        //         endSubmit($loader, $reset, $submit);
+        //         appendAlert($errorDiv, 'success', 'El total de choferes es: <b>' + response.data.total+ '</b>');
+        //     })
+        //     .catch(function (error) {
+        //         console.log('Error:' + error);
+        //         endSubmit($loader, $reset, $submit);
+        //         appendAlert($errorDiv, 'danger', 'Se produjo un error...');
+        //     });
+        // });
+    </script>
+{% endblock %} #}

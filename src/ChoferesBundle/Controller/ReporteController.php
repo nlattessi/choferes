@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use ChoferesBundle\Form\ReporteChoferesVigentesType;
 use ChoferesBundle\Form\ReporteCursosPorTipoType;
+use ChoferesBundle\Form\ReporteInformeAuditoriaType;
 use League\Csv\Writer;
 
 class ReporteController extends Controller
@@ -182,7 +183,6 @@ class ReporteController extends Controller
 
         $response->setData($data);
         return $response;
-
     }
 
     /**
@@ -369,6 +369,59 @@ class ReporteController extends Controller
             'form' => $form->createView(),
             'css_active' => 'reporte_curso_filtro'
         ]);
+    }
+
+    public function cursosAuditoriaPorFechaCursoAction(Request $request)
+    {
+        $form = $this->createForm(new ReporteInformeAuditoriaType());
+
+        if ($request->isMethod('POST')) {
+            $form->bind($request);
+
+            if ($form->isValid()) {
+                $fechaDesde = $form->get('fechaDesde')->getData();
+                $fechaHasta = $form->get('fechaHasta')->getData();
+                $choferesService = $this->get('choferes.servicios.chofer');
+                $cursosAuditoria = $choferesService->getCursosAuditoriaPorFechaCurso($fechaDesde, $fechaHasta);
+
+                if (! empty($cursosAuditoria)) {
+                    return $this->createReporteResponse($cursosAuditoria, [
+                        'prestador',
+                        'curso tipo',
+                        'curso numero',
+                        'fecha curso',
+                        'lugar direccion',
+                        'lugar provincia',
+                        'lugar ciudad',
+                        'docente nombre',
+                        'docente apellido',
+                    ], 'Reporte_Cursos_Auditoria_');
+                }
+                else {
+                    $data =  [
+                        'result'  => false,
+                        'message' => 'No se encontraron cursos'
+                    ];
+                }
+            }
+            else {
+                $data =  [
+                    'result'  => false,
+                    'message' => 'Se produjo un error... Intente de nuevo'
+                ];
+            }
+
+            $response = new JsonResponse();
+            $response->setData($data);
+
+            return $response;
+        }
+
+        return $this->render('ChoferesBundle:Reporte:cursos_auditoria_por_fecha_curso.html.twig', [
+            'form' => $form->createView(),
+            'css_active' => 'cursos_auditoria_por_fecha_curso'
+        ]);
+
     }
 
     private function createReporteResponse($rows, $headers, $fileNameSuffix)

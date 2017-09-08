@@ -25,6 +25,7 @@ class SedeType extends AbstractType
             ->add('ciudad')
             ->add('telefono')
             ->add('prestador')
+            ->add('aulas', 'integer')
             ->add('reset', 'reset', ['label' => 'Limpiar '])
         ;
 

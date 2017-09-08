@@ -50,6 +50,12 @@ ChoferesBundle\Entity\Sede:
             nullable: true
             options:
                 default: true
+        aulas:
+            type: integer
+            nullable: false
+            options:
+                unsigned: true
+                default: 0
     manyToOne:
         prestador:
             targetEntity: Prestador

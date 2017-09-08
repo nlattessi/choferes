@@ -39,6 +39,7 @@ class SedeFilterType extends AbstractType
             ->add('telefono', 'filter_text', [
                 'condition_pattern' => FilterOperands::STRING_BOTH,
             ])
+            ->add('aulas', 'filter_number')
         ;
         if ($usuario->getRol() == 'ROLE_CNTSV') {
             $builder

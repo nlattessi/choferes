@@ -50,6 +50,10 @@
                     <td><b>Teléfono</b></td>
                     <td>{{ entity.telefono }}</td>
                 </tr>
+                <tr class="gradeA">
+                    <td><b>Aulas</b></td>
+                    <td>{{ entity.aulas }}</td>
+                </tr>
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                         <tr class="gradeA">

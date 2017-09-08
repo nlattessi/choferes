@@ -47,6 +47,8 @@ class Sede
      */
     private $activo = true;
 
+    private $aulas;
+
 
     /**
      * Get id
@@ -228,5 +230,17 @@ class Sede
     public function getActivo()
     {
         return $this->activo;
+    }
+
+    public function setAulas($aulas)
+    {
+        $this->aulas = $aulas;
+
+        return $this;
+    }
+
+    public function getAulas()
+    {
+        return $this->aulas;
     }
 }

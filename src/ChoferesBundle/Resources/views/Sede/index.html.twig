@@ -47,6 +47,9 @@
                         {{ form_widget(filterForm.prestador, {'attr': {'class': 'form-control'}}) }}
                     {% endif %}
                 </div>
+                <div class="row">
+                    {{ form_widget(filterForm.aulas, {'attr': {'class': 'form-control'}}) }}
+                </div>
                 {{ form_row(filterForm._token) }}
                 <div class="row">
                     <div class="col-sm-6 col-md-4 margin-top-20">
@@ -76,6 +79,7 @@
             <th>Provincia</th>
             <th>Ciudad</th>
             <th>Telefono</th>
+            <th>Aulas</th>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                     <th>Prestador</th>
@@ -93,6 +97,7 @@
             <td>{{ entity.provincia }}</td>
             <td>{{ entity.ciudad }}</td>
             <td>{{ entity.telefono }}</td>
+            <td>{{ entity.aulas }}</td>
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                     <td>{{ entity.prestador }}</td>

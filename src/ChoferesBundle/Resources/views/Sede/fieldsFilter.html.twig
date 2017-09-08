@@ -63,3 +63,12 @@
     {% endif %}
   {% endspaceless %}
 {% endblock %}
+
+{% block _choferesbundle_sedefiltertype_aulas_widget %}
+    <div class="col-sm-6 col-md-4">
+        <div class="">
+            <h4 class="example-title">Aulas</h4>
+            {{ block('integer_widget') }}
+        </div>
+    </div>
+{% endblock %}

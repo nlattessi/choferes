@@ -1,6 +1,7 @@
 <?php
 namespace ChoferesBundle\Controller;
 
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -9,6 +10,7 @@ use Pagerfanta\Adapter\DoctrineORMAdapter;
 use ChoferesBundle\Entity\Chofer;
 use ChoferesBundle\Entity\ChoferCurso;
 use ChoferesBundle\Entity\Curso;
+use ChoferesBundle\Entity\TipoCurso;
 use ChoferesBundle\Form\CursoType;
 use ChoferesBundle\Form\CursoFilterType;
 use ChoferesBundle\Resources\views\TwitterBootstrapViewCustom;
@@ -606,22 +608,21 @@ class CursoController extends Controller
         $form->bind($request);
 
         if ($form->isValid()) {
-            $dtInicio = $form->get('fechaInicio')->getData() . ' ' . $form->get('horaInicio')->getData();
-            $fechaInicio = \DateTime::createFromFormat('d/m/Y H:i', $dtInicio);
 
-            $dtFin = $form->get('fechaFin')->getData() . ' ' . $form->get('horaFin')->getData();
-            $fechaFin = \DateTime::createFromFormat('d/m/Y H:i', $dtFin);
+            if ($this->isCursoFormValid($form)) {
 
-            if ($fechaInicio > $fechaFin) {
-                $this->get('session')->getFlashBag()->add('error', 'ERROR! Fecha de inicio posterior a fecha fin. Por favor corregir.');
-            } else {
+                $dtInicio = $form->get('fechaInicio')->getData() . ' ' . $form->get('horaInicio')->getData();
+                $fechaInicio = \DateTime::createFromFormat('d/m/Y H:i', $dtInicio);
+
+                $dtFin = $form->get('fechaFin')->getData() . ' ' . $form->get('horaFin')->getData();
+                $fechaFin = \DateTime::createFromFormat('d/m/Y H:i', $dtFin);
 
                 if ($this->getUser()->getRol() == 'ROLE_PRESTADOR') {
                     $prestador = $usuarioService->obtenerPrestadorPorUsuario($this->getUser());
                     $entity->setPrestador($prestador);
                 }
 
-                $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT) );
+                $entity->setEstado($em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT));
 
                 $entity->setFechaInicio($fechaInicio);
                 $entity->setFechaFin($fechaFin);
@@ -930,5 +931,63 @@ class CursoController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+
+    private function isCursoFormValid($form)
+    {
+        $fechaInicio = Carbon::createFromFormat(
+            'd/m/Y H:i',
+            $form->get('fechaInicio')->getData() . ' ' . $form->get('horaInicio')->getData()
+        );
+
+        $fechaFin = Carbon::createFromFormat(
+            'd/m/Y H:i',
+            $form->get('fechaFin')->getData() . ' ' . $form->get('horaFin')->getData()
+        );
+
+        if ($fechaInicio > $fechaFin)
+        {
+            $this->get('session')->getFlashBag()->add('error', 'ERROR! Fecha de inicio posterior a fecha fin. Por favor corregir.');
+            return false;
+        }
+
+        $diffDaysFechasInicioFin = $fechaInicio->diffInDays($fechaFin);
+
+        $tipoCursoId = $form->get('tipocurso')->getData()->getId();
+
+        if ($tipoCursoId === TipoCurso::ID_BASICO)
+        {
+            if ($diffDaysFechasInicioFin < 2) {
+                $this->get('session')->getFlashBag()->add('error', 'ERROR! Para un curso básico la duración no puede ser menor a 48 hs. Por favor corregir.');
+                return false;
+            }
+        }
+
+        if ($tipoCursoId === TipoCurso::ID_COMPLEMENTARIO)
+        {
+            if ($diffDaysFechasInicioFin < 1) {
+                $this->get('session')->getFlashBag()->add('error', 'ERROR! Para un curso complementario la duración no puede ser menor a 24 hs. Por favor corregir.');
+                return false;
+            }
+        }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $prestador = $form->get('prestador')->getData();
+        $sede = $form->get('sede')->getData();
+
+        $cursosMismaFechaInicio = $em->getRepository('ChoferesBundle:Curso')->findBy([
+            'fechaInicio' => $fechaInicio,
+            'prestador' => $prestador,
+            'sede' => $sede,
+        ]);
+
+        if (count($cursosMismaFechaInicio) >= $sede->getAulas())
+        {
+            $this->get('session')->getFlashBag()->add('error', 'ERROR! No hay aulas disponibles para dar de alta un curso en este dia y horario para esta sede. Por favor corregir.');
+            return false;
+        }
+
+        return true;
     }
 }

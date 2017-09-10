@@ -44,10 +44,10 @@
                          </div>
                          <div class="row margin-top-30">
                            {{ form_widget(form.observaciones, {'attr': {'class': 'form-control'}}) }}
-                           {{ form_widget(form.prestador, {'attr': {'class': 'form-control'}}) }}
+                           {{ form_widget(form.fechaValidacion, {'attr': {'class': 'form-control'}}) }}
                          </div>
-                         <div class="row ">
-                             {{ form_widget(form.fechaValidacion, {'attr': {'class': 'form-control'}}) }}
+                         <div class="row margin-top-30">
+                             {{ form_widget(form.prestador, {'attr': {'class': 'form-control'}}) }}
                          </div> <!-- row-->
                          {% endif %}
 
@@ -55,7 +55,7 @@
                            {{ form_widget(form.sede, {'attr': {'class': 'form-control'}}) }}
                            {{ form_widget(form.docente, {'attr': {'class': 'form-control'}}) }}
                          </div> <!-- row-->
-                         <div class="row ">
+                         <div class="row margin-top-30">
                           {{ form_widget(form.tipocurso, {'attr': {'class': 'form-control'}}) }}
                          </div> <!-- row-->
 
@@ -80,6 +80,13 @@
 
     <script>
       $('#choferesbundle_curso_fechaPago').datepicker({format: "dd/mm/yyyy", autoclose: true });
+
+      var $cursoFechaFin = $('#choferesbundle_curso_fechaFin');
+      $('#choferesbundle_curso_fechaInicio').datepicker()
+        .on('changeDate', function(e) {
+          $cursoFechaFin.datepicker('update', '');
+          $cursoFechaFin.datepicker('setStartDate', e.date);
+      });
     </script>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}

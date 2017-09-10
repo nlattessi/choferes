@@ -1,6 +1,6 @@
 {% extends 'ChoferesBundle:Layout:layout.html.twig' %}
 
-{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
   {% block menu %}
     {{ include('ChoferesBundle:NavBars:navbar.html.twig') }}
   {% endblock %}
@@ -84,7 +84,7 @@
         </div>
         <div class="dt-panelfooter clearfix">
         {% if status.certificado is defined and status.certificado %}
-          {% if is_granted('IS_AUTHENTICATED_FULLY') and app.user.rol != 'ROLE_CNRT'%}
+          {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.user.rol != 'ROLE_CNRT'%}
             <form class="" action="" method="post">
               {% if goBack %}
                 <a href="javascript:history.go(-1)" class="btn btn-outline btn-default margin-top-10">Volver</a>
@@ -96,7 +96,7 @@
                 <button type="submit" name="descargar" class="margin-top-10 btn btn-outline btn-warning" >Descargar certificado</button>
               {% endif %}
             </form>
-          {% elseif is_granted('IS_AUTHENTICATED_FULLY') %}
+          {% elseif is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             {% if goBack %}
               <a href="javascript:history.go(-1)" class="btn btn-outline btn-default margin-top-10">Volver</a>
             {% else %}

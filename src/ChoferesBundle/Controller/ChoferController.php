@@ -371,7 +371,7 @@ class ChoferController extends Controller
         }
 
         // Saco captcha si el usuario esta logueado al sistema.
-        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $form = $this->createForm(new ChoferStatusType(), null, ['use_captcha' => false]);
         } else {
             $form = $this->createForm(new ChoferStatusType());

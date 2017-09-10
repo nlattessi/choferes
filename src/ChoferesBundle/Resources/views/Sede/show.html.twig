@@ -54,7 +54,7 @@
                     <td><b>Aulas</b></td>
                     <td>{{ entity.aulas }}</td>
                 </tr>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                         <tr class="gradeA">
                             <td><b>Prestador</b></td>
@@ -68,7 +68,7 @@
 
 
             <div class="dt-panelfooter clearfix">
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                         <button type="button" onclick="location.href='{{ path('sede_edit', { 'id': entity.id }) }}'" class="btn btn-success margin-top-10">Editar</button>
                         <a type="button" href="{{ path('sede_dar_de_baja', { 'id': entity.id }) }}" id="darDeBaja" class="pull-right btn btn-default margin-top-10">Dar de baja</a>

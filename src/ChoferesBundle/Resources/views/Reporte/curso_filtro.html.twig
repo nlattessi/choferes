@@ -35,7 +35,7 @@
                     {{ form_widget(form.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
                 </div>
 
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     {% if (app.user.rol == 'ROLE_CNTSV') %}
                         <div class="row">
                             {{ form_widget(form.fechaValidacion, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}

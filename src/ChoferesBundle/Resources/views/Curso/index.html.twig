@@ -40,7 +40,7 @@
               <div class="row">
                 {{ form_widget(filterForm.fechaFin, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
               </div>
-              {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+              {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                   {% if (app.user.rol == 'ROLE_CNTSV') %}
                       <div class="row">
                           {{ form_widget(filterForm.fechaValidacion, {'attr': {'class': 'form-control', 'data-provide': 'datepicker', 'data-date-format': 'dd/mm/yyyy', 'data-date-autoclose': 'true'}}) }}
@@ -83,7 +83,7 @@
             <th>Id</th>
             <th>Fecha de inicio</th>
             <th>Fecha de fin</th>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                     <th>Fecha de validación</th>
                     <th>Prestador</th>
@@ -102,7 +102,7 @@
             <td><a onclick="saveInLocalStorage('curso');" href="{{ path('curso_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{% if entity.fechaInicio %}{{ entity.fechaInicio|date('d/m/Y H:i') }}{% endif %}</td>
             <td>{% if entity.fechaFin %}{{ entity.fechaFin|date('d/m/Y H:i') }}{% endif %}</td>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                     <td>{% if entity.fechaValidacion %}{{ entity.fechaValidacion|date('d/m/Y') }}{% endif %}</td>
                     <td>{{ entity.prestador }}</td>
@@ -113,7 +113,7 @@
             <td>{{ entity.estado }}</td>
             <td>{% if entity.sede %}{{ entity.sede }}({{ entity.sede.direccion }}){% endif %}</td>
             <td>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
               {% if app.user.rol == 'ROLE_CNTSV' %}
                   <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Ver"
                      href="{{ path('curso_show', { 'id': entity.id }) }}">

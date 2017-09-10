@@ -41,7 +41,7 @@
                         <td><b>Fecha de fin</b></td>
                         <td>{{ entity.fechaFin|date('d/m/Y H:i') }}</td>
                     </tr>
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                             <tr class="gradeA">
                                 <td><b>Fecha de validacion</b></td>
@@ -88,7 +88,7 @@
                             class="btn btn-outline btn-default margin-top-10">
                         Volver al listado
                     </a>
-                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         {% if app.user.rol == 'ROLE_CNTSV' %}
                             <button type="button"
                                     onclick="location.href='{{ path('curso_edit', { 'id': entity.id }) }}'"

@@ -1,4 +1,4 @@
-{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
     {% if app.user.rol == 'ROLE_ADMIN' %}
         {{ include('ChoferesBundle:NavBars:role_admin.html.twig') }}
     {% endif %}

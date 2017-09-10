@@ -80,7 +80,7 @@
             <th>Ciudad</th>
             <th>Telefono</th>
             <th>Aulas</th>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                     <th>Prestador</th>
                 {% endif %}
@@ -98,7 +98,7 @@
             <td>{{ entity.ciudad }}</td>
             <td>{{ entity.telefono }}</td>
             <td>{{ entity.aulas }}</td>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                     <td>{{ entity.prestador }}</td>
                 {% endif %}
@@ -108,7 +108,7 @@
                    href="{{ path('sede_show', { 'id': entity.id }) }}">
                     <i class="icon wb-eye" aria-hidden="true"></i>
                 </a>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                         <a onclick="saveInLocalStorage('sede');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
                            href="{{ path('sede_edit', { 'id': entity.id }) }}">
@@ -124,7 +124,7 @@
 </div>
 
         <div class="dt-panelfooter clearfix">
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                     <a class="btn btn btn-success margin-top-10" href="{{ path('sede_new') }}">
                         {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Sede

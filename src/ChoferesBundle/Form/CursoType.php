@@ -51,7 +51,7 @@ class CursoType extends AbstractType
                 ->add('codigo')
                 ->add('comprobante')
                 ->add('observaciones')
-                ->add('fechaValidacion', 'text', array('mapped' => false, 'required' => false,))
+                // ->add('fechaValidacion', 'text', array('mapped' => false, 'required' => false,))
                 ->add('fechaPago', 'text', array(
                     'required' => false,
                     'mapped' => false

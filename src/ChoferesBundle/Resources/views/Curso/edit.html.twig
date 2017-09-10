@@ -60,7 +60,7 @@
           </div></td>
         </tr>
         {% if app.user.rol == 'ROLE_CNTSV' %}
-          <tr class="gradeA">
+          {# <tr class="gradeA">
             <td><b>Fecha de validacion</td>
             <td><div class="input-group">
               <span class="input-group-addon">
@@ -68,7 +68,7 @@
               </span>
               {{ form_widget(edit_form.fechaValidacion, {'attr': {'class': 'form-control'}}) }}
             </div></td>
-          </tr>
+          </tr> #}
           <tr class="gradeA">
             <td><b>N° de Expediente</td>
             <td>{{ form_widget(edit_form.codigo, {'attr': {'class': 'form-control'}}) }}</td>

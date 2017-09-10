@@ -65,7 +65,7 @@
                         <th>Apellido</th>
                         <th>Nombre</th>
                         <th>Dni</th>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                             {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                                 <th>Prestador</th>
                             {% endif %}
@@ -80,7 +80,7 @@
                         <td>{{ entity.apellido }}</td>
                         <td>{{ entity.nombre }}</td>
                         <td>{{ entity.dni }}</td>
-                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                             {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                                 <td>{{ entity.prestador }}</td>
                             {% endif %}
@@ -90,7 +90,7 @@
                                 href="{{ path('docente_show', { 'id': entity.id }) }}">
                                 <i class="icon wb-eye" aria-hidden="true"></i>
                             </a>
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                                 {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                                     <a onclick="saveInLocalStorage('docente');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Editar"
                                             href="{{ path('docente_edit', { 'id': entity.id }) }}">
@@ -107,7 +107,7 @@
 
 
     <div class="dt-panelfooter clearfix">
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
             {% if (app.user.rol != 'ROLE_PRESTADOR') %}
                 <a class="btn btn btn-success margin-top-10" href="{{ path('docente_new') }}">
                     {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Docente

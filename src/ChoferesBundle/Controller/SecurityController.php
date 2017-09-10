@@ -14,7 +14,7 @@ class SecurityController extends Controller
        /* print var_dump($this->get('security.context')->getToken(),$this->get('security.context')->isGranted('IS_AUTHENTICATED_ANONYSMOULY'));
         print $request;*/
         //exit ;
-        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY') ) {
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
             return $this->redirect($this->generateUrl('home'));
         }
 

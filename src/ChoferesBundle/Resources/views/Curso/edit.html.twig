@@ -159,6 +159,13 @@
         $('#choferesbundle_curso_fechaValidacion').val('{{ var }}');
       {% endif %}
       $('#choferesbundle_curso_fechaValidacion').datepicker({format: "dd/mm/yyyy", autoclose: true});
+
+      var $cursoFechaFin = $('#choferesbundle_curso_fechaFin');
+      $('#choferesbundle_curso_fechaInicio').datepicker()
+        .on('changeDate', function(e) {
+          $cursoFechaFin.datepicker('update', '');
+          $cursoFechaFin.datepicker('setStartDate', e.date);
+      });
     </script>
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}

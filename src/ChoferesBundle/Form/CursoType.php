@@ -33,7 +33,10 @@ class CursoType extends AbstractType
             ->add('horaInicio', 'text', array('mapped' => false))
             ->add('fechaFin', 'text', array('mapped' => false))
             ->add('horaFin', 'text', array('mapped' => false))
-            ->add('tipocurso')
+            ->add('tipocurso', 'entity', [
+                'class' => 'ChoferesBundle:TipoCurso',
+                'required' => true,
+            ])
             ->add('reset', 'reset', ['label' => 'Limpiar '])
         ;
 

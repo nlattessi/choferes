@@ -7,6 +7,9 @@ namespace ChoferesBundle\Entity;
  */
 class TipoCurso
 {
+    const ID_BASICO = 1;
+    const ID_COMPLEMENTARIO = 2;
+
     /**
      * @var integer
      */

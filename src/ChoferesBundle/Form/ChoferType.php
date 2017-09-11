@@ -10,6 +10,8 @@ class ChoferType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $usuario = $options['user'];
+
         $builder
             ->add('nombre')
             ->add('apellido')
@@ -17,15 +19,21 @@ class ChoferType extends AbstractType
             // ->add('cuil')
             ->add('triCode')
             // ->add('cuilEmpresa')
-            ->add('tieneCursoBasico', 'checkbox', ['required' => false])
+            // ->add('tieneCursoBasico', 'checkbox', ['required' => false])
             ->add('reset', 'reset', ['label' => 'Limpiar '])
         ;
+
+        if ($usuario->getRol() != 'ROLE_PRESTADOR')
+        {
+            $builder->add('tieneCursoBasico', 'checkbox', ['required' => false]);
+        }
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'ChoferesBundle\Entity\Chofer'
+            'data_class' => 'ChoferesBundle\Entity\Chofer',
+            'user' => null,
         ));
     }
 

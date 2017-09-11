@@ -103,7 +103,7 @@
 </table>
 </div>
             <div class="dt-panelfooter clearfix">
-                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CNTSV') %}
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_CNTSV') or is_granted('ROLE_PRESTADOR')%}
                     <a class="btn btn btn-success margin-top-10" href="{{ path('chofer_new') }}">
                         {{ 'views.index.createnew'|trans({}, 'JordiLlonchCrudGeneratorBundle') }} Chofer
                     </a>

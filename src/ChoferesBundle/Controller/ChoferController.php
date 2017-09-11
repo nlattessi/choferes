@@ -116,12 +116,12 @@ class ChoferController extends Controller
 
     /**
      * Creates a new Chofer entity.
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV')")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV') or has_role('ROLE_PRESTADOR')")
      */
     public function createAction(Request $request)
     {
         $entity  = new Chofer();
-        $form = $this->createForm(new ChoferType(), $entity);
+        $form = $this->createForm(new ChoferType(), $entity, ['user' => $this->getUser()]);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -147,12 +147,12 @@ class ChoferController extends Controller
 
     /**
      * Displays a form to create a new Chofer entity.
-     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV')")
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_CNTSV') or has_role('ROLE_PRESTADOR')")
      */
     public function newAction()
     {
         $entity = new Chofer();
-        $form   = $this->createForm(new ChoferType(), $entity);
+        $form   = $this->createForm(new ChoferType(), $entity, ['user' => $this->getUser()]);
 
         return $this->render('ChoferesBundle:Chofer:new.html.twig', array(
             'entity' => $entity,
@@ -197,7 +197,7 @@ class ChoferController extends Controller
             throw $this->createNotFoundException('Unable to find Chofer entity.');
         }
 
-        $editForm = $this->createForm(new ChoferType(), $entity);
+        $editForm = $this->createForm(new ChoferType(), $entity, ['user' => $this->getUser()]);
         $deleteForm = $this->createDeleteForm($id);
 
         return $this->render('ChoferesBundle:Chofer:edit.html.twig', array(
@@ -223,7 +223,7 @@ class ChoferController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ChoferType(), $entity);
+        $editForm = $this->createForm(new ChoferType(), $entity, ['user' => $this->getUser()]);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {

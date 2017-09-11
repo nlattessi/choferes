@@ -39,9 +39,11 @@
       <div class="row">
         {{ form_widget(form.triCode, {'attr': {'class': 'form-control'}}) }}
       </div>
-      <div class="row">
-        {{ form_widget(form.tieneCursoBasico) }}
-      </div>
+      {% if app.user.rol != 'ROLE_PRESTADOR' %}
+        <div class="row">
+          {{ form_widget(form.tieneCursoBasico) }}
+        </div>
+      {% endif %}
       <div class="row">
         <div class="col-sm-6 col-md-4 margin-top-20">
         <button type="submit" class="btn btn btn-success">Crear</button>

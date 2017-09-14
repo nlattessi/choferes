@@ -971,22 +971,23 @@ class CursoController extends Controller
             }
         }
 
-        $em = $this->getDoctrine()->getManager();
+        // TODO: FIX VALIDATION SEGUN https://app.asana.com/0/63730808999960/422170563404553/f
+        // $em = $this->getDoctrine()->getManager();
 
-        $prestador = $form->get('prestador')->getData();
-        $sede = $form->get('sede')->getData();
+        // $prestador = $form->get('prestador')->getData();
+        // $sede = $form->get('sede')->getData();
 
-        $cursosMismaFechaInicio = $em->getRepository('ChoferesBundle:Curso')->findBy([
-            'fechaInicio' => $fechaInicio,
-            'prestador' => $prestador,
-            'sede' => $sede,
-        ]);
+        // $cursosMismaFechaInicio = $em->getRepository('ChoferesBundle:Curso')->findBy([
+        //     'fechaInicio' => $fechaInicio,
+        //     'prestador' => $prestador,
+        //     'sede' => $sede,
+        // ]);
 
-        if (count($cursosMismaFechaInicio) >= $sede->getAulas())
-        {
-            $this->get('session')->getFlashBag()->add('error', 'ERROR! No hay aulas disponibles para dar de alta un curso en este dia y horario para esta sede. Por favor corregir.');
-            return false;
-        }
+        // if (count($cursosMismaFechaInicio) >= $sede->getAulas())
+        // {
+        //     $this->get('session')->getFlashBag()->add('error', 'ERROR! No hay aulas disponibles para dar de alta un curso en este dia y horario para esta sede. Por favor corregir.');
+        //     return false;
+        // }
 
         return true;
     }

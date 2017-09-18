@@ -951,27 +951,28 @@ class CursoController extends Controller
             return false;
         }
 
-        $diffDaysFechasInicioFin = $fechaInicio->diffInDays($fechaFin);
-
-        $tipoCursoId = $form->get('tipocurso')->getData()->getId();
-
-        if ($tipoCursoId === TipoCurso::ID_BASICO)
-        {
-            if ($diffDaysFechasInicioFin < 2) {
-                $this->get('session')->getFlashBag()->add('error', 'ERROR! Para un curso básico la duración no puede ser menor a 48 hs. Por favor corregir.');
-                return false;
-            }
-        }
-
-        if ($tipoCursoId === TipoCurso::ID_COMPLEMENTARIO)
-        {
-            if ($diffDaysFechasInicioFin < 1) {
-                $this->get('session')->getFlashBag()->add('error', 'ERROR! Para un curso complementario la duración no puede ser menor a 24 hs. Por favor corregir.');
-                return false;
-            }
-        }
-
         // TODO: FIX VALIDATION SEGUN https://app.asana.com/0/63730808999960/422170563404553/f
+
+        //$diffDaysFechasInicioFin = $fechaInicio->diffInDays($fechaFin);
+
+        //$tipoCursoId = $form->get('tipocurso')->getData()->getId();
+
+        // if ($tipoCursoId === TipoCurso::ID_BASICO)
+        // {
+        //     if ($diffDaysFechasInicioFin < 2) {
+        //         $this->get('session')->getFlashBag()->add('error', 'ERROR! Para un curso básico la duración no puede ser menor a 48 hs. Por favor corregir.');
+        //         return false;
+        //     }
+        // }
+
+        // if ($tipoCursoId === TipoCurso::ID_COMPLEMENTARIO)
+        // {
+        //     if ($diffDaysFechasInicioFin < 1) {
+        //         $this->get('session')->getFlashBag()->add('error', 'ERROR! Para un curso complementario la duración no puede ser menor a 24 hs. Por favor corregir.');
+        //         return false;
+        //     }
+        // }
+
         // $em = $this->getDoctrine()->getManager();
 
         // $prestador = $form->get('prestador')->getData();

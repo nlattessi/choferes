@@ -22,6 +22,13 @@ class UsuarioService
         return $prestadores;
     }
 
+    public function obtenerEstados()
+    {
+        $estados = $this->em->getRepository('ChoferesBundle:EstadoCurso')->findAll();
+
+        return $estados;
+    }
+
     public function obtenerPrestadorPorUsuario($usuario)
     {
         $usuarioPrestador = $this->em->getRepository('ChoferesBundle:UsuarioPrestador')->findOneBy(array('usuario' => $usuario));

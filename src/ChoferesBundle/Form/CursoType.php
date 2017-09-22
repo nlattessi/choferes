@@ -60,6 +60,7 @@ class CursoType extends AbstractType
             $formModifier = function(FormInterface $form, Prestador $prestador = null) {
                 $docentes = ($prestador === null) ? array() : $this->usuarioService->obtenerDocentesPorPrestador($prestador);
                 $sedes = ($prestador === null) ? array() : $this->usuarioService->obtenerSedesPorPrestador($prestador);
+                $estados = ($prestador === null) ? array() : $this->usuarioService->obtenerEstados();
 
                 $form->add('docente', 'entity', array(
                     'class' => 'ChoferesBundle:Docente',
@@ -73,6 +74,13 @@ class CursoType extends AbstractType
                     'empty_value' => '',
                     'required' => false,
                     'choices' => $sedes
+                ));
+
+                $form->add('estado', 'entity', array(
+                    'class' => 'ChoferesBundle:EstadoCurso',
+                    'empty_value' => '',
+                    'required' => false,
+                    'choices' => $estados
                 ));
 
             };
@@ -113,6 +121,16 @@ class CursoType extends AbstractType
             } else {
                   $builder->add('sede');
             }
+
+            if (isset($options['estados'])) {
+                $builder->add('estado', 'entity', array(
+                    'class' => 'ChoferesBundle:EstadoCurso',
+                    'choices' => $options['estados'],
+                    'required' => false
+                ));
+            } else {
+                $builder->add('estados');
+            }
         }
     }
 
@@ -122,7 +140,8 @@ class CursoType extends AbstractType
             'data_class' => 'ChoferesBundle\Entity\Curso',
             'user' => null,
             'docentes' => null,
-            'sedes' => null
+            'sedes' => null,
+            'estados' => null,
         ));
     }
 

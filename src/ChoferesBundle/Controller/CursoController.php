@@ -764,7 +764,8 @@ class CursoController extends Controller
         $editForm = $this->createForm(new CursoType($usuarioService), $entity, array(
             'user' => $this->getUser(),
             'docentes' => $docentes,
-            'sedes' => $sedes
+            'sedes' => $sedes,
+            'estados' => $sedes
         ));
 
         $deleteForm = $this->createDeleteForm($id);

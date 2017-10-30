@@ -424,6 +424,64 @@ class ReporteController extends Controller
 
     }
 
+    public function cursosYaRealizadosAction(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $choferesService = $this->get('choferes.servicios.chofer');
+            $cursosYaRealizados = $choferesService->getCursosYaRealizados();
+
+            return $this->createReporteResponse($cursosYaRealizados, [
+                'Id',
+                'Fecha Inicio',
+                'Fecha Fin',
+                'Fecha Validacion',
+                'Codigo',
+                'Año',
+                'Comprobante',
+                'Docente',
+                'Estado',
+                'Prestador',
+                'Sede',
+                'Tipo de Curso',
+                'Fecha de Pago',
+                'Observaciones',
+            ], 'Reporte_Cursos_Ya_Realizados_');
+        }
+
+        return $this->render('ChoferesBundle:Reporte:cursos_ya_realizados.html.twig', [
+            'css_active' => 'cursos_ya_realizados'
+        ]);
+    }
+
+    public function cursosPorRealizarAction(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $choferesService = $this->get('choferes.servicios.chofer');
+            $cursosPorRealizar = $choferesService->getCursosPorRealizar();
+
+            return $this->createReporteResponse($cursosPorRealizar, [
+                'Id',
+                'Fecha Inicio',
+                'Fecha Fin',
+                'Fecha Validacion',
+                'Codigo',
+                'Año',
+                'Comprobante',
+                'Docente',
+                'Estado',
+                'Prestador',
+                'Sede',
+                'Tipo de Curso',
+                'Fecha de Pago',
+                'Observaciones',
+            ], 'Reporte_Cursos_Por_Realizar_');
+        }
+
+        return $this->render('ChoferesBundle:Reporte:cursos_por_realizar.html.twig', [
+            'css_active' => 'cursos_por_realizar'
+        ]);
+    }
+
     private function createReporteResponse($rows, $headers, $fileNameSuffix)
     {
         $response = new StreamedResponse(function () use ($rows, $headers, $fileNameSuffix) {

@@ -33,3 +33,11 @@ reporte_cursos_filtro:
 reporte_cursos_auditoria_por_fecha_curso:
     pattern:  /cursos_auditoria_por_fecha_curso
     defaults: { _controller: "ChoferesBundle:Reporte:cursosAuditoriaPorFechaCurso" }
+
+reporte_cursos_ya_realizados:
+    pattern:  /cursos_ya_realizados
+    defaults: { _controller: "ChoferesBundle:Reporte:cursosYaRealizados" }
+
+reporte_cursos_por_realizar:
+    pattern:  /cursos_por_realizar
+    defaults: { _controller: "ChoferesBundle:Reporte:cursosPorRealizar" }

@@ -11,7 +11,8 @@ use Carbon\Carbon;
 
 class ChoferService
 {
-    const ESTADO_CURSO_VALIDADO = 'Validado';
+    const ESTADO_CURSO_VALIDADO  = 'Validado';
+    const ESTADO_CURSO_CANCELADO = 'Cancelado';
 
     private $em;
     private $kernelCacheDir;
@@ -405,6 +406,100 @@ class ChoferService
             return collect($result)->map(function ($curso) {
                 $curso['fecha_curso'] = $curso['fecha_curso']->format('d-m-Y H:i:s');
                 return $curso;
+            })->all();
+        }
+
+        return $result;
+    }
+
+    public function getCursosYaRealizados()
+    {
+        $estadoCancelado = $this->em->getRepository('ChoferesBundle:EstadoCurso')->findByNombre(self::ESTADO_CURSO_CANCELADO);
+
+        $fechaHoy = Carbon::now();
+
+        $query = $this->em->createQueryBuilder()
+            ->select('C')
+            ->from('ChoferesBundle:Curso', 'C')
+            ->where('C.estado != :estadoCancelado')
+            ->andWhere('C.fechaFin < :fechaHoy')
+            ->orderBy('C.id', 'ASC')
+            ->setParameter('estadoCancelado', $estadoCancelado)
+            ->setParameter('fechaHoy', $fechaHoy->format('Y-m-d'))
+            ->getQuery();
+
+        $result = $query->getResult();
+
+        if (isset($result)) {
+            return collect($result)->map(function ($curso) {
+                $fechaInicio = $curso->getFechaInicio();
+                $fechaFin = $curso->getFechaFin();
+                $fechaValidacion = $curso->getFechaValidacion();
+                $fechaPago = $curso->getFechaPago();
+
+                return [
+                    'id' => $curso->getId(),
+                    'fecha_inicio' => isset($fechaInicio) ? $fechaInicio->format('d-m-Y H:i:s') : "",
+                    'fecha_fin' => isset($fechaFin) ? $fechaFin->format('d-m-Y H:i:s') : "",
+                    'fecha_validacion' => isset($fechaValidacion) ? $fechaValidacion->format('d-m-Y H:i:s') : "",
+                    'codigo' => $curso->getCodigo(),
+                    'año' => $curso->getAnio(),
+                    'comprobante' => $curso->getComprobante(),
+                    'docente' => (string)$curso->getDocente(),
+                    'estado' => (string)$curso->getEstado(),
+                    'prestador' => (string)$curso->getPrestador(),
+                    'sede' => (string)$curso->getSede(),
+                    'tipo' => (string)$curso->getTipoCurso(),
+                    'fecha_pago' => isset($fechaPago) ? $fechaPago->format('d-m-Y H:i:s') : "",
+                    'observaciones' => (string)$curso->getObservaciones(),
+                ];
+            })->all();
+        }
+
+        return $result;
+    }
+
+    public function getCursosPorRealizar()
+    {
+        $estadoCancelado = $this->em->getRepository('ChoferesBundle:EstadoCurso')->findByNombre(self::ESTADO_CURSO_CANCELADO);
+
+        $fechaHoy = Carbon::now();
+
+        $query = $this->em->createQueryBuilder()
+            ->select('C')
+            ->from('ChoferesBundle:Curso', 'C')
+            ->where('C.estado != :estadoCancelado')
+            ->andWhere('C.fechaFin >= :fechaHoy')
+            ->orderBy('C.id', 'ASC')
+            ->setParameter('estadoCancelado', $estadoCancelado)
+            ->setParameter('fechaHoy', $fechaHoy->format('Y-m-d'))
+            ->getQuery();
+
+        $result = $query->getResult();
+
+        if (isset($result)) {
+            return collect($result)->map(function ($curso) {
+                $fechaInicio = $curso->getFechaInicio();
+                $fechaFin = $curso->getFechaFin();
+                $fechaValidacion = $curso->getFechaValidacion();
+                $fechaPago = $curso->getFechaPago();
+
+                return [
+                    'id' => $curso->getId(),
+                    'fecha_inicio' => isset($fechaInicio) ? $fechaInicio->format('d-m-Y H:i:s') : "",
+                    'fecha_fin' => isset($fechaFin) ? $fechaFin->format('d-m-Y H:i:s') : "",
+                    'fecha_validacion' => isset($fechaValidacion) ? $fechaValidacion->format('d-m-Y H:i:s') : "",
+                    'codigo' => $curso->getCodigo(),
+                    'año' => $curso->getAnio(),
+                    'comprobante' => $curso->getComprobante(),
+                    'docente' => (string)$curso->getDocente(),
+                    'estado' => (string)$curso->getEstado(),
+                    'prestador' => (string)$curso->getPrestador(),
+                    'sede' => (string)$curso->getSede(),
+                    'tipo' => (string)$curso->getTipoCurso(),
+                    'fecha_pago' => isset($fechaPago) ? $fechaPago->format('d-m-Y H:i:s') : "",
+                    'observaciones' => (string)$curso->getObservaciones(),
+                ];
             })->all();
         }
 

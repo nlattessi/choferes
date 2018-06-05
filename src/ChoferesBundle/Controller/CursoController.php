@@ -94,9 +94,7 @@ class CursoController extends Controller
         list($filterForm, $queryBuilder) = $this->filter();
         $em = $this->getDoctrine()->getManager();
         $queryBuilder
-            ->andWhere('d.fechaInicio > :fechaHoy')
             ->andWhere('d.estado = :estado')
-            ->setParameter('fechaHoy', new \DateTime(''), \Doctrine\DBAL\Types\Type::DATETIME)
             ->setParameter('estado', $em->getRepository('ChoferesBundle:EstadoCurso')->find(self::ESTADO_CURSO_DEFAULT));
 
         list($entities, $pagerHtml) = $this->paginator($queryBuilder, 'curso_paraconfirmar');

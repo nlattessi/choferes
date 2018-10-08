@@ -188,10 +188,12 @@
                   </a>
                 {% elseif entity.estado.id == 2 %} <!--Estado: Confirmado-->
                   {% if date(entity.fechaInicio) > date('-2 hours') %}
-                    <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
-                      href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
-                        <i class="icon wb-user-add" aria-hidden="true"></i>
-                    </a>
+                    {% if entity.tipocurso.id != 1 %}
+                        <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Agregar choferes"
+                        href="{{ path('curso_addchofer', { 'idCurso': entity.id }) }}">
+                            <i class="icon wb-user-add" aria-hidden="true"></i>
+                        </a>
+                    {% endif %}
                   {% else %}
                     <a  onclick="saveInLocalStorage('curso');" class="btn btn-sm btn-icon btn-pure btn-default on-default edit-row" data-toggle="tooltip" data-original-title="Cargar notas"
                       href="{{ path('curso_realizar', { 'id': entity.id }) }}">

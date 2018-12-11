@@ -375,32 +375,33 @@ class CursoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $choferService = $this->get('choferes.servicios.chofer');
 
+        $id = $request->get('idCurso');
+        $curso = $em->getRepository('ChoferesBundle:Curso')->findOneBy(['id' => $id]);
+        $choferes = $choferService->obtenerChoferesPorCurso($curso);
+
         if ($request->getMethod() == 'POST') {
-            $id =  $request->get('idCurso');
-            $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(array('id' => $id));
-            $choferes = $choferService->obtenerChoferesPorCurso($curso);
             $choferesIds = $request->get('chofer');
-            foreach ($choferesIds as $idChofer) {
-                $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($idChofer);
-                if (! in_array($chofer, $choferes)) {
-                  $choferCurso = new ChoferCurso();
-                  $choferCurso->setChofer($chofer);
-                  $choferCurso->setCurso($curso);
-                  //Si el curso tiene comprobante de pago marco el choferCurso como pagado
-                  $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
+            //Solo se permite un máximo de 30 choferes por curso
+            if ((count($choferes) + count($choferesIds)) > 30) {
+                $this->get('session')->getFlashBag()->add('warning', 'No se pueden agregar más de 30 choferes por curso.');
+            } else {
+                foreach ($choferesIds as $idChofer) {
+                    $chofer = $em->getRepository('ChoferesBundle:Chofer')->find($idChofer);
+                    if (! in_array($chofer, $choferes)) {
+                      $choferCurso = new ChoferCurso();
+                      $choferCurso->setChofer($chofer);
+                      $choferCurso->setCurso($curso);
+                      //Si el curso tiene comprobante de pago marco el choferCurso como pagado
+                      $choferCurso->setPagado(strlen($curso->getComprobante()) > 0);
 
-                  $em->persist($choferCurso);
-                } else {
-                    $this->get('session')->getFlashBag()->add('warning', 'El chofer fue previamente agregado.');
+                      $em->persist($choferCurso);
+                    } else {
+                        $this->get('session')->getFlashBag()->add('warning', 'El chofer fue previamente agregado.');
+                    }
                 }
+                $em->flush();
+                $choferes = $choferService->obtenerChoferesPorCurso($curso);
             }
-            $em->flush();
-            $choferes = $choferService->obtenerChoferesPorCurso($curso);
-        } else {
-            $id =  $request->query->get('idCurso');
-
-            $curso =  $em->getRepository('ChoferesBundle:Curso')->findOneBy(['id' => $id]);
-            $choferes = $choferService->obtenerChoferesPorCurso($curso);
         }
 
         return $this->render('ChoferesBundle:Curso:addchofer.html.twig', array(
